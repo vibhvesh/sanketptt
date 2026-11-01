@@ -67,9 +67,9 @@ button{font-family:Orbitron,sans-serif;cursor:pointer;border:0;border-radius:10p
 <div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div></div>
 <div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 STATION MAP</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>⚠️ Your location is shared with <b>everyone on this channel</b> (public relay). Untick SHARE to stop.</div><div id=locst class=hint>Location: not shared yet</div><div id=map></div></div>
-<div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3>
+<div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
 <div id=sstvTx style="display:none"><canvas id=sstvPrev width=320 height=240 style="width:100%;max-width:320px;display:block;margin:auto;border-radius:6px"></canvas>
-<div style="display:flex;gap:6px;margin-top:6px"><select id=sstvMode><option value=r36>Robot36 (~37 s)</option></select><button id=sstvSend style="flex:1">📡 SEND IMAGE</button><button id=sstvCancel>✕</button></div><div id=sstvSt class=hint></div></div>
+<div style="display:flex;gap:6px;margin-top:6px"><select id=sstvMode><option value=r36>Robot36 (~37 s)</option><option value=m1>Martin M1 (~115 s)</option><option value=s1>Scottie S1 (~111 s)</option><option value=pd120>PD120 640×496 (~127 s)</option></select><button id=sstvSend style="flex:1">📡 SEND IMAGE</button><button id=sstvCancel>✕</button></div><div id=sstvSt class=hint></div></div>
 <input type=file id=sstvFile accept="image/*" style="display:none"><button id=sstvBtn style="width:100%;margin-bottom:6px">📷 SSTV · send a picture</button>
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
 <div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
@@ -179,8 +179,8 @@ function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.tex
  var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.textContent=granted?'ON AIR':busy?'BUSY':holding?'…':'PTT';
  drawMap();st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
 function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
-  if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end();sstvEnd()}render()}
- else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;if(f)sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.started&&!sstvRx.rx.done){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}rxAt=Date.now();rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc)}play(v)}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
+  if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end()}render()}
+ else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}rxAt=Date.now();rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc)}play(v)}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^\w-]/g,'').slice(0,40)||CHANNEL})();start(CHANNEL);
 go.onclick=async function(){var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');localStorage.nm=me;
  ac=new (window.AudioContext||window.webkitAudioContext)();unlockAudio();
@@ -240,41 +240,48 @@ function drawMap0(){if(typeof L==='undefined')return;if(!map){map=L.map('map',{w
 addEventListener('pagehide',function(){radio.leave()});
 </script>
 <script>
-// ---- SSTV (Robot36) send / receive ----
-var sstvTx=false,sstvRx=null,sstvImgs=[],sstvSeq=0,sstvMetas={},sstvSrc=null;
+// ---- SSTV (multi-mode) send / receive ----
+var sstvMicRx=null,sstvGap=0,sstvTx=false,sstvRx=null,sstvImgs=[],sstvSeq=0,sstvMetas={},sstvSrc=null;
 function sstvItem(it){var li=document.getElementById('si'+it.key);if(!li){li=document.createElement('li');li.id='si'+it.key;var h=sstvList.querySelector('.hint');if(h)h.remove();sstvList.prepend(li);
   li.innerHTML='<div class=sm><span class=cs></span><span class=tm></span></div><div class=pic></div><div class=sm><span class=st></span><span><button data-a=dl>⬇ PNG</button> <button data-a=cl style="display:none">clean copy</button></span></div>';
   li.querySelector('.pic').appendChild(it.cv);li.querySelector('[data-a=dl]').onclick=function(){var a=document.createElement('a');a.href=it.cv.toDataURL('image/png');a.download='sstv_'+it.name.replace(/\W/g,'')+'_'+new Date(it.t).toISOString().replace(/[:.]/g,'-')+'.png';a.click()};
   li.querySelector('[data-a=cl]').onclick=function(){if(it.clean)window.open(it.clean)}}
  li.querySelector('.cs').textContent=(it.mine?'📡 ':'📷 ')+it.name+(it.mine?' (you)':'');li.querySelector('.tm').textContent=new Date(it.t).toLocaleTimeString();li.querySelector('.st').textContent=it.st;
  li.querySelector('[data-a=cl]').style.display=it.clean&&!it.mine?'':'none'}
-function sstvNew(name,mine){var cv=document.createElement('canvas');cv.width=SSTV.W;cv.height=SSTV.H;var g=cv.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,cv.width,cv.height);
+function sstvNew(name,mine,W,H){var cv=document.createElement('canvas');cv.width=W||320;cv.height=H||240;var g=cv.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,cv.width,cv.height);
  var it={key:++sstvSeq,name:name,mine:mine,t:Date.now(),cv:cv,st:'',clean:null};sstvImgs.unshift(it);if(sstvImgs.length>30){var o=sstvImgs.pop(),e=document.getElementById('si'+o.key);e&&e.remove()}return it}
-function sstvMeta(m){sstvMetas[m.id]=m;if(sstvRx&&sstvRx.id===m.id&&sstvRx.it){sstvRx.it.clean=m.jpeg;sstvItem(sstvRx.it)}}
-function sstvFeed(f,v){if(!sstvRx||sstvRx.id!==f.id){sstvEnd();var S={id:f.id,name:f.name,it:null};
-  S.rx=new SSTV.Rx(RATE,{start:function(){S.it=sstvNew(S.name,false);var m=sstvMetas[S.id];if(m&&Date.now()-m.ts<120000)S.it.clean=m.jpeg;S.it.st='receiving Robot36… 0%';sstvItem(S.it)},
-   lines:function(y,n){var g=S.it.cv.getContext('2d'),d=new ImageData(new Uint8ClampedArray(S.rx.rgba.buffer.slice((y*SSTV.W)*4,((y+n)*SSTV.W)*4)),SSTV.W,n);g.putImageData(d,0,y);var p=Math.round(S.rx.progress()*100);if(p%5===0||p>98){S.it.st='receiving Robot36… '+p+'%';sstvItem(S.it)}},
-   done:function(){S.it.st='✓ decoded from audio (Robot36)';sstvItem(S.it)}});sstvRx=S}
- sstvRx.rx.push(v)}
-function sstvEnd(){var S=sstvRx;sstvRx=null;if(!S)return;var m=sstvMetas[S.id],fresh=m&&Date.now()-m.ts<120000;
- if(S.it&&!S.rx.done){if(fresh){sstvUseClean(S.it,m.jpeg,'⚠ audio decode incomplete ('+Math.round(S.rx.progress()*100)+'%) — showing clean copy')}else{S.it.st='⚠ partial image ('+Math.round(S.rx.progress()*100)+'%)';sstvItem(S.it)}}
- else if(!S.it&&fresh){var it=sstvNew(S.name,false);sstvUseClean(it,m.jpeg,'⚠ no SSTV signal decoded — showing clean copy')}
- if(fresh)delete sstvMetas[S.id]}
+function sstvMeta(m){sstvMetas[m.id]=m}
+// audio SSTV decoder; who() returns {id,name} of current source
+function sstvMkRx(fs,who,via){var S={it:null};S.rx=new SSTV.Rx(fs,{start:function(mode,W,H){var w=who();S.mode=mode;S.src=w;S.p=-1;S.it=sstvNew(w.name,false,W,H);S.it.st='receiving '+mode+via+'… 0%';sstvItem(S.it)},
+  lines:function(y,n){var W=S.rx.W,g=S.it.cv.getContext('2d'),d=new ImageData(new Uint8ClampedArray(S.rx.rgba.buffer.slice(y*W*4,(y+n)*W*4)),W,n);g.putImageData(d,0,y);var p=Math.round(S.rx.progress()*100);if(p!==S.p&&(p%5===0||p>98)){S.p=p;S.it.st='receiving '+S.mode+via+'… '+p+'%';sstvItem(S.it)}},
+  done:function(px,partial,mode){var m=S.src&&sstvMetas[S.src.id];if(partial&&m&&Date.now()-m.ts<300000){sstvUseClean(S.it,m.jpeg,'⚠ audio decode incomplete ('+Math.round(S.rx.progress()*100)+'%) — showing sender\'s clean copy')}
+   else{S.it.st=(partial?'⚠ partial '+mode+' ('+Math.round(S.rx.progress()*100)+'%)':'✓ decoded from audio ('+mode+')')+via;sstvItem(S.it)}}});return S}
+function sstvFeed(f,v){if(!sstvRx)sstvRx=sstvMkRx(RATE,function(){var f=radio.floor;return f?{id:f.id,name:f.name}:{id:'?',name:'channel'}},'');sstvGap=Date.now();sstvRx.rx.push(v)}
+setInterval(function(){if(sstvRx&&sstvRx.rx.state==='img'&&Date.now()-sstvGap>4000)sstvRx.rx.flush()},1000);
+var micS=null;sstvMic.onchange=async function(){if(!sstvMic.checked){if(micS){micS.p.disconnect();micS.st.getTracks().forEach(function(t){t.stop()});micS=null}sstvMicRx&&sstvMicRx.rx.flush();sstvMicSt.textContent='';return}
+ try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();ac.resume();var st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+  var src=ac.createMediaStreamSource(st),p=ac.createScriptProcessor(4096,1,1),z=ac.createGain();z.gain.value=0;src.connect(p);p.connect(z);z.connect(ac.destination);
+  sstvMicRx=sstvMkRx(ac.sampleRate,function(){return{id:'mic',name:'🎤 mic'}},' via mic');
+  p.onaudioprocess=function(e){if(sstvTx)return;var i=e.inputBuffer.getChannelData(0),o=new Int16Array(i.length);for(var k=0;k<i.length;k++)o[k]=Math.max(-1,Math.min(1,i[k]))*32767;sstvMicRx.rx.push(o);
+   sstvMicSt.textContent=sstvMicRx.rx.state==='img'?'🎤 receiving '+sstvMicRx.mode+'…':'🎤 listening for SSTV VIS header…'};micS={p:p,st:st};sstvMicSt.textContent='🎤 listening for SSTV VIS header…'}
+ catch(e){sstvMic.checked=false;alert('Mic unavailable: '+e.message)}};
 function sstvUseClean(it,url,st){var im=new Image();im.onload=function(){it.cv.getContext('2d').drawImage(im,0,0,it.cv.width,it.cv.height);it.clean=url;it.st=st;sstvItem(it)};im.src=url}
+var sstvImg=null;function sstvDraw(){var m=SSTV.MODES[sstvMode.value],W=m.W,H=m.H;sstvPrev.width=W;sstvPrev.height=H;var g=sstvPrev.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,W,H);
+ if(sstvImg){var im=sstvImg,s=Math.max(W/im.width,H/im.height),w=im.width*s,h=im.height*s;g.drawImage(im,(W-w)/2,(H-h)/2,w,h)}sstvSt.textContent='Ready · '+m.name+' takes ~'+Math.round(SSTV.duration(m.id))+' s and holds the channel'}
+sstvMode.onchange=sstvDraw;
 sstvBtn.onclick=function(){if(main.style.display!=='block')return alert('Log on first');sstvFile.click()};
-sstvFile.onchange=function(){var f=sstvFile.files[0];if(!f)return;var im=new Image();im.onload=function(){var g=sstvPrev.getContext('2d'),W=320,H=240,s=Math.max(W/im.width,H/im.height),w=im.width*s,h=im.height*s;
-  g.fillStyle='#000';g.fillRect(0,0,W,H);g.drawImage(im,(W-w)/2,(H-h)/2,w,h);URL.revokeObjectURL(im.src);sstvTx0();sstvTxP.style.display='block';sstvSt.textContent='Ready · Robot36 takes ~'+Math.round(SSTV.durationSec)+' s and holds the channel'};im.src=URL.createObjectURL(f);sstvFile.value=''};
+sstvFile.onchange=function(){var f=sstvFile.files[0];if(!f)return;var im=new Image();im.onload=function(){sstvImg=im;sstvDraw();sstvTx0();sstvTxP.style.display='block'};im.src=URL.createObjectURL(f);sstvFile.value=''};
 var sstvTxP=document.getElementById('sstvTx');function sstvTx0(){sstvSend.disabled=false}
 sstvCancel.onclick=function(){if(sstvTx){sstvTx=false;return}sstvTxP.style.display='none'};
 sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radio.id)return alert('Channel busy');sstvSend.disabled=true;sstvSt.textContent='Claiming channel…';unlockAudio();
  radio.claim(function(ok){if(!ok){sstvSend.disabled=false;sstvSt.textContent='Channel busy — try again';return}
-  sstvTx=true;granted=true;render();var g=sstvPrev.getContext('2d'),px=g.getImageData(0,0,320,240).data,pcm=SSTV.encode(px,RATE);
-  radio.sendSstv({t:'sstv',mode:'Robot36',w:320,h:240,dur:pcm.length/RATE,jpeg:sstvPrev.toDataURL('image/jpeg',0.9)});
-  var it=sstvNew(radio.name,true);it.cv.getContext('2d').drawImage(sstvPrev,0,0);it.st='📡 sending Robot36… 0%';sstvItem(it);
+  sstvTx=true;granted=true;render();var MD=SSTV.MODES[sstvMode.value],g=sstvPrev.getContext('2d'),px=g.getImageData(0,0,MD.W,MD.H).data,pcm=SSTV.encode(px,RATE,MD.id);
+  radio.sendSstv({t:'sstv',mode:MD.name,w:MD.W,h:MD.H,dur:pcm.length/RATE,jpeg:sstvPrev.toDataURL('image/jpeg',0.9)});
+  var it=sstvNew(radio.name,true,MD.W,MD.H);it.cv.getContext('2d').drawImage(sstvPrev,0,0);it.st='📡 sending '+MD.name+'… 0%';sstvItem(it);
   var pos=0,t0=performance.now(),CH=1024;(function pump(){if(!sstvTx||!radio.talking){fin('stopped');return}
    var due=Math.min(pcm.length,Math.floor((performance.now()-t0)/1000*RATE)+CH*2);
    while(pos<due){var c=pcm.slice(pos,pos+CH);if(!radio.sendAudio(c)){fin('lost channel');return}rec.feed(radio.id,radio.name,c,true,undefined,radio.loc);txLvl=Math.max(txLvl,lvl(c));if(!sstvMute.checked)play(c);pos+=CH}
-   var p=Math.round(pos/pcm.length*100);it.st='📡 sending Robot36… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
-   if(pos>=pcm.length){fin('✓ sent (Robot36, '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
+   var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
+   if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
 </script></body></html>
