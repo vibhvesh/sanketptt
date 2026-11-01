@@ -1,0 +1,5 @@
+paho-mqtt>=2.0
+numpy
+PyYAML
+sounddevice
+faster-whisper
