@@ -33,7 +33,7 @@ if [ "$STT" = auto ] || [ "$STT" = faster-whisper ]; then
 fi
 
 # 2. code (from this checkout when run locally, else from GitHub Pages)
-SRC=""; HERE=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)
+SRC=""; HERE=""; [ -f "${BASH_SOURCE[0]:-}" ] && HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 [ -n "$HERE" ] && [ -f "$HERE/../superptt/app.py" ] && SRC=$(cd "$HERE/.." && pwd)
 run "mkdir -p '$DIR/superptt' '$DIR/data' '$DIR/logs' '$DIR/bin' '$HOME/.superptt/models'"
 for f in $FILES; do
