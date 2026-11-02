@@ -77,6 +77,11 @@ body.kiosk .tabs,body.kiosk .nokiosk{display:none}body.kiosk .rig{max-width:none
    <canvas class=ch id=cLvl height=150 style="margin-top:8px"></canvas><div class=legend><span><i style=background:#39ff88></i>Audio in (dBFS)</span><span><i style=background:#ff7a18></i>Audio out (dBFS)</span><span id=hLvls></span></div></div>
   <div class=panel><h3>CONFIGURATION</h3><dl class=kv id=hCfg></dl><h3 style="margin-top:12px">INPUTS</h3><div id=hIn></div></div>
  </div>
+ <div class=panel id=swPanel style="display:none"><h3>SPECTRUM ACTIVITY <span><span class=pill id=swInfo>—</span> <a href="/api/sweep.csv"><button>EXPORT CSV</button></a></span></h3>
+  <canvas id=swBar height=140 style="width:100%;background:#04100a;border-radius:8px"></canvas><canvas id=swFall height=90 style="width:100%;background:#04100a;border-radius:8px;margin-top:4px"></canvas>
+  <div class=legend><span><i style=background:#39ff88></i>Latest sweep (dB)</span><span><i style=background:#ffd23f></i>Noise floor</span><span><i style=background:#ff3d7f></i>Floor + threshold</span></div>
+  <div style="max-height:220px;overflow:auto;margin-top:6px"><table style="width:100%;font-size:12px;border-collapse:collapse" id=swTab></table></div>
+  <div class=hint>Logs signal <b>presence only</b> (time, frequency, power) for reporting to WPC monitoring. No demodulation, no audio and no content is captured.</div></div>
  <div class=panel><h3>LATEST</h3><ul class=feed id=hFeed style="max-height:260px"></ul></div>
 </div>
 
@@ -236,7 +241,17 @@ function renderInForm(){var t=T.filter(function(x){return x.type==$('inType').va
   else if(f.type=='check')inp='<input type=checkbox data-f='+f.k+(v?' checked':'')+'>';
   else if(f.type=='range')inp='<span style="display:flex;gap:6px;align-items:center;max-width:60%"><input type=range data-f='+f.k+' min='+f.min+' max='+f.max+' step='+f.step+' value="'+(v!=null?v:-40)+'" oninput="this.nextSibling.textContent=this.value"><small>'+(v!=null?v:-40)+'</small></span>';
   else inp='<input data-f='+f.k+' type='+(f.type=='number'?'number step='+(f.step||1):'text')+' value="'+esc(v==null?'':v)+'">';
-  return '<label class=f><span>'+esc(f.label)+'</span>'+inp+'</label>'}).join('')+(t.type=='rtl-sdr'?'<div class=bar><button onclick="rtlDetect()">DETECT DONGLE</button></div><pre id=rtlOut style="display:none;max-height:120px;overflow:auto;font-size:11px"></pre><div class=hint>⚠ Receive only. Listen only to public / licensed-to-listen bands (broadcast FM, airband, amateur, marine). Do not monitor police, government or private communications – this is restricted under the Indian Wireless Telegraphy Act and Indian Telegraph Act.</div>':'')+(t.local?'<div class=hint>Clips are cut by VOX when the level goes above the threshold (white mark on the meter).</div>':'')}
+  return '<label class=f><span>'+esc(f.label)+'</span>'+inp+'</label>'}).join('')+(t.type=='rtl-sweep'?'<div class=hint>📊 Activity monitor: measures power only (rtl_power) – no audio, no demodulation, no content recorded. Unknown signals above the noise floor are logged for reporting to WPC monitoring. Uses the whole dongle: it cannot run together with an RTL-SDR receiver on the same dongle index.</div>':'')+(t.type=='rtl-sdr'?'<div class=hint>One dongle = one mode: a receiver and a spectrum sweep cannot share the same dongle index.</div><div class=bar><button onclick="rtlDetect()">DETECT DONGLE</button></div><pre id=rtlOut style="display:none;max-height:120px;overflow:auto;font-size:11px"></pre><div class=hint>⚠ Receive only. Listen only to public / licensed-to-listen bands (broadcast FM, airband, amateur, marine). Do not monitor police, government or private communications – this is restricted under the Indian Wireless Telegraphy Act and Indian Telegraph Act.</div>':'')+(t.local?'<div class=hint>Clips are cut by VOX when the level goes above the threshold (white mark on the meter).</div>':'')}
+var SWF=[];
+function sweepDash(){get('/api/sweep').then(function(r){var w=(r.sweeps||[])[0];$('swPanel').style.display=w?'':'none';if(!w)return;var L=w.latest||{},f=L.freqs||[],d=L.db||[],fl=L.floor||[];
+ $('swInfo').textContent=(w.name||w.id)+' · '+w.sweeps+' sweeps'+(w.error?' · '+w.error:'')+(f.length?' · '+f[0]+'–'+f[f.length-1]+' MHz':'');
+ var c=$('swBar'),x=c.getContext('2d');c.width=c.clientWidth;var W=c.width,H=c.height;x.clearRect(0,0,W,H);
+ if(f.length){var lo=Math.min.apply(null,d.concat(fl))-3,hi=Math.max.apply(null,d.concat(fl.map(function(v){return v+w.threshold_db})))+3,Y=function(v){return H-(v-lo)/(hi-lo)*H},bw=W/f.length;
+  x.fillStyle='#39ff88';d.forEach(function(v,i){x.fillRect(i*bw,Y(v),Math.max(1,bw-0.5),H-Y(v))});
+  [[fl,0,'#ffd23f'],[fl,w.threshold_db,'#ff3d7f']].forEach(function(z){x.strokeStyle=z[2];x.beginPath();z[0].forEach(function(v,i){x[i?'lineTo':'moveTo'](i*bw+bw/2,Y(v+z[1]))});x.stroke()});
+  if(L.t&&(!SWF.length||SWF[0].t!=L.t)){SWF.unshift({t:L.t,d:d,lo:lo,hi:hi});SWF=SWF.slice(0,45)}
+  var g=$('swFall'),y=g.getContext('2d');g.width=g.clientWidth;var rh=g.height/45;SWF.forEach(function(row,j){var b=g.width/row.d.length;row.d.forEach(function(v,i){var a=Math.max(0,Math.min(1,(v-row.lo)/(row.hi-row.lo)));y.fillStyle='hsl('+(240-240*a)+',100%,'+(15+45*a)+'%)';y.fillRect(i*b,j*rh,b+0.5,rh+0.5)})})}
+ $('swTab').innerHTML='<tr style=color:#ffd23f><th align=left>Time</th><th align=left>MHz</th><th>Peak dB</th><th>Floor dB</th><th>Duration s</th></tr>'+(w.events.length?w.events.map(function(e){return '<tr><td>'+esc(new Date(e.t*1000).toLocaleString())+'</td><td>'+e.freq_mhz+'</td><td align=center>'+e.peak_db+'</td><td align=center>'+e.floor_db+'</td><td align=center>'+e.duration_s+'</td></tr>'}).join(''):'<tr><td colspan=5 style=color:#9aa>No suspicious activity logged</td></tr>')})}
 function rtlPreset(k){var t=T.filter(function(x){return x.type=='rtl-sdr'})[0],p=(t.presets||[]).filter(function(x){return x.k==k})[0];if(!p)return;['freq_mhz','mode','squelch','scan'].forEach(function(f){var e=document.querySelector('#inForm [data-f='+f+']');if(e)e.value=p[f]})}
 function rtlDetect(){var o=$('rtlOut');o.style.display='block';o.textContent='Running rtl_test…';get('/api/rtlsdr/detect').then(function(r){o.textContent=(r.ok?'✓ Found '+r.found+' dongle(s)\n':'✗ No dongle found\n')+r.output})}
 function saveInput(){document.querySelectorAll('#inForm [data-f]').forEach(function(e){var k=e.dataset.f;EDIT[k]=e.type=='checkbox'?e.checked:(e.type=='number'||e.type=='range')?+e.value:e.value});EDIT.enabled=$('inEnabled').checked;
@@ -261,5 +276,5 @@ function loadDevices(){return get('/api/devices').then(function(d){D=d;
  $('piperSel').innerHTML='<option value="">(none)</option>'+d.voices.piper.map(function(x){return '<option value="'+esc(x)+'">'+esc(x.split('/').pop())+'</option>'}).join('');fill()})}
 Promise.all([get('/api/config'),loadDevices()]).then(function(a){C=a[0].config;K=a[0].known;B=a[0].brokers;
  $('brokerSel').innerHTML=B.map(function(b){return '<option value="'+esc(b)+'">'+esc(b.replace(/\/\/.*@/,'//'))+'</option>'}).join('');fill();loadInputs();var h=location.hash.slice(1);if(h)show(h)});
-status();loadFeed();dash();setInterval(status,1500);setInterval(loadFeed,2500);setInterval(function(){if(VIEW=='home')dash()},3000);setInterval(function(){if(VIEW=='inputs'||VIEW=='audio')levels()},400);
+status();loadFeed();dash();setInterval(status,1500);setInterval(loadFeed,2500);setInterval(function(){if(VIEW=='home'){dash();sweepDash()}},3000);setInterval(function(){if(VIEW=='inputs'||VIEW=='audio')levels()},400);
 </script></body></html>

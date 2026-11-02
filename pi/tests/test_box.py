@@ -83,6 +83,41 @@ inp = rtlsdr.RtlSdr(sc, ctx); th = threading.Thread(target=inp.run, daemon=True)
 ok(len(calls) >= 2 and "156800000" in calls[0] and "156300000" in calls[1], f"scan hops {len(calls)} times")
 d0 = rtlsdr.detect(); ok("found" in d0 and "output" in d0, "detect(): " + d0["output"][:50].replace("\n", " "))
 
+# rtl-sweep: mocked rtl_power CSV; floor learning, allowlist, suspicious event open/extend/close, CSV, exclusivity
+from sanket.inputs import rtlsweep
+def power_csv(sig):           # 430-431 MHz, 10 kHz bins, noise ~-40 dB + listed carriers {MHz: dB}
+    f = 430e6 + 10e3 * (np.arange(100) + 0.5); d = -40 + np.random.normal(0, 0.5, 100)
+    for mhz, db in sig.items(): d[int(round((mhz * 1e6 - 430e6) / 10e3 - 0.5))] = db
+    return "".join(f"2026-11-02, 12:00:00, {430e6 + 50 * k * 10e3:.0f}, {430e6 + 50 * (k + 1) * 10e3:.0f}, 10000.00, 100, " + ", ".join(f"{x:.2f}" for x in d[50 * k:50 * k + 50]) + "\n" for k in (0, 1))
+fq, db = rtlsweep.parse_csv(power_csv({})); ok(len(fq) == 100 and abs(fq[0] - 430.005e6) < 1, "rtl_power CSV parsed (2 hops, 100 bins)")
+SEQ = [power_csv({}), power_csv({}), power_csv({430.505: -10, 430.205: -12}), power_csv({430.505: -8}), power_csv({})]
+class FakePower:
+    def __init__(self, cmd, **kw): calls.append(cmd); self.out = SEQ.pop(0).encode() if SEQ else b""
+    def communicate(self, timeout=None): return self.out, b"usb_claim_interface error"
+    def kill(self): pass
+rtlsweep.RtlSweep.popen = staticmethod(FakePower); calls.clear()
+said = []
+class Spk:
+    def say(self, lines, clip=None): said.append(lines[0])
+ctx.speaker = Spk()
+sw = rtlsweep.RtlSweep(Config.clean_input({"id": "sw1", "type": "rtl-sweep", "name": "UHF watch", "bands": "430-431", "bin_khz": 10,
+                       "threshold_db": 10, "allowlist": "430.205", "allow_tol_khz": 5, "speak_alerts": True}), ctx)
+ok(calls == [] and sw.cmd(430.0, 431.0)[:7] == ["rtl_power", "-d", "0", "-f", "430.0M:431.0M:10.0k", "-i", "1"], "rtl_power cmd: " + " ".join(sw.cmd(430.0, 431.0)))
+for _ in range(2): sw.sweep_once()
+new = sw.sweep_once(); time.sleep(0.1)
+ok(len(new) == 1 and abs(new[0]["freq_mhz"] - 430.505) < 0.001 and new[0]["peak_db"] == -10.0, f"unknown 430.505 flagged, allowlisted 430.205 ignored: {[e['freq_mhz'] for e in new]}")
+ok(said == ["Unknown signal at 430.5 megahertz"], f"spoken alert: {said}")
+sw.det.feed(*rtlsweep.parse_csv(SEQ.pop(0)), t=new[0]["t"] + 10)
+ev = sw.det.events[0]; ok(len(sw.det.events) == 1 and ev["duration_s"] == 10.0 and ev["peak_db"] == -8.0, "event extended: duration 10 s, peak -8 dB")
+sw.sweep_once(); ok(not sw.det.open and abs(np.mean(sw.last["floor"]) + 40) < 2, "event closed when signal gone; floor ~-40 dB learned")
+cs = rtlsweep.events_csv(sw.det.events).splitlines(); ok(cs[0].startswith("time_local,frequency_mhz") and "430.505" in cs[1], "CSV export: " + cs[1])
+try: sw.sweep_once(); ok(False, "empty rtl_power should raise")
+except RuntimeError as e: ok("no data" in str(e), "dongle missing reported: " + str(e)[:50])
+a = dict(id="a", type="rtl-sdr", name="Air", enabled=True, device_index=0)
+ok(rtlsweep.device_conflict([a], dict(id="b", type="rtl-sweep", enabled=True, device_index=0))["id"] == "a"
+   and rtlsweep.device_conflict([a], dict(id="b", type="rtl-sweep", enabled=True, device_index=1)) is None
+   and rtlsweep.device_conflict([dict(a, enabled=False)], dict(id="b", type="rtl-sweep", enabled=True)) is None, "receiver/sweep mutually exclusive per dongle")
+
 # sstv
 img = np.random.randint(0, 255, (256, 320, 3)).astype(np.uint8); img[:, :160] = [255, 0, 0]
 for vis in (44, 60, 8):

@@ -2,7 +2,7 @@
 import datetime as dt, json, os, shutil, subprocess, threading
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs, unquote
-from .inputs import rtlsdr
+from .inputs import rtlsdr, rtlsweep
 from . import alerts, audio_io, bluetooth, inputs as inputs_mod
 from .config import KNOWN_CHANNELS, BROKERS, WEB_RADIO
 from .util import APP_DIR, LOG_RING, log, sh
@@ -49,6 +49,7 @@ def routes(app):
         "/api/bt": lambda q, b: bluetooth.devices(),
         "/api/wifi": lambda q, b: wifi(),
         "/api/rtlsdr/detect": lambda q, b: rtlsdr.detect(),
+        "/api/sweep": lambda q, b: dict(sweeps=rtlsweep.snapshot()),
         "/api/auth": lambda q, b: dict(required=app.auth.required()),
     }
     def save_cfg(q, b):
@@ -60,6 +61,10 @@ def routes(app):
             return dict(ok=False, error="'relay' is reserved for the main relay")
         if b.get("_delete"):
             cfg.update({"inputs": items}); return dict(ok=True, deleted=spec["id"])
+        other = rtlsweep.device_conflict(items, spec)
+        if other:
+            return dict(ok=False, error=f"dongle {int(float(spec.get('device_index') or 0))} is already used by '{other['name']}' ({other['type']}); "
+                        "disable it first or pick another dongle index (receiver and sweep cannot share a dongle)")
         old = next((i for i, x in enumerate(cfg["inputs"]) if x["id"] == spec["id"]), None)
         if old is None: items.append(spec)
         else: items.insert(old, spec)
@@ -141,6 +146,9 @@ def make_handler(app):
                 return self.static(WEB, p[5:])
             if p.startswith("/clips/"):
                 return self.static(app.store.dir, p[7:])
+            if p == "/api/sweep.csv":
+                return self.send(200, rtlsweep.all_events_csv().encode(), "text/csv; charset=utf-8",
+                                 {"Content-Disposition": "attachment; filename=sanket_spectrum_activity.csv"})
             if p == "/api/logs":
                 n = int(q.get("n", ["300"])[0])
                 return self.send(200, "\n".join(list(LOG_RING)[-n:]).encode(), "text/plain; charset=utf-8")

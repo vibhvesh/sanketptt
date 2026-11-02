@@ -48,6 +48,14 @@ code,pre{background:#eef2f6;border-radius:4px;font-size:9pt}pre{padding:8px;whit
 <li>The installer adds the <code>rtl-sdr</code> package, blacklists the <code>dvb_usb_rtl28xxu</code> TV driver and adds a udev rule. Unplug and replug the dongle (or reboot) after the first install.</li>
 <li><strong>Legal:</strong> this is receive only. Listen only to public bands or bands you are licensed to listen to (broadcast, airband, amateur, marine). Do not monitor police, government or private communications. That is restricted under the Indian Wireless Telegraphy Act.</li>
 </ul>
+<p><strong>Spectrum sweep / activity monitor.</strong> Add an <strong>RTL-SDR spectrum sweep</strong> input to watch whole bands with <code>rtl_power</code>. It does no demodulation and records no audio or content. It only measures power per frequency bin.</p>
+<ul>
+<li><strong>Settings:</strong> bands (<code>start-end</code> in MHz, comma separated, e.g. <code>430-440, 144-146</code>), bin size (kHz), sweep interval, alert threshold (dB above noise floor), allowlist of expected frequencies (MHz) with a tolerance, optional spoken alert, tuner gain, PPM, dongle index.</li>
+<li>A noise floor is learned for each bin. A bin that rises above floor + threshold and is not on the allowlist is logged as <strong>suspicious activity</strong> with time, frequency, peak dB and duration. With spoken alerts on, the Pi says e.g. "Unknown signal at 446.1 megahertz".</li>
+<li>The <strong>Home</strong> dashboard shows the latest sweep as bars with the floor and threshold lines, a short waterfall, and the activity log. <strong>Export CSV</strong> downloads the log (<code>/api/sweep.csv</code>).</li>
+<li><strong>One dongle, one mode.</strong> A receiver and a sweep cannot use the same dongle index at the same time. Saving a second one is refused with a message. Disable the other input first or use a second dongle.</li>
+<li>The monitor logs signal presence only, for reporting to WPC monitoring. It does not intercept content.</li>
+</ul>
 <h2>4. Audio output and Bluetooth</h2>
 <ol>
 <li>Open <strong>Audio</strong> and choose the output: default, 3.5 mm jack, HDMI, USB or Bluetooth speaker.</li>

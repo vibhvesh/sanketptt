@@ -66,6 +66,14 @@ Plug an RTL2832U/R820T USB dongle into the Pi and add an **RTL-SDR receiver** in
 - The installer adds the `rtl-sdr` package, blacklists the `dvb_usb_rtl28xxu` TV driver and adds a udev rule. Unplug and replug the dongle (or reboot) after the first install.
 - **Legal:** this is receive only. Listen only to public bands or bands you are licensed to listen to (broadcast, airband, amateur, marine). Do not monitor police, government or private communications. That is restricted under the Indian Wireless Telegraphy Act.
 
+**Spectrum sweep / activity monitor.** Add an **RTL-SDR spectrum sweep** input to watch whole bands with `rtl_power`. It does no demodulation and records no audio or content. It only measures power per frequency bin.
+
+- **Settings:** bands (`start-end` in MHz, comma separated, e.g. `430-440, 144-146`), bin size (kHz), sweep interval, alert threshold (dB above noise floor), allowlist of expected frequencies (MHz) with a tolerance, optional spoken alert, tuner gain, PPM, dongle index.
+- A noise floor is learned for each bin. A bin that rises above floor + threshold and is not on the allowlist is logged as **suspicious activity** with time, frequency, peak dB and duration. With spoken alerts on, the Pi says e.g. "Unknown signal at 446.1 megahertz".
+- The **Home** dashboard shows the latest sweep as bars with the floor and threshold lines, a short waterfall, and the activity log. **Export CSV** downloads the log (`/api/sweep.csv`).
+- **One dongle, one mode.** A receiver and a sweep cannot use the same dongle index at the same time. Saving a second one is refused with a message. Disable the other input first or use a second dongle.
+- The monitor logs signal presence only, for reporting to WPC monitoring. It does not intercept content.
+
 ## Code layout
 
 ```
