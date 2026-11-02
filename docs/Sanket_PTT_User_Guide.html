@@ -1,0 +1,101 @@
+<html><head><meta charset=utf-8><style>@page{size:A4;margin:14mm 15mm}body{font-family:'Helvetica','Arial',sans-serif;font-size:10.5pt;color:#1d2733;line-height:1.45}
+h1{background:#0b3d5c;color:#fff;padding:14px 16px;border-radius:6px;font-size:21pt;margin:0 0 6px}
+h1+p em{color:#55606b}h2{color:#0b3d5c;border-bottom:2px solid #f2a20c;padding-bottom:3px;margin:16px 0 6px;font-size:13.5pt;break-after:avoid}
+img{display:block;margin:8px auto;max-height:95mm;max-width:100%;border:1px solid #ccd;border-radius:6px;break-inside:avoid}
+blockquote{margin:6px 0;padding:6px 10px;background:#fff6e0;border-left:4px solid #f2a20c}
+table{border-collapse:collapse;width:100%;font-size:9.5pt;break-inside:avoid}th{background:#0b3d5c;color:#fff}td,th{border:1px solid #cfd6de;padding:4px 7px;text-align:left}
+code,pre{background:#eef2f6;border-radius:4px;font-size:9pt}pre{padding:8px;white-space:pre-wrap}a{color:#0b5c8a}ol li,ul li{margin:2px 0}</style></head><body><h1>Sanket PTT — User Guide</h1>
+<p><em>Push-to-talk voice radio for police and emergency departments · Android app and web</em></p>
+<p><strong>Web app:</strong> <a href="https://vibhvesh.github.io/sanketptt/">https://vibhvesh.github.io/sanketptt/</a><br />
+<strong>Android app (APK):</strong> <a href="https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_PTT.apk">https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_PTT.apk</a></p>
+<blockquote>
+<p>Pilot / demonstration service. Do not send sensitive information.</p>
+</blockquote>
+<h2>1. What it does</h2>
+<ul>
+<li>Hold-to-talk voice on named channels, one speaker at a time.</li>
+<li>See who is on the air, with optional location sharing on a map.</li>
+<li>Replay recent transmissions from the session log.</li>
+<li>Send and receive pictures over SSTV (Robot36, Martin M1, Scottie S1, PD120).</li>
+</ul>
+<p><img alt="Sanket PTT on a phone" src="img/ptt_1.jpg" /></p>
+<h2>2. Install</h2>
+<p><strong>Android</strong></p>
+<ol>
+<li>Open the APK link above in the phone's browser.</li>
+<li>When the download finishes, tap the file to open it.</li>
+<li>If asked, allow <strong>Install unknown apps</strong> for the browser, then tap <strong>Install</strong>.</li>
+<li>If Play Protect warns, choose <strong>Install anyway</strong>, then tap <strong>Open</strong>.</li>
+<li>Allow <strong>Microphone</strong>, <strong>Location</strong> and <strong>Notifications</strong> when asked.</li>
+</ol>
+<p><strong>Web:</strong> open the web link in Chrome and add it to the home screen. No installation needed.</p>
+<h2>3. Join a channel</h2>
+<ol>
+<li>Open the channel link from your supervisor, for example <code>https://vibhvesh.github.io/sanketptt/?ch=unit-name</code>. The channel is the part after <code>?ch=</code>. Do not use the default public channel for official work.</li>
+<li>Enter your allotted <strong>name or call sign</strong>.</li>
+<li>Tap <strong>POWER ON · JOIN</strong>. If shown, tap <strong>TAP TO ENABLE AUDIO</strong>.</li>
+<li>Check that your call sign appears under <strong>ON THE AIR</strong>.</li>
+</ol>
+<h2>4. Talk</h2>
+<ol>
+<li>Listen first and make sure nobody else is speaking.</li>
+<li>Press and hold the <strong>PTT</strong> button, wait about one second, then speak.</li>
+<li>Release the button when you finish so others can reply.</li>
+<li>Missed something? Play it back from the <strong>Session log</strong>.</li>
+</ol>
+<p><img alt="Full page: log on, on the air, map, SSTV and session log" src="img/ptt_full.jpg" /></p>
+<h2>5. Share location</h2>
+<ol>
+<li>Tick <strong>SHARE</strong> in Station map only when instructed.</li>
+<li>Everyone on the channel can see shared locations.</li>
+<li>Untick <strong>SHARE</strong> when it is no longer needed.</li>
+</ol>
+<h2>6. Pictures (SSTV)</h2>
+<p><strong>Send</strong></p>
+<ol>
+<li>Announce on the channel and wait for acknowledgement.</li>
+<li>Tap <strong>SSTV · send a picture</strong> and choose the picture.</li>
+<li>Pick a mode: Robot36 (~37 s, fastest), Martin M1, Scottie S1 or PD120.</li>
+<li>Tap <strong>SEND IMAGE</strong> and wait. The channel is busy while sending (tap ✕ to cancel).</li>
+</ol>
+<p><strong>Receive:</strong> stay joined. Pictures decode automatically and appear under <strong>SSTV images</strong>; download them as PNG. Tick <strong>Listen for SSTV via mic</strong> to decode a nearby handset, or <strong>MUTE SSTV AUDIO</strong> to silence the tones.</p>
+<h2>7. Always on (Android)</h2>
+<ol>
+<li>The screen stays on while the app is open; a "staying on while locked" notification keeps it running when locked.</li>
+<li>Keep the phone on charge for long shifts.</li>
+<li>Set the app's battery mode to <strong>Unrestricted</strong> (Settings → Apps → Sanket PTT → Battery).</li>
+<li>The app loads the live site, so updates arrive automatically. Close and reopen to refresh.</li>
+</ol>
+<h2>8. Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No sound</td>
+<td>Tap <strong>TAP TO ENABLE AUDIO</strong>; raise phone volume.</td>
+</tr>
+<tr>
+<td>Cannot talk</td>
+<td>Allow the microphone permission; wait until the channel is free.</td>
+</tr>
+<tr>
+<td>Not in ON THE AIR</td>
+<td>Check internet, then tap <strong>POWER ON · JOIN</strong> again.</td>
+</tr>
+<tr>
+<td>App stops when locked</td>
+<td>Set battery to <strong>Unrestricted</strong>; keep the notification on.</td>
+</tr>
+<tr>
+<td>Wrong channel</td>
+<td>Reopen the exact link from your supervisor (<code>?ch=</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2>9. Support</h2>
+<p><strong>Akshat Singh</strong> · <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#107;&#115;&#104;&#97;&#116;&#115;&#105;&#110;&#103;&#104;&#64;&#99;&#97;&#110;&#98;&#101;&#114;&#114;&#97;&#118;&#105;&#115;&#105;&#111;&#110;&#46;&#99;&#111;&#109;">&#97;&#107;&#115;&#104;&#97;&#116;&#115;&#105;&#110;&#103;&#104;&#64;&#99;&#97;&#110;&#98;&#101;&#114;&#114;&#97;&#118;&#105;&#115;&#105;&#111;&#110;&#46;&#99;&#111;&#109;</a></p></body></html>

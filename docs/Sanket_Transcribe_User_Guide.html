@@ -1,0 +1,87 @@
+<html><head><meta charset=utf-8><style>@page{size:A4;margin:14mm 15mm}body{font-family:'Helvetica','Arial',sans-serif;font-size:10.5pt;color:#1d2733;line-height:1.45}
+h1{background:#0b3d5c;color:#fff;padding:14px 16px;border-radius:6px;font-size:21pt;margin:0 0 6px}
+h1+p em{color:#55606b}h2{color:#0b3d5c;border-bottom:2px solid #f2a20c;padding-bottom:3px;margin:16px 0 6px;font-size:13.5pt;break-after:avoid}
+img{display:block;margin:8px auto;max-height:95mm;max-width:100%;border:1px solid #ccd;border-radius:6px;break-inside:avoid}
+blockquote{margin:6px 0;padding:6px 10px;background:#fff6e0;border-left:4px solid #f2a20c}
+table{border-collapse:collapse;width:100%;font-size:9.5pt;break-inside:avoid}th{background:#0b3d5c;color:#fff}td,th{border:1px solid #cfd6de;padding:4px 7px;text-align:left}
+code,pre{background:#eef2f6;border-radius:4px;font-size:9pt}pre{padding:8px;white-space:pre-wrap}a{color:#0b5c8a}ol li,ul li{margin:2px 0}</style></head><body><h1>Sanket Transcribe — User Guide</h1>
+<p><em>Live radio transcription for police and emergency departments · Android app and web</em></p>
+<p><strong>Web app:</strong> <a href="https://vibhvesh.github.io/sanketptt/transcribe/">https://vibhvesh.github.io/sanketptt/transcribe/</a><br />
+<strong>Android app (APK):</strong> <a href="https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_Transcribe.apk">https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_Transcribe.apk</a></p>
+<blockquote>
+<p>Pilot / demonstration service. Do not send sensitive information.</p>
+</blockquote>
+<h2>1. What it does</h2>
+<p>Sanket Transcribe listens to a Sanket PTT channel, or the phone's microphone, and turns every transmission into text. It can translate, raise keyword alerts and export clips. It joins as a listener and <strong>never transmits</strong>.</p>
+<p><img alt="Sanket Transcribe on a phone" src="img/tr_1.jpg" /></p>
+<h2>2. Install</h2>
+<p><strong>Android</strong></p>
+<ol>
+<li>Open the APK link above in the phone's browser and tap the downloaded file.</li>
+<li>If asked, allow <strong>Install unknown apps</strong> for the browser, then tap <strong>Install</strong>.</li>
+<li>If Play Protect warns, choose <strong>Install anyway</strong>, then tap <strong>Open</strong>.</li>
+<li>Allow <strong>Microphone</strong> and <strong>Notifications</strong> when asked.</li>
+</ol>
+<p><strong>Web:</strong> open the web link in Chrome and add it to the home screen.</p>
+<h2>3. Start transcribing</h2>
+<ol>
+<li>Under <strong>INPUT</strong> choose <strong>Web page / PTT radio</strong> to monitor a channel, or <strong>Mic</strong> for the local microphone.</li>
+<li>For a channel, paste the channel link in <strong>PTT LINK</strong>, for example <code>https://vibhvesh.github.io/sanketptt/?ch=unit-name</code>.</li>
+<li>Under <strong>TRANSCRIPTION ENGINE</strong> choose <strong>Free (in-browser Whisper)</strong>. No key is needed. The model (about 79 MB) downloads on first use, so start it once on good Wi-Fi. ElevenLabs is optional and needs an API key.</li>
+<li>Tap <strong>▶ START</strong>. Tap <strong>■ STOP</strong> to finish.</li>
+</ol>
+<h2>4. Read the log</h2>
+<ol>
+<li>Each transmission becomes a clip in the <strong>RX log</strong>, newest first, with its text and translation.</li>
+<li>Words in the <strong>WATCH</strong> list are highlighted and raise the alerts you turned on.</li>
+<li>Download one clip with <strong>⬇ Download</strong>, or everything with <strong>⬇ Download all (.zip)</strong> at the end of the shift.</li>
+</ol>
+<p><img alt="Full page" src="img/tr_full.jpg" /></p>
+<h2>5. Settings (⚙)</h2>
+<ol>
+<li><strong>Source / Translate:</strong> spoken language and the language to translate into.</li>
+<li><strong>Keyword alerts:</strong> words to watch, separated by commas or new lines. Turn on <strong>Beep + vibrate</strong> if needed.</li>
+<li><strong>Email alerts:</strong> tap <strong>Connect Gmail for alerts</strong> to email a chosen address, with the audio attached, when a keyword is heard.</li>
+<li><strong>Mic squelch:</strong> set <strong>Hang time</strong> and <strong>Threshold margin</strong>; tap <strong>Recalibrate squelch</strong> if background noise changes.</li>
+<li><strong>Station / device:</strong> device ID, location (or <strong>Use current location</strong>) and a place label.</li>
+<li><strong>ElevenLabs key:</strong> stored only on this device (<strong>Save key / Forget key</strong>).</li>
+</ol>
+<h2>6. Always on (Android)</h2>
+<ol>
+<li>The app keeps running when locked and shows a "staying on" notification.</li>
+<li>Keep the phone on charge and set battery mode to <strong>Unrestricted</strong>.</li>
+<li>Updates arrive automatically. Close and reopen the app to refresh.</li>
+</ol>
+<h2>7. Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stuck on "loading model"</td>
+<td>Use good Wi-Fi for the first start; it is cached afterwards.</td>
+</tr>
+<tr>
+<td>No text appears</td>
+<td>Check the PTT link and the channel name after <code>?ch=</code>; tap START.</td>
+</tr>
+<tr>
+<td>Mic picks up noise</td>
+<td>Tap <strong>Recalibrate squelch</strong> or raise the threshold margin.</td>
+</tr>
+<tr>
+<td>"Email alerts paused"</td>
+<td>Tap the red banner and connect Gmail again.</td>
+</tr>
+<tr>
+<td>Stops when locked</td>
+<td>Set battery to <strong>Unrestricted</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h2>8. Support</h2>
+<p><strong>Akshat Singh</strong> · <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#107;&#115;&#104;&#97;&#116;&#115;&#105;&#110;&#103;&#104;&#64;&#99;&#97;&#110;&#98;&#101;&#114;&#114;&#97;&#118;&#105;&#115;&#105;&#111;&#110;&#46;&#99;&#111;&#109;">&#97;&#107;&#115;&#104;&#97;&#116;&#115;&#105;&#110;&#103;&#104;&#64;&#99;&#97;&#110;&#98;&#101;&#114;&#114;&#97;&#118;&#105;&#115;&#105;&#111;&#110;&#46;&#99;&#111;&#109;</a></p></body></html>
