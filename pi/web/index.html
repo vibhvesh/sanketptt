@@ -39,51 +39,95 @@ pre{background:#000;color:#39ff88;font-size:11px;padding:10px;border-radius:8px;
 .bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.hint{font-size:11px;color:#9aa;margin-top:6px}
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#000c;color:#ffd23f;padding:10px 16px;border-radius:10px;display:none;font-size:13px}
 .view{display:none}.view.on{display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.card{background:#0006;border:1px solid #fff1;border-radius:10px;padding:10px}
+.card b{display:block;font-family:Orbitron,sans-serif;font-size:20px;color:#39ff88;text-shadow:0 0 6px #39ff8866}.card small{color:#9aa;font-size:11px;letter-spacing:1px}
+.card .sub{font-size:11px;color:#7ad;margin-top:3px}
+canvas.ch{width:100%;height:150px;display:block;background:#000a;border-radius:8px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;margin-top:6px;color:#ccd}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:13px}dl.kv dt{color:#9aa}dl.kv dd{margin:0;color:#fff;word-break:break-word}
+.meter{height:10px;background:#111;border-radius:5px;overflow:hidden;position:relative;min-width:120px}.meter i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#39ff88,#ffd23f 70%,#ff2d2d)}
+.meter s{position:absolute;top:-2px;bottom:-2px;width:2px;background:#fff}
+.inp{background:#0006;border-radius:10px;padding:10px;margin-bottom:10px;border-left:4px solid #7a5cff}.inp.off{opacity:.55}
+.inp .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:50}.modal.on{display:flex}
+.modal .box{background:#1d2026;border:1px solid #555b66;border-radius:14px;padding:16px;width:min(520px,94vw);max-height:90vh;overflow:auto}
+body.kiosk .tabs,body.kiosk .nokiosk{display:none}body.kiosk .rig{max-width:none;min-height:calc(100vh - 28px)}body.kiosk canvas.ch{height:190px}
 </style></head><body><div class=rig>
-<div class=brand><div><h1>SANKET PTT</h1><small>PI LISTENER · RECEIVE ONLY</small></div>
-<div class=leds><div class="led pw on"><i></i>PWR</div><div class=led id=ledNet><i></i>NET</div><div class="led rx" id=ledRx><i></i>RX</div></div></div>
+<div class=brand><div><h1>SANKET PTT</h1><small>PI LISTENER · <span id=bMode>RECEIVE ONLY</span></small></div>
+<div class=leds><div class="led pw on"><i></i>PWR</div><div class=led id=ledNet><i></i>NET</div><div class="led rx" id=ledRx><i></i>RX</div><div class="led tx" id=ledSpk><i></i>SPK</div>
+<button class=nokiosk id=loginBtn style="display:none" onclick="login()">LOGIN</button></div></div>
 <div class=lcd><div class=row><span id=lName>—</span><span id=lBroker>—</span></div>
 <div class=freq id=lMain>CONNECTING…</div>
 <div class=row><span id=lCh>—</span><span id=lStt>—</span><span id=lStats>—</span></div></div>
-<div class=tabs><button data-v=live class=sel>LIVE</button><button data-v=channels>CHANNELS</button><button data-v=audio>AUDIO &amp; VOICE</button><button data-v=alerts>ALERTS</button><button data-v=system>SYSTEM</button></div>
+<div class=tabs><button data-v=home class=sel>HOME</button><button data-v=live>LIVE</button><button data-v=inputs>INPUTS</button><button data-v=channels>CHANNELS</button><button data-v=audio>AUDIO</button><button data-v=alerts>ALERTS</button><button data-v=system>SYSTEM</button></div>
 
-<div class="view on" id=v-live><div class=grid>
+<div class="view on" id=v-home>
+ <div class=panel><h3>SYSTEM <span class=pill id=hModel>—</span></h3><div class=cards>
+  <div class=card><small>CPU</small><b id=hCpu>–</b><div class=sub id=hLoad></div></div>
+  <div class=card><small>TEMP</small><b id=hTemp>–</b><div class=sub id=hThr></div></div>
+  <div class=card><small>RAM</small><b id=hMem>–</b><div class=sub id=hMemS></div></div>
+  <div class=card><small>DISK</small><b id=hDisk>–</b><div class=sub id=hDiskS></div></div>
+  <div class=card><small>UPTIME</small><b id=hUp>–</b><div class=sub id=hSvc></div></div>
+  <div class=card><small>NETWORK</small><b id=hNet>–</b><div class=sub id=hNetS></div></div></div>
+  <canvas class=ch id=cSys height=150></canvas><div class=legend><span><i style=background:#00c2ff></i>CPU %</span><span><i style=background:#ff7a18></i>Temp °C</span><span><i style=background:#b98cff></i>RAM %</span></div></div>
+ <div class=grid>
+  <div class=panel><h3>TRANSCRIPTION IN / OUT <span class=pill id=hTot>—</span></h3><canvas class=ch id=cMsg height=150></canvas>
+   <div class=legend><span><i style=background:#00c2ff></i>Received</span><span><i style=background:#39ff88></i>Transcribed</span><span><i style=background:#ffd23f></i>Announced</span><span><i style=background:#ff3d7f></i>SSTV</span></div>
+   <canvas class=ch id=cLvl height=150 style="margin-top:8px"></canvas><div class=legend><span><i style=background:#39ff88></i>Audio in (dBFS)</span><span><i style=background:#ff7a18></i>Audio out (dBFS)</span><span id=hLvls></span></div></div>
+  <div class=panel><h3>CONFIGURATION</h3><dl class=kv id=hCfg></dl><h3 style="margin-top:12px">INPUTS</h3><div id=hIn></div></div>
+ </div>
+ <div class=panel><h3>LATEST</h3><ul class=feed id=hFeed style="max-height:260px"></ul></div>
+</div>
+
+<div class=view id=v-live><div class=grid>
  <div class=panel><h3>LIVE FEED <button onclick="post('/api/clear_feed').then(loadFeed)">CLEAR</button></h3><ul class=feed id=feed></ul></div>
  <div><div class=panel><h3>CHANNELS <span id=chCount class=pill>0</span></h3><div id=chLive></div></div>
  <div class=panel><h3>QUICK</h3><div class=bar><button class=pri onclick="testAnn()">🔊 TEST ANNOUNCEMENT</button><button onclick="toggle('announce')" id=qAnn>ANNOUNCE</button><button onclick="toggle('transcribe')" id=qStt>TRANSCRIBE</button></div>
  <label class=f><span>Volume <small id=qVolV></small></span><input type=range min=0 max=150 id=qVol oninput="qVolV.textContent=this.value+'%'" onchange="save({volume:+this.value})"></label></div></div>
 </div></div>
 
-<div class=view id=v-channels><div class=panel><h3>CHANNELS / PTTs <span><button class=ok onclick="enableAll(true)">ENABLE ALL</button> <button onclick="enableAll(false)">DISABLE ALL</button></span></h3>
+<div class=view id=v-inputs><div class=panel><h3>INPUT CHANNELS <span><button class=pri onclick="editInput()">+ ADD INPUT</button></span></h3>
+ <div class=hint style="margin-bottom:8px">Every input is its own channel. Local mics use VOX to cut clips, which are transcribed, announced and shown in the feed like relay messages. Forwarding to the relay is off by default (receive-only).</div>
+ <div id=inList></div></div></div>
+
+<div class=view id=v-channels><div class=panel><h3>MAIN RELAY CHANNELS <span><button class=ok onclick="enableAll(true)">ENABLE ALL</button> <button onclick="enableAll(false)">DISABLE ALL</button></span></h3>
  <table id=chTable></table>
- <div class=bar><input id=newCh placeholder="channel name (as in ?ch=…)" style="max-width:none;flex:1"><button class=pri onclick="addCh()">+ ADD</button><button onclick="addKnown()">ADD ALL KNOWN</button></div>
+ <div class=bar><input id=newCh placeholder="channel name or PTT link (https://…/?ch=name)" style="max-width:none;flex:1"><button class=pri onclick="addCh()">+ ADD</button><button onclick="addKnown()">ADD ALL KNOWN</button></div>
+ <label class=f><span>Main relay on<small>Listen to the Sanket PTT relay</small></span><input type=checkbox data-k=relay_enabled></label>
  <label class=f><span>Listen to every active channel<small>Also monitor any Sanket PTT channel that has people online</small></span><input type=checkbox data-k=listen_all></label>
  <label class=f><span>Auto-add discovered channels<small>New channels seen on the relay are added to this list</small></span><input type=checkbox data-k=auto_add_discovered></label>
  <label class=f><span>Device name<small>Shown in the PTT app's online list</small></span><input data-k=device_name placeholder="SanketPi-hostname"></label>
  <label class=f><span>Relay (MQTT broker)<small>Same relay as the web app</small></span><select data-k=broker_url id=brokerSel></select></label>
  <label class=f><span>Custom relay URL<small>Overrides the list above if filled</small></span><input id=brokerCustom placeholder="wss://user:pass@host:port/path"></label>
- <div class=bar><button class=pri onclick="saveForm('v-channels')">SAVE</button></div></div></div>
+ <div class=bar><button class=pri onclick="saveForm('v-channels')">SAVE</button></div>
+ <div class=hint>Extra relays or single PTT links with their own broker can be added as inputs on the INPUTS tab.</div></div></div>
 
-<div class=view id=v-audio><div class=panel><h3>AUDIO OUTPUT</h3>
- <label class=f><span>Output device</span><select data-k=audio_device id=devSel></select></label>
+<div class=view id=v-audio><div class=grid><div><div class=panel><h3>AUDIO OUTPUT <button onclick="loadDevices(1)">RESCAN</button></h3>
+ <label class=f><span>Output device<small>Default, 3.5 mm jack, HDMI, USB, Bluetooth</small></span><select data-k=audio_device id=devSel></select></label>
  <label class=f><span>Volume <small id=volV></small></span><input type=range min=0 max=150 data-k=volume oninput="volV.textContent=this.value+'%'"></label>
  <label class=f><span>Play received audio</span><input type=checkbox data-k=play_audio></label>
- <label class=f><span>Beep before announcement</span><input type=checkbox data-k=beep></label></div>
- <div class=panel><h3>ANNOUNCEMENTS (OFFLINE TTS)</h3>
+ <label class=f><span>Beep before announcement</span><input type=checkbox data-k=beep></label>
+ <label class=f><span>Output level</span><div class=meter style="flex:1;max-width:60%"><i id=outMeter></i></div></label>
+ <div class=bar><button class=pri onclick="saveForm('v-audio')">SAVE</button><button onclick="saveForm('v-audio').then(testAnn)">SAVE &amp; TEST</button></div></div>
+ <div class=panel><h3>BLUETOOTH <span><button class=ok onclick="btScan()">SCAN</button> <button onclick="loadBt()">REFRESH</button></span></h3><div id=btList class=hint>…</div>
+ <div class=hint>Pair a speaker here, then pick it as the output device above (it appears as "Bluetooth speaker"). Bluetooth mics can be added on the INPUTS tab.</div></div></div>
+ <div><div class=panel><h3>ANNOUNCEMENTS (OFFLINE TTS)</h3>
  <label class=f><span>Announce every message</span><input type=checkbox data-k=announce></label>
  <label class=f><span>Say who sent it</span><input type=checkbox data-k=announce_speaker></label>
  <label class=f><span>Read transcript aloud</span><input type=checkbox data-k=announce_transcript></label>
  <label class=f><span>Announcement text<small>{channel} and {name} are filled in</small></span><input data-k=announce_template></label>
- <label class=f><span>Voice engine</span><select data-k=tts_engine><option value=espeak-ng>espeak-ng</option><option value=piper>piper (natural)</option></select></label>
+ <label class=f><span>Voice engine</span><select data-k=tts_engine><option value=espeak-ng>espeak-ng (light)</option><option value=piper>piper (natural)</option></select></label>
  <label class=f><span>espeak-ng voice</span><select data-k=espeak_voice id=voiceSel></select></label>
  <label class=f><span>Piper voice model</span><select data-k=piper_model id=piperSel></select></label>
  <label class=f><span>Speaking speed (words/min)</span><input type=number min=80 max=300 data-k=tts_speed></label></div>
- <div class=panel><h3>TRANSCRIPTION (OFFLINE WHISPER)</h3>
+ <div class=panel><h3>TRANSCRIPTION &amp; SSTV</h3>
  <label class=f><span>Transcribe messages</span><input type=checkbox data-k=transcribe></label>
- <label class=f><span>Whisper model<small>tiny = fastest, small = most accurate</small></span><select data-k=whisper_model><option>tiny</option><option>base</option><option>small</option></select></label>
+ <label class=f><span>Whisper model<small>tiny = fastest (Pi 3), base = Pi 5 default</small></span><select data-k=whisper_model><option>tiny</option><option>base</option><option>small</option></select></label>
  <label class=f><span>Language</span><select data-k=language><option value=auto>Auto detect</option><option value=en>English</option><option value=hi>Hindi</option><option value=bn>Bengali</option><option value=gu>Gujarati</option><option value=mr>Marathi</option><option value=ta>Tamil</option><option value=te>Telugu</option></select></label>
- <label class=f><span>SSTV pictures<small>Detect SSTV, save picture, announce it</small></span><input type=checkbox data-k=sstv></label>
- <div class=bar><button class=pri onclick="saveForm('v-audio')">SAVE</button><button onclick="saveForm('v-audio').then(testAnn)">SAVE &amp; TEST</button></div></div></div>
+ <label class=f><span>SSTV pictures<small>Detect SSTV and announce it</small></span><input type=checkbox data-k=sstv></label>
+ <label class=f><span>Decode SSTV audio on the Pi<small>Martin/Scottie/Robot36 with sync + slant correction</small></span><input type=checkbox data-k=sstv_decode></label>
+ <div class=bar><button class=pri onclick="saveForm('v-audio')">SAVE</button></div></div></div></div></div>
 
 <div class=view id=v-alerts><div class=panel><h3>ALERT KEYWORDS</h3>
  <label class=f><span>Keywords<small>comma separated; matches say "Alert!" first</small></span><input data-k=keywords style="max-width:70%"></label></div>
@@ -100,48 +144,118 @@ pre{background:#000;color:#39ff88;font-size:11px;padding:10px;border-radius:8px;
 
 <div class=view id=v-system><div class=grid><div><div class=panel><h3>WI-FI</h3><div id=wifi class=hint>loading…</div>
  <div class=bar><select id=wSsid style="max-width:none;flex:1"></select><input id=wPw type=password placeholder=password style="flex:1"><button class=ok onclick="wifiJoin()">CONNECT</button></div></div>
- <div class=panel><h3>SERVICE</h3><div class=bar><button class=pri onclick="testAnn()">🔊 TEST</button><button onclick="if(confirm('Restart the listener?'))post('/api/restart').then(()=>toast('Restarting…'))">RESTART SERVICE</button><button class=ok onclick="upd()">UPDATE APP</button></div>
+ <div class=panel><h3>SERVICE</h3><div class=bar><button class=pri onclick="testAnn()">🔊 TEST</button><button onclick="if(confirm('Restart the listener?'))post('/api/restart').then(()=>toast('Restarting…'))">RESTART SERVICE</button><button class=ok onclick="upd()">UPDATE APP</button><a href="/kiosk?kiosk=1" target=_blank><button>KIOSK VIEW</button></a></div>
  <label class=f><span>Web page port</span><input type=number data-k=web_port></label>
- <label class=f><span>Settings PIN<small id=pinSet>Optional; asked before saving</small></span><input type=password data-k=web_pin placeholder="(none)"></label>
+ <label class=f><span>Settings PIN<small id=pinSet>Optional; login needed before saving</small></span><span style="display:flex;gap:6px;max-width:60%"><input type=password data-k=web_pin placeholder="(none)" style="max-width:none"><button onclick="if(confirm('Remove the settings PIN?'))save({web_pin_clear:true})">CLEAR</button></span></label>
  <label class=f><span>Keep recordings (days)</span><input type=number data-k=retention_days></label>
+ <label class=f><span>Dashboard on attached display<small>Kiosk at boot (applied by installer)</small></span><input type=checkbox data-k=kiosk></label>
+ <label class=f><span>Kiosk browser</span><select data-k=kiosk_browser><option value=chromium>Chromium</option><option value=surf>surf (light, Pi 3)</option><option value=none>None</option></select></label>
  <div class=bar><button class=pri onclick="saveForm('v-system')">SAVE</button></div><div class=hint id=sysInfo></div></div></div>
  <div class=panel><h3>LOGS <button onclick="loadLogs()">REFRESH</button></h3><pre id=logs>…</pre></div></div></div>
 </div><div id=toast></div>
+<div class=modal id=inModal><div class=box><h3 style="font-family:Orbitron;color:#ffd23f;font-size:13px;letter-spacing:2px;margin:0 0 10px" id=inTitle>INPUT</h3>
+ <label class=f><span>Type</span><select id=inType onchange="renderInForm()"></select></label><div id=inForm></div>
+ <label class=f><span>Enabled</span><input type=checkbox id=inEnabled checked></label>
+ <div class=bar><button class=pri onclick="saveInput()">SAVE</button><button onclick="$('inModal').classList.remove('on')">CANCEL</button><button class=bad id=inDel onclick="delInput()">DELETE</button></div></div></div>
 <script>
-var C={},K=[],B=[],pin=localStorage.sanketPin||'';
-function $(i){return document.getElementById(i)}function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var C={},K=[],B=[],D={audio:[],inputs:[]},T=[],tok=localStorage.sanketTok||'',KIOSK=/kiosk/.test(location.pathname+location.search);
+if(KIOSK)document.body.classList.add('kiosk');
+function $(i){return document.getElementById(i)}function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function toast(t){var e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(function(){e.style.display='none'},3500)}
 function get(u){return fetch(u).then(function(r){return u.indexOf('/api/logs')==0?r.text():r.json()})}
-function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json','X-Pin':pin},body:JSON.stringify(b||{})}).then(function(r){if(r.status==403){pin=prompt('Settings PIN')||'';localStorage.sanketPin=pin;return post(u,b)}return r.json()})}
+function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json','X-Token':tok},body:JSON.stringify(b||{})}).then(function(r){if(r.status==403&&u!='/api/login'){return login().then(function(ok){return ok?post(u,b):{error:'login required'}})}return r.json()})}
+function login(){var p=prompt('Settings PIN');if(p==null)return Promise.resolve(false);return fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin:p})}).then(function(r){return r.json()}).then(function(r){if(r.token){tok=r.token;localStorage.sanketTok=tok;$('loginBtn').textContent='LOGGED IN';return true}toast('Wrong PIN');return false})}
 function save(o){return post('/api/config',o).then(function(r){if(r.config){C=r.config;fill();toast(r.restart_needed?'Saved – restart service to apply port':'Saved ✓')}return r})}
 function toggle(k){var o={};o[k]=!C[k];save(o)}
 function testAnn(){return post('/api/test').then(function(r){toast('🔊 '+r.text)})}
-document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('sel',x==b)});document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id=='v-'+b.dataset.v)});if(b.dataset.v=='system'){loadLogs();loadWifi()}}});
+var VIEW='home';document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){show(b.dataset.v)}});
+function show(v){VIEW=v;document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('sel',x.dataset.v==v)});document.querySelectorAll('.view').forEach(function(x){x.classList.toggle('on',x.id=='v-'+v)});if(v=='system'){loadLogs();loadWifi()}if(v=='audio')loadBt();if(v=='inputs')loadInputs();if(v=='home')dash()}
 function fill(){document.querySelectorAll('[data-k]').forEach(function(e){var k=e.dataset.k,v=C[k];if(e.type=='checkbox')e.checked=!!v;else if(k=='keywords')e.value=(v||[]).join(', ');else if(e.type=='password')e.value='';else{if(e.tagName=='SELECT'&&v!=null&&![].some.call(e.options,function(o){return o.value==v})){var o=document.createElement('option');o.value=o.textContent=v;e.appendChild(o)}e.value=v==null?'':v}});
  $('volV').textContent=C.volume+'%';$('qVol').value=C.volume;$('qVolV').textContent=C.volume+'%';$('qAnn').className=C.announce?'ok':'';$('qStt').className=C.transcribe?'ok':'';
  $('qAnn').textContent='ANNOUNCE '+(C.announce?'ON':'OFF');$('qStt').textContent='TRANSCRIBE '+(C.transcribe?'ON':'OFF');
- $('pwSet').textContent=C.smtp_password_set?'Saved ✓ (leave blank to keep)':'For Gmail use an App Password';$('pinSet').textContent=C.web_pin_set?'PIN is set (blank = keep)':'Optional; asked before saving';renderChTable()}
+ $('pwSet').textContent=C.smtp_password_set?'Saved ✓ (leave blank to keep)':'For Gmail use an App Password';$('pinSet').textContent=C.web_pin_set?'PIN is set (blank = keep)':'Optional; login needed before saving';renderChTable()}
 function saveForm(id){var o={};document.querySelectorAll('#'+id+' [data-k]').forEach(function(e){var k=e.dataset.k;o[k]=e.type=='checkbox'?e.checked:(e.type=='number'||e.type=='range')?+e.value:e.value});
  if(id=='v-channels'){o.channels=C.channels;var cu=$('brokerCustom').value.trim();if(cu)o.broker_url=cu}return save(o)}
 function renderChTable(){var h='<tr><td><b>CHANNEL</b></td><td><b>LISTEN</b></td><td><b>WEB LINK</b></td><td></td></tr>';(C.channels||[]).forEach(function(c,i){h+='<tr><td>'+esc(c.name)+'</td><td><input type=checkbox '+(c.enabled?'checked':'')+' onchange="C.channels['+i+'].enabled=this.checked;save({channels:C.channels})"></td><td><a style="color:#9cf" target=_blank href="https://vibhvesh.github.io/sanketptt/?ch='+encodeURIComponent(c.name)+'">open</a></td><td><button class=bad onclick="C.channels.splice('+i+',1);save({channels:C.channels})">REMOVE</button></td></tr>'});$('chTable').innerHTML=h}
-function addCh(){var n=$('newCh').value.replace(/[^\w-]/g,'').toLowerCase().slice(0,40);if(!n)return;C.channels.push({name:n,enabled:true});$('newCh').value='';save({channels:C.channels})}
+function chFrom(s){var m=/[?&]ch=([^&#]+)/.exec(s);return decodeURIComponent(m?m[1]:s).replace(/[^\w-]/g,'').toLowerCase().slice(0,40)}
+function addCh(){var n=chFrom($('newCh').value.trim());if(!n)return;if(!C.channels.some(function(c){return c.name==n}))C.channels.push({name:n,enabled:true});$('newCh').value='';save({channels:C.channels})}
 function addKnown(){K.forEach(function(n){if(!C.channels.some(function(c){return c.name==n}))C.channels.push({name:n,enabled:true})});save({channels:C.channels})}
 function enableAll(on){C.channels.forEach(function(c){c.enabled=on});save({channels:C.channels})}
 function ago(t){if(!t)return'';var s=Math.round(Date.now()/1000-t);return s<60?s+'s ago':s<3600?Math.round(s/60)+'m ago':Math.round(s/3600)+'h ago'}
-function status(){get('/api/status').then(function(s){$('ledNet').classList.toggle('on',s.connected);$('lName').textContent=s.name+' · v'+s.version;$('lBroker').textContent=s.connected?'● '+s.broker.replace('wss://',''):'○ offline '+(s.broker_error||'');
+function dur(s){var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d?d+'d '+h+'h':h?h+'h '+m+'m':m+'m'}
+function bytes(b){var u=['B','KB','MB','GB','TB'],i=0;while(b>=1024&&i<4){b/=1024;i++}return b.toFixed(i?1:0)+' '+u[i]}
+function meter(db,th){var p=Math.max(0,Math.min(100,(db+70)/70*100));return '<div class=meter><i style="width:'+p+'%"></i>'+(th!=null?'<s style="left:'+Math.max(0,Math.min(100,(th+70)/70*100))+'%"></s>':'')+'</div>'}
+/* tiny canvas line/bar chart: series=[{d:[..],c:color,bar:bool}] */
+function chart(cv,series,o){o=o||{};var r=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;if(!W)return;cv.width=W*r;cv.height=H*r;var g=cv.getContext('2d');g.scale(r,r);g.clearRect(0,0,W,H);
+ var all=[];series.forEach(function(s){s.d.forEach(function(v){if(v!=null)all.push(v)})});var lo=o.min!=null?o.min:Math.min.apply(0,all.concat([0])),hi=o.max!=null?o.max:Math.max.apply(0,all.concat([1]));if(hi==lo)hi=lo+1;
+ var L=30,Bm=14,n=Math.max(1,(series[0]||{d:[]}).d.length),x=function(i){return L+(W-L-6)*(n<2?0:i/(n-1))},y=function(v){return H-Bm-(H-Bm-6)*(v-lo)/(hi-lo)};
+ g.strokeStyle='#ffffff18';g.fillStyle='#9aa';g.font='10px monospace';for(var k=0;k<=3;k++){var v=lo+(hi-lo)*k/3,yy=y(v);g.beginPath();g.moveTo(L,yy);g.lineTo(W-4,yy);g.stroke();g.fillText(Math.round(v),2,yy+3)}
+ if(o.xl)g.fillText(o.xl,L,H-2);g.fillText('now',W-28,H-2);
+ series.forEach(function(s,si){if(s.bar){var bw=Math.max(1,(W-L-6)/n/series.filter(function(z){return z.bar}).length-1),bi=series.filter(function(z){return z.bar}).indexOf(s);g.fillStyle=s.c;s.d.forEach(function(v,i){if(v)g.fillRect(x(i)-bw*1.5+bi*bw,y(v),bw,y(lo)-y(v))})}
+  else{g.strokeStyle=s.c;g.lineWidth=1.6;g.beginPath();var st=0;s.d.forEach(function(v,i){if(v==null){st=0;return}st?g.lineTo(x(i),y(v)):g.moveTo(x(i),y(v));st=1});g.stroke()}})}
+var DS=null;function dash(){get('/api/dashboard').then(function(d){DS=d;var s=d.sys.now,st=d.status,c=d.config;
+ $('hModel').textContent=(st.hw.model||'').replace('Raspberry Pi','Pi')+' · '+st.hw.profile;
+ $('hCpu').textContent=s.cpu+'%';$('hLoad').textContent='load '+s.load.join(' ')+' · '+s.cpus+' cores';
+ $('hTemp').textContent=s.temp==null?'n/a':s.temp+'°C';$('hThr').textContent=s.throttled&&s.throttled!='0x0'?'⚠ throttled '+s.throttled:(s.throttled?'no throttling':'');
+ $('hMem').textContent=s.mem.pct+'%';$('hMemS').textContent=bytes(s.mem.used)+' / '+bytes(s.mem.total);
+ $('hDisk').textContent=s.disk.pct+'%';$('hDiskS').textContent=bytes(s.disk.used)+' / '+bytes(s.disk.total)+' · '+d.storage.clips+' clips';
+ $('hUp').textContent=dur(s.uptime);$('hSvc').textContent='service '+dur(st.uptime);
+ $('hNet').textContent=st.connected?'ONLINE':'OFFLINE';$('hNetS').textContent=(s.net.ssid?'Wi-Fi '+s.net.ssid+(s.net.signal_dbm!=null?' '+s.net.signal_dbm+' dBm':''):'wired')+' · ↓'+bytes(s.net.rx_bps)+'/s ↑'+bytes(s.net.tx_bps)+'/s · '+s.net.ips.join(', ');
+ var h=d.sys.history;chart($('cSys'),[{d:h.map(function(p){return p.cpu}),c:'#00c2ff'},{d:h.map(function(p){return p.temp}),c:'#ff7a18'},{d:h.map(function(p){return p.mem}),c:'#b98cff'}],{min:0,max:100,xl:'-'+Math.round(h.length*5/60)+' min'});
+ var m=d.metrics.series.slice(-90),t=d.metrics.totals;$('hTot').textContent=(t.received||0)+' in · '+(t.transcribed||0)+' stt · '+(t.announced||0)+' out';
+ chart($('cMsg'),[{d:m.map(function(b){return b.received}),c:'#00c2ff',bar:1},{d:m.map(function(b){return b.transcribed}),c:'#39ff88',bar:1},{d:m.map(function(b){return b.announced}),c:'#ffd23f',bar:1},{d:m.map(function(b){return b.sstv}),c:'#ff3d7f',bar:1}],{min:0,xl:'-'+Math.round(m.length*d.metrics.bucket_s/60)+' min'});
+ chart($('cLvl'),[{d:m.map(function(b){return b.in_db>-90?b.in_db:null}),c:'#39ff88'},{d:m.map(function(b){return b.out_db>-90?b.out_db:null}),c:'#ff7a18'}],{min:-70,max:0});
+ var ch=c.channels.join(', ')||'(none)';
+ $('hCfg').innerHTML=[['Device',c.device_name],['Model',c.model],['Profile',c.profile+' · v'+c.version],['Channels',ch+(c.listen_all?' + all active':'')],['Broker',c.broker],['Audio out',c.audio_out+' · '+c.volume+'%'],['Audio in',c.audio_in.filter(function(i){return i.enabled}).map(function(i){return i.name+' ('+i.type+')'}).join(', ')||'relay only'],['Whisper',c.whisper],['TTS',c.tts],['SSTV',c.sstv]].map(function(r){return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>'}).join('');
+ $('hIn').innerHTML=st.inputs.map(function(i){return '<div style="display:flex;gap:8px;align-items:center;padding:4px 0"><span class="pill'+(i.state=='disabled'?' off':'')+'" style="min-width:110px">'+esc(i.name)+'</span><small style="color:#9aa;min-width:80px">'+esc(i.state)+'</small><div style=flex:1>'+meter(i.level)+'</div><small>'+i.clips+'</small></div>'}).join('');
+ var lv=d.metrics.levels;$('hLvls').textContent='out '+(lv.out!=null?lv.out:-90)+' dB';
+ $('hFeed').innerHTML=feedHtml(feedCache.slice(0,4))})}
+function feedHtml(f){return f.map(function(m){var img=m.image||m.jpeg;return '<li class="'+(m.keywords&&m.keywords.length?'kw':'')+(m.type=='sstv'?' sstv':'')+'"><div class=h><span>📻 '+esc(m.channel)+' · <b>'+esc(m.speaker)+'</b>'+(m.source_type&&m.source_type!='relay'?' <span class=pill>'+esc(m.source_type)+'</span>':'')+'</span><span>'+esc((m.time||'').replace('T',' '))+' · '+(m.duration_s||0)+'s</span></div><div class=t>'+(m.type=='sstv'?'🖼 SSTV '+esc(m.mode||'')+(m.slant_ppm?' · slant '+m.slant_ppm+' ppm corrected':''):esc(m.text)||'<i style=color:#889>'+esc(m.status=='done'?'(no transcript)':m.status)+'</i>')+'</div>'+(m.keywords&&m.keywords.length?'<div class=pill style="background:#ff2d2d">ALERT: '+esc(m.keywords.join(', '))+'</div>':'')+(img?'<img src="/clips/'+encodeURIComponent(img)+'">':'')+(KIOSK?'':'<div class=a><button onclick="post(\'/api/replay\',{wav:\''+esc(m.wav)+'\'})">▶ PLAY ON PI</button><audio controls preload=none src="/clips/'+encodeURIComponent(m.wav)+'" style="height:26px;flex:1"></audio></div>')+'</li>'}).join('')||'<li>No messages yet – waiting for transmissions…</li>'}
+function status(){get('/api/status').then(function(s){$('ledNet').classList.toggle('on',s.connected);$('ledSpk').classList.toggle('on',s.speaking);$('lName').textContent=s.name+' · v'+s.version;$('lBroker').textContent=s.connected?'● '+s.broker.replace('wss://',''):'○ offline '+(s.broker_error||'');
+ $('loginBtn').style.display=s.pin?'':'none';
  var tk=s.channels.filter(function(c){return c.talking});$('ledRx').classList.toggle('on',tk.length>0);$('lMain').textContent=tk.length?'RX '+tk[0].name.toUpperCase()+' · '+tk[0].talking.toUpperCase():(s.connected?'LISTENING':'CONNECTING…');
- var mon=s.channels.filter(function(c){return c.monitored});$('lCh').textContent=mon.length+' channels monitored';$('lStt').textContent='whisper: '+s.whisper+(s.queue?' · queue '+s.queue:'');$('lStats').textContent=s.stats.messages+' msgs · '+s.stats.sstv+' sstv';
+ var mon=s.channels.filter(function(c){return c.monitored}),loc=s.inputs.filter(function(i){return i.type!='relay'&&i.state!='disabled'});$('lCh').textContent=mon.length+' relay channels'+(loc.length?' + '+loc.length+' local inputs':'');$('lStt').textContent='whisper: '+s.whisper+(s.queue?' · queue '+s.queue:'');$('lStats').textContent=s.stats.messages+' msgs · '+s.stats.sstv+' sstv';
  $('chCount').textContent=mon.length;$('chLive').innerHTML=s.channels.filter(function(c){return c.monitored||c.enabled}).map(function(c){return '<div style="padding:6px 0;border-bottom:1px solid #fff1"><span class="pill'+(c.talking?' tk':c.monitored?'':' off')+'">'+esc(c.name)+'</span> <small style=color:#9aa>'+(c.talking?'🔴 '+esc(c.talking)+' talking':c.online.length+' online')+(c.last?' · last '+ago(c.last):'')+'</small><div style="font-size:11px;color:#7ad">'+c.online.map(esc).join(', ')+'</div></div>'}).join('')||'<span class=hint>No channels</span>';
- $('sysInfo').innerHTML='Host '+esc(s.host)+' · '+s.ips.map(function(i){return 'http://'+i+':'+s.port}).join(' · ')+'<br>http://'+esc(s.host)+'.local:'+s.port+' · up '+Math.round(s.uptime/60)+' min · '+s.stats.emails+' emails'}).catch(function(){$('ledNet').classList.remove('on');$('lMain').textContent='PI OFFLINE'})}
-var lastFeed='';function loadFeed(){get('/api/feed').then(function(f){var j=JSON.stringify(f);if(j==lastFeed)return;lastFeed=j;$('feed').innerHTML=f.map(function(m){return '<li class="'+(m.keywords&&m.keywords.length?'kw':'')+(m.type=='sstv'?' sstv':'')+'"><div class=h><span>📻 '+esc(m.channel)+' · <b>'+esc(m.speaker)+'</b></span><span>'+esc((m.time||'').replace('T',' '))+' · '+(m.duration_s||0)+'s</span></div><div class=t>'+(m.type=='sstv'?'🖼 SSTV '+esc(m.mode||''):esc(m.text)||'<i style=color:#889>'+esc(m.status=='done'?'(no transcript)':m.status)+'</i>')+'</div>'+(m.keywords&&m.keywords.length?'<div class=pill style="background:#ff2d2d">ALERT: '+esc(m.keywords.join(', '))+'</div>':'')+(m.jpeg?'<img src="/clips/'+encodeURIComponent(m.jpeg)+'">':'')+'<div class=a><button onclick="post(\'/api/replay\',{wav:\''+esc(m.wav)+'\'})">▶ PLAY ON PI</button><audio controls preload=none src="/clips/'+encodeURIComponent(m.wav)+'" style="height:26px;flex:1"></audio></div></li>'}).join('')||'<li>No messages yet – waiting for transmissions…</li>'})}
+ $('sysInfo').innerHTML='Host '+esc(s.host)+' · '+s.ips.map(function(i){return 'http://'+i+':'+s.port}).join(' · ')+'<br>http://'+esc(s.host)+'.local:'+s.port+' · '+esc(s.hw.model)+' ('+esc(s.hw.profile)+')'+(s.hw.watchdog?' · hw watchdog':'')+' · relay reconnects '+s.reconnects+' · '+s.stats.emails+' emails'}).catch(function(){$('ledNet').classList.remove('on');$('lMain').textContent='PI OFFLINE'})}
+var lastFeed='',feedCache=[];function loadFeed(){get('/api/feed').then(function(f){feedCache=f;var j=JSON.stringify(f);if(j==lastFeed)return;lastFeed=j;$('feed').innerHTML=feedHtml(f)})}
+/* ---- inputs */
+var IN={inputs:[],status:[],types:[]},EDIT=null;
+function loadInputs(){return get('/api/inputs').then(function(r){IN=r;T=r.types;renderInputs()})}
+function renderInputs(){var st={};IN.status.forEach(function(s){st[s.id]=s});var rows=[st.relay?{id:'relay',type:'relay',name:'Sanket PTT relay (main)',main:1,enabled:C.relay_enabled}:null].concat(IN.inputs).filter(Boolean);
+ $('inList').innerHTML=rows.map(function(i){var s=st[i.id]||{},tl=(T.filter(function(t){return t.type==i.type})[0]||{label:i.type}).label;return '<div class="inp'+(i.enabled?'':' off')+'"><div class=top><span><span class=pill>'+esc(tl)+'</span> <b>'+esc(i.name)+'</b> <small style=color:#9aa>'+esc(i.device||i.url||i.channel||(i.main?(C.channels||[]).filter(function(c){return c.enabled}).length+' channels':''))+'</small></span><span><small style=color:#9aa>'+esc(s.state||'')+(s.error?' · '+esc(s.error):'')+' · '+(s.clips||0)+' clips</small> '+(i.main?'<button onclick="show(\'channels\')">CHANNELS</button>':'<button onclick="editInput(\''+esc(i.id)+'\')">EDIT</button>')+' <label style="display:inline-flex;gap:4px;align-items:center;font-size:11px"><input type=checkbox '+(i.enabled?'checked':'')+' onchange="enInput(\''+esc(i.id)+'\',this.checked)">ON</label></span></div>'+
+ '<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><small style="width:60px;color:#9aa">LEVEL</small><div style=flex:1 id="lv_'+esc(i.id)+'">'+meter(s.level||-90,i.type!='relay'?i.vox_threshold:null)+'</div><small id="lvt_'+esc(i.id)+'" style="width:60px;text-align:right">'+(s.level||-90)+' dB</small></div>'+(i.forward?'<div class=hint>➜ forwards to relay channel '+esc(i.forward_channel||'(first enabled)')+'</div>':'')+'</div>'}).join('')}
+function enInput(id,on){if(id=='relay')return save({relay_enabled:on}).then(loadInputs);var i=IN.inputs.filter(function(x){return x.id==id})[0];i.enabled=on;post('/api/inputs',i).then(loadInputs)}
+function editInput(id){EDIT=id?JSON.parse(JSON.stringify(IN.inputs.filter(function(x){return x.id==id})[0])):{type:'usb',name:'',enabled:true,vox_threshold:-40,vox_hang_s:1.2,gain:1,forward:false};
+ $('inType').innerHTML=T.map(function(t){return '<option value="'+t.type+'">'+esc(t.label)+'</option>'}).join('');$('inType').value=EDIT.type;$('inType').disabled=!!id;$('inEnabled').checked=EDIT.enabled!==false;$('inDel').style.display=id?'':'none';$('inTitle').textContent=id?'EDIT INPUT':'ADD INPUT';renderInForm();$('inModal').classList.add('on')}
+function renderInForm(){var t=T.filter(function(x){return x.type==$('inType').value})[0];if(!t)return;EDIT.type=t.type;
+ $('inForm').innerHTML=t.fields.map(function(f){var v=EDIT[f.k],inp;
+  if(f.type=='device'){var ds=D.inputs.filter(function(d){return t.kinds.indexOf(d.kind)>=0||(t.type=='mic'&&d.kind!='usb'&&d.kind!='bluetooth')});if(!ds.length)ds=D.inputs;if(v&&!ds.some(function(d){return d.id==v}))ds=ds.concat([{id:v,label:v+' (not found now)'}]);inp='<select data-f='+f.k+'>'+ds.map(function(d){return '<option value="'+esc(d.id)+'"'+(d.id==v?' selected':'')+'>'+esc(d.label)+'</option>'}).join('')+'</select>'}
+  else if(f.type=='broker')inp='<input data-f='+f.k+' list=brokerList value="'+esc(v||'')+'" placeholder="(from link or default)"><datalist id=brokerList>'+B.map(function(b){return '<option value="'+esc(b)+'">'}).join('')+'</datalist>';
+  else if(f.type=='check')inp='<input type=checkbox data-f='+f.k+(v?' checked':'')+'>';
+  else if(f.type=='range')inp='<span style="display:flex;gap:6px;align-items:center;max-width:60%"><input type=range data-f='+f.k+' min='+f.min+' max='+f.max+' step='+f.step+' value="'+(v!=null?v:-40)+'" oninput="this.nextSibling.textContent=this.value"><small>'+(v!=null?v:-40)+'</small></span>';
+  else inp='<input data-f='+f.k+' type='+(f.type=='number'?'number step='+(f.step||1):'text')+' value="'+esc(v==null?'':v)+'">';
+  return '<label class=f><span>'+esc(f.label)+'</span>'+inp+'</label>'}).join('')+(t.local?'<div class=hint>Clips are cut by VOX when the level goes above the threshold (white mark on the meter).</div>':'')}
+function saveInput(){document.querySelectorAll('#inForm [data-f]').forEach(function(e){var k=e.dataset.f;EDIT[k]=e.type=='checkbox'?e.checked:(e.type=='number'||e.type=='range')?+e.value:e.value});EDIT.enabled=$('inEnabled').checked;
+ if(!EDIT.name)EDIT.name=(EDIT.type+'-'+(IN.inputs.length+1));if(!EDIT.id)EDIT.id=EDIT.name.toLowerCase().replace(/[^\w-]/g,'-').slice(0,40);
+ post('/api/inputs',EDIT).then(function(r){if(r.ok){$('inModal').classList.remove('on');toast('Input saved ✓');loadInputs()}else toast(r.error||'failed')})}
+function delInput(){if(!confirm('Delete this input?'))return;post('/api/inputs',{id:EDIT.id,type:EDIT.type,_delete:true}).then(function(){$('inModal').classList.remove('on');loadInputs()})}
+function levels(){get('/api/levels').then(function(r){r.inputs.forEach(function(s){var e=$('lv_'+s.id);if(e){var i=IN.inputs.filter(function(x){return x.id==s.id})[0];e.innerHTML=meter(s.level,i&&s.type!='relay'?i.vox_threshold:null);$('lvt_'+s.id).textContent=s.level+' dB'}});
+ var o=r.levels.out;$('outMeter').style.width=Math.max(0,Math.min(100,((o==null?-90:o)+70)/70*100))+'%'})}
+/* ---- bluetooth */
+function loadBt(){get('/api/bt').then(function(r){if(!r.available){$('btList').innerHTML='bluetoothctl not available on this system';return}
+ $('btList').innerHTML=(r.powered?'':'<div>Adapter off – SCAN turns it on</div>')+(r.devices.map(function(d){return '<div style="display:flex;justify-content:space-between;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid #fff1"><span>'+(d.icon.indexOf('audio')>=0?'🔊 ':d.icon.indexOf('phone')>=0?'📱 ':'🔵 ')+'<b style=color:#fff>'+esc(d.name)+'</b> <small>'+esc(d.mac)+'</small> '+(d.connected?'<span class=pill>connected</span>':d.paired?'<span class="pill off">paired</span>':'')+'</span><span>'+(!d.paired?btn('pair',d):'')+(d.paired&&!d.connected?btn('connect',d):'')+(d.connected?btn('disconnect',d):'')+(d.paired?btn('forget',d):'')+'</span></div>'}).join('')||'No devices yet – put the speaker in pairing mode and press SCAN')})}
+function btn(a,d){return ' <button '+(a=='forget'?'class=bad ':a=='pair'?'class=pri ':'')+'onclick="btAct(\''+a+'\',\''+d.mac+'\')">'+a.toUpperCase()+'</button>'}
+function btScan(){post('/api/bt/scan',{seconds:12}).then(function(r){toast(r.ok?'Scanning 12 s…':r.error);var n=0,iv=setInterval(function(){loadBt();if(++n>6)clearInterval(iv)},2000)})}
+function btAct(a,m){toast(a+'…');post('/api/bt/action',{action:a,mac:m}).then(function(r){toast((r.ok?'✓ ':'✗ ')+(r.result||r.error));loadBt();loadDevices(1)})}
 function loadLogs(){get('/api/logs?n=400').then(function(t){var e=$('logs');e.textContent=t||'(empty)';e.scrollTop=e.scrollHeight})}
-function loadWifi(){get('/api/wifi').then(function(w){$('wifi').innerHTML='Connected to <b>'+esc(w.ssid||'(none / ethernet)')+'</b> · IP '+esc(w.ips.join(', '))+' · host '+esc(w.host)+'.local';$('wSsid').innerHTML=(w.networks||[]).map(function(n){return '<option>'+esc(n[0])+'</option>'}).join('')||'<option value="">no scan available</option>'})}
+function loadWifi(){get('/api/wifi').then(function(w){$('wifi').innerHTML='Connected to <b>'+esc(w.ssid||'(none / ethernet)')+'</b> · IP '+esc(w.ips.join(', '));$('wSsid').innerHTML=(w.networks||[]).map(function(n){return '<option>'+esc(n[0])+'</option>'}).join('')||'<option value="">no scan available</option>'})}
 function wifiJoin(){var s=$('wSsid').value;if(!s)return;toast('Connecting to '+s+'…');post('/api/wifi',{ssid:s,password:$('wPw').value}).then(function(r){toast(r.ok?'Connected ✓':'Failed: '+(r.result||r.error))})}
 function upd(){toast('Updating…');post('/api/update').then(function(r){toast(r.ok?'Updated ✓ restarting…':'Update failed: '+r.error)})}
-Promise.all([get('/api/config'),get('/api/devices')]).then(function(a){C=a[0].config;K=a[0].known;B=a[0].brokers;var d=a[1];
- $('brokerSel').innerHTML=B.map(function(b){return '<option value="'+esc(b)+'">'+esc(b.replace(/\/\/.*@/,'//'))+'</option>'}).join('');
+function loadDevices(){return get('/api/devices').then(function(d){D=d;
  $('devSel').innerHTML=d.audio.map(function(x){return '<option value="'+esc(x.id)+'">'+esc(x.label)+'</option>'}).join('');
  $('voiceSel').innerHTML=d.voices.espeak.map(function(x){return '<option value="'+esc(x.id)+'">'+esc(x.label)+'</option>'}).join('');
- $('piperSel').innerHTML='<option value="">(none)</option>'+d.voices.piper.map(function(x){return '<option value="'+esc(x)+'">'+esc(x.split('/').pop())+'</option>'}).join('');fill()});
-status();loadFeed();setInterval(status,1500);setInterval(loadFeed,2500);
+ $('piperSel').innerHTML='<option value="">(none)</option>'+d.voices.piper.map(function(x){return '<option value="'+esc(x)+'">'+esc(x.split('/').pop())+'</option>'}).join('');fill()})}
+Promise.all([get('/api/config'),loadDevices()]).then(function(a){C=a[0].config;K=a[0].known;B=a[0].brokers;
+ $('brokerSel').innerHTML=B.map(function(b){return '<option value="'+esc(b)+'">'+esc(b.replace(/\/\/.*@/,'//'))+'</option>'}).join('');fill();loadInputs();var h=location.hash.slice(1);if(h)show(h)});
+status();loadFeed();dash();setInterval(status,1500);setInterval(loadFeed,2500);setInterval(function(){if(VIEW=='home')dash()},3000);setInterval(function(){if(VIEW=='inputs'||VIEW=='audio')levels()},400);
 </script></body></html>
