@@ -1,7 +1,8 @@
 import os, sqlite3, threading, time, wave
 SCHEMA = """create table if not exists seg(id integer primary key, channel text, speaker_id text,
 speaker text, t_start real, t_end real, wav text, status text, engine text, lang text, text text);
-create index if not exists seg_t on seg(t_start);"""
+create index if not exists seg_t on seg(t_start);
+create table if not exists audit(id integer primary key, t real, ip text, action text, detail text);"""
 class Store:
     def __init__(self, data_dir, rate):
         self.dir, self.rate = data_dir, rate
@@ -12,6 +13,15 @@ class Store:
             try: self.db.execute("alter table seg add column " + col)
             except sqlite3.OperationalError: pass
         self.db.commit()
+    def audit(self, ip, action, detail=""):
+        """security log: admin actions + key changes. Never pass secrets in detail."""
+        with self.lock:
+            self.db.execute("insert into audit(t,ip,action,detail) values(?,?,?,?)", (time.time(), str(ip)[:64], action, str(detail)[:300]))
+            self.db.commit()
+    def audit_log(self, limit=200):
+        with self.lock:
+            rows = self.db.execute("select t,ip,action,detail from audit order by id desc limit ?", (limit,)).fetchall()
+        return [dict(zip(("t", "ip", "action", "detail"), r)) for r in rows]
     def save(self, st):
         pcm = st.samples(); dur = len(pcm) / self.rate
         t_end = st.t0 + dur

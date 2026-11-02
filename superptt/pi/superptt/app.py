@@ -6,6 +6,7 @@ from .stt import STT
 from .mixer import Mixer
 from .web import serve
 from .retention import Retention
+from .e2e import KeyStore
 from . import VERSION
 
 class App:
@@ -16,7 +17,8 @@ class App:
         self.stt = STT(self.cfg, self.store)
         self.mixer = Mixer(self.cfg)
         self.retention = Retention(self.cfg, self.store)
-        self.ingest = Ingest(self.cfg, self.on_segment, self.mixer.feed)
+        self.keys = KeyStore(os.path.join(self.cfg["data_dir"], "keys.json"))
+        self.ingest = Ingest(self.cfg, self.on_segment, self.mixer.feed, self.keys)
     def on_segment(self, st):
         sid, pcm, dur = self.store.save(st)
         logging.info("segment %s %s/%s %.1fs", sid, st.ch, st.name, dur)

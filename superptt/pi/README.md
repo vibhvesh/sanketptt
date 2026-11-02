@@ -65,3 +65,8 @@ The browser mic needs a secure origin: use the tunnel HTTPS URL or `http://local
 API: `POST /api/tx/start {channels:[..]|"all", cutin}` → `{ok,busy}`, `POST /api/tx/audio` (raw Int16LE 12 kHz), `POST /api/tx/stop`. It auto-stops after 3 s without audio.
 Cut-in uses `prio 9` + earliest timestamp: SuperPTT clients stop transmitting and show "cut in"; legacy Sanket clients switch their floor to the control room.
 `/api/directory` sends CORS `*` (token-only, no cookies), so the GitHub-Pages app can load channels.
+
+## Encryption, private broker, security log
+- Console → **Channel encryption**: add / rotate / remove AES-256-GCM keys per channel, then **Invite / QR** for phones. Keys live in `data/keys.json` (600) and are never sent via the broker.
+- `install.sh --private-broker` (or `curl … | bash -s -- --private-broker`, `BROKER_USERS="unit1 unit2"`) installs Mosquitto with logins + ACL behind Cloudflare. Console → **Broker** to change it.
+- Console → **Security log**: admin actions and key changes. See `../SECURITY.md`.

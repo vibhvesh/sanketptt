@@ -2,7 +2,7 @@
 <title>SuperPTT Control Room</title>
 <style>body{background:#0b1015;color:#cfe;font:14px system-ui;margin:0}header{padding:10px 14px;background:#111b24;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .grid{display:grid;grid-template-columns:320px 1fr;gap:10px;padding:10px}.p{background:#121c26;border-radius:8px;padding:10px;margin-bottom:10px}
-.ch{display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #223}.tx{color:#f55;font-weight:bold}.ov{color:#fc3}.cl{color:#6cf;font-weight:bold}
+.ch{display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #223}.tx{color:#f55;font-weight:bold}.ov{color:#fc3}.cl{color:#6cf;font-weight:bold}.lock{color:#2ecc71}.open{color:#f93}
 .seg{padding:6px;border-bottom:1px solid #223}.seg.ovl{border-left:3px solid #fc3}.m{color:#789;font-size:12px}
 button,select,input{background:#1d2d3c;color:#cfe;border:1px solid #345;border-radius:4px;padding:4px 8px}
 #gate{position:fixed;inset:0;background:#0b1015ee;display:none;align-items:center;justify-content:center}#gate div{background:#121c26;padding:24px;border-radius:10px;min-width:280px}
@@ -25,11 +25,23 @@ a{color:#6cf}label{display:block;margin:4px 0}</style>
 <label>Audio days <input id=ra type=number min=0 style=width:70px></label><label>Transcript days <input id=rt type=number min=0 style=width:70px></label>
 <label>Min free disk % <input id=rf type=number min=1 max=50 style=width:70px></label>
 <button id=rsave>Save</button> <button id=rrun>Clean up now</button><div id=rlast class=m></div></div>
+<div class=p><h3>🔒 Channel encryption (E2E)</h3>
+<div class=m>AES-256-GCM per channel. Keys stay on this Pi and go to phones only by QR / invite link (key in the # part, never via the broker).</div>
+<div id=keys></div>
+<label>Channel <input id=kch placeholder="ops" size=10></label><label><input type=checkbox id=khide> hide channel name on the broker (HMAC topic)</label>
+<button id=kadd>Add key</button>
+<div id=inv class=m style=word-break:break-all></div></div>
+<div class=p><h3>Broker</h3><div class=m>Default: public brokers. Private: install with <code>--private-broker</code>.</div>
+<label>Control-room broker URL <input id=burl size=26 placeholder="ws://127.0.0.1:9001"></label>
+<label>User <input id=buser size=12> Password <input id=bpass type=password size=12 placeholder="(unchanged)"></label>
+<label>URL for phones <input id=bcli size=26 placeholder="wss://mqtt.example.com (auto for quick tunnel)"></label>
+<button id=bsave>Save &amp; reconnect</button><div id=bst class=m></div></div>
+<div class=p><h3>Security log</h3><div id=audit class=m style="max-height:220px;overflow:auto"></div></div>
 <div class=p><h3>Access</h3><div id=acc class=m></div><button id=tok>Show tokens</button><div id=toks class=m style=word-break:break-all></div></div>
 </div><div class=p><h3>Merged transcript (time-ordered, all channels)</h3><div id=tl></div></div></div>
 <script>
 const $=id=>document.getElementById(id),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let sel=new Set(),authed=false,init=false;
+let sel=new Set(),authed=false,init=false,binit=false;
 function api(u,b){return fetch(u,b===undefined?{credentials:'same-origin'}:{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-Requested-With':'superptt'},body:JSON.stringify(b)}).then(r=>{if(r.status==401){gate();throw 'auth'}return r.json()})}
 function gate(){authed=false;fetch('/api/session').then(r=>r.json()).then(s=>{if(s.auth){authed=true;$('gate').style.display='none';return}
  $('gate').style.display='flex';const setup=!s.pin_set;$('gt').textContent=setup?'First run: set admin PIN':'Login';
@@ -58,7 +70,13 @@ function tick(){if(!authed)return;api('/api/status').then(s=>{
  $('acc').textContent=(s.via_tunnel?'You are connected via the tunnel (HTTPS).':'You are on the local network.')+' Session '+s.config.session_hours+' h.';
  if(document.activeElement!==$('mode'))$('mode').value=s.output.mode;sel=new Set(s.output.channels);
  $('chs').innerHTML=s.channels.map(c=>`<div class=ch><label style=margin:0><input type=checkbox data-ch="${e(c.channel)}" ${sel.has(c.channel)?'checked':''}> ${e(c.channel)}</label>
- <span>${c.talking.length?`<span class="${c.overlap?'ov':'tx'}">TX ${e(c.talking.join(' + '))}</span>`:''} <span class=m>${c.users.length} on · P${c.priority}</span></span></div>`).join('')}).catch(()=>{});
+ <span>${c.talking.length?`<span class="${c.overlap?'ov':'tx'}">TX ${e(c.talking.join(' + '))}</span>`:''} <span class=m>${c.users.length} on · P${c.priority}</span> ${c.encrypted?`<span class=lock title="E2E AES-256-GCM, key ${c.encrypted.kid}">🔒</span>`:'<span class=open title="not encrypted">⚠ not encrypted</span>'}</span></div>`).join('');
+ if(!binit){binit=true;$('burl').value=s.config.broker_url;$('buser').value=s.config.broker_user||'';$('bcli').value=s.config.client_broker_url||''}
+ $('bst').textContent='Phones use: '+(s.client_broker_url||'(waiting for broker tunnel)')+(s.config.broker_user?' · login required':'');
+ const st=s.e2e,rej=Object.keys(st).filter(k=>k!=='ok'&&st[k]).map(k=>k+' '+st[k]).join(', ');
+ $('keys').innerHTML=(s.keys.length?s.keys.map(k=>`<div class=ch><span class=lock>🔒 <b>${e(k.channel)}</b> <span class=m>key #${k.kid} · fp ${e(k.fingerprint)}${k.hide?' · hidden topic':''}</span></span>
+ <span><button data-inv="${e(k.channel)}">Invite / QR</button> <button data-rot="${e(k.channel)}">Rotate</button> <button data-rm="${e(k.channel)}">Remove</button></span></div>`).join(''):'<div class=m>No encrypted channels yet.</div>')
+  +`<div class=m>Decrypted ${st.ok} packets${rej?' · rejected: '+e(rej):''}</div>`}).catch(()=>{});
  api('/api/timeline?since='+(Date.now()/1000-86400)).then(t=>{$('tl').innerHTML=t.slice(-150).reverse().map(x=>`<div class="seg ${x.overlaps.length?'ovl':''}">
  <div class=m>${new Date(x.t_start*1000).toLocaleTimeString()} · <b>${e(x.channel)}</b> · ${e(x.speaker)} · ${(x.t_end-x.t_start).toFixed(1)}s ${x.overlaps.length?'· ⟂ overlaps '+x.overlaps.length:''} · ${e(x.lang||'')}
  <span class=${x.route==='cloud'?'cl':'m'}>${x.route==='cloud'?'☁ CLOUD':'⌂ LOCAL'}</span> ${e(x.engine||'')}${x.cloud_state&&x.cloud_state!=='done'?' · cloud '+e(x.cloud_state)+' ('+e(x.cloud_reason)+')':x.cloud_reason?' ('+e(x.cloud_reason)+')':''} · ${e(x.status)}</div>
@@ -84,5 +102,18 @@ $('tb').addEventListener('pointerdown',e=>{e.preventDefault();$('tb').setPointer
 ['pointerup','pointercancel','lostpointercapture'].forEach(x=>$('tb').addEventListener(x,tbUp));
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&e.target.tagName!=='INPUT'){e.preventDefault();tbDown()}});
 document.addEventListener('keyup',e=>{if(e.code==='Space')tbUp()});
+// ---- keys / broker / audit ----
+const kreq=b=>api('/api/keys',b).then(r=>{if(r.error)alert(r.error);tick();aud()});
+$('kadd').onclick=()=>{const c=$('kch').value.trim().toLowerCase();if(c)kreq({channel:c,action:'add',hide:$('khide').checked});$('kch').value=''};
+$('keys').addEventListener('click',ev=>{const t=ev.target.dataset;
+ if(t.rot&&confirm('Rotate key for '+t.rot+'? Every phone needs the new invite.'))kreq({channel:t.rot,action:'rotate'});
+ if(t.rm&&confirm('Remove key? '+t.rm+' becomes NOT encrypted.'))kreq({channel:t.rm,action:'remove'});
+ if(t.inv)api('/api/keys/invite',{channels:[t.inv]}).then(r=>{if(r.error)return alert(r.error);
+  $('inv').innerHTML=(r.qr_svg||'(install python3-qrcode for a QR)')+'<div>Scan with the phone camera, or send this link over a private channel (it contains the key):</div><input readonly style=width:100% value="'+e(r.link)+'"> <button id=invhide>Hide</button>';
+  $('invhide').onclick=()=>$('inv').innerHTML='';aud()})});
+$('bsave').onclick=()=>api('/api/broker',{broker_url:$('burl').value.trim(),broker_user:$('buser').value.trim(),broker_pass:$('bpass').value,client_broker_url:$('bcli').value.trim()})
+ .then(r=>{$('bpass').value='';$('bst').textContent=r.error||'Saved, reconnecting…';aud()});
+function aud(){if(authed)api('/api/audit?limit=100').then(a=>{$('audit').innerHTML=a.map(x=>`<div>${new Date(x.t*1000).toLocaleString()} · <b>${e(x.action)}</b> ${e(x.detail)} <span class=m>${e(x.ip)}</span></div>`).join('')}).catch(()=>{})}
+setInterval(aud,10000);setTimeout(aud,600);
 gate();setInterval(tick,2000);setInterval(stor,30000);setTimeout(stor,500);
 </script>

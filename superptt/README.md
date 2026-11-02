@@ -25,3 +25,8 @@ Runs 3 SuperPTT clients plus 1 legacy Sanket PTT client plus the control room (m
 
 ## Files
 `superptt.js` protocol core + mixer (browser & Node) · `app.js` UI/audio · `index.html` · `sw.js` · `manifest.json` · icons.
+
+## Encryption (opt-in per channel)
+Channels without a key behave exactly as before (marked ⚠ not encrypted). The control-room admin adds a key under Console → Channel encryption.
+**Invite / QR** shows a QR code and a link `https://vibhvesh.github.io/sanketptt/superptt/#k=…`. Scan it or open it on the phone, then Connect. The channel shows 🔒 E2E.
+Custom/private broker: Setup → Broker (URL, username, password). Details: `../SECURITY.md`. Offline crypto test: `node test/crypto.js`.

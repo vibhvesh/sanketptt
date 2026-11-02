@@ -2,6 +2,10 @@ import json, os, copy
 PREFIX = "ptt-radio-66ab9178/"
 DEFAULTS = {
     "broker_url": "wss://public:public@public.cloud.shiftr.io",
+    "broker_user": "",              # private broker (install.sh --private-broker): control-room login
+    "broker_pass": "",              # never returned by the API
+    "client_broker_url": "",        # broker URL handed to phones (no credentials), e.g. wss://mqtt.example.com
+    "app_url": "https://vibhvesh.github.io/sanketptt/superptt/",   # base of invite links
     "prefix": PREFIX,
     "listen_all": True,          # auto-discover every channel seen via presence
     "channels": ["virtual"],     # always monitored
@@ -63,6 +67,7 @@ class Config:
                 json.dump(self.d, f, indent=2)
             os.replace(tmp, self.path)
     def __getitem__(self, k): return self.d[k]
+    def get(self, k, d=None): return self.d.get(k, d)
     def public(self):
-        x = copy.deepcopy(self.d); x.pop("admin_pin", None); x.pop("worker_token", None); x.pop("directory_token", None)
+        x = copy.deepcopy(self.d); x.pop("admin_pin", None); x.pop("worker_token", None); x.pop("directory_token", None); x["broker_pass"] = "***" if x.get("broker_pass") else ""
         x["cloud"]["api_key"] = "***" if x["cloud"].get("api_key") else ""; from .cloud import api_key; x["cloud"]["key_set"] = bool(api_key(self.d["cloud"])); x["cloud"]["key_source"] = "config" if self.d["cloud"].get("api_key") else ("env" if x["cloud"]["key_set"] else ""); x["pin_set"] = bool(self.d["admin_pin"]); return x

@@ -13,7 +13,7 @@ button,input,select{background:#1d2d3c;color:#d6f0ff;border:1px solid #345;borde
 .sel{width:22px;height:22px}.pill{font-size:11px;padding:2px 6px;border-radius:8px;background:#345}.cut{background:#c0392b}
 #ptt{width:100%;height:120px;border-radius:60px;font-size:22px;font-weight:800;letter-spacing:2px;background:#1e5631;border:3px solid #2ecc71;color:#fff;touch-action:none}
 #ptt.on{background:#a81d1d;border-color:#ff6b6b}#ptt.busy{background:#6b5200;border-color:#ffcc00}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.m{font-size:12px;color:#789}#log li{font-size:13px;margin:3px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.m{font-size:12px;color:#789}#log li{font-size:13px;margin:3px 0}.lock{color:#2ecc71;font-size:12px}.open{color:#f93;font-size:12px}.nokey{color:#f66;font-size:12px}
 .hide{display:none}label{font-size:13px}
 </style>
 <header><b>SUPER·PTT</b><span id=me class=pill></span><span id=net>offline</span><button id=gear>⚙</button></header>
@@ -23,6 +23,10 @@ button,input,select{background:#1d2d3c;color:#d6f0ff;border:1px solid #345;borde
  <p class=m>Connect to a control room (admin URL + directory token) to load all channels, or type channels manually.</p>
  <div class=row><input id=admin placeholder="https://control-room URL" style=flex:1><input id=dtok placeholder="directory token" style=width:150px></div>
  <div class=row style=margin-top:6px><input id=manual placeholder="manual channels: virtual, master" style=flex:1><label><input type=checkbox id=disc> discover active channels</label></div>
+ <details style=margin-top:6px><summary class=m>Broker (default: public brokers)</summary>
+ <div class=row style=margin-top:4px><input id=burl placeholder="wss://your-private-broker (empty = public)" style=flex:1></div>
+ <div class=row style=margin-top:4px><input id=buser placeholder="username" style=width:120px autocomplete=username><input id=bpass type=password placeholder="password" style=width:120px autocomplete=current-password></div></details>
+ <p class=m id=keyinfo></p>
  <div class=row style=margin-top:6px><button id=go>Connect</button><span id=serr class=m></span></div>
 </div>
 <div class=card><div class=row style="justify-content:space-between"><b>Channels</b>

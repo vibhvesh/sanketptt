@@ -5,8 +5,18 @@
   var q = new URLSearchParams(location.search);            // deep link: ?admin=..&t=..&name=..
   if (q.get('admin')) { cfg.admin = q.get('admin'); cfg.dtok = q.get('t') || ''; }
   if (q.get('name')) cfg.name = q.get('name');
+  // invite link: #k=<ch>.<kid>.<secret>[.h]&b=<broker>. The fragment never reaches any server; we store it locally and wipe it from the URL.
+  cfg.keys = cfg.keys || {};
+  var inv = SuperPTT.E2E.parseInvite(location.hash), invited = [];
+  if (inv.keys.length) {
+    inv.keys.forEach(function (k) { cfg.keys[k.ch] = { kid: k.kid, s: k.secret, hide: k.hide }; invited.push(k.ch);
+      var m = (cfg.manual || '').split(/[\s,]+/).filter(Boolean); if (m.indexOf(k.ch) < 0) { m.push(k.ch); cfg.manual = m.join(', '); } });
+    if (inv.broker) cfg.burl = inv.broker;
+    history.replaceState(null, '', location.pathname + location.search);
+  }
   var cl = null, mix = new SuperPTT.Mixer({ chanInfo: function (ch) { var C = cl && cl.ch[ch]; return C ? { vol: C.vol, muted: C.muted, prio: C.prio + (ch === cfg.tx ? 0.5 : 0) } : { vol: 1 }; } });
   var allSel = new Set(cfg.allsel || []), state = [], talking = false, ac, micStream, proc, outNode;
+  var dirEnc = {}, rejects = {};
   function save() { cfg.allsel = Array.from(allSel); LS.superptt = JSON.stringify(cfg); }
   function log(s) { var li = document.createElement('li'); li.textContent = new Date().toLocaleTimeString() + '  ' + s; $('log').prepend(li); while ($('log').children.length > 40) $('log').lastChild.remove(); }
 
@@ -38,28 +48,36 @@
   // ---------- connect ----------
   function start(chs, brokerUrl, prefix, prioMap) {
     if (cl) cl.close();
-    cl = new SuperPTT.Client(window.mqtt, { name: cfg.name, prefix: prefix, brokers: brokerUrl ? [brokerUrl].concat(SuperPTT.BROKERS.filter(function (b) { return b !== brokerUrl; })) : null,
+    brokerUrl = cfg.burl || brokerUrl;
+    var priv = !!(cfg.burl && cfg.buser);   // private broker with login: don't fall back to public brokers
+    cl = new SuperPTT.Client(window.mqtt, { name: cfg.name, prefix: prefix, username: cfg.buser || undefined, password: cfg.bpass || undefined,
+      brokers: brokerUrl ? (priv ? [brokerUrl] : [brokerUrl].concat(SuperPTT.BROKERS.filter(function (b) { return b !== brokerUrl; }))) : null,
       discover: !!cfg.disc, on: onEv });
-    chs.forEach(function (c) { cl.join(c, { prio: (prioMap || {})[c] || 0 }); });
+    // keys first, then join (an encrypted channel never sends a plaintext packet)
+    Promise.all(Object.keys(cfg.keys).map(function (c) { var k = cfg.keys[c]; return cl.setKey(c, k.s, k.kid, k.hide).catch(function () { log('bad key for ' + c); }); }))
+      .then(function () { chs.forEach(function (c) { cl.join(c, { prio: (prioMap || {})[c] || 0 }); }); });
     if (!cfg.tx || chs.indexOf(cfg.tx) < 0) cfg.tx = chs[0]; save();
     $('me').textContent = cfg.name; $('setup').classList.add('hide'); render();
   }
   function onEv(t, v) {
     if (t === 'state') { state = v; render(); }
     else if (t === 'audio') { mix.feed(v); }
+    else if (t === 'reject') { var r = rejects[v.ch] = rejects[v.ch] || {}; r[v.reason] = (r[v.reason] || 0) + 1;
+      if (r[v.reason] === 1) log('🔒 ' + v.ch + ': dropped ' + v.kind + ' packet (' + ({ nokey: 'encrypted, no key on this phone', wrongkey: 'key was rotated: ask for a new invite', auth: 'wrong key or tampered', replay: 'replayed', stale: 'too old / clock wrong', plain: 'unencrypted packet on encrypted channel' }[v.reason] || v.reason) + ')'); }
     else if (t === 'net') { $('net').textContent = v.connected ? '● ' + v.url.replace(/^wss:\/\/([^@]*@)?/, '').split('/')[0] : '○ reconnecting'; }
     else if (t === 'discover') { if (!cl.ch[v]) { cl.join(v, { muted: true }); log('discovered channel ' + v + ' (muted)'); } }
     else if (t === 'preempted') { log('⚠ ' + v.by + ' cut in on ' + v.ch); if (!cl.txSet.length) stopTx(); $('pst').textContent = 'Cut in by ' + v.by + ' on ' + v.ch; }
   }
   function connect() {
     cfg.name = ($('name').value || cfg.name || '').trim(); cfg.admin = $('admin').value.trim(); cfg.dtok = $('dtok').value.trim();
-    cfg.manual = $('manual').value; cfg.disc = $('disc').checked; save();
+    cfg.manual = $('manual').value; cfg.disc = $('disc').checked;
+    cfg.burl = $('burl').value.trim(); cfg.buser = $('buser').value.trim(); cfg.bpass = $('bpass').value; save();
     if (!cfg.name) { $('serr').textContent = 'Enter your name'; return; }
     var manual = (cfg.manual || '').split(/[\s,]+/).map(function (s) { return s.toLowerCase(); }).filter(Boolean);
     if (cfg.admin) {
       $('serr').textContent = 'Loading channels…';
       SuperPTT.fetchDirectory(cfg.admin, cfg.dtok).then(function (d) {
-        var chs = d.channels.map(function (c) { return c.id; }), pm = {}; d.channels.forEach(function (c) { pm[c.id] = c.priority || 0; });
+        var chs = d.channels.map(function (c) { return c.id; }), pm = {}; d.channels.forEach(function (c) { pm[c.id] = c.priority || 0; dirEnc[c.id] = c.encrypted; });
         manual.forEach(function (m) { if (chs.indexOf(m) < 0) chs.push(m); });
         log('control room: ' + chs.length + ' channels'); start(chs, d.broker_url, d.prefix, pm);
       }).catch(function (e) { $('serr').textContent = 'Control room unreachable (' + e.message + '), using manual list'; start(manual.length ? manual : ['virtual']); });
@@ -73,12 +91,18 @@
       var who = c.talkers.length ? '<span class="' + (c.overlap ? 'ov' : 't') + '">🔊 ' + esc(c.talkers.join(' + ')) + (c.overlap ? ' (overlap)' : '') + '</span>'
         : f ? '<span class=t>' + (f.mine ? 'YOU' : esc(f.name)) + (f.prio >= SuperPTT.CUTIN_PRIO ? ' <span class="pill cut">CUT-IN</span>' : '') + '</span>' : c.users.length + ' online';
       return '<div class="' + cls + '" data-ch="' + esc(c.name) + '"><input type=checkbox class=sel data-sel="' + esc(c.name) + '"' + (allSel.has(c.name) ? ' checked' : '') + '>' +
-        '<div><div class=nm>' + esc(c.name) + (c.prio ? ' <span class=pill>P' + c.prio + '</span>' : '') + '</div><div class=who>' + who + '</div></div>' +
+        '<div><div class=nm>' + esc(c.name) + (c.prio ? ' <span class=pill>P' + c.prio + '</span>' : '') + ' ' + lockTag(c) + '</div><div class=who>' + who + '</div></div>' +
         '<button data-mute="' + esc(c.name) + '">' + (c.muted ? '🔇' : '🔈') + '</button><input type=range min=0 max=1.5 step=0.05 value="' + c.vol + '" data-vol="' + esc(c.name) + '"></div>';
     }).join('');
     var anyBusy = state.some(function (c) { return c.name === cfg.tx && c.floor && !c.floor.mine; });
     $('ptt').className = talking ? 'on' : anyBusy && !$('allcall').checked ? 'busy' : '';
     $('ptt').textContent = talking ? 'TRANSMITTING' : anyBusy && !$('allcall').checked ? 'CHANNEL BUSY' : 'PUSH TO TALK';
+  }
+  function lockTag(c) {
+    if (c.enc) { var r = rejects[c.name] || {}, bad = r.auth || r.wrongkey;
+      return '<span class=lock title="end-to-end encrypted, AES-256-GCM">🔒 E2E' + (c.enc.hide ? ' · hidden' : '') + '</span>' + (bad ? ' <span class=nokey>key mismatch?</span>' : ''); }
+    if (dirEnc[c.name] || (rejects[c.name] && rejects[c.name].nokey)) return '<span class=nokey>🔒 key needed – scan the invite QR</span>';
+    return '<span class=open>⚠ not encrypted</span>';
   }
   $('chs').addEventListener('click', function (e) {
     var t = e.target;
@@ -121,6 +145,9 @@
   window.SuperPTTHardware = { down: startTx, up: stopTx };
   // boot
   $('name').value = cfg.name || ''; $('admin').value = cfg.admin || ''; $('dtok').value = cfg.dtok || ''; $('manual').value = cfg.manual || ''; $('disc').checked = !!cfg.disc;
+  $('burl').value = cfg.burl || ''; $('buser').value = cfg.buser || ''; $('bpass').value = cfg.bpass || '';
+  $('keyinfo').textContent = Object.keys(cfg.keys).length ? '🔒 keys on this phone: ' + Object.keys(cfg.keys).join(', ') : 'No channel keys yet: open the invite link / scan the QR from the control room.';
+  if (invited.length) { log('🔒 key added for ' + invited.join(', ') + ' (from invite link)'); save(); }
   if (cfg.name && (cfg.admin || cfg.manual)) { connect(); document.addEventListener('pointerdown', audioInit, { once: true }); }
   else $('setup').classList.remove('hide');
   window.addEventListener('beforeunload', function () { if (cl) cl.close(); });
