@@ -10,10 +10,10 @@ jobs:
     environment: {name: github-pages, url: "${{ steps.d.outputs.page_url }}"}
     steps:
       - uses: actions/checkout@v4
-      - name: Stage site (exclude android/, pi/, APKs, build output)
+      - name: Stage site (exclude android/, APKs, build output)
         run: |
           mkdir _site
-          rsync -a --exclude='.git*' --exclude='_site' --exclude='android' --exclude='pi' --exclude='*.apk' --exclude='node_modules' --exclude='build' ./ _site/
+          rsync -a --exclude='.git*' --exclude='_site' --exclude='android' --exclude='*.apk' --exclude='node_modules' --exclude='build' ./ _site/
           touch _site/.nojekyll
           du -sh _site
       - uses: actions/upload-pages-artifact@v3

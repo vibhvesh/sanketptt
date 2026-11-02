@@ -1,0 +1,147 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Sanket PTT · Pi Listener</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Share+Tech+Mono&display=swap" rel=stylesheet>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Share Tech Mono',ui-monospace,monospace;color:#eee;background:radial-gradient(circle at 15% 10%,#ff3d7f 0,transparent 40%),radial-gradient(circle at 90% 20%,#ffb800 0,transparent 35%),radial-gradient(circle at 50% 100%,#00c2ff 0,transparent 45%),linear-gradient(135deg,#2b0a5e,#0b1e4a 60%,#062a2a);background-attachment:fixed;padding:14px}
+.rig{max-width:980px;margin:0 auto;background:linear-gradient(180deg,#3a3f47,#1d2026);border-radius:22px;padding:16px;box-shadow:0 20px 50px #0009,inset 0 2px 0 #fff3,inset 0 -3px 0 #0006;border:2px solid #555b66;position:relative}
+.rig:before,.rig:after{content:'';position:absolute;top:10px;width:10px;height:10px;border-radius:50%;background:radial-gradient(#999,#333)}.rig:before{left:10px}.rig:after{right:10px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding:0 10px}
+.brand h1{font-family:Orbitron,sans-serif;font-size:clamp(16px,4vw,24px);margin:0;letter-spacing:2px;background:linear-gradient(90deg,#ffd23f,#ff7a18,#ff3d7f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand small{display:block;color:#9aa;font-size:11px;letter-spacing:3px}
+.leds{display:flex;gap:12px;font-size:11px}.led{display:flex;flex-direction:column;align-items:center;gap:3px;color:#aaa}
+.led i{width:14px;height:14px;border-radius:50%;background:#333;box-shadow:inset 0 1px 3px #000}
+.led.on.rx i{background:#39ff88;box-shadow:0 0 12px #39ff88}.led.on.pw i{background:#ffb800;box-shadow:0 0 10px #ffb800}#ledNet.on i{background:#39ff88;box-shadow:0 0 12px #39ff88}.led.on.tx i{background:#ff2d2d;box-shadow:0 0 12px #ff2d2d}
+.lcd{background:linear-gradient(180deg,#0f2a1a,#08180f);border-radius:10px;padding:10px 14px;border:3px solid #111;box-shadow:inset 0 0 20px #000,0 0 18px #39ff8833;color:#39ff88;text-shadow:0 0 8px #39ff88}
+.lcd .row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;opacity:.9}
+.freq{font-family:Orbitron,sans-serif;font-weight:800;font-size:clamp(22px,6vw,38px);letter-spacing:3px;text-align:center;margin:6px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs{display:flex;gap:6px;margin:14px 0 0;flex-wrap:wrap}
+.tabs button{flex:1;min-width:90px}
+button{font-family:Orbitron,sans-serif;font-size:11px;letter-spacing:1px;padding:9px 12px;border-radius:10px;border:1px solid #fff2;color:#fff;background:linear-gradient(180deg,#4a515c,#2a2f37);cursor:pointer;box-shadow:0 3px 0 #0008}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #0008}
+button.sel,button.pri{background:linear-gradient(135deg,#ff7a18,#ff3d7f)}button.ok{background:linear-gradient(135deg,#00c2ff,#7a5cff)}button.bad{background:linear-gradient(135deg,#ff2d2d,#a0002a)}
+.panel{margin-top:14px;background:#0005;border-radius:12px;padding:12px;border:1px solid #fff1}
+.panel h3{margin:0 0 10px;font-family:Orbitron,sans-serif;font-size:12px;letter-spacing:2px;color:#ffd23f;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.feed{list-style:none;margin:0;padding:0;max-height:520px;overflow:auto}
+.feed li{background:#0006;border-left:4px solid #00c2ff;border-radius:8px;padding:8px 10px;margin-bottom:8px}
+.feed li.kw{border-color:#ff2d2d;box-shadow:0 0 12px #ff2d2d55}.feed li.sstv{border-color:#ffb800}
+.feed .h{display:flex;justify-content:space-between;font-size:12px;color:#9cf}.feed .t{margin-top:4px;font-size:14px;color:#fff}
+.feed img{max-width:100%;border-radius:6px;margin-top:6px}.feed .a{display:flex;gap:6px;margin-top:6px}.feed .a button{padding:4px 8px;font-size:10px}
+.pill{display:inline-block;font-family:Orbitron,sans-serif;font-size:10px;padding:3px 8px;border-radius:999px;background:linear-gradient(135deg,#00c2ff,#7a5cff);margin:2px;text-transform:uppercase}
+.pill.tk{background:linear-gradient(135deg,#ff2d2d,#ff3d7f);animation:p 1s infinite}.pill.off{background:#333;color:#888}@keyframes p{50%{opacity:.5}}
+table{width:100%;border-collapse:collapse;font-size:13px}td{padding:6px 4px;border-bottom:1px solid #fff1;vertical-align:middle}
+label.f{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #fff1;font-size:13px}
+label.f span{color:#ccd}label.f small{display:block;color:#889;font-size:11px}
+input,select{font-family:inherit;font-size:13px;background:#08180f;color:#39ff88;border:1px solid #2a4;border-radius:8px;padding:6px 8px;max-width:60%}
+input[type=checkbox]{width:20px;height:20px;accent-color:#ff7a18}input[type=range]{accent-color:#ffd23f}
+pre{background:#000;color:#39ff88;font-size:11px;padding:10px;border-radius:8px;max-height:460px;overflow:auto;white-space:pre-wrap}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.hint{font-size:11px;color:#9aa;margin-top:6px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#000c;color:#ffd23f;padding:10px 16px;border-radius:10px;display:none;font-size:13px}
+.view{display:none}.view.on{display:block}
+</style></head><body><div class=rig>
+<div class=brand><div><h1>SANKET PTT</h1><small>PI LISTENER · RECEIVE ONLY</small></div>
+<div class=leds><div class="led pw on"><i></i>PWR</div><div class=led id=ledNet><i></i>NET</div><div class="led rx" id=ledRx><i></i>RX</div></div></div>
+<div class=lcd><div class=row><span id=lName>—</span><span id=lBroker>—</span></div>
+<div class=freq id=lMain>CONNECTING…</div>
+<div class=row><span id=lCh>—</span><span id=lStt>—</span><span id=lStats>—</span></div></div>
+<div class=tabs><button data-v=live class=sel>LIVE</button><button data-v=channels>CHANNELS</button><button data-v=audio>AUDIO &amp; VOICE</button><button data-v=alerts>ALERTS</button><button data-v=system>SYSTEM</button></div>
+
+<div class="view on" id=v-live><div class=grid>
+ <div class=panel><h3>LIVE FEED <button onclick="post('/api/clear_feed').then(loadFeed)">CLEAR</button></h3><ul class=feed id=feed></ul></div>
+ <div><div class=panel><h3>CHANNELS <span id=chCount class=pill>0</span></h3><div id=chLive></div></div>
+ <div class=panel><h3>QUICK</h3><div class=bar><button class=pri onclick="testAnn()">🔊 TEST ANNOUNCEMENT</button><button onclick="toggle('announce')" id=qAnn>ANNOUNCE</button><button onclick="toggle('transcribe')" id=qStt>TRANSCRIBE</button></div>
+ <label class=f><span>Volume <small id=qVolV></small></span><input type=range min=0 max=150 id=qVol oninput="qVolV.textContent=this.value+'%'" onchange="save({volume:+this.value})"></label></div></div>
+</div></div>
+
+<div class=view id=v-channels><div class=panel><h3>CHANNELS / PTTs <span><button class=ok onclick="enableAll(true)">ENABLE ALL</button> <button onclick="enableAll(false)">DISABLE ALL</button></span></h3>
+ <table id=chTable></table>
+ <div class=bar><input id=newCh placeholder="channel name (as in ?ch=…)" style="max-width:none;flex:1"><button class=pri onclick="addCh()">+ ADD</button><button onclick="addKnown()">ADD ALL KNOWN</button></div>
+ <label class=f><span>Listen to every active channel<small>Also monitor any Sanket PTT channel that has people online</small></span><input type=checkbox data-k=listen_all></label>
+ <label class=f><span>Auto-add discovered channels<small>New channels seen on the relay are added to this list</small></span><input type=checkbox data-k=auto_add_discovered></label>
+ <label class=f><span>Device name<small>Shown in the PTT app's online list</small></span><input data-k=device_name placeholder="SanketPi-hostname"></label>
+ <label class=f><span>Relay (MQTT broker)<small>Same relay as the web app</small></span><select data-k=broker_url id=brokerSel></select></label>
+ <label class=f><span>Custom relay URL<small>Overrides the list above if filled</small></span><input id=brokerCustom placeholder="wss://user:pass@host:port/path"></label>
+ <div class=bar><button class=pri onclick="saveForm('v-channels')">SAVE</button></div></div></div>
+
+<div class=view id=v-audio><div class=panel><h3>AUDIO OUTPUT</h3>
+ <label class=f><span>Output device</span><select data-k=audio_device id=devSel></select></label>
+ <label class=f><span>Volume <small id=volV></small></span><input type=range min=0 max=150 data-k=volume oninput="volV.textContent=this.value+'%'"></label>
+ <label class=f><span>Play received audio</span><input type=checkbox data-k=play_audio></label>
+ <label class=f><span>Beep before announcement</span><input type=checkbox data-k=beep></label></div>
+ <div class=panel><h3>ANNOUNCEMENTS (OFFLINE TTS)</h3>
+ <label class=f><span>Announce every message</span><input type=checkbox data-k=announce></label>
+ <label class=f><span>Say who sent it</span><input type=checkbox data-k=announce_speaker></label>
+ <label class=f><span>Read transcript aloud</span><input type=checkbox data-k=announce_transcript></label>
+ <label class=f><span>Announcement text<small>{channel} and {name} are filled in</small></span><input data-k=announce_template></label>
+ <label class=f><span>Voice engine</span><select data-k=tts_engine><option value=espeak-ng>espeak-ng</option><option value=piper>piper (natural)</option></select></label>
+ <label class=f><span>espeak-ng voice</span><select data-k=espeak_voice id=voiceSel></select></label>
+ <label class=f><span>Piper voice model</span><select data-k=piper_model id=piperSel></select></label>
+ <label class=f><span>Speaking speed (words/min)</span><input type=number min=80 max=300 data-k=tts_speed></label></div>
+ <div class=panel><h3>TRANSCRIPTION (OFFLINE WHISPER)</h3>
+ <label class=f><span>Transcribe messages</span><input type=checkbox data-k=transcribe></label>
+ <label class=f><span>Whisper model<small>tiny = fastest, small = most accurate</small></span><select data-k=whisper_model><option>tiny</option><option>base</option><option>small</option></select></label>
+ <label class=f><span>Language</span><select data-k=language><option value=auto>Auto detect</option><option value=en>English</option><option value=hi>Hindi</option><option value=bn>Bengali</option><option value=gu>Gujarati</option><option value=mr>Marathi</option><option value=ta>Tamil</option><option value=te>Telugu</option></select></label>
+ <label class=f><span>SSTV pictures<small>Detect SSTV, save picture, announce it</small></span><input type=checkbox data-k=sstv></label>
+ <div class=bar><button class=pri onclick="saveForm('v-audio')">SAVE</button><button onclick="saveForm('v-audio').then(testAnn)">SAVE &amp; TEST</button></div></div></div>
+
+<div class=view id=v-alerts><div class=panel><h3>ALERT KEYWORDS</h3>
+ <label class=f><span>Keywords<small>comma separated; matches say "Alert!" first</small></span><input data-k=keywords style="max-width:70%"></label></div>
+ <div class=panel><h3>ALERT EMAIL</h3>
+ <label class=f><span>Send email alerts</span><input type=checkbox data-k=email_enabled></label>
+ <label class=f><span>Which messages</span><select data-k=email_mode><option value=keywords>Only keyword alerts</option><option value=all>Every message</option></select></label>
+ <label class=f><span>Send to</span><input data-k=email_to placeholder="you@example.com"></label>
+ <label class=f><span>SMTP server</span><input data-k=smtp_host></label>
+ <label class=f><span>SMTP port</span><input type=number data-k=smtp_port></label>
+ <label class=f><span>Use STARTTLS</span><input type=checkbox data-k=smtp_tls></label>
+ <label class=f><span>SMTP username</span><input data-k=smtp_user></label>
+ <label class=f><span>SMTP password<small id=pwSet>For Gmail use an App Password</small></span><input type=password data-k=smtp_password placeholder="(unchanged)"></label>
+ <div class=bar><button class=pri onclick="saveForm('v-alerts')">SAVE</button><button onclick="saveForm('v-alerts').then(()=>post('/api/test_email')).then(r=>toast(r.result))">SEND TEST EMAIL</button></div></div></div>
+
+<div class=view id=v-system><div class=grid><div><div class=panel><h3>WI-FI</h3><div id=wifi class=hint>loading…</div>
+ <div class=bar><select id=wSsid style="max-width:none;flex:1"></select><input id=wPw type=password placeholder=password style="flex:1"><button class=ok onclick="wifiJoin()">CONNECT</button></div></div>
+ <div class=panel><h3>SERVICE</h3><div class=bar><button class=pri onclick="testAnn()">🔊 TEST</button><button onclick="if(confirm('Restart the listener?'))post('/api/restart').then(()=>toast('Restarting…'))">RESTART SERVICE</button><button class=ok onclick="upd()">UPDATE APP</button></div>
+ <label class=f><span>Web page port</span><input type=number data-k=web_port></label>
+ <label class=f><span>Settings PIN<small id=pinSet>Optional; asked before saving</small></span><input type=password data-k=web_pin placeholder="(none)"></label>
+ <label class=f><span>Keep recordings (days)</span><input type=number data-k=retention_days></label>
+ <div class=bar><button class=pri onclick="saveForm('v-system')">SAVE</button></div><div class=hint id=sysInfo></div></div></div>
+ <div class=panel><h3>LOGS <button onclick="loadLogs()">REFRESH</button></h3><pre id=logs>…</pre></div></div></div>
+</div><div id=toast></div>
+<script>
+var C={},K=[],B=[],pin=localStorage.sanketPin||'';
+function $(i){return document.getElementById(i)}function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function toast(t){var e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(function(){e.style.display='none'},3500)}
+function get(u){return fetch(u).then(function(r){return u.indexOf('/api/logs')==0?r.text():r.json()})}
+function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json','X-Pin':pin},body:JSON.stringify(b||{})}).then(function(r){if(r.status==403){pin=prompt('Settings PIN')||'';localStorage.sanketPin=pin;return post(u,b)}return r.json()})}
+function save(o){return post('/api/config',o).then(function(r){if(r.config){C=r.config;fill();toast(r.restart_needed?'Saved – restart service to apply port':'Saved ✓')}return r})}
+function toggle(k){var o={};o[k]=!C[k];save(o)}
+function testAnn(){return post('/api/test').then(function(r){toast('🔊 '+r.text)})}
+document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('sel',x==b)});document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id=='v-'+b.dataset.v)});if(b.dataset.v=='system'){loadLogs();loadWifi()}}});
+function fill(){document.querySelectorAll('[data-k]').forEach(function(e){var k=e.dataset.k,v=C[k];if(e.type=='checkbox')e.checked=!!v;else if(k=='keywords')e.value=(v||[]).join(', ');else if(e.type=='password')e.value='';else{if(e.tagName=='SELECT'&&v!=null&&![].some.call(e.options,function(o){return o.value==v})){var o=document.createElement('option');o.value=o.textContent=v;e.appendChild(o)}e.value=v==null?'':v}});
+ $('volV').textContent=C.volume+'%';$('qVol').value=C.volume;$('qVolV').textContent=C.volume+'%';$('qAnn').className=C.announce?'ok':'';$('qStt').className=C.transcribe?'ok':'';
+ $('qAnn').textContent='ANNOUNCE '+(C.announce?'ON':'OFF');$('qStt').textContent='TRANSCRIBE '+(C.transcribe?'ON':'OFF');
+ $('pwSet').textContent=C.smtp_password_set?'Saved ✓ (leave blank to keep)':'For Gmail use an App Password';$('pinSet').textContent=C.web_pin_set?'PIN is set (blank = keep)':'Optional; asked before saving';renderChTable()}
+function saveForm(id){var o={};document.querySelectorAll('#'+id+' [data-k]').forEach(function(e){var k=e.dataset.k;o[k]=e.type=='checkbox'?e.checked:(e.type=='number'||e.type=='range')?+e.value:e.value});
+ if(id=='v-channels'){o.channels=C.channels;var cu=$('brokerCustom').value.trim();if(cu)o.broker_url=cu}return save(o)}
+function renderChTable(){var h='<tr><td><b>CHANNEL</b></td><td><b>LISTEN</b></td><td><b>WEB LINK</b></td><td></td></tr>';(C.channels||[]).forEach(function(c,i){h+='<tr><td>'+esc(c.name)+'</td><td><input type=checkbox '+(c.enabled?'checked':'')+' onchange="C.channels['+i+'].enabled=this.checked;save({channels:C.channels})"></td><td><a style="color:#9cf" target=_blank href="https://vibhvesh.github.io/sanketptt/?ch='+encodeURIComponent(c.name)+'">open</a></td><td><button class=bad onclick="C.channels.splice('+i+',1);save({channels:C.channels})">REMOVE</button></td></tr>'});$('chTable').innerHTML=h}
+function addCh(){var n=$('newCh').value.replace(/[^\w-]/g,'').toLowerCase().slice(0,40);if(!n)return;C.channels.push({name:n,enabled:true});$('newCh').value='';save({channels:C.channels})}
+function addKnown(){K.forEach(function(n){if(!C.channels.some(function(c){return c.name==n}))C.channels.push({name:n,enabled:true})});save({channels:C.channels})}
+function enableAll(on){C.channels.forEach(function(c){c.enabled=on});save({channels:C.channels})}
+function ago(t){if(!t)return'';var s=Math.round(Date.now()/1000-t);return s<60?s+'s ago':s<3600?Math.round(s/60)+'m ago':Math.round(s/3600)+'h ago'}
+function status(){get('/api/status').then(function(s){$('ledNet').classList.toggle('on',s.connected);$('lName').textContent=s.name+' · v'+s.version;$('lBroker').textContent=s.connected?'● '+s.broker.replace('wss://',''):'○ offline '+(s.broker_error||'');
+ var tk=s.channels.filter(function(c){return c.talking});$('ledRx').classList.toggle('on',tk.length>0);$('lMain').textContent=tk.length?'RX '+tk[0].name.toUpperCase()+' · '+tk[0].talking.toUpperCase():(s.connected?'LISTENING':'CONNECTING…');
+ var mon=s.channels.filter(function(c){return c.monitored});$('lCh').textContent=mon.length+' channels monitored';$('lStt').textContent='whisper: '+s.whisper+(s.queue?' · queue '+s.queue:'');$('lStats').textContent=s.stats.messages+' msgs · '+s.stats.sstv+' sstv';
+ $('chCount').textContent=mon.length;$('chLive').innerHTML=s.channels.filter(function(c){return c.monitored||c.enabled}).map(function(c){return '<div style="padding:6px 0;border-bottom:1px solid #fff1"><span class="pill'+(c.talking?' tk':c.monitored?'':' off')+'">'+esc(c.name)+'</span> <small style=color:#9aa>'+(c.talking?'🔴 '+esc(c.talking)+' talking':c.online.length+' online')+(c.last?' · last '+ago(c.last):'')+'</small><div style="font-size:11px;color:#7ad">'+c.online.map(esc).join(', ')+'</div></div>'}).join('')||'<span class=hint>No channels</span>';
+ $('sysInfo').innerHTML='Host '+esc(s.host)+' · '+s.ips.map(function(i){return 'http://'+i+':'+s.port}).join(' · ')+'<br>http://'+esc(s.host)+'.local:'+s.port+' · up '+Math.round(s.uptime/60)+' min · '+s.stats.emails+' emails'}).catch(function(){$('ledNet').classList.remove('on');$('lMain').textContent='PI OFFLINE'})}
+var lastFeed='';function loadFeed(){get('/api/feed').then(function(f){var j=JSON.stringify(f);if(j==lastFeed)return;lastFeed=j;$('feed').innerHTML=f.map(function(m){return '<li class="'+(m.keywords&&m.keywords.length?'kw':'')+(m.type=='sstv'?' sstv':'')+'"><div class=h><span>📻 '+esc(m.channel)+' · <b>'+esc(m.speaker)+'</b></span><span>'+esc((m.time||'').replace('T',' '))+' · '+(m.duration_s||0)+'s</span></div><div class=t>'+(m.type=='sstv'?'🖼 SSTV '+esc(m.mode||''):esc(m.text)||'<i style=color:#889>'+esc(m.status=='done'?'(no transcript)':m.status)+'</i>')+'</div>'+(m.keywords&&m.keywords.length?'<div class=pill style="background:#ff2d2d">ALERT: '+esc(m.keywords.join(', '))+'</div>':'')+(m.jpeg?'<img src="/clips/'+encodeURIComponent(m.jpeg)+'">':'')+'<div class=a><button onclick="post(\'/api/replay\',{wav:\''+esc(m.wav)+'\'})">▶ PLAY ON PI</button><audio controls preload=none src="/clips/'+encodeURIComponent(m.wav)+'" style="height:26px;flex:1"></audio></div></li>'}).join('')||'<li>No messages yet – waiting for transmissions…</li>'})}
+function loadLogs(){get('/api/logs?n=400').then(function(t){var e=$('logs');e.textContent=t||'(empty)';e.scrollTop=e.scrollHeight})}
+function loadWifi(){get('/api/wifi').then(function(w){$('wifi').innerHTML='Connected to <b>'+esc(w.ssid||'(none / ethernet)')+'</b> · IP '+esc(w.ips.join(', '))+' · host '+esc(w.host)+'.local';$('wSsid').innerHTML=(w.networks||[]).map(function(n){return '<option>'+esc(n[0])+'</option>'}).join('')||'<option value="">no scan available</option>'})}
+function wifiJoin(){var s=$('wSsid').value;if(!s)return;toast('Connecting to '+s+'…');post('/api/wifi',{ssid:s,password:$('wPw').value}).then(function(r){toast(r.ok?'Connected ✓':'Failed: '+(r.result||r.error))})}
+function upd(){toast('Updating…');post('/api/update').then(function(r){toast(r.ok?'Updated ✓ restarting…':'Update failed: '+r.error)})}
+Promise.all([get('/api/config'),get('/api/devices')]).then(function(a){C=a[0].config;K=a[0].known;B=a[0].brokers;var d=a[1];
+ $('brokerSel').innerHTML=B.map(function(b){return '<option value="'+esc(b)+'">'+esc(b.replace(/\/\/.*@/,'//'))+'</option>'}).join('');
+ $('devSel').innerHTML=d.audio.map(function(x){return '<option value="'+esc(x.id)+'">'+esc(x.label)+'</option>'}).join('');
+ $('voiceSel').innerHTML=d.voices.espeak.map(function(x){return '<option value="'+esc(x.id)+'">'+esc(x.label)+'</option>'}).join('');
+ $('piperSel').innerHTML='<option value="">(none)</option>'+d.voices.piper.map(function(x){return '<option value="'+esc(x)+'">'+esc(x.split('/').pop())+'</option>'}).join('');fill()});
+status();loadFeed();setInterval(status,1500);setInterval(loadFeed,2500);
+</script></body></html>
