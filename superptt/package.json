@@ -1,0 +1,1 @@
+{"name":"superptt-app","private":true,"version":"0.1.0","scripts":{"test":"node test/e2e.js"},"dependencies":{"mqtt":"^5.16.1"}}

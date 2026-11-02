@@ -1,0 +1,88 @@
+<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>SuperPTT Control Room</title>
+<style>body{background:#0b1015;color:#cfe;font:14px system-ui;margin:0}header{padding:10px 14px;background:#111b24;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid{display:grid;grid-template-columns:320px 1fr;gap:10px;padding:10px}.p{background:#121c26;border-radius:8px;padding:10px;margin-bottom:10px}
+.ch{display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #223}.tx{color:#f55;font-weight:bold}.ov{color:#fc3}.cl{color:#6cf;font-weight:bold}
+.seg{padding:6px;border-bottom:1px solid #223}.seg.ovl{border-left:3px solid #fc3}.m{color:#789;font-size:12px}
+button,select,input{background:#1d2d3c;color:#cfe;border:1px solid #345;border-radius:4px;padding:4px 8px}
+#gate{position:fixed;inset:0;background:#0b1015ee;display:none;align-items:center;justify-content:center}#gate div{background:#121c26;padding:24px;border-radius:10px;min-width:280px}
+a{color:#6cf}label{display:block;margin:4px 0}</style>
+<div id=gate><div><h3 id=gt>Login</h3><p id=gm class=m></p><input id=pin type=password inputmode=numeric placeholder="PIN" autocomplete=current-password>
+<button id=gb>OK</button><p id=ge style=color:#f66></p></div></div>
+<header><b>SuperPTT · Control Room</b><span id=net></span><span id=pub class=m></span><span id=q class=m></span>
+<span>Output <select id=mode><option value=all>All mixed</option><option value=select>Selected</option><option value=single>Single</option><option value=off>Off</option></select></span>
+<button id=lo>Logout</button></header>
+<div class=grid><div>
+<div class=p><h3>Channels</h3><div id=chs></div></div>
+<div class=p><h3>Talk-back</h3>
+<label>Target <select id=txt><option value=sel>Checked channels</option><option value=all>ALL channels</option></select></label>
+<label><input type=checkbox id=cut> Priority cut-in (overrides current talker)</label>
+<button id=tb style="width:100%;height:70px;font-size:18px;font-weight:bold;background:#1e5631;border:2px solid #2ecc71;touch-action:none">HOLD TO TALK</button>
+<div id=tbs class=m></div><div class=m>Mic needs HTTPS (tunnel URL) or http://localhost. Space bar also works.</div></div>
+<div class=p><h3>Cloud STT</h3><select id=prov><option>elevenlabs</option><option>openai</option><option>google</option></select>
+<input id=ckey type=password placeholder="API key (hidden)" size=14><input id=cmodel placeholder="model (optional)" size=12> <button id=csave>Save</button> <div id=ckst class=m></div></div>
+<div class=p><h3>Storage &amp; retention</h3><div id=disk class=m></div>
+<label>Audio days <input id=ra type=number min=0 style=width:70px></label><label>Transcript days <input id=rt type=number min=0 style=width:70px></label>
+<label>Min free disk % <input id=rf type=number min=1 max=50 style=width:70px></label>
+<button id=rsave>Save</button> <button id=rrun>Clean up now</button><div id=rlast class=m></div></div>
+<div class=p><h3>Access</h3><div id=acc class=m></div><button id=tok>Show tokens</button><div id=toks class=m style=word-break:break-all></div></div>
+</div><div class=p><h3>Merged transcript (time-ordered, all channels)</h3><div id=tl></div></div></div>
+<script>
+const $=id=>document.getElementById(id),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let sel=new Set(),authed=false,init=false;
+function api(u,b){return fetch(u,b===undefined?{credentials:'same-origin'}:{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-Requested-With':'superptt'},body:JSON.stringify(b)}).then(r=>{if(r.status==401){gate();throw 'auth'}return r.json()})}
+function gate(){authed=false;fetch('/api/session').then(r=>r.json()).then(s=>{if(s.auth){authed=true;$('gate').style.display='none';return}
+ $('gate').style.display='flex';const setup=!s.pin_set;$('gt').textContent=setup?'First run: set admin PIN':'Login';
+ $('gm').textContent=setup?(s.setup_allowed?'Choose a 6+ digit PIN. You will see the worker and directory tokens once.':'Setup is only allowed from the local network.'):'';
+ $('gb').onclick=()=>{fetch(setup?'/api/setup':'/api/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin:$('pin').value})}).then(r=>r.json()).then(r=>{$('pin').value='';
+  if(r.ok){if(r.worker_token)alert('Save these now.\nLAN worker token: '+r.worker_token+'\nDirectory token: '+r.directory_token);$('gate').style.display='none';authed=true;tick();stor()}else $('ge').textContent=r.error==='locked'?'Too many attempts. Try again in '+Math.ceil(r.retry_s/60)+' min':r.error})}})}
+$('pin').onkeydown=ev=>{if(ev.key==='Enter')$('gb').click()};
+$('lo').onclick=()=>api('/api/logout',{}).then(gate);
+function out(){const m=$('mode').value;api('/api/output',{mode:m==='off'?'select':m,channels:m==='off'?[]:[...sel]})}
+$('mode').onchange=out;
+$('chs').onchange=ev=>{const c=ev.target.dataset.ch;if(!c)return;ev.target.checked?sel.add(c):sel.delete(c);out()};
+$('csave').onclick=()=>api('/api/cloud',{provider:$('prov').value,api_key:$('ckey').value||'***',model:$('cmodel').value}).then(()=>{$('ckey').value='';tick()});
+$('rsave').onclick=()=>api('/api/retention',{audio_days:+$('ra').value,transcript_days:+$('rt').value,min_free_pct:+$('rf').value}).then(showStor);
+$('rrun').onclick=()=>api('/api/retention',{run_now:1}).then(showStor);
+$('tok').onclick=()=>api('/api/tokens',{}).then(t=>{$('toks').innerHTML='Worker (LAN only): '+e(t.worker_token)+'<br>Directory (clients): '+e(t.directory_token)});
+function showStor(s){const d=s.disk,r=s.retention;$('disk').innerHTML=`Disk: ${d.free_gb} GB free of ${d.total_gb} GB (${d.free_pct}%) · recordings ${d.rec_gb} GB<br>${d.segments} messages, ${d.with_audio} with audio${d.oldest?' · oldest '+new Date(d.oldest*1000).toLocaleDateString():''}`;
+ if(document.activeElement.tagName!=='INPUT'){$('ra').value=r.audio_days;$('rt').value=r.transcript_days;$('rf').value=r.min_free_pct}
+ $('rlast').textContent=s.last.run?`Last cleanup ${new Date(s.last.run*1000).toLocaleString()}: ${s.last.deleted_audio} audio, ${s.last.deleted_rows} messages, low-disk guard ${s.last.guard_deleted}`:'Cleanup runs daily; low-disk guard every 5 min (oldest audio first, transcripts kept).'}
+function stor(){if(authed)api('/api/storage').then(showStor).catch(()=>{})}
+function tick(){if(!authed)return;api('/api/status').then(s=>{
+ $('net').textContent=s.connected?'● broker online':'○ broker offline';
+ $('pub').innerHTML=s.public_url?'Public: <a href="'+e(s.public_url)+'" target=_blank>'+e(s.public_url)+'</a>':'LAN only (no tunnel)';
+ $('q').textContent='STT queue '+s.stt_queue+' · busy '+s.stt_busy+' · remote '+s.leased+' · local '+s.stt_stats.local+' / cloud '+s.stt_stats.cloud;
+ if(!init){init=true;$('prov').value=s.config.cloud.provider;$('cmodel').value=s.config.cloud.model||''}
+ $('ckst').textContent=s.config.cloud.key_set?'key set ✓ ('+s.config.cloud.key_source+')':'no key — local only';
+ $('acc').textContent=(s.via_tunnel?'You are connected via the tunnel (HTTPS).':'You are on the local network.')+' Session '+s.config.session_hours+' h.';
+ if(document.activeElement!==$('mode'))$('mode').value=s.output.mode;sel=new Set(s.output.channels);
+ $('chs').innerHTML=s.channels.map(c=>`<div class=ch><label style=margin:0><input type=checkbox data-ch="${e(c.channel)}" ${sel.has(c.channel)?'checked':''}> ${e(c.channel)}</label>
+ <span>${c.talking.length?`<span class="${c.overlap?'ov':'tx'}">TX ${e(c.talking.join(' + '))}</span>`:''} <span class=m>${c.users.length} on · P${c.priority}</span></span></div>`).join('')}).catch(()=>{});
+ api('/api/timeline?since='+(Date.now()/1000-86400)).then(t=>{$('tl').innerHTML=t.slice(-150).reverse().map(x=>`<div class="seg ${x.overlaps.length?'ovl':''}">
+ <div class=m>${new Date(x.t_start*1000).toLocaleTimeString()} · <b>${e(x.channel)}</b> · ${e(x.speaker)} · ${(x.t_end-x.t_start).toFixed(1)}s ${x.overlaps.length?'· ⟂ overlaps '+x.overlaps.length:''} · ${e(x.lang||'')}
+ <span class=${x.route==='cloud'?'cl':'m'}>${x.route==='cloud'?'☁ CLOUD':'⌂ LOCAL'}</span> ${e(x.engine||'')}${x.cloud_state&&x.cloud_state!=='done'?' · cloud '+e(x.cloud_state)+' ('+e(x.cloud_reason)+')':x.cloud_reason?' ('+e(x.cloud_reason)+')':''} · ${e(x.status)}</div>
+ <div>${e(x.text||'')}</div>${x.route==='cloud'&&x.local_text&&x.local_text!==x.text?`<div class=m>local: ${e(x.local_text)}</div>`:''}${x.wav?`<audio controls preload=none src="/rec/${encodeURI(x.wav)}" style="height:24px"></audio>`:'<span class=m>(audio expired)</span>'}</div>`).join('')}).catch(()=>{})}
+// ---- talk-back ----
+let tac,tproc,tstream,ton=false,tq=[];
+async function tbDown(){if(ton)return;ton=true;$('tb').style.background='#a81d1d';
+ try{if(!tac){tac=new AudioContext();tstream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});
+  const src=tac.createMediaStreamSource(tstream);tproc=tac.createScriptProcessor(2048,1,1);
+  tproc.onaudioprocess=ev=>{if(!ton)return;const i=ev.inputBuffer.getChannelData(0),r=tac.sampleRate/12000,n=Math.floor(i.length/r),o=new Int16Array(n);
+   for(let k=0;k<n;k++){const v=Math.max(-1,Math.min(1,i[Math.floor(k*r)]));o[k]=v<0?v*32768:v*32767}tq.push(o)};
+  src.connect(tproc);const z=tac.createGain();z.gain.value=0;tproc.connect(z);z.connect(tac.destination)}
+  if(tac.state==='suspended')await tac.resume();
+  const chs=$('txt').value==='all'?'all':[...sel];if(chs!=='all'&&!chs.length){$('tbs').textContent='Check at least one channel';return tbUp()}
+  const r=await api('/api/tx/start',{channels:chs,cutin:$('cut').checked});
+  $('tbs').textContent='On air: '+(r.ok.join(', ')||'none')+(r.busy.length?' · busy: '+r.busy.join(', '):'');if(!r.ok.length)return tbUp();
+  pump()}catch(e){$('tbs').textContent='Mic error: '+e;tbUp()}}
+function pump(){if(!ton)return;if(tq.length){const n=tq.reduce((a,b)=>a+b.length,0),o=new Int16Array(n);let p=0;for(const b of tq){o.set(b,p);p+=b.length}tq=[];
+ fetch('/api/tx/audio',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/octet-stream','X-Requested-With':'superptt'},body:o.buffer})}
+ setTimeout(pump,100)}
+function tbUp(){if(!ton)return;ton=false;tq=[];$('tb').style.background='#1e5631';api('/api/tx/stop',{}).catch(()=>{})}
+$('tb').addEventListener('pointerdown',e=>{e.preventDefault();$('tb').setPointerCapture(e.pointerId);tbDown()});
+['pointerup','pointercancel','lostpointercapture'].forEach(x=>$('tb').addEventListener(x,tbUp));
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&e.target.tagName!=='INPUT'){e.preventDefault();tbDown()}});
+document.addEventListener('keyup',e=>{if(e.code==='Space')tbUp()});
+gate();setInterval(tick,2000);setInterval(stor,30000);setTimeout(stor,500);
+</script>

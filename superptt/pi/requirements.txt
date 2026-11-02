@@ -1,0 +1,5 @@
+paho-mqtt>=2.0
+numpy
+faster-whisper>=1.0
+sounddevice
+# optional fallback: vosk
