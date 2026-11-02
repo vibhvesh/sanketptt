@@ -1,4 +1,4 @@
-# Sanket PTT – Raspberry Pi listener
+# Sanket Edge – Raspberry Pi listener (v2)
 
 Receive-only Sanket PTT radio for a **Raspberry Pi 5 or Pi 3** (Raspberry Pi OS Bookworm/Trixie, Desktop or Lite).
 It plays every transmission, transcribes it on the Pi (offline Whisper), and announces it aloud with offline TTS:
@@ -28,6 +28,18 @@ Example: `curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | SANKET
 * Wi-Fi power-save off (NetworkManager), screen blanking off, the relay reconnects forever (and the client is rebuilt if it stays down for 60 s).
 * Kiosk: with a display attached the Pi auto-logs in and opens the dashboard full screen (`/kiosk`); the browser is reopened if it closes.
   On Lite images a `cage` + Chromium kiosk runs on tty1 only when a display is connected. Headless Pis just serve the web page.
+
+## Update, restart, reboot
+
+* **Update:** run the install command again, or use **System → Update** on the dashboard. Settings, recordings and voices are kept.
+* **Restart the service:** `sudo systemctl restart sanket-pi` (or **System → Restart**). Status: `systemctl status sanket-pi`.
+* **Logs:** `journalctl -u sanket-pi -f` (also under **System → Logs**).
+* **Reboot:** `sudo reboot` – the service and the kiosk start again automatically.
+
+## Bluetooth
+
+**Audio → Bluetooth**: scan, pair, connect, disconnect and forget devices. A connected Bluetooth speaker can be chosen as
+the output; a Bluetooth headset mic appears under **Inputs** as its own channel.
 
 ## Web page
 
@@ -70,3 +82,5 @@ tests/test_box.py     off-Pi tests
 
 Settings are in `~/sanket-pi/config.json`, recordings in `~/sanket_clips`. The Pi uses the same relay and topics as the web app:
 `ptt-radio-66ab9178/<channel>/{presence/<id>,floor,audio,sstv}` with 12 kHz Int16 PCM audio.
+
+User guide: [Sanket Edge User Guide (PDF)](../docs/Sanket_Edge_User_Guide.pdf) · https://vibhvesh.github.io/sanketptt/docs/
