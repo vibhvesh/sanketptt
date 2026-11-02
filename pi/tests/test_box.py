@@ -19,7 +19,7 @@ v2 = {"device_name": "X", "channels": [{"name": "virtual", "enabled": False}], "
 json.dump(v2, open(f"{d}/config.json", "w"))
 c = Config(f"{d}/config.json"); c.d["clips_dir"] = d
 ok(c["whisper_model"] == "small" and c["channels"][0] == {"name": "virtual", "enabled": False} and c["inputs"] == [], "v2 config loads unchanged")
-ok("kolkata-control" not in KNOWN_CHANNELS and "kolkata-control" not in [x["name"] for x in c["channels"]], "kolkata-control removed from known channels")
+ok(KNOWN_CHANNELS == ["virtual", "master", "city-control", "unit-name"], "known channels list")
 c.apply_profile("pi3", hw.PROFILES["pi3"], only_missing=True)
 ok(c["whisper_model"] == "small" and c["sstv_decode"] is False and c["kiosk_browser"] == "surf", "upgrade profile keeps user keys, fills new ones")
 ok(hw.profile_key("Raspberry Pi 3 Model B Plus Rev 1.3") == "pi3" and hw.profile_key("Raspberry Pi 5 Model B Rev 1.0") == "pi5", "board detection")
