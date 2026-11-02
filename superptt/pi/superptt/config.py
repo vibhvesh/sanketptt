@@ -14,7 +14,9 @@ DEFAULTS = {
     "rate": 12000,
     "segment_gap_s": 1.5,
     "min_segment_s": 0.4,
-    "stt_engine": "faster-whisper",  # faster-whisper | vosk | none
+    "stt_engine": "faster-whisper",  # faster-whisper | whispercpp | vosk | cloud (cloud-only) | none (remote workers only)
+    "whispercpp_bin": "",           # whisper.cpp CLI (default "whisper-cli" on PATH); Android/Termux fallback
+    "whispercpp_models": "",        # dir with ggml-<model>.bin (default ~/.superptt/models)
     # Multilingual models only (never *.en). Tiered: quality when idle, base normally, tiny when overloaded.
     "whisper_model": "base",
     "quality_model": "small",       # used when queue is empty (better Hindi/Gujarati); "" to disable
@@ -36,7 +38,7 @@ DEFAULTS = {
               "min_avg_logprob": -0.8, "max_no_speech": 0.6, "min_lang_prob": 0.5,
               "when_queue_over": 12, "retry_s": 300},
     "vosk_model_path": "",
-    "output": {"mode": "all", "channels": [], "volume": 1.0, "duck_db": -12, "device": None},
+    "output": {"mode": "all", "channels": [], "volume": 1.0, "duck_db": -12, "device": None},   # mode "off" = no local speaker (Android: play in the browser)
     "http_port": 8090,
     "admin_pin": "",               # empty = must be set on first run via console
     "out_rate": 48000,

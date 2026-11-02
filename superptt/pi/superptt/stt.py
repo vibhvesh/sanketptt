@@ -64,11 +64,45 @@ class Whisper:
         return {"text": text, "lang": lang or info.language,
                 "lang_prob": prob if prob is not None else info.language_probability, "script_ok": ok_script, **q}
 
+class WhisperCpp:
+    """whisper.cpp CLI backend (Termux/Android fallback when CTranslate2 is unavailable).
+    Same run_q() contract as Whisper. Models: <whispercpp_models>/ggml-<name>.bin (multilingual only)."""
+    def __init__(self, cfg):
+        self.cfg = cfg; self.threads = int(cfg["whisper_threads"]); self.last_q = {}
+    def path(self, name):
+        assert not name.endswith(".en"), "multilingual models only"
+        d = os.path.expanduser(self.cfg.get("whispercpp_models") or "~/.superptt/models")
+        p = os.path.join(d, f"ggml-{name}.bin")
+        if not os.path.exists(p):   # tiered model missing -> use any installed multilingual one
+            have = [m for m in ("base", "small", "tiny") if os.path.exists(os.path.join(d, f"ggml-{m}.bin"))]
+            if not have: raise RuntimeError("no whisper.cpp model in " + d)
+            p = os.path.join(d, f"ggml-{have[0]}.bin")
+        return p
+    def run_q(self, x16, name, language=None, hints=None, min_prob=0.8):
+        import json, subprocess, tempfile
+        lang = language or (hints[0] if hints and len(hints) == 1 else "auto")
+        with tempfile.TemporaryDirectory() as td:
+            wp = os.path.join(td, "a.wav")
+            with wave.open(wp, "wb") as w:
+                w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000)
+                w.writeframes((np.clip(x16, -1, 1) * 32767).astype("<i2").tobytes())
+            cmd = [self.cfg.get("whispercpp_bin") or "whisper-cli", "-m", self.path(name), "-f", wp, "-l", lang,
+                   "-t", str(self.threads), "-nt", "-np", "-oj", "-of", os.path.join(td, "o")]
+            subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=300)
+            j = json.load(open(os.path.join(td, "o.json"), encoding="utf-8", errors="replace"))
+        text = " ".join(s.get("text", "").strip() for s in j.get("transcription", [])).strip()
+        lang = (j.get("result") or {}).get("language") or (None if lang == "auto" else lang)
+        ok = not (lang in SCRIPT and text and not _in_script(text, SCRIPT[lang]))
+        # whisper.cpp JSON has no logprob/no-speech: neutral values, so cloud routing uses lang/script/empty only
+        self.last_q = {"avg_logprob": 0.0, "no_speech": 0.0 if text else 1.0}
+        return {"text": text, "lang": lang, "lang_prob": None, "script_ok": ok, **self.last_q}
+
 class STT:
     def __init__(self, cfg, store):
         self.cfg, self.store = cfg, store
         self.q = []; self.cv = threading.Condition(); self.cnt = itertools.count()
-        self.w = Whisper(int(cfg["whisper_threads"])); self.busy = 0
+        eng = cfg["stt_engine"]
+        self.w = WhisperCpp(cfg) if eng == "whispercpp" else Whisper(int(cfg["whisper_threads"])); self.busy = 0
         self.leased = {}   # seg_id -> (job, deadline) for remote workers
         self.stats = {"local": 0, "remote": 0, "cloud": 0, "cloud_fail": 0, "failed": 0}
     def start(self):
@@ -171,6 +205,9 @@ class STT:
                 pre = self.cloud_reason(ch, None, qlen)
                 if pre and self.cloud_ready() and self.try_cloud(sid, ch, pcm, self.cfg["language"], pre):
                     continue                                   # overflow -> cloud first
+                if self.cfg["stt_engine"] == "cloud":            # cloud-only (e.g. Android without local STT)
+                    self.store.set_text(sid, "done", "none", None, "")
+                    self.try_cloud(sid, ch, pcm, self.cfg["language"], "cloud-only"); continue
                 if self.cfg["stt_engine"] == "vosk":
                     import json, vosk
                     if not hasattr(self, "vm"): self.vm = vosk.Model(self.cfg["vosk_model_path"])
@@ -180,7 +217,7 @@ class STT:
                     name = self.pick_model(qlen)
                     r = self.w.run_q(to16k(pcm, self.cfg["rate"]), name, self.cfg["language"],
                                      self.hints(ch), self.cfg["hint_min_prob"])
-                    t, lang, eng = r["text"], r["lang"], "whisper-" + name; self.stats["local"] += 1
+                    t, lang, eng = r["text"], r["lang"], ("whispercpp-" if self.cfg["stt_engine"] == "whispercpp" else "whisper-") + name; self.stats["local"] += 1
                 self.store.set_text(sid, "done", eng, lang, t)
                 why = self.cloud_reason(ch, r, qlen) if r else pre
                 if why: self.try_cloud(sid, ch, pcm, lang, why)

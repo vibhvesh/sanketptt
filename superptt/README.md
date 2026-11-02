@@ -14,6 +14,8 @@ It uses the **same public brokers and topics as Sanket PTT** (`ptt-radio-66ab917
 - **PWA**: `manifest.json`, `sw.js` (offline shell, network-first), icons. On Android Chrome: menu → Install app. iOS: Share → Add to Home Screen.
 - **Android wrapper**: load the hosted URL in the existing WebView app (same as `sanketptt/android`); grant mic permission. Hardware PTT keys can call `window.SuperPTTHardware.down()` / `.up()` via `evaluateJavascript`.
 
+- **Backup control room on an Android phone (Termux)**: see [android/README.md](android/README.md) — `curl -fsSL https://vibhvesh.github.io/sanketptt/superptt/android/install-termux.sh | bash`
+
 ## Try it locally
     cd app && python3 -m http.server 8080    # open http://localhost:8080 (mic works on localhost/https only)
 Open two browser windows with different names and the same manual channels (e.g. `test1, test2`) to talk to each other.

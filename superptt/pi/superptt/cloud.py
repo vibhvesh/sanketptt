@@ -9,7 +9,7 @@ GOOGLE_LOC = {"en": "en-IN", "hi": "hi-IN", "gu": "gu-IN", "mr": "mr-IN", "bn": 
 import os
 ENV_KEYS = {"elevenlabs": "ELEVENLABS_API_KEY", "openai": "OPENAI_API_KEY", "google": "GOOGLE_API_KEY"}
 def api_key(c):
-    """config key wins; otherwise env var for the provider (systemd EnvironmentFile on the Pi)."""
+    """config key wins; otherwise env var for the provider (systemd EnvironmentFile on the Pi, ~/.superptt.env on Android)."""
     return c.get("api_key") or os.environ.get(ENV_KEYS.get(c.get("provider"), ""), "")
 
 def wav_bytes(pcm, rate):

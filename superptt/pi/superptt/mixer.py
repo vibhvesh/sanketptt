@@ -13,6 +13,7 @@ class Mixer:
         self.stream = None
     def routed(self, ch):
         o = self.cfg["output"]
+        if o["mode"] == "off": return False
         return o["mode"] == "all" or (o["mode"] in ("single", "select") and ch in o["channels"])
     def feed(self, ch, sid, pcm):
         if not self.routed(ch): return
@@ -40,6 +41,8 @@ class Mixer:
         out *= o["volume"] / 32768.0
         return np.tanh(out * 1.2) / 1.2                    # soft limiter
     def start(self):
+        if self.cfg["output"]["mode"] == "off":
+            log.info("local audio output off (play recordings in the browser console)"); return
         try:
             import sounddevice as sd
         except Exception as e:
