@@ -59,12 +59,13 @@
     if (!cfg.tx || chs.indexOf(cfg.tx) < 0) cfg.tx = chs[0]; save();
     $('me').textContent = cfg.name; $('setup').classList.add('hide'); render();
   }
+  var online = false;
   function onEv(t, v) {
     if (t === 'state') { state = v; render(); }
     else if (t === 'audio') { mix.feed(v); }
     else if (t === 'reject') { var r = rejects[v.ch] = rejects[v.ch] || {}; r[v.reason] = (r[v.reason] || 0) + 1;
       if (r[v.reason] === 1) log('🔒 ' + v.ch + ': dropped ' + v.kind + ' packet (' + ({ nokey: 'encrypted, no key on this phone', wrongkey: 'key was rotated: ask for a new invite', auth: 'wrong key or tampered', replay: 'replayed', stale: 'too old / clock wrong', plain: 'unencrypted packet on encrypted channel' }[v.reason] || v.reason) + ')'); }
-    else if (t === 'net') { $('net').textContent = v.connected ? '● ' + v.url.replace(/^wss:\/\/([^@]*@)?/, '').split('/')[0] : '○ reconnecting'; }
+    else if (t === 'net') { online = !!v.connected; render(); $('net').textContent = v.connected ? '● ' + v.url.replace(/^wss:\/\/([^@]*@)?/, '').split('/')[0] : '○ reconnecting'; }
     else if (t === 'discover') { if (!cl.ch[v]) { cl.join(v, { muted: true }); log('discovered channel ' + v + ' (muted)'); } }
     else if (t === 'preempted') { log('⚠ ' + v.by + ' cut in on ' + v.ch); if (!cl.txSet.length) stopTx(); $('pst').textContent = 'Cut in by ' + v.by + ' on ' + v.ch; }
   }
@@ -94,9 +95,9 @@
         '<div><div class=nm>' + esc(c.name) + (c.prio ? ' <span class=pill>P' + c.prio + '</span>' : '') + ' ' + lockTag(c) + '</div><div class=who>' + who + '</div></div>' +
         '<button data-mute="' + esc(c.name) + '">' + (c.muted ? '🔇' : '🔈') + '</button><input type=range min=0 max=1.5 step=0.05 value="' + c.vol + '" data-vol="' + esc(c.name) + '"></div>';
     }).join('');
-    var anyBusy = state.some(function (c) { return c.name === cfg.tx && c.floor && !c.floor.mine; });
-    $('ptt').className = talking ? 'on' : anyBusy && !$('allcall').checked ? 'busy' : '';
-    $('ptt').textContent = talking ? 'TRANSMITTING' : anyBusy && !$('allcall').checked ? 'CHANNEL BUSY' : 'PUSH TO TALK';
+    var bc = state.filter(function (c) { return c.name === cfg.tx && c.floor && !c.floor.mine; })[0], anyBusy = !!bc && !$('allcall').checked;
+    $('ptt').className = talking ? 'on' : anyBusy ? 'busy' : online ? '' : 'off';
+    $('ptt').textContent = talking ? 'TALKING' : anyBusy ? 'BUSY' + (bc.floor.name ? ' · ' + bc.floor.name : '') : 'PUSH TO TALK';
   }
   function lockTag(c) {
     if (c.enc) { var r = rejects[c.name] || {}, bad = r.auth || r.wrongkey;
