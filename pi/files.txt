@@ -17,6 +17,7 @@ sanket/inputs/local_audio.py
 sanket/inputs/registry.py
 sanket/inputs/relay.py
 sanket/inputs/vox.py
+sanket/inputs/rtlsdr.py
 sanket/metrics.py
 sanket/mqtt_relay.py
 sanket/pipeline.py

@@ -14,7 +14,7 @@ def register(cls):
 
 
 def types():
-    return [dict(type=t, label=c.LABEL, fields=c.FIELDS, local=c.LOCAL, kinds=c.KINDS) for t, c in _TYPES.items() if not c.HIDDEN]
+    return [dict(type=t, label=c.LABEL, fields=c.FIELDS, local=c.LOCAL, kinds=c.KINDS, presets=getattr(c, "PRESETS", [])) for t, c in _TYPES.items() if not c.HIDDEN]
 
 
 def create(spec, ctx):

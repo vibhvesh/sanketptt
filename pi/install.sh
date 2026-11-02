@@ -26,6 +26,16 @@ sudo usermod -aG audio,bluetooth "$RUN_USER" 2>/dev/null || sudo usermod -aG aud
 sudo systemctl enable --now avahi-daemon >/dev/null 2>&1 || true
 sudo systemctl enable --now bluetooth >/dev/null 2>&1 || true
 
+say "RTL-SDR receiver support"
+# rtl-sdr gives rtl_fm/rtl_test. The DVB-T TV driver grabs the dongle first, so blacklist it; the
+# udev rule lets the service user open it without root. Both files are rewritten identically on re-run.
+sudo apt-get install -y -qq rtl-sdr >/dev/null 2>&1 || echo "  (rtl-sdr package not installed; RTL-SDR input disabled)"
+printf 'blacklist dvb_usb_rtl28xxu\nblacklist rtl2832\nblacklist rtl2830\n' | sudo tee /etc/modprobe.d/blacklist-rtlsdr-sanket.conf >/dev/null
+printf 'SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="2838", GROUP="plugdev", MODE="0666"\nSUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="2832", GROUP="plugdev", MODE="0666"\n' | sudo tee /etc/udev/rules.d/20-sanket-rtlsdr.rules >/dev/null
+sudo usermod -aG plugdev "$RUN_USER" 2>/dev/null || true
+sudo modprobe -r dvb_usb_rtl28xxu 2>/dev/null || true
+sudo udevadm control --reload-rules 2>/dev/null && sudo udevadm trigger 2>/dev/null || true
+
 say "App files"
 mkdir -p "$APP_DIR/web" "$APP_DIR/voices" "$HOME/sanket_clips"
 curl -fsSL "$BASE/files.txt?t=$(date +%s)" -o "$APP_DIR/files.txt"

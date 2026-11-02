@@ -39,6 +39,15 @@ code,pre{background:#eef2f6;border-radius:4px;font-size:9pt}pre{padding:8px;whit
 </ol>
 <p><img alt="Inputs" src="img/v2_inputs.jpg" /></p>
 <p><img alt="Editing an input (VOX threshold)" src="img/v2_input_edit.jpg" /></p>
+<h3>3a. RTL-SDR receiver</h3>
+<p>Plug an RTL2832U/R820T USB dongle into the Pi and add an <strong>RTL-SDR receiver</strong> input (Inputs → + Add input). It runs <code>rtl_fm</code> and feeds the audio through the same VOX → recording → offline transcription → announcement → dashboard path as the mic inputs. Works on Pi 3 and Pi 5.</p>
+<ul>
+<li><strong>Settings per input:</strong> frequency (MHz), mode (NFM, FM, WBFM, AM), squelch (0 = off), tuner gain (<code>auto</code> or dB), sample rate, PPM correction, dongle index. You can also give a comma-separated <strong>scan list</strong> and a <strong>dwell time</strong>. The receiver stays on a frequency while a transmission is in progress.</li>
+<li><strong>Presets:</strong> FM broadcast 88-108 (WBFM), airband 118-137 (AM), 2 m ham 144-146 (NFM), 70 cm ham 430-440 (NFM), marine VHF 156-162 (NFM).</li>
+<li><strong>Detect dongle</strong> runs <code>rtl_test</code> and shows what it finds. The level meter shows the received audio level.</li>
+<li>The installer adds the <code>rtl-sdr</code> package, blacklists the <code>dvb_usb_rtl28xxu</code> TV driver and adds a udev rule. Unplug and replug the dongle (or reboot) after the first install.</li>
+<li><strong>Legal:</strong> this is receive only. Listen only to public bands or bands you are licensed to listen to (broadcast, airband, amateur, marine). Do not monitor police, government or private communications. That is restricted under the Indian Wireless Telegraphy Act.</li>
+</ul>
 <h2>4. Audio output and Bluetooth</h2>
 <ol>
 <li>Open <strong>Audio</strong> and choose the output: default, 3.5 mm jack, HDMI, USB or Bluetooth speaker.</li>

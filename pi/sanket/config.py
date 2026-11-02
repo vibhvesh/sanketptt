@@ -37,7 +37,8 @@ DEFAULTS = {
 }
 SECRET = ("smtp_password", "web_pin")
 INPUT_KEYS = {"id", "type", "name", "enabled", "device", "vox_threshold", "vox_hang_s", "min_clip_s", "max_clip_s",
-              "gain", "forward", "forward_channel", "url", "broker_url", "channel", "file", "interval_s"}
+              "gain", "forward", "forward_channel", "url", "broker_url", "channel", "file", "interval_s",
+              "freq_mhz", "mode", "squelch", "rf_gain", "sample_rate", "ppm", "device_index", "scan", "dwell_s", "preset"}
 
 
 def _copy(x):

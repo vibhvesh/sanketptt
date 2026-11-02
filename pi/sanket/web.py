@@ -2,6 +2,7 @@
 import datetime as dt, json, os, shutil, subprocess, threading
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs, unquote
+from .inputs import rtlsdr
 from . import alerts, audio_io, bluetooth, inputs as inputs_mod
 from .config import KNOWN_CHANNELS, BROKERS, WEB_RADIO
 from .util import APP_DIR, LOG_RING, log, sh
@@ -47,6 +48,7 @@ def routes(app):
         "/api/inputs": lambda q, b: dict(inputs=cfg["inputs"], status=app.inputs.status(), types=inputs_mod.types()),
         "/api/bt": lambda q, b: bluetooth.devices(),
         "/api/wifi": lambda q, b: wifi(),
+        "/api/rtlsdr/detect": lambda q, b: rtlsdr.detect(),
         "/api/auth": lambda q, b: dict(required=app.auth.required()),
     }
     def save_cfg(q, b):
