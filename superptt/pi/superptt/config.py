@@ -44,6 +44,7 @@ DEFAULTS = {
     "out_rate": 48000,
     "directory_token": "",          # read-only token for SuperPTT clients: /api/directory?t=...
     "session_hours": 12,
+    "cors_origins": ["https://vibhvesh.github.io"],   # transcribe PWA may log in with a Bearer token from these origins only
     "lockout": {"max_fail": 5, "window_s": 900, "lock_s": 900, "global_max_fail": 30},
     "tunnel_metrics": "http://127.0.0.1:20241",   # cloudflared --metrics; console shows the public URL
     "public_url": "",               # named-tunnel hostname (https://ptt.example.com) if used

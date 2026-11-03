@@ -1,0 +1,46 @@
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SuperPTT Transcribe</title><link rel=manifest href=manifest.json><meta name=theme-color content="#0b1015"><link rel=icon href=icon.svg>
+<meta name=apple-mobile-web-app-capable content=yes>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1015;color:#d6f0ff;font:15px system-ui}
+header{display:flex;gap:8px;align-items:center;padding:10px 12px;background:#111b24;position:sticky;top:0;z-index:2}
+header b{font-family:monospace;letter-spacing:2px}#net{margin-left:auto;font-size:12px;color:#789}
+.wrap{padding:10px;max-width:760px;margin:auto}.card{background:#121c26;border-radius:10px;padding:10px;margin-bottom:10px}
+button,input,select{background:#1d2d3c;color:#d6f0ff;border:1px solid #345;border-radius:6px;padding:6px 10px;font:inherit}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.m{font-size:12px;color:#789}.hide{display:none}label{font-size:13px}
+.pill{font-size:11px;padding:2px 6px;border-radius:8px;background:#345}.lock{color:#2ecc71;font-size:12px}.open{color:#f93;font-size:12px}.nokey{color:#f66;font-size:12px}
+.tabs button{border-radius:14px}.tabs button.on{background:#1e5631;border-color:#2ecc71}
+.seg{background:#162330;border-radius:8px;padding:8px;margin-bottom:6px;border-left:3px solid #345}
+.seg .h{display:flex;gap:8px;align-items:center;font-size:12px;color:#9ab;flex-wrap:wrap}.seg .h b{color:#d6f0ff;font-size:13px}
+.seg .tx{margin:6px 0 4px;font-size:15px;white-space:pre-wrap;user-select:text}.seg.wait .tx{color:#789;font-style:italic}
+.seg audio{width:100%;height:32px}.lang{background:#2d4a63}mark{background:#f0a500;color:#000}
+</style>
+<header><b>SUPER·PTT</b><span class=pill>TRANSCRIBE</span><span id=net>offline</span><button id=gear>⚙</button></header>
+<div class=wrap>
+<div class="card hide" id=setup>
+ <p class=m>Listen-only. Joins the same public MQTT channels as the SuperPTT app and transcribes every clip.</p>
+ <div class=row><label>Channels <input id=chans placeholder="virtual, master" style=width:240px></label><label><input type=checkbox id=disc> discover active channels</label></div>
+ <details style=margin-top:6px><summary class=m>Broker (default: public brokers)</summary>
+ <div class=row style=margin-top:4px><input id=burl placeholder="wss://your-private-broker (empty = public)" style=flex:1></div>
+ <div class=row style=margin-top:4px><input id=buser placeholder=username style=width:120px autocomplete=username><input id=bpass type=password placeholder=password style=width:120px autocomplete=current-password></div></details>
+ <div class=row style=margin-top:8px><input id=invite placeholder="paste invite link / QR text (…#k=ch.kid.secret)" style=flex:1><button id=addkey>Add key</button></div>
+ <p class=m id=keyinfo></p>
+ <hr style="border-color:#234">
+ <b>Transcription</b>
+ <p class=m>Control room set → transcripts come from the Pi (PIN login). Otherwise this browser transcribes.</p>
+ <div class=row><input id=cr placeholder="control-room URL (https://…trycloudflare.com)" style=flex:1><input id=pin type=password inputmode=numeric placeholder=PIN style=width:100px><button id=login>Log in</button></div>
+ <div class=row style=margin-top:6px><label>Engine <select id=eng><option value=whisper>Local Whisper (in browser)</option><option value=eleven>ElevenLabs (your key)</option></select></label>
+  <label>Model <select id=model><option value="onnx-community/whisper-tiny">whisper-tiny (~40 MB)</option><option value="onnx-community/whisper-base">whisper-base (~80 MB)</option></select></label>
+  <label>Language <select id=lang><option value=auto>auto (tiny often defaults to English)</option><option value=en>English</option><option value=hi>Hindi</option><option value=gu>Gujarati</option><option value=mr>Marathi</option><option value=bn>Bengali</option><option value=ta>Tamil</option><option value=te>Telugu</option><option value=pa>Punjabi</option><option value=ur>Urdu</option></select></label></div>
+ <div class=row style=margin-top:6px><input id=xik type=password placeholder="ElevenLabs API key (kept only in this browser)" style=flex:1 autocomplete=off><button id=xiclr>forget key</button></div>
+ <div class=row style=margin-top:8px><button id=go>Start listening</button><span id=serr class=m></span></div>
+</div>
+<div class=card><div class=row style="justify-content:space-between"><span class="row tabs" id=tabs></span><span id=mode class=m></span></div>
+ <div class=row style=margin-top:8px><input id=q placeholder="🔍 search text / sender" style=flex:1><button id=csv>CSV</button><button id=txt>TXT</button></div></div>
+<div id=feed></div>
+<p class=m id=empty style=text-align:center>No clips yet. Talk on a joined channel with the SuperPTT app.</p>
+</div>
+<script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
+<script src="../superptt.js"></script><script src="transcribe.js"></script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){})</script>
+</html>

@@ -89,7 +89,14 @@ def serve(app):
             if self.via_tunnel(): return False
             try: a = ipaddress.ip_address(self.client_address[0]); return a.is_private or a.is_loopback
             except ValueError: return False
+        def origin_ok(self):
+            o = self.headers.get("Origin") or ""
+            return o if o and o in (cfg.get("cors_origins") or []) else ""
         def sess(self):
+            a = self.headers.get("Authorization") or ""
+            if a.startswith("Bearer ") and self.origin_ok():      # transcribe PWA (cross-origin, allow-listed)
+                v = a[7:].strip()
+                if v in sessions and sessions[v] > time.time(): return v
             c = self.headers.get("Cookie") or ""
             for part in c.split(";"):
                 k, _, v = part.strip().partition("=")
@@ -105,6 +112,7 @@ def serve(app):
             b = json.dumps(o).encode(); self.send_response(code)
             self.send_header("Content-Type", "application/json"); self.hdrs()
             if getattr(self, "_cors", False): self.send_header("Access-Control-Allow-Origin", "*")
+            elif self.origin_ok(): self.send_header("Access-Control-Allow-Origin", self.origin_ok()); self.send_header("Vary", "Origin")
             if cookie is not None:
                 sec = "; Secure" if self.via_tunnel() else ""
                 age = int(cfg["session_hours"] * 3600) if cookie else 0
@@ -120,8 +128,11 @@ def serve(app):
             for k in [k for k, v in sessions.items() if v < time.time()]: sessions.pop(k, None)
             return t
         def do_OPTIONS(self):
-            self.send_response(204); self.send_header("Access-Control-Allow-Origin", "*")
-            self.send_header("Access-Control-Allow-Methods", "GET"); self.send_header("Access-Control-Allow-Headers", "X-Directory-Token")
+            self.send_response(204); o = self.origin_ok()
+            self.send_header("Access-Control-Allow-Origin", o or "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST" if o else "GET")
+            self.send_header("Access-Control-Allow-Headers", "X-Directory-Token, Authorization, Content-Type" if o else "X-Directory-Token")
+            if o: self.send_header("Vary", "Origin")
             self.end_headers()
         # ---- GET ----
         def do_GET(self):
@@ -165,6 +176,7 @@ def serve(app):
                 p = os.path.realpath(os.path.join(root, u.path[5:]))
                 if not p.startswith(root + os.sep) or not os.path.isfile(p): return self.js({"error": "nf"}, 404)
                 b = open(p, "rb").read(); self.send_response(200); self.send_header("Content-Type", "audio/wav"); self.hdrs()
+                if self.origin_ok(): self.send_header("Access-Control-Allow-Origin", self.origin_ok())
                 self.send_header("Content-Length", str(len(b))); self.end_headers(); self.wfile.write(b)
             else: self.js({"error": "nf"}, 404)
         # ---- POST ----
@@ -209,7 +221,8 @@ def serve(app):
                     guard.ok(ip)
                     if not cfg["admin_pin"].startswith("pbkdf2$"): cfg.update({"admin_pin": hash_pin(str(b["pin"]))})
                     app.store.audit(ip, "login", "ok" + (" via tunnel" if self.via_tunnel() else " LAN"))
-                    return self.js({"ok": 1}, cookie=self.new_session())
+                    t = self.new_session()
+                    return self.js({"ok": 1, "token": t} if self.origin_ok() else {"ok": 1}, cookie=t)
                 guard.fail(ip); app.store.audit(ip, "login_failed", "locked" if guard.blocked(ip) > 0 else "bad pin")
                 time.sleep(0.5); return self.js({"error": "bad pin"}, 403)
             s = self.sess()
