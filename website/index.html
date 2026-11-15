@@ -2044,4 +2044,29 @@ main#home .split>.shot .cap{width:100%!important;text-align:center!important}
 .sanket-main-hero{grid-template-columns:minmax(0,1fr)!important}
 .hero-copy{max-width:850px!important}
 .hero-copy .hero-lead{max-width:760px!important}
+
+/* One slim radio ribbon: remove the bulky radio block and station-card feel */
+#tafRadioHub{display:flex!important;align-items:center!important;gap:9px!important;flex-wrap:nowrap!important;padding:6px 10px!important;margin:4px 0 7px!important;border:1px solid #d9e5ee!important;border-radius:9px!important;background:#f3f7fa!important;color:#20364c!important;min-height:42px!important;overflow:hidden!important}
+#tafRadioHub .taf-radio-heading{flex:0 0 auto!important;margin:0!important;gap:0!important}
+#tafRadioHub .taf-radio-heading>div:first-child{display:flex!important;align-items:center!important;gap:6px!important}
+#tafRadioHub .taf-kicker{display:none!important}
+#tafRadioHub .taf-radio-heading h3{font-size:9px!important;letter-spacing:.7px!important;margin:0!important;color:#38556c!important;white-space:nowrap!important}
+#tafRadioHub .taf-radio-heading p,#tafRadioHub #tafDirectoryStatus,#tafRadioHub .taf-radio-actions select,#tafRadioHub .taf-radio-foot,#tafRadioHub #tafNowMeta{display:none!important}
+#tafRadioHub .taf-radio-actions{display:none!important}
+#tafRadioHub .taf-player-row{order:3!important;display:flex!important;flex:0 0 auto!important;gap:4px!important;padding:0!important;border:0!important;background:transparent!important}
+#tafRadioHub .taf-now{display:none!important}
+#tafRadioHub .taf-player-row button{padding:5px 7px!important;border-radius:5px!important;background:#1769aa!important;color:white!important;font-size:8px!important;white-space:nowrap!important}
+#tafRadioHub .taf-top-five{order:2!important;display:flex!important;flex:1 1 auto!important;flex-wrap:nowrap!important;gap:5px!important;min-width:0!important;margin:0!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin!important}
+#tafRadioHub .taf-top-five button{flex:0 0 auto!important;min-width:0!important;padding:5px 9px!important;border:1px solid #cbd9e6!important;border-radius:6px!important;background:#e6eff6!important;color:#24577f!important;text-align:center!important;white-space:nowrap!important}
+#tafRadioHub .taf-top-five button.active{background:#d3eaf8!important;border-color:#4c91c2!important}
+#tafRadioHub .taf-top-five b{font-size:8px!important;color:inherit!important}
+#tafRadioHub .taf-top-five small{display:none!important}
+@media(max-width:650px){
+ #tafRadioHub{gap:5px!important;padding:5px 6px!important;min-height:36px!important}
+ #tafRadioHub .taf-radio-heading h3{font-size:8px!important}
+ #tafRadioHub .taf-top-five{gap:4px!important}
+ #tafRadioHub .taf-top-five button{padding:5px 7px!important}
+ #tafRadioHub .taf-top-five b{font-size:7px!important}
+ #tafRadioHub .taf-player-row button{padding:5px 6px!important;font-size:7px!important}
+}
 </style></body></html>
