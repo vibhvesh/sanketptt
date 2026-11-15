@@ -203,6 +203,25 @@ body.embed-mode .keys #stopBtn{background:linear-gradient(90deg,#6e3e9f,#a34e87)
 body.embed-mode #engSt{font-size:8px!important;color:#82b7d7!important}
 body.embed-mode .modal .panel{background:#0b1c30!important;color:#e5f7ff!important}
 @media(max-width:700px){body.embed-mode .body{padding:5px!important;gap:4px!important}body.embed-mode #log .clip .tx{font-size:12px!important}body.embed-mode .keys #startBtn,body.embed-mode .keys #stopBtn{min-height:29px!important;font-size:9px!important}}
+
+/* Homepage embedded Transcribe: keep controls visible, prioritize live text */
+body.embed-mode{height:auto!important;min-height:100%!important;overflow:auto!important;padding:0!important}
+body.embed-mode .radio{height:auto!important;min-height:0!important;max-width:none!important;width:100%!important}
+body.embed-mode .body{display:flex!important;flex-direction:column!important;padding:8px!important;min-height:0!important}
+body.embed-mode .ant,body.embed-mode .knob,body.embed-mode .plate,body.embed-mode .grille,body.embed-mode .one{display:none!important}
+body.embed-mode .lcd{display:flex!important;flex:1 1 auto!important;height:auto!important;min-height:0!important;padding:8px!important}
+body.embed-mode #log{height:300px!important;min-height:240px!important;max-height:none!important;flex:1 1 auto!important;overflow:auto!important}
+body.embed-mode .keys{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;margin-top:8px!important}
+body.embed-mode .keys>.row{grid-column:1/-1!important;display:flex!important;flex-wrap:wrap!important;gap:6px!important;margin:0 0 5px!important}
+body.embed-mode .keys .sel{flex:1 1 130px!important;min-width:0!important}
+body.embed-mode .keys input,body.embed-mode .keys select{min-height:34px!important;height:34px!important;padding:5px 7px!important;font-size:12px!important}
+body.embed-mode .keys .ptt{grid-column:1/-1!important;display:flex!important;gap:7px!important;margin-top:2px!important}
+body.embed-mode .keys #startBtn,body.embed-mode .keys #stopBtn{padding:9px!important;font-size:14px!important;min-height:38px!important}
+body.embed-mode #kwBar,body.embed-mode #emBanner{display:block!important}
+@media(max-width:700px){
+ body.embed-mode #log{height:280px!important;min-height:220px!important}
+ body.embed-mode .keys{grid-template-columns:1fr!important}
+}
 </style></head><body>
 <div class="radio"><div class="ant"></div><div class="knob"></div>
 <div class="body">
