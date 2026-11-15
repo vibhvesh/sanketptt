@@ -37,7 +37,7 @@ Clients cannot submit an arbitrary tenant prefix. The API takes tenant identity 
 - `GET /v1/backups/{backup_id}/restore`
 - `GET /v1/storage/summary`
 
-This is a foundation, not a production-ready service yet. Scheduled backup orchestration, resumable multipart upload, restore-agent, lifecycle policies, quotas, audit events, malware scanning, admin UI, and end-to-end tests remain implementation work.
+The repository now includes a responsive operator dashboard at `/`, served by FastAPI behind Caddy. It displays tenant-scoped storage totals, backup history and object inventory, and can request short-lived restore/download URLs. Device inventory, backup scheduling visibility, quotas, audit events, lifecycle policies, malware scanning, resumable uploads and end-to-end tests remain follow-on work.
 
 ## Deployment prerequisites
 
@@ -49,9 +49,22 @@ This is a foundation, not a production-ready service yet. Scheduled backup orche
 6. Configure environment variables from `.env.example` in the deployment secret manager.
 7. Deploy the API behind HTTPS. Do not expose PostgreSQL or R2 credentials to Pi clients.
 
-## Local API container
+## Deploy with Docker Compose
 
-Build with `api/Dockerfile`. Run the API only after PostgreSQL, schema, R2 bucket and OIDC settings are configured. The repository intentionally contains no live credentials and does not create cloud resources automatically.
+The stack includes PostgreSQL 16, the FastAPI service, the operator dashboard served by the API, and Caddy for HTTPS. It is designed for a domain pointed at the VPS.
+
+```bash
+cd sanket-central-cloud
+cp .env.example .env
+# Edit .env: set strong database passwords, domain, ACME email,
+# Cloudflare R2 credentials, and OIDC issuer/audience/JWKS URL.
+docker compose config
+docker compose up -d --build
+docker compose ps
+docker compose logs -f api caddy
+```
+
+Open `https://PUBLIC_DOMAIN/`, paste a short-lived OIDC access token, and connect. Do not expose PostgreSQL publicly. The stack intentionally does not create the R2 bucket or identity-provider tenant automatically; create those resources and configure `.env` first. Back up the PostgreSQL volume separately.
 
 ## Backup and migration package contract
 
