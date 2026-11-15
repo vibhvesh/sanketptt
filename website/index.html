@@ -744,6 +744,51 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
  #control .live-pair .transcript-pane .transcript-feed{flex-basis:62px!important;max-height:62px!important}
 }
 </style>
+
+<style id="mobile-cockpit-final-rebuild">
+/* Sanket live workspace: remove conflicting legacy sizing and rebuild the two live panels */
+#control .cockpit-bottom{display:block!important;width:100%!important;min-width:0!important;padding:8px!important}
+#control .live-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important;align-items:stretch!important;width:100%!important;min-width:0!important}
+#control .live-pair>.pane.join-pane,#control .live-pair>.pane.transcript-pane{display:flex!important;flex-direction:column!important;width:100%!important;min-width:0!important;height:660px!important;min-height:660px!important;max-height:660px!important;overflow:hidden!important;margin:0!important}
+#control .live-pair .pane>.ph{display:flex!important;flex:0 0 34px!important;min-height:34px!important;align-items:center!important;white-space:nowrap!important;overflow:hidden!important;font-size:10px!important;padding:5px 8px!important}
+#control .live-pair .try-live-guide,#control .live-pair .transcript-guide{display:flex!important;flex:0 0 auto!important;align-items:center!important;gap:7px!important;min-width:0!important;padding:7px!important;overflow:hidden!important}
+#control .live-pair .try-live-guide>div,#control .live-pair .transcript-guide{min-width:0!important}
+#control .live-pair .try-live-guide b,#control .live-pair .transcript-guide b{display:block!important;font-size:10px!important;line-height:1.25!important;white-space:normal!important}
+#control .live-pair .try-live-guide span,#control .live-pair .transcript-guide span{display:block!important;font-size:8px!important;line-height:1.3!important;white-space:normal!important}
+#control .live-pair .try-live-button{flex:0 0 auto!important;min-height:30px!important;padding:6px 8px!important;font-size:9px!important;white-space:nowrap!important}
+#control .live-pair .join-pane iframe{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;border:0!important;background:#07192d!important}
+#control .live-pair .transcript-pane .transcript-feed{display:none!important}
+#control .live-pair .transcript-pane .listener-mini{display:flex!important;flex:1 1 0!important;flex-direction:column!important;min-width:0!important;min-height:0!important;margin:0!important;padding:4px!important;overflow:hidden!important}
+#control .live-pair .transcript-pane .listener-mini>span{display:block!important;flex:0 0 22px!important;font-size:8px!important;padding:4px!important}
+#control .live-pair .transcript-pane .listener-mini iframe{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;border:0!important;background:#07192d!important}
+#control .live-pair .audio-feed,#control .cockpit-support{display:none!important}
+#tafRadioHub{display:flex!important;flex-direction:row!important;align-items:center!important;flex-wrap:nowrap!important;min-height:38px!important;height:38px!important;max-height:38px!important;padding:3px 6px!important;gap:6px!important;overflow:hidden!important}
+#tafRadioHub .taf-radio-heading{flex:0 0 auto!important}
+#tafRadioHub .taf-top-five{display:flex!important;flex:1 1 auto!important;flex-wrap:nowrap!important;align-items:center!important;gap:5px!important;height:30px!important;min-height:0!important;overflow-x:auto!important}
+#tafRadioHub .taf-top-five button{display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:center!important;min-height:26px!important;height:26px!important;max-height:26px!important;padding:3px 8px!important;border-radius:5px!important}
+#tafRadioHub .taf-top-five button b{font-size:8px!important;line-height:1!important}
+#tafRadioHub .taf-top-five button .icon,#tafRadioHub .taf-top-five button small{display:none!important}
+#tafRadioHub .taf-player-row{display:flex!important;flex:0 0 auto!important;gap:3px!important}
+#tafRadioHub .taf-player-row button{height:26px!important;min-height:26px!important;padding:3px 6px!important;font-size:8px!important}
+@media(max-width:760px){
+ #control .cockpit-bottom{padding:4px!important}
+ #control .live-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:4px!important}
+ #control .live-pair>.pane.join-pane,#control .live-pair>.pane.transcript-pane{height:590px!important;min-height:590px!important;max-height:590px!important;border-radius:7px!important}
+ #control .live-pair .pane>.ph{flex-basis:30px!important;min-height:30px!important;padding:4px!important;font-size:8px!important;letter-spacing:0!important}
+ #control .live-pair .pane>.ph small{font-size:6px!important}
+ #control .live-pair .try-live-guide,#control .live-pair .transcript-guide{gap:4px!important;padding:5px!important}
+ #control .live-pair .try-live-guide b,#control .live-pair .transcript-guide b{font-size:8px!important}
+ #control .live-pair .try-live-guide span,#control .live-pair .transcript-guide span{font-size:7px!important;line-height:1.2!important}
+ #control .live-pair .try-live-button{font-size:8px!important;padding:5px!important}
+ #control .live-pair .transcript-pane .listener-mini>span{font-size:7px!important}
+ #tafRadioHub{height:34px!important;min-height:34px!important;max-height:34px!important;padding:2px 4px!important;gap:4px!important}
+ #tafRadioHub .taf-radio-heading h3{font-size:7px!important}
+ #tafRadioHub .taf-top-five{height:28px!important;gap:3px!important}
+ #tafRadioHub .taf-top-five button{height:24px!important;min-height:24px!important;max-height:24px!important;padding:2px 6px!important}
+ #tafRadioHub .taf-top-five button b{font-size:7px!important}
+ #tafRadioHub .taf-player-row button{height:24px!important;min-height:24px!important;padding:2px 5px!important;font-size:7px!important}
+}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#products">Platform</a><a href="demo.html">Try Live Demo</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div><div class="landing-nav-actions"><a href="demo.html" class="nav-try">TRY IT LIVE ↗</a><a href="#contact" class="nav-contact">CONTACT</a></div></header>
@@ -795,7 +840,7 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 </div>
 <div class="cockpit-bottom">
 <div class="live-pair">
-<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><div class="try-live-guide"><a class="try-live-button" href="#pttControl">🎙 TRY TALK</a><div><b>Start a live conversation</b><span>Allow microphone access when your browser asks. Turn up your device volume and tap the PTT button to speak.</span></div></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=virtual&v=bc4938a&embed=1" allow="microphone; autoplay" loading="eager"></iframe></div>
+<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><div class="try-live-guide"><a class="try-live-button" href="#pttControl">🎙 TRY TALK</a><div><b>Speak on the shared channel</b><span>Allow microphone access, then hold the PTT button to talk. Keep speaker volume on.</span></div></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=virtual&v=bc4938a&embed=1" allow="microphone; autoplay" loading="eager"></iframe></div>
 <div class="pane transcript-pane"><div class="ph">LIVE TRANSCRIPTION <small class="rx-label">● WORDS APPEAR HERE</small></div><div class="transcript-guide"><b>TRY LIVE · READ LIVE TRANSCRIPTIONS HERE</b><span>Speak in the PTT panel. Your received words will appear below with the speaker and timestamp.</span></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>SANKET LISTENER · LIVE TRANSCRIPTION</span><iframe id="liveTranscript" title="Sanket Transcription live PTT listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?compact=1&amp;ch=virtual" loading="eager" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">No audio recordings received yet.</p></div></div></div>
 </div>
 <div class="cockpit-support">
