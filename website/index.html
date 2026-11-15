@@ -740,18 +740,7 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 </div>
 <div class="public-demo-warning" role="note"><span class="warning-symbol">!</span><div><b>PUBLIC DEMO — NOT A PRIVATE CHANNEL</b><p>This is an open-source demonstration line. Anyone connected to this public channel may hear your transmission. Do not share personal, confidential, sensitive or operational information.</p></div></div>\n<div class="hero-proof"><span>✓ Browser-based PTT</span><span>✓ Live radio streams</span><span>✓ Timestamped transcripts</span></div>
 </div>
-<div class="hero-visual">
-<div class="hero-visual-top"><span class="hero-visual-dot"></span> HOW SANKET WORKS · ONE CONNECTED WORKSPACE</div>
-<div class="hero-visual-intro"><b>From the first call to a clear record.</b><span>Four tools work together, so field teams and control-room operators stay in sync.</span></div>
-<div class="hero-visual-grid">
-<div class="hero-visual-tile"><span class="hero-step">01 · COMMUNICATE</span><span class="hero-visual-icon">◉</span><b>Push to Talk</b><small>Press, speak and release. Connect team members over shared channels.</small><span class="hero-mini-flow">TEAM ↔ TEAM</span></div>
-<div class="hero-visual-tile"><span class="hero-step">02 · MONITOR</span><span class="hero-visual-icon">♫</span><b>Live Radio</b><small>Listen to selected online radio stations and supported audio streams.</small><span class="hero-mini-flow">LIVE AUDIO</span></div>
-<div class="hero-visual-tile"><span class="hero-step">03 · UNDERSTAND</span><span class="hero-visual-icon">▤</span><b>Transcription</b><small>Turn received speech into timestamped text for quick review.</small><span class="hero-mini-flow">VOICE → TEXT</span></div>
-<div class="hero-visual-tile"><span class="hero-step">04 · COORDINATE</span><span class="hero-visual-icon">⌁</span><b>Control Room</b><small>Bring channel activity and team status into one operator view.</small><span class="hero-mini-flow">ONE VIEW · MANY LINES</span></div>
-</div>
-<div class="hero-process"><span>FIELD TEAM</span><i>VOICE</i><b>→</b><span>SANKET NETWORK</span><b>→</b><i>TEXT + STATUS</i><b>→</b><span>CONTROL ROOM</span></div>
-<div class="hero-visual-foot"><span>COMMUNICATE</span><span class="hero-visual-line"></span><span>MONITOR · UNDERSTAND · COORDINATE</span></div>
-</div>
+
 </div>
 <div class="console cockpit" id="control">
 <div class="ch"><b>◉ SANKET <em>NETWORK OPERATIONS COCKPIT</em> / LIVE SYSTEM OVERVIEW</b><span class="demo"><i class="live-dot"></i> LIVE PTT DEMO · GAUGES ILLUSTRATIVE</span></div>
@@ -2050,4 +2039,9 @@ main#home .split>.shot .cap{width:100%!important;text-align:center!important}
 .edge-flow article b{display:block!important;color:#20364c!important;font-size:14px!important}
 .edge-flow article p{margin:6px 0 0!important;color:#607487!important;font-size:11px!important;line-height:1.5!important}
 @media(max-width:760px){.edge-flow{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}.edge-flow article{min-height:125px!important;padding:12px!important}.edge-flow article b{font-size:12px!important}.edge-flow article p{font-size:10px!important}}
+
+/* Hero is now a clean text-first layout; remove the redundant explainer illustration */
+.sanket-main-hero{grid-template-columns:minmax(0,1fr)!important}
+.hero-copy{max-width:850px!important}
+.hero-copy .hero-lead{max-width:760px!important}
 </style></body></html>
