@@ -723,7 +723,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <article class="card" id="sdr"><small>05 / MONITOR SPECTRUM</small><h3>Sanket SDR</h3><p>Software-defined radio spectrum and frequency monitoring with waterfall, watchlists, signal analytics and IQ/audio capture.</p><a href="#sdr-detail">Explore SDR ↓</a></article>
 <article class="card" id="edge"><small>06 / EDGE COMPUTE</small><h3>Sanket Edge</h3><p>Always-on Raspberry Pi listener for channel audio, local transcription, spoken announcements and configurable alerts.</p><a href="#edge-detail">Explore Edge ↓</a></article>
 </div>
-<div class="gallery product-visuals" style="margin:24px 0"><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/v2_dashboard.jpg" alt="Sanket Edge software dashboard interface"><div class="cap">Sanket Edge · actual software dashboard</div></div><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/ptt_full.jpg" alt="Sanket PTT software interface"><div class="cap">Sanket PTT · channel interface</div></div></div><div class="head dashboard-showcase" style="margin-top:34px"><div class="eyebrow">The product is the software</div><h2>Explore the actual product interfaces.</h2><p>Switch between dashboard previews for PTT, Control Room, Transcribe, आकाशवाणी, Edge and SDR. These software screens are the primary product showcase; preview telemetry is illustrative sample data, not a live connection.</p></div>
+<div class="gallery product-visuals sanket-mockup-gallery" style="margin:24px 0"><div class="shot"><img loading="lazy" src="assets/mockup-ptt.svg" alt="Sanket PTT polished channel console mockup"><div class="cap">Sanket PTT · multi-channel field communication</div></div><div class="shot"><img loading="lazy" src="assets/mockup-transcribe.svg" alt="Sanket Transcribe polished live transcript interface mockup"><div class="cap">Sanket Transcribe · live searchable records</div></div><div class="shot"><img loading="lazy" src="assets/mockup-sdr.svg" alt="Sanket SDR polished spectrum and watchlist mockup"><div class="cap">Sanket SDR · RF spectrum intelligence</div></div><div class="shot"><img loading="lazy" src="assets/mockup-edge.svg" alt="Sanket Edge polished local AI monitoring mockup"><div class="cap">Sanket Edge · on-device intelligence</div></div></div><div class="head dashboard-showcase" style="margin-top:34px"><div class="eyebrow">The product is the software</div><h2>Explore the actual product interfaces.</h2><p>Switch between dashboard previews for PTT, Control Room, Transcribe, आकाशवाणी, Edge and SDR. These software screens are the primary product showcase; preview telemetry is illustrative sample data, not a live connection.</p></div>
 <div class="demoTabs" aria-label="Choose a software dashboard"><button class="demoTab active" data-demo="ptt">PTT</button><button class="demoTab" data-demo="control">Control Room</button><button class="demoTab" data-demo="broadcast">Broadcast</button><button class="demoTab" data-demo="aakashvani">आकाशवाणी PA</button><button class="demoTab" data-demo="transcribe">Recording-to-Text</button><button class="demoTab" data-demo="edge">Sanket Edge</button><button class="demoTab" data-demo="sdr">Sanket SDR</button><button class="demoTab" data-demo="cloud">Central Cloud</button></div>
 <div class="productDemo">
 <div class="demoScreen active" id="demo-ptt"><div class="demoTop"><b>SANKET PTT / CHANNEL CONSOLE</b><span class="demoFlag">SAMPLE DATA</span></div><div class="demoBody"><div class="demoTile"><h4>CHANNELS</h4><div class="demoRow"><b>Master</b><em class="demoPill">ACTIVE</em></div><div class="demoRow"><b>City-Control</b><span>12 members</span></div><div class="demoRow"><b>Unit-Alpha</b><span>08 members</span></div><div class="demoRow"><b>Ground</b><span>06 members</span></div></div><div class="demoTile"><h4>NOW TRANSMITTING</h4><div class="demoBig">PATROL-12</div><div class="demoSub">MASTER CHANNEL · 00:08</div><div class="demoWave" id="pttWave"></div><div class="demoBar"><i style="width:74%"></i></div><div class="demoSub">Audio level · illustrative</div></div><div class="demoTile"><h4>SESSION ACTIVITY</h4><div class="demoBig">26 <small>online members</small></div><div class="demoRow"><span>Messages today</span><b>126</b></div><div class="demoRow"><span>Last transmission</span><b>16:08:21</b></div><div class="demoActions"><a href="https://vibhvesh.github.io/sanketptt/" target="_blank" rel="noopener">Open PTT ↗</a></div></div></div></div>
@@ -1385,4 +1385,23 @@ function googleTranslateElementInit(){
  }
 }
 </style>
-</body></html>
+<style id="sanket-product-mockup-refresh">
+/* Product suite mockups: consistent cards, full-width assets and no cropped screenshots */
+#products .sanket-mockup-gallery{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important;align-items:stretch!important}
+#products .sanket-mockup-gallery .shot{min-width:0!important;overflow:hidden!important;padding:10px!important;border:1px solid #e1e8ef!important;border-radius:14px!important;background:#fff!important}
+#products .sanket-mockup-gallery .shot img{display:block!important;width:100%!important;height:auto!important;aspect-ratio:1200/760!important;object-fit:contain!important;background:#071729!important;border-radius:9px!important}
+#products .sanket-mockup-gallery .cap{padding:9px 4px 2px!important;font-size:11px!important;line-height:1.45!important;color:#526579!important}
+#sdr-detail .wrap{width:min(100% - 40px,1180px)!important;max-width:1180px!important;margin-inline:auto!important}
+#sdr-detail .sdr-cockpit{box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important;padding:18px!important}
+#sdr-detail .sdr-visual-grid{min-width:0!important;grid-template-columns:minmax(0,1.65fr) minmax(260px,.85fr)!important;gap:12px!important}
+#sdr-detail .sdr-plot-panel,#sdr-detail .sdr-side-panel{min-width:0!important;max-width:100%!important;overflow:hidden!important}
+#sdr-detail canvas{display:block!important;width:100%!important;max-width:100%!important;height:auto!important}
+#sdr-detail .sdr-table-wrap{max-width:100%!important;overflow-x:auto!important}
+@media(max-width:760px){
+ #products .sanket-mockup-gallery{grid-template-columns:1fr!important;gap:12px!important}
+ #products .sanket-mockup-gallery .shot img{aspect-ratio:1200/760!important}
+ #sdr-detail .wrap{width:calc(100% - 24px)!important}
+ #sdr-detail .sdr-cockpit{padding:10px!important}
+ #sdr-detail .sdr-visual-grid{grid-template-columns:minmax(0,1fr)!important}
+}
+</style></body></html>
