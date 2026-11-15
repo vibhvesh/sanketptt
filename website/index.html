@@ -115,6 +115,13 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .taf-radio-foot{display:flex;justify-content:space-between;gap:10px;margin-top:12px;padding-top:9px;border-top:1px solid #234760;color:#7899b1;font-size:8px;letter-spacing:.5px}
 @media(max-width:600px){.taf-radio-hub{padding:13px}.taf-radio-heading{align-items:flex-start;flex-direction:column}.taf-stream-grid{grid-template-columns:1fr}.taf-stream-card{display:grid;grid-template-columns:42px 1fr auto;align-items:center;column-gap:9px;padding:10px}.taf-onair{grid-column:1/-1}.taf-station-icon{grid-column:1;grid-row:2/4;margin:5px 0}.taf-stream-card h4{grid-column:2;grid-row:2;margin:0}.taf-stream-card p{grid-column:2;grid-row:3;margin:2px 0 0}.taf-stream-card a{grid-column:3;grid-row:2/4}.taf-radio-foot{font-size:7px}}
 
+
+/* Compact radio player */
+.taf-radio-hub{padding:10px 14px!important;background:linear-gradient(135deg,#081b30,#0d2b45);border-top:1px solid #234760;border-bottom:1px solid #234760;color:#eaf6ff}
+.taf-radio-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.taf-radio-heading h3{font-size:16px!important;margin:1px 0}.taf-radio-heading p{font-size:9px;margin:0}.taf-radio-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.taf-radio-actions span,.taf-radio-foot{font-size:8px;color:#8eb0c7}.taf-radio-actions select{max-width:210px;background:#102f4a;color:#eaf6ff;border:1px solid #34718a;border-radius:6px;padding:7px;font-size:10px}
+.taf-player-row{display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid #28516b;border-radius:8px;background:#102f4a}.taf-now{display:flex;align-items:center;gap:8px;flex:1;min-width:0}.taf-now b,.taf-now small{display:block}.taf-now b{font-size:11px}.taf-now small{font-size:8px;color:#91aec3}.taf-live-dot{width:8px;height:8px;flex:none;border-radius:50%;background:#43e4aa;box-shadow:0 0 8px #43e4aa}.taf-player-row button{border:1px solid #34718a;background:#17425e;color:#fff;border-radius:6px;padding:7px 10px;font-size:9px;font-weight:900;cursor:pointer}.taf-player-row button:disabled{opacity:.4;cursor:not-allowed}#tafAudio{display:none}
+.taf-top-five{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:7px}.taf-top-five button{min-width:0;text-align:left;padding:7px 8px;border:1px solid #28516b;border-radius:6px;background:#0c2942;color:#eaf6ff;cursor:pointer}.taf-top-five button.active{border-color:#43d9c9;background:#16405a}.taf-top-five b,.taf-top-five small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.taf-top-five b{font-size:9px}.taf-top-five small{font-size:8px;color:#91aec3;margin-top:2px}.taf-radio-foot{display:flex;justify-content:space-between;gap:8px;margin-top:7px;padding-top:6px;border-top:1px solid #234760}
+@media(max-width:650px){.taf-radio-hub{padding:9px!important}.taf-radio-heading{align-items:flex-start}.taf-radio-heading p{display:none}.taf-radio-actions{justify-content:flex-end}.taf-top-five{grid-template-columns:repeat(2,minmax(0,1fr))}.taf-top-five button:last-child{grid-column:1/-1}.taf-player-row{gap:5px}.taf-player-row button{padding:7px 8px}.taf-radio-actions select{max-width:150px}}
 </style><style>
 /* Prevent layout breakage from translated strings and long labels */
 html,body{max-width:100%;overflow-x:hidden}
@@ -642,14 +649,18 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="cstat"><span>ACTIVE TRANSMITTERS</span><b id="kTx">03</b><em>Floor control monitored</em></div>
 <div class="cstat"><span>ALERTS</span><b class="warnnum" id="kAlerts">02</b><em>Operator attention</em></div>
 </div>
-<div class="command-title"><h2>SANKET COMMAND CENTER</h2><p>LIVE SYSTEM OVERVIEW · PTT NETWORK · TRANSCRIPTION · DISPATCH</p></div><div class="taf-radio-hub" aria-label="Akashvani radio streams">
-<div class="taf-radio-heading"><div><span class="taf-kicker">AKASHVANI · OFFICIAL RADIO</span><h3>RADIO STREAMS</h3><p>Choose a station and open its official live player. No unverified third-party stream URLs are embedded here.</p></div><a class="taf-directory" href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">ALL STATIONS ↗</a></div>
-<div class="taf-stream-grid">
-<article class="taf-stream-card"><span class="taf-onair">● OFFICIAL</span><div class="taf-station-icon">♫</div><h4>Vividh Bharati</h4><p>National · Hindi</p><a href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">LISTEN LIVE ↗</a></article>
-<article class="taf-stream-card"><span class="taf-onair">● OFFICIAL</span><div class="taf-station-icon">FM</div><h4>FM Gold Delhi</h4><p>Delhi · Hindi</p><a href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">LISTEN LIVE ↗</a></article>
-<article class="taf-stream-card"><span class="taf-onair">● OFFICIAL</span><div class="taf-station-icon">24</div><h4>AIR Live News 24x7</h4><p>National · Hindi / English</p><a href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">LISTEN LIVE ↗</a></article>
+<div class="command-title"><h2>SANKET COMMAND CENTER</h2><p>LIVE SYSTEM OVERVIEW · PTT NETWORK · TRANSCRIPTION · DISPATCH</p></div><div class="taf-radio-hub" id="tafRadioHub" aria-label="Live radio player">
+<div class="taf-radio-heading"><div><span class="taf-kicker">LIVE RADIO · INDIA + WORLD</span><h3>RADIO</h3><p>Five quick picks. Choose another station from the live directory.</p></div><div class="taf-radio-actions"><span id="tafDirectoryStatus">Checking stations…</span><select id="tafStationSelect" aria-label="More radio stations"><option value="">More stations…</option></select></div></div>
+<div class="taf-player-row"><div class="taf-now"><span class="taf-live-dot"></span><div><b id="tafNowName">Select a station</b><small id="tafNowMeta">Live radio directory</small></div></div><button id="tafPlayBtn" type="button" disabled>▶ PLAY</button><button id="tafStopBtn" type="button" disabled>■ STOP</button></div>
+<audio id="tafAudio" controls preload="none" playsinline></audio>
+<div class="taf-top-five" id="tafTopFive">
+<button type="button" data-station="bbc-world-service"><b>BBC World Service</b><small>International · English</small></button>
+<button type="button" data-station="npr-news"><b>NPR News</b><small>USA · English</small></button>
+<button type="button" data-station="vividh-bharati"><b>Vividh Bharati</b><small>India · Hindi</small></button>
+<button type="button" data-station="fm-gold-delhi"><b>FM Gold Delhi</b><small>India · Hindi</small></button>
+<button type="button" data-station="air-news"><b>AIR News 24×7</b><small>India · Hindi / English</small></button>
 </div>
-<div class="taf-radio-foot"><span>PRASAR BHARATI · AKASHVANI</span><span>Official player opens in a new tab</span></div>
+<div class="taf-radio-foot"><span>TOP PICKS + VERIFIED DIRECTORY</span><span id="tafLastChecked">Directory status pending</span></div>
 </div>
 </div>
 <div class="live-signals" aria-label="Live system signals">
@@ -1186,4 +1197,28 @@ function googleTranslateElementInit(){
  frame();
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&raf)cancelAnimationFrame(raf);else if(!document.hidden&&!reduced)frame();});
 })();
-</script></body></html>
+</script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+<script>
+(()=>{
+ const audio=document.getElementById('tafAudio'),select=document.getElementById('tafStationSelect'),play=document.getElementById('tafPlayBtn'),stop=document.getElementById('tafStopBtn'),name=document.getElementById('tafNowName'),meta=document.getElementById('tafNowMeta'),status=document.getElementById('tafDirectoryStatus'),checked=document.getElementById('tafLastChecked');if(!audio||!select)return;
+ const catalog=[
+ {id:'bbc-world-service',name:'BBC World Service',region:'International',language:'English',url:'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service',type:'mp3'},
+ {id:'npr-news',name:'NPR News',region:'USA',language:'English',url:'https://npr-ice.streamguys1.com/live.mp3',type:'mp3'},
+ {id:'vividh-bharati',name:'Vividh Bharati',region:'India',language:'Hindi',url:'https://radio.wavespb.com/live/146ed6ec6dea5a24/146ed6ec6dea5a24.m3u8',type:'hls'},
+ {id:'fm-gold-delhi',name:'FM Gold Delhi',region:'India',language:'Hindi',url:'https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi03/air003_Auto.m3u8',type:'hls'},
+ {id:'air-news',name:'AIR News 24×7',region:'India',language:'Hindi / English',url:'https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi01/air001_Auto.m3u8',type:'hls'}];
+ let current=null,hls=null;
+ function stopAudio(){audio.pause();audio.removeAttribute('src');audio.load();if(hls){hls.destroy();hls=null;}play.disabled=!current;stop.disabled=true;play.textContent='▶ PLAY';}
+ function choose(st){if(!st)return;stopAudio();current=st;name.textContent=st.name;meta.textContent=st.region+' · '+st.language;play.disabled=false;stop.disabled=false;document.querySelectorAll('.taf-top-five button').forEach(b=>b.classList.toggle('active',b.dataset.station===st.id));}
+ function find(id){return catalog.find(x=>x.id===id)||directory.find(x=>x.id===id);}
+ const directory=[];
+ function start(){if(!current)return;stopAudio();play.disabled=true;play.textContent='CONNECTING…';if(current.type==='hls'&&window.Hls&&Hls.isSupported()){hls=new Hls({enableWorker:true,lowLatencyMode:false});hls.loadSource(current.url);hls.attachMedia(audio);hls.on(Hls.Events.MANIFEST_PARSED,()=>audio.play().catch(()=>{play.disabled=false;play.textContent='▶ PLAY';}));hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal){status.textContent='Stream unavailable';stopAudio();}});}else{audio.src=current.url;audio.load();audio.play().catch(()=>{play.disabled=false;play.textContent='▶ PLAY';});}play.textContent='▶ PLAY';play.disabled=false;stop.disabled=false;}
+ document.querySelectorAll('.taf-top-five button').forEach(b=>b.addEventListener('click',()=>{const st=find(b.dataset.station);choose(st);start();}));play.addEventListener('click',()=>start());stop.addEventListener('click',()=>stopAudio());audio.addEventListener('playing',()=>{play.textContent='▶ PLAY';play.disabled=false;status.textContent='Playing';});audio.addEventListener('error',()=>{status.textContent='Stream could not be played';play.disabled=false;});
+ function renderDirectory(data){directory.splice(0,directory.length,...data.filter(x=>!catalog.some(c=>c.id===x.id)));select.innerHTML='<option value="">More stations…</option>';directory.forEach(st=>{const o=document.createElement('option');o.value=st.id;o.textContent=st.name+' · '+st.region;select.append(o);});}
+ select.addEventListener('change',()=>{const st=find(select.value);if(st){choose(st);start();select.value='';}});
+ async function refresh(){try{const r=await fetch('./data/radio-directory.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('directory');const j=await r.json();renderDirectory(j.stations||[]);status.textContent='Directory refreshed';checked.textContent='Updated '+new Date(j.generated_at||Date.now()).toLocaleTimeString();}catch(e){status.textContent='Using built-in top five';}}
+ refresh();setInterval(refresh,15*60*1000);
+})();
+</script>
+</body></html>
