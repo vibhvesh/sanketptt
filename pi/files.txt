@@ -27,6 +27,7 @@ sanket/sstv.py
 sanket/storage.py
 sanket/sysmon.py
 sanket/transcribe.py
+sanket/usb_backup.py
 sanket/util.py
 sanket/web.py
 sanket/__init__.py
