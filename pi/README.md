@@ -36,6 +36,22 @@ Example: `curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | SANKET
 * **Logs:** `journalctl -u sanket-pi -f` (also under **System → Logs**).
 * **Reboot:** `sudo reboot` – the service and the kiosk start again automatically.
 
+## USB backup and migration (offline)
+
+Open **System → USB Backup & Restore** and insert a writable, mounted USB pen drive.
+
+1. Select the USB drive and enter a passphrase of at least 10 characters.
+2. Choose whether to include recordings/transcripts and voice models.
+3. Select **Create USB Backup**. Sanket writes an encrypted archive under `SanketBackups/` on the pen drive.
+4. On a new Pi 5, install Sanket, insert the same pen drive, select the backup, enter its passphrase, and choose a new hostname.
+5. Select **Restore & Restart**. The Pi restores Sanket configuration and selected data, assigns the new hostname, and restarts the service.
+
+Backups use OpenSSL AES-256-CBC with PBKDF2 (200,000 iterations). The passphrase is not stored on the Pi or USB drive. Keep it safe: there is no password recovery. The USB backup is the only backup path; no cloud or network backup is used.
+
+The restore intentionally does not copy Wi-Fi credentials, SSH host keys, operating-system identity, or machine-specific network settings. It preserves Sanket application settings, including the configured channels and credentials, and sets the new Sanket display name to the requested hostname. Recordings and voice models are optional.
+
+USB drives must already be mounted by Raspberry Pi OS under `/media`, `/run/media`, or `/mnt`. FAT32, exFAT and ext4 work when the OS mounts them writable. FAT32 has a 4 GB maximum file size, so use exFAT or ext4 for large recording archives.
+
 ## Bluetooth
 
 **Audio → Bluetooth**: scan, pair, connect, disconnect and forget devices. A connected Bluetooth speaker can be chosen as
