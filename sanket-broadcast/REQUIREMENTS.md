@@ -140,3 +140,32 @@ One-line installer should:
 - Four USB stereo sound cards do not automatically guarantee eight perfectly synchronized independent mono outputs. Validate the actual devices, clocks, ALSA configuration and simultaneous stream stability on the target Pi. For higher reliability, consider a single multichannel USB audio interface.
 - Audio monitoring routing, event notification forwarding, and live PTT retransmission are separate operations and must be separately configured.
 - Hardware support depends on Linux kernel/firmware and device compatibility; the app can detect/report driver readiness but cannot promise a driver exists for every USB device.
+
+
+## 10. Same-device coexistence: Sanket PTT + Sanket Broadcast
+
+The first deployment and test target is one Raspberry Pi running both applications at the same time. A second Pi is not required for the initial pilot.
+
+- Keep the existing Sanket PTT Control Room installed and operational alongside Sanket Broadcast.
+- Use separate application directories, virtual environments, systemd services, configuration files, logs and data directories.
+- Leave the existing PTT dashboard/API on its current port (documented as 8090). Give Broadcast a configurable separate port, initially proposed as 8091, and check for conflicts during installation.
+- Never overwrite, migrate, rename or delete existing PTT databases, recordings, environment files, configuration, service or desktop shortcuts.
+- Define service ownership clearly: existing PTT remains authoritative for its current ingest, recording and transcription until a tested migration is explicitly approved. Broadcast owns its new routing cockpit and relay features.
+- Integrate through documented interfaces. Avoid duplicate MQTT subscriptions that could cause duplicate recording, transcription or alert handling.
+- Establish a single owner for each physical playback stream. Do not let both applications open the same exclusive ALSA device in conflicting modes; use an explicit API/IPC audio handoff where needed.
+- Monitor combined CPU, RAM, storage and USB load, plus each service's health.
+- Installer detects the existing PTT installation, checks its health before and after installing Broadcast, and supports rollback/uninstall of Broadcast independently.
+- Start, stop, restart, update and uninstall each application independently. Restarting Broadcast must not stop PTT.
+- Provide separate desktop shortcuts and a clear landing choice for both applications.
+
+### Same-device acceptance test
+
+1. Boot one Raspberry Pi 5 with both services enabled.
+2. Confirm both services remain active and both dashboards open on separate ports.
+3. Receive multiple PTT lines and verify existing recording/transcription is unchanged.
+4. Route monitoring through Broadcast to the configured USB outputs.
+5. Test alert automation and relay in a controlled environment.
+6. Disconnect/reconnect an output and restart Broadcast; verify PTT ingest, recording and transcription continue.
+7. Reboot and verify independent startup without port, device-lock or data-directory conflicts.
+
+The same-device pilot is the default deployment target. A second Pi is an optional later scale-out or redundancy option.
