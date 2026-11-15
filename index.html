@@ -153,6 +153,25 @@ body.embed-mode #powerOff{width:100%!important;margin-top:7px!important;min-heig
  body.embed-mode #login{padding:8px!important}
  body.embed-mode #ptt{height:104px!important;min-height:104px!important}
 }
+</style>
+<style id="embed-radio-fit-v3">
+html,body{margin:0!important}
+body.embed-mode{padding:0!important;overflow:hidden!important;min-height:0!important}
+body.embed-mode .app-shell{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+body.embed-mode .sidebar{display:none!important}
+body.embed-mode .app-main{width:100%!important;min-width:0!important;padding:0!important;margin:0!important}
+body.embed-mode .rig{width:100%!important;max-width:none!important;min-height:0!important;padding:7px!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+body.embed-mode .lcd{padding:5px!important;margin-bottom:5px!important}
+body.embed-mode #login{padding:7px!important}
+body.embed-mode #login h3{font-size:10px!important;margin-bottom:4px!important}
+body.embed-mode #login input{min-height:34px!important;padding:6px 8px!important;font-size:13px!important}
+body.embed-mode #login button{min-height:38px!important;padding:7px!important}
+body.embed-mode #main{padding-top:4px!important}
+body.embed-mode #unlock{min-height:32px!important;padding:5px!important}
+body.embed-mode #ptt{height:clamp(76px,16vh,118px)!important;min-height:76px!important;font-size:clamp(19px,4vw,27px)!important}
+body.embed-mode #powerOff{min-height:32px!important;margin-top:5px!important;padding:6px!important}
+body.embed-mode .rig>.panel:not(#login){display:none!important}
+body.embed-mode .rig:before,body.embed-mode .rig:after{display:none!important}
 </style></head><body><div class="app-shell"><aside class="sidebar"><div class="side-brand">SANKET <b>PTT</b><small>CONTROL MENU</small></div><details open><summary>Radio tools</summary><a href="#onair">On-air users</a><div id="side-log"></div></details><details><summary>Station & location</summary><div id="side-loc"></div></details><details><summary>Media tools</summary><div id="side-sstv"></div></details><div class="side-foot">Settings and tools</div></aside><div class="app-main"><div class=rig>
 <div class=brand><img src="website/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
