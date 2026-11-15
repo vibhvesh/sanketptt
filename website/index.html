@@ -999,6 +999,44 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
  .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane>.listener-mini>span{font-size:6px!important}
 }
 </style>
+
+<style id="final-equal-live-panels">
+/* Final constraint: two equal-width, equal-height PTT and transcription panels */
+.hero .wrap>.cockpit-bottom>.live-pair{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ grid-template-rows:600px!important;
+ grid-auto-flow:column!important;
+ align-items:stretch!important;
+ gap:10px!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ height:600px!important;min-height:600px!important;max-height:600px!important;
+ box-sizing:border-box!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane,
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane{
+ grid-row:1!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ height:600px!important;min-height:600px!important;max-height:600px!important;
+ box-sizing:border-box!important;overflow:hidden!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane{grid-column:1!important}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane{grid-column:2!important}
+@media(max-width:760px){
+ .hero .wrap>.cockpit-bottom>.live-pair{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:540px!important;gap:5px!important;
+  height:540px!important;min-height:540px!important;max-height:540px!important
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.join-pane,
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane{
+  grid-row:1!important;width:100%!important;min-width:0!important;
+  height:540px!important;min-height:540px!important;max-height:540px!important
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.join-pane{grid-column:1!important}
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane{grid-column:2!important}
+}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#products">Platform</a><a href="demo.html">Try Live Demo</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div><div class="landing-nav-actions"><a href="demo.html" class="nav-try">TRY IT LIVE ↗</a><a href="#contact" class="nav-contact">CONTACT</a></div></header>
@@ -1013,31 +1051,8 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 <a class="hero-btn secondary" href="#contact"><span class="hero-btn-icon">✉</span> CONTACT US</a>
 <a class="hero-text-link" href="#products">Explore the platform <span>→</span></a>
 </div>
-<div class="public-demo-warning" role="note"><span class="warning-symbol">!</span><div><b>PUBLIC DEMO — NOT A PRIVATE CHANNEL</b><p>This is an open-source demonstration line. Anyone connected to this public channel may hear your transmission. Do not share personal, confidential, sensitive or operational information.</p></div></div>\n<div class="hero-proof"><span>✓ Browser-based PTT</span><span>✓ Live radio streams</span><span>✓ Timestamped transcripts</span></div>
-</div>
-<div class="hero-device-visual" aria-label="Real-world communication hardware that can work with software push-to-talk networks">
-<div class="device-photo-main">
-<a href="https://www.motorolasolutions.com/en_xl/solutions/emergency-medical-services.html" target="_blank" rel="noopener" aria-label="View Motorola communication devices">
-<img src="https://www.motorolasolutions.com/content/dam/msi/images/en_xl/emergency-medical-services/mototrbo-lte-445x445.png" alt="Professional handheld two-way radios and a smartphone running a push-to-talk application" loading="eager">
-</a>
-<div class="device-photo-label"><b>RUGGED PTT RADIOS</b><span>Handheld · LTE · Wi-Fi</span></div>
-</div>
-<div class="device-photo-stack">
-<div class="device-photo-card">
-<a href="https://www.rideontrack.com/solutions/dispatching/" target="_blank" rel="noopener" aria-label="View professional dispatch console">
-<img src="https://www.rideontrack.com/content/uploads/2023/04/02-3D-front-MCFlex-TBHPMBGB-better-1920-1536x864.png" alt="Professional dispatch desk console with touchscreen, handset and headset" loading="eager">
-</a>
-<div class="device-photo-label"><b>DISPATCH CONSOLE</b><span>Desk operator · Headset · Handset</span></div>
-</div>
-<div class="device-photo-card">
-<a href="https://en.caltta.com/product/push-to-talk-over-cellular/" target="_blank" rel="noopener" aria-label="View cellular push-to-talk devices">
-<img src="https://en.caltta.com/uploads/image/20230201/09/caltta-product-echat-radios.png" alt="Push-to-talk over cellular rugged radio handsets and smartphones" loading="eager">
-</a>
-<div class="device-photo-label"><b>WIRELESS PTT DEVICES</b><span>Radio-style handset · Smartphone</span></div>
-</div>
-</div>
-<div class="device-photo-caption"><span class="hero-caption-dot"></span> ONE SOFTWARE NETWORK · RADIOS · PHONES · DISPATCH</div>
-<div class="device-photo-credit">Product imagery: Motorola Solutions · RideOnTrack · Caltta</div>
+<div class="public-demo-warning" role="note"><span class="warning-symbol">!</span><div><b>PUBLIC DEMO — NOT A PRIVATE CHANNEL</b><p>This is an open-source demonstration line. Anyone connected to this public channel may hear your transmission. Do not share personal, confidential, sensitive or operational information.</p></div></div>
+<div class="hero-proof"><span>✓ Browser-based PTT</span><span>✓ Live radio streams</span><span>✓ Timestamped transcripts</span></div>
 </div>
 
 </div>
