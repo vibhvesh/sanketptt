@@ -208,7 +208,7 @@ body.embed-mode .modal .panel{background:#0b1c30!important;color:#e5f7ff!importa
 <div class="body">
 <div class="plate"><div class="brand"><img src="../website/sanket-mark.svg" alt="Sanket logo" width="34" height="34" style="vertical-align:middle;margin-right:8px">SANKET TRANSCRIBE<small>BY CANBERRA VISION AI SYSTEMS</small></div><div class="tri"></div><span class="demo">DEMO</span><button class="gear" id="gearBtn" title="Settings" aria-label="Settings">⚙</button></div>
 <div class="lcd">
- <div class="strip"><canvas id="meter" width="900" height="56"></canvas><div class="prog" id="prog"><div></div></div><div id="status">Idle. Enter your API key in Settings, then press Start.</div></div>
+ <div class="strip"><canvas id="meter" width="900" height="56"></canvas><div class="prog" id="prog"><div></div></div><div id="status">Idle. Local transcription is ready; press Start.</div></div>
  <div class="lh"><span>◂ RX LOG · NEWEST FIRST</span><span><span id="devLine" style="font-size:10px"></span> <span id="sess">SESSION —</span> <span id="cnt"></span></span></div>
  <div id="emBanner" role="button">✉ Email alerts paused — tap to connect Gmail</div>
  <div id="kwBar"></div>
@@ -217,15 +217,14 @@ body.embed-mode .modal .panel{background:#0b1c30!important;color:#e5f7ff!importa
 <div class="grille"></div>
 <div class="keys">
  <div class="row" id="inRow" style="gap:6px;margin-bottom:8px;flex-wrap:wrap"><label class="sel">INPUT<select id="inSrc"><option value="mic">🎙 Mic</option><option value="ptt">📻 Web page / PTT radio</option></select></label><label class="sel" id="pttWrap" style="flex:2">PTT LINK<input id="pttUrl" placeholder="radio link"></label><div id="pttShare" style="width:100%;font-size:12px"></div><div id="pttSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
- <div class="row" style="gap:6px;margin-bottom:8px"><label class="sel">TRANSCRIPTION ENGINE<select id="engine"><option value="free">🆓 Free (in-browser Whisper)</option><option value="eleven">ElevenLabs (API key)</option></select></label><div id="engSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
+ <div class="row" style="gap:6px;margin-bottom:8px"><label class="sel">TRANSCRIPTION ENGINE<select id="engine"><option value="free">Local Engine · Whisper</option><option value="canberra" disabled>Canberra AI Engine · Disabled in demo</option></select></label><div id="engSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
  <div class="row" id="languageRow" style="gap:6px;margin-bottom:8px"><label class="sel" style="flex:1">SOURCE LANGUAGE<select id="src"></select></label><label class="sel" style="flex:1">DESTINATION LANGUAGE<select id="dst"></select></label></div>
  <div class="ptt"><button id="startBtn">▶ START</button><button id="stopBtn" disabled>■ STOP</button></div>
 </div>
-<div class="one"><a id="pttBackLink" href="../" target="_blank" rel="noopener" style="color:inherit">📻 Open PTT Radio</a> · DEMO · Temporary data, auto-deleted after 7 days · ⚙ Settings for key, languages &amp; alerts</div>
+<div class="one"><a id="pttBackLink" href="../" target="_blank" rel="noopener" style="color:inherit">📻 Open PTT Radio</a> · DEMO · Temporary data, auto-deleted after 7 days · ⚙ Settings for languages &amp; alerts</div>
 </div></div>
 <div class="modal" id="setModal"><div class="panel"><div class="ph"><span>⚙ SETTINGS</span><button class="gear" id="setClose" aria-label="Close">✕</button></div><div class="dw">
- <label>ElevenLabs API key (stored only in this browser)<input id="key" type="password" placeholder="xi-api-key" autocomplete="off"></label>
- <div class="row"><button class="lt" id="saveKey">Save key</button><button class="lt" id="forgetKey">Forget key</button></div>
+
  <label><span>Hang time (squelch tail): <span id="hangV">1.5</span> s</span><input id="hang" type="range" min="0.8" max="3" step="0.1" value="1.5"></label>
  <label><span>Threshold margin: <span id="marV">9</span> dB</span><input id="mar" type="range" min="4" max="20" step="1" value="9"></label>
  <button id="recalBtn" class="lt" disabled>⟳ Recalibrate squelch</button>
@@ -248,7 +247,7 @@ body.embed-mode .modal .panel{background:#0b1c30!important;color:#e5f7ff!importa
  <div style="font-size:10px">Sent from your own Gmail (Google sign-in only when you tap Connect). Failed emails are retried once.</div></div>
  <div class="note d"><b>Demo only</b> — not for official or commercial use.</div>
  <div class="note"><b>Data notice:</b> Your data is temporary and stored only in this browser. Download your data yourself; anything older than 7 days is deleted automatically.</div>
- <div class="foot">Audio clips are transcribed on-device (free Whisper) or sent to ElevenLabs if selected, and text to Google Translate (fallback MyMemory) for processing. Sanket Transcribe · Proprietary product of Canberra Vision AI Systems.</div>
+ <div class="foot">Audio clips are transcribed locally with Whisper; text translation uses Google Translate (fallback MyMemory). Sanket Transcribe · Proprietary product of Canberra Vision AI Systems.</div>
 </div></div></div>
 <div id="gWarn" role="status" style="display:none;position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;max-width:92vw;background:#ffd84a;color:#2a2200;border:2px solid #b38f00;border-radius:8px;padding:8px 34px 8px 12px;font:13px/1.35 system-ui,sans-serif;box-shadow:0 4px 14px #0006"><span id="gWarnT"></span><button id="gWarnX" aria-label="Dismiss" style="position:absolute;right:6px;top:4px;background:none;border:0;font-size:18px;cursor:pointer;color:#2a2200">×</button></div>
 <script>
@@ -286,9 +285,7 @@ function saveLanguages(){
  setStatus("Language settings saved · "+(SRC.find(x=>x[0]===FIXED_SOURCE)?.[1]||"Auto detect")+" → "+(DST.find(x=>x[0]===FIXED_TARGET)?.[1]||"None")+".");
 }
 $("src").addEventListener("change",saveLanguages);$("dst").addEventListener("change",saveLanguages);
-$("key").value=localStorage.getItem("be_key")||"";
-$("saveKey").onclick=()=>{localStorage.setItem("be_key",$("key").value.trim());setStatus("API key saved in this browser.");};
-$("forgetKey").onclick=()=>{localStorage.removeItem("be_key");$("key").value="";setStatus("API key removed.");};
+$("key").value="";setStatus("API key removed.");};
 for(const [id,v] of [["hang","hangV"],["mar","marV"]]){const s=localStorage.getItem("be_"+id);if(s)$(id).value=s;$(v).textContent=$(id).value;$(id).oninput=()=>{$(v).textContent=$(id).value;localStorage.setItem("be_"+id,$(id).value);};}
 function setStatus(h){$("status").innerHTML=h;}
 
@@ -354,12 +351,7 @@ function loadAsr(){if(asrP)return asrP;const t0=performance.now();let seen={};en
 async function sttFree(blob){const asr=await loadAsr();const buf=await blob.arrayBuffer();const pcm=new Int16Array(buf,44,(buf.byteLength-44)>>1);const f=new Float32Array(pcm.length);for(let i=0;i<pcm.length;i++)f[i]=pcm[i]/32768;
  const lc=FIXED_SOURCE;const LN={hi:"hindi",en:"english"};const o={chunk_length_s:30,stride_length_s:5,task:"transcribe"};if(LN[lc]||lc)o.language=LN[lc]||lc;
  let r;try{r=await withTimeout(asr(f,o),120000,"Whisper");}catch(e){if(/timed out/.test(e.message))throw e;r=await withTimeout(asr(f,o),120000,"Whisper");}return{text:(r.text||"").trim(),lang:lc||""};}
-async function stt(blob){if(engine()==="free")return sttFree(blob);const key=localStorage.getItem("be_key")||$("key").value.trim();if(!key)throw new Error("No API key — add it in Settings.");
- let last;for(const model of ["scribe_v2","scribe_v1"]){const fd=new FormData();fd.append("file",blob,"clip.wav");fd.append("model_id",model);const lc=FIXED_SOURCE;if(lc)fd.append("language_code",lc);
-  try{const r=await fetchT("https://api.elevenlabs.io/v1/speech-to-text",{method:"POST",headers:{"xi-api-key":key},body:fd},60000);
-   if(r.ok){const j=await r.json();return{text:(j.text||"").trim(),lang:j.language_code||lc};}
-   last=new Error("ElevenLabs "+r.status+": "+(await r.text()).slice(0,160));if(r.status===401)break;}catch(e){last=e;}}
- throw last;}
+async function stt(blob){return sttFree(blob);}
 async function translate(text,tl,sl){if(!text||!tl)return"";
  try{const r=await fetchT(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl||"auto"}&tl=${tl}&dt=t&q=${encodeURIComponent(text)}`,{},15000);const j=await r.json();const s=j[0].map(x=>x[0]).join("");if(s)return s;}catch(e){}
  try{const r=await fetchT(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,480))}&langpair=${(sl&&sl.length===2?sl:"en")}|${tl}`,{},15000);const j=await r.json();return j.responseData.translatedText||"";}catch(e){return"(translation failed)";}}
@@ -399,8 +391,7 @@ function endClip(){const rate=ctx.sampleRate;const dur=clipLen/rate;const c=clip
  if(dur<0.7){setStatus("Short burst ignored (&lt;0.7 s). Listening…");return;}
  setStatus(`Clip captured (${dur.toFixed(1)} s) — sending for transcription. Listening…`);processClip(c,rate,t);}
 const WK=`class P extends AudioWorkletProcessor{constructor(){super();this.b=new Float32Array(2048);this.n=0}process(i){const c=i[0]&&i[0][0];if(c){for(let k=0;k<c.length;k++){this.b[this.n++]=c[k];if(this.n===2048){this.port.postMessage(this.b.slice(0));this.n=0}}}return true}}registerProcessor('be-cap',P);`;
-async function start(){if(engine()==="eleven"&&!(localStorage.getItem("be_key")||$("key").value.trim())){alert("Please enter and save your ElevenLabs API key in Settings first.");return;}
- if($("key").value.trim())localStorage.setItem("be_key",$("key").value.trim());
+async function start(){
  newSession();
  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});}catch(e){alert("Microphone access failed: "+e.message+"\nTip: allow mic access; in Chrome use http://localhost or file:// with permission.");return;}
  ctx=new (window.AudioContext||window.webkitAudioContext)();await ctx.resume();src=ctx.createMediaStreamSource(stream);
@@ -412,7 +403,7 @@ async function start(){if(engine()==="eleven"&&!(localStorage.getItem("be_key")|
  src.connect(node);node.connect(mute);running=true;$("startBtn").disabled=true;$("stopBtn").disabled=false;$("recalBtn").disabled=false;startCal();draw();}
 function stop(){if(mode==="rec")endClip();running=false;mode="idle";try{node.disconnect();src.disconnect();}catch(e){}stream&&stream.getTracks().forEach(t=>t.stop());ctx&&ctx.close();
  $("startBtn").disabled=false;$("stopBtn").disabled=true;$("recalBtn").disabled=true;$("prog").style.display="none";setStatus("Stopped.");}
-$("engine").value=localStorage.getItem("be_engine")||"free";$("engine").onchange=()=>{localStorage.setItem("be_engine",engine());if(engine()==="free")loadAsr().catch(()=>{});else engSt("ElevenLabs cloud STT — needs API key in Settings.");};engSt(engine()==="free"?"Free Whisper loads on START (cached after first use).":"ElevenLabs cloud STT — needs API key in Settings.");
+$("engine").value="free";$("engine").onchange=()=>{$("engine").value="free";engSt("Local Whisper is active. Canberra AI Engine is disabled in demo mode.");};engSt("Local Whisper runs on this device. Canberra AI Engine is disabled in demo mode.");
 $("startBtn").addEventListener("click",()=>{if(engine()==="free")loadAsr().catch(()=>{});});$("startBtn").onclick=()=>$("inSrc").value==="ptt"?pttStart():start();$("stopBtn").onclick=()=>pttOn?pttStop():stop();if(0)$("stopBtn").onclick=stop;$("recalBtn").onclick=()=>{if(mode==="rec")endClip();startCal();};
 /* ---------- PTT Radio link input (listen-only monitor) ---------- */
 const PTT_PREFIX="ptt-radio-66ab9178/",PTT_BROKERS=["wss://public:public@public.cloud.shiftr.io","wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt","wss://test.mosquitto.org:8081"],PTT_RATE=12000;
@@ -458,8 +449,6 @@ function pttMsg(t,p){const now=Date.now(),s=t.slice(PTT_PREFIX.length+pttCh.leng
 function pttTick(){const now=Date.now();for(const k in pttUsers)if(now-pttUsers[k].seen>15000)delete pttUsers[k];if($("pttSt"))$("pttSt").textContent="📻 "+Object.keys(pttUsers).length+" connected PTT/transcribe users · channel "+pttCh;
  if(pttFloor&&now-pttFloor.seen>2500){pttFloor=null;pttEnd();}if(!pttClip&&!pttFloor)lastDb=-120;}
 async function pttStart(){if(!window.mqtt){alert("MQTT library failed to load — check internet.");return;}
- if(engine()==="eleven"&&!(localStorage.getItem("be_key")||$("key").value.trim())){alert("Please enter and save your ElevenLabs API key in Settings first.");return;}
- if($("key").value.trim())localStorage.setItem("be_key",$("key").value.trim());
  const u=$("pttUrl").value.trim()||RADIO_DEF;localStorage.setItem("be_ptt",u);pttCh=pttChan(u);
  newSession();pttId=Math.random().toString(36).slice(2,10);pttUsers={};pttFloor=null;pttClip=null;pttOn=true;running=true;pttConnect();
  let last=0;pttTimer=setInterval(()=>{const n=Date.now();if(n-last>=5000){last=n;pttBeat();}pttTick();},1000);
@@ -594,7 +583,7 @@ emBanner();
  if(compact)document.body.classList.add("embed-mode");
  $("engine").value="free";
  $("inSrc").value="ptt";
- const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40);const ch=(stored||q.get("ch")||"virtual").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40)||"virtual";
+ const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40);const ch=(q.get("ch")||stored||"virtual").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40)||"virtual";
  $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
  inUI();syncPttBackLink();
  $("status").textContent="Starting live PTT listener… source and destination languages are configurable below.";
