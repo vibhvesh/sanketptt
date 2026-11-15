@@ -171,9 +171,60 @@ body{overflow-x:hidden}
 <h3>📻 SANKET RADIO LINES · DEV</h3>
 <div class="rl-row">
 <select id="radioStationSelect" aria-label="Select radio line">
+<optgroup label="NATIONAL · HINDI">
 <option value="vividh">AIR · Vividh Bharati — Hindi</option>
 <option value="fmgold">AIR · FM Gold Delhi — Hindi</option>
 <option value="news">AIR · Live News 24x7 — Hindi / English</option>
+<option value="rainbowdelhi">AIR · FM Rainbow Delhi — Hindi</option>
+<option value="indraprastha">AIR · Indraprastha Delhi — Hindi</option>
+<option value="vbsdelhi">AIR · VBS Delhi — Hindi</option>
+<option value="aaradhana">AIR · Akashvani Aaradhana — Hindi devotional</option>
+</optgroup>
+<optgroup label="GUJARAT · HINDI / GUJARATI">
+<option value="vadodara">AIR · Akashvani Vadodara</option>
+<option value="ahmedabad">AIR · VBS Ahmedabad</option>
+<option value="godhra">AIR · Akashvani Godhra</option>
+<option value="bhuj">AIR · Akashvani Bhuj</option>
+<option value="rajkot">AIR · Akashvani Rajkot</option>
+<option value="vbsrajkot">AIR · VBS Rajkot</option>
+<option value="surat">AIR · Akashvani Surat</option>
+</optgroup>
+<optgroup label="BIHAR · HINDI / MAITHILI">
+<option value="patna">AIR · Akashvani Patna</option>
+<option value="rainbowpatna">AIR · FM Rainbow Patna</option>
+<option value="vbspatna">AIR · VBS Patna</option>
+<option value="purnia">AIR · Akashvani Purnia</option>
+<option value="bhagalpur">AIR · Akashvani Bhagalpur</option>
+<option value="darbhanga">AIR · Akashvani Darbhanga</option>
+</optgroup>
+<optgroup label="MADHYA PRADESH · HINDI">
+<option value="bhopal">AIR · Akashvani Bhopal</option>
+<option value="indore">AIR · VBS Indore</option>
+<option value="jabalpur">AIR · Akashvani Jabalpur</option>
+<option value="jabalpurfm">AIR · Akashvani Jabalpur FM</option>
+<option value="rewa">AIR · Akashvani Rewa</option>
+<option value="balaghat">AIR · Akashvani Balaghat</option>
+<option value="betul">AIR · Akashvani Betul</option>
+<option value="khandwa">AIR · Akashvani Khandwa</option>
+<option value="sagar">AIR · Akashvani Sagar</option>
+</optgroup>
+<optgroup label="RAJASTHAN · HINDI / RAJASTHANI">
+<option value="jaipur">AIR · Akashvani Jaipur</option>
+<option value="vbsjaipur">AIR · VBS Jaipur</option>
+<option value="alwar">AIR · Akashvani Alwar</option>
+<option value="jodhpur">AIR · Akashvani Jodhpur</option>
+<option value="bikaner">AIR · Akashvani Bikaner</option>
+<option value="jaisalmer">AIR · Akashvani Jaisalmer</option>
+<option value="jhalawar">AIR · Akashvani Jhalawar</option>
+</optgroup>
+<optgroup label="OTHER REGIONAL · HINDI INCLUDED">
+<option value="hisar">AIR · Akashvani Hisar — Haryanvi / Hindi</option>
+<option value="rohtak">AIR · Akashvani Rohtak — Haryanvi / Hindi</option>
+<option value="ranchi">AIR · Akashvani Ranchi — Hindi / Nagpuri</option>
+<option value="vbsranchi">AIR · VBS Ranchi — Hindi / Nagpuri</option>
+<option value="daman">AIR · Akashvani Daman — Gujarati / Hindi</option>
+<option value="chandigarh">AIR · Akashvani Chandigarh — Punjabi / Hindi</option>
+</optgroup>
 </select>
 <button id="radioPlayBtn" type="button">PLAY RADIO</button>
 <button id="radioStopBtn" class="secondary" type="button">STOP</button>
@@ -400,7 +451,46 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  const stations={
   vividh:{name:"AIR Vividh Bharati",url:"https://radio.wavespb.com/live/146ed6ec6dea5a24/146ed6ec6dea5a24.m3u8"},
   fmgold:{name:"AIR FM Gold Delhi",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi03/air003_Auto.m3u8"},
-  news:{name:"AIR Live News 24x7",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi01/air001_Auto.m3u8"}
+  news:{name:"AIR Live News 24x7",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi01/air001_Auto.m3u8"},
+  rainbowdelhi:{name:"AIR FM Rainbow Delhi",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi02/air002_Auto.m3u8"},
+  indraprastha:{name:"AIR Indraprastha Delhi",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi06/air006_Auto.m3u8"},
+  vbsdelhi:{name:"AIR VBS Delhi",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi04/air004_Auto.m3u8"},
+  aaradhana:{name:"Akashvani Aaradhana",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi05/air005_Auto.m3u8"},
+  vadodara:{name:"Akashvani Vadodara",url:"https://radio.wavespb.com/live/e1c63b2c2b58921f/e1c63b2c2b58921f.m3u8"},
+  ahmedabad:{name:"VBS Ahmedabad",url:"https://radio.wavespb.com/live/983903b6acb669f3/983903b6acb669f3.m3u8"},
+  godhra:{name:"Akashvani Godhra",url:"https://radio.wavespb.com/live/3fa69e2c950b70e8/3fa69e2c950b70e8.m3u8"},
+  bhuj:{name:"Akashvani Bhuj",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio195/playlist.m3u8"},
+  rajkot:{name:"Akashvani Rajkot",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio155/playlist.m3u8"},
+  vbsrajkot:{name:"VBS Rajkot",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio156/playlist.m3u8"},
+  surat:{name:"Akashvani Surat",url:"https://radio.wavespb.com/live/fc6ce69c53a3d739/fc6ce69c53a3d739.m3u8"},
+  patna:{name:"Akashvani Patna",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio087/playlist.m3u8"},
+  rainbowpatna:{name:"FM Rainbow Patna",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio252/playlist.m3u8"},
+  vbspatna:{name:"VBS Patna",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio251/playlist.m3u8"},
+  purnia:{name:"Akashvani Purnia",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio147/playlist.m3u8"},
+  bhagalpur:{name:"Akashvani Bhagalpur",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio292/playlist.m3u8"},
+  darbhanga:{name:"Akashvani Darbhanga",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio160/playlist.m3u8"},
+  bhopal:{name:"Akashvani Bhopal",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio146/playlist.m3u8"},
+  indore:{name:"VBS Indore",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio241/playlist.m3u8"},
+  jabalpur:{name:"Akashvani Jabalpur",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio167/playlist.m3u8"},
+  jabalpurfm:{name:"Akashvani Jabalpur FM",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio240/playlist.m3u8"},
+  rewa:{name:"Akashvani Rewa",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio225/playlist.m3u8"},
+  balaghat:{name:"Akashvani Balaghat",url:"https://radio.wavespb.com/live/971411cf78525ddb/971411cf78525ddb.m3u8"},
+  betul:{name:"Akashvani Betul",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio108/playlist.m3u8"},
+  khandwa:{name:"Akashvani Khandwa",url:"https://radio.wavespb.com/live/76260628792d0528/76260628792d0528.m3u8"},
+  sagar:{name:"Akashvani Sagar",url:"https://radio.wavespb.com/live/b60eae3df5a29197/b60eae3df5a29197.m3u8"},
+  jaipur:{name:"Akashvani Jaipur",url:"https://radio.wavespb.com/live/ad081b4086797344/ad081b4086797344.m3u8"},
+  vbsjaipur:{name:"VBS Jaipur",url:"https://radio.wavespb.com/live/72d34573791c739b/72d34573791c739b.m3u8"},
+  alwar:{name:"Akashvani Alwar",url:"https://radio.wavespb.com/live/67a9516c2ccd3fd5/67a9516c2ccd3fd5.m3u8"},
+  jodhpur:{name:"Akashvani Jodhpur",url:"https://radio.wavespb.com/live/520ec0fb4a9139a7/520ec0fb4a9139a7.m3u8"},
+  bikaner:{name:"Akashvani Bikaner",url:"https://radio.wavespb.com/live/e2588cb0ff825cd9/e2588cb0ff825cd9.m3u8"},
+  jaisalmer:{name:"Akashvani Jaisalmer",url:"https://radio.wavespb.com/live/54f9c9d68de4282b/54f9c9d68de4282b.m3u8"},
+  jhalawar:{name:"Akashvani Jhalawar",url:"https://radio.wavespb.com/live/fdba5613a31b678b/fdba5613a31b678b.m3u8"},
+  hisar:{name:"Akashvani Hisar",url:"https://radio.wavespb.com/live/d3f37eacc0dc6495/d3f37eacc0dc6495.m3u8"},
+  rohtak:{name:"Akashvani Rohtak",url:"https://radio.wavespb.com/live/d617676f1e7ac0a1/d617676f1e7ac0a1.m3u8"},
+  ranchi:{name:"Akashvani Ranchi",url:"https://radio.wavespb.com/live/66b77f1dfee894bc/66b77f1dfee894bc.m3u8"},
+  vbsranchi:{name:"VBS Ranchi",url:"https://radio.wavespb.com/live/d839e1ea3f3fd644/d839e1ea3f3fd644.m3u8"},
+  daman:{name:"Akashvani Daman",url:"https://radio.wavespb.com/live/c124a58382e75a46/c124a58382e75a46.m3u8"},
+  chandigarh:{name:"Akashvani Chandigarh",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio291/playlist.m3u8"}
  };
  const $=id=>document.getElementById(id),audio=$("radioLineAudio"),select=$("radioStationSelect"),status=$("radioLineStatus");
  let hls=null,mediaSource=null,processor=null,mute=null,bot=null,bridging=false,streamReady=false;
