@@ -1404,4 +1404,79 @@ function googleTranslateElementInit(){
  #sdr-detail .sdr-cockpit{padding:10px!important}
  #sdr-detail .sdr-visual-grid{grid-template-columns:minmax(0,1fr)!important}
 }
+</style><style id="hero-radio-live-gap-fix">
+/* Tighten the radio-to-live-workspace flow. These panels are siblings of #control in the hero wrapper. */
+.hero .wrap>.live-signals{display:none!important;height:0!important;margin:0!important;padding:0!important}
+.hero .wrap>.cockpit-bottom{
+ display:block!important;width:100%!important;box-sizing:border-box!important;
+ margin:0!important;padding:0 8px 8px!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair{
+ display:grid!important;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)!important;
+ grid-auto-flow:row!important;gap:8px!important;align-items:stretch!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+ margin:0!important;padding:0!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.pane{
+ display:flex!important;flex-direction:column!important;
+ width:100%!important;min-width:0!important;height:100%!important;
+ min-height:0!important;max-height:none!important;overflow:hidden!important;
+ margin:0!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.pane>.ph{
+ flex:0 0 30px!important;height:30px!important;min-height:30px!important;
+ padding:6px 9px!important;font-size:9px!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane iframe{
+ display:block!important;flex:0 0 310px!important;
+ width:100%!important;height:310px!important;min-height:310px!important;
+ max-height:310px!important;border:0!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane .transcript-feed{
+ flex:0 0 65px!important;height:65px!important;min-height:45px!important;
+ max-height:65px!important;overflow:auto!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane .listener-mini{
+ display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+ min-height:0!important;height:auto!important;margin:0!important;padding:0 7px 7px!important;
+ overflow:hidden!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane .listener-mini>span{
+ display:block!important;flex:0 0 auto!important;font-size:8px!important;padding:5px 0!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane .listener-mini iframe,
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane iframe#liveTranscript{
+ display:block!important;flex:1 1 260px!important;width:100%!important;
+ height:260px!important;min-height:220px!important;max-height:340px!important;border:0!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane .audio-feed{display:none!important}
+.hero .wrap>.cockpit-bottom>.cockpit-support{display:none!important}
+.hero .wrap>.cockpit-bottom .cockpit-footer{display:none!important}
+@media(max-width:760px){
+ .hero .wrap>.cockpit-bottom{padding:0 4px 6px!important}
+ .hero .wrap>.cockpit-bottom>.live-pair{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:5px!important;align-items:stretch!important;
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.pane>.ph{
+  flex:0 0 27px!important;height:27px!important;min-height:27px!important;
+  padding:5px 4px!important;font-size:7px!important;white-space:nowrap!important;
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.pane>.ph small{font-size:5px!important}
+ .hero .wrap>.cockpit-bottom>.live-pair>.join-pane iframe{
+  flex-basis:clamp(340px,62svh,490px)!important;
+  height:clamp(340px,62svh,490px)!important;
+  min-height:340px!important;max-height:490px!important;
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane .transcript-feed{
+  flex-basis:58px!important;height:58px!important;max-height:58px!important;
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane .listener-mini iframe,
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane iframe#liveTranscript{
+  flex-basis:clamp(280px,52svh,420px)!important;
+  height:clamp(280px,52svh,420px)!important;
+  min-height:280px!important;max-height:420px!important;
+ }
+}
 </style></body></html>
