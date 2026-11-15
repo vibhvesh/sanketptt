@@ -93,14 +93,7 @@ def create(mount, passphrase, include_recordings=True, include_voices=True):
                 voices = os.path.join(os.path.expanduser("~"), "sanket-pi", "voices")
                 if os.path.isdir(voices):
                     tar.add(voices, arcname="voices")
-        with open(temp_enc, "wb") as out, open(temp_tar, "rb") as src:
-            p = subprocess.run(["openssl", "enc", "-aes-256-cbc", "-salt", "-pbkdf2", "-iter", "200000",
-                                "-pass", "stdin"], input=(passphrase + "\\n").encode(),
-                               stdout=out, stderr=subprocess.PIPE, check=False, stdin=None)
-            # openssl stdin is used for the passphrase; stream the archive through a second process.
-            if p.returncode != 0:
-                raise RuntimeError(p.stderr.decode(errors="replace") or "OpenSSL encryption failed")
-        # Use a pipeline-free invocation so the passphrase is not exposed in process arguments.
+        # Passphrase is sent over stdin, never exposed in process arguments.
         with open(temp_tar, "rb") as src, open(temp_enc, "wb") as out:
             proc = subprocess.Popen(["openssl", "enc", "-aes-256-cbc", "-salt", "-pbkdf2", "-iter", "200000",
                                      "-pass", "stdin"], stdin=subprocess.PIPE, stdout=out, stderr=subprocess.PIPE)
@@ -145,12 +138,16 @@ def restore(mount, name, passphrase, hostname):
                 raise ValueError("Could not decrypt backup. Check the passphrase and file.")
         with tarfile.open(decrypted, "r:gz") as tar:
             members = tar.getmembers()
-            allowed = {"config.json"}
-            if any(m.name not in allowed and not m.name.startswith(("sanket_clips/", "voices/")) for m in members):
-                raise ValueError("Backup contains an unexpected file path")
-            if any(m.issym() or m.islnk() or m.isdev() for m in members):
-                raise ValueError("Backup contains unsupported links or device files")
-            tar.extractall(stage, members=members, filter="data")
+            allowed = {"config.json", "manifest.json", "sanket_clips", "voices"}
+            for member in members:
+                normalized = os.path.normpath(member.name)
+                if normalized.startswith("..") or os.path.isabs(member.name):
+                    raise ValueError("Backup contains an unsafe file path")
+                if member.name not in allowed and not member.name.startswith(("sanket_clips/", "voices/")):
+                    raise ValueError("Backup contains an unexpected file path")
+                if member.issym() or member.islnk() or member.isdev():
+                    raise ValueError("Backup contains unsupported links or device files")
+            tar.extractall(stage, members=members)
         manifest = json.load(open(os.path.join(stage, "manifest.json"), encoding="utf-8"))
         if manifest.get("format") != 1 or not os.path.isfile(os.path.join(stage, "config.json")):
             raise ValueError("Unsupported or incomplete Sanket backup")
