@@ -98,7 +98,7 @@ def create(mount, passphrase, include_recordings=True, include_voices=True):
             proc = subprocess.Popen(["openssl", "enc", "-aes-256-cbc", "-salt", "-pbkdf2", "-iter", "200000",
                                      "-pass", "stdin"], stdin=subprocess.PIPE, stdout=out, stderr=subprocess.PIPE)
             # OpenSSL reads the passphrase first; feed it, then archive bytes.
-            proc.stdin.write((passphrase + "\\n").encode())
+            proc.stdin.write((passphrase + "\n").encode())
             shutil.copyfileobj(src, proc.stdin)
             proc.stdin.close()
             err = proc.stderr.read()
@@ -119,7 +119,7 @@ def restore(mount, name, passphrase, hostname):
         raise ValueError("Backup passphrase is required")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]", hostname or ""):
         raise ValueError("Hostname must be 2–63 characters: letters, numbers and hyphens")
-    if not re.fullmatch(r"sanket-[0-9]{8}-[0-9]{6}\\.tar\\.gz\\.enc", name or ""):
+    if not re.fullmatch(r"sanket-[0-9]{8}-[0-9]{6}\.tar\.gz\.enc", name or ""):
         raise ValueError("Invalid backup filename")
     usb = _safe_mount(mount)
     source = os.path.join(usb, BACKUP_DIR, name)
@@ -131,7 +131,7 @@ def restore(mount, name, passphrase, hostname):
         with open(source, "rb") as src, open(decrypted, "wb") as out:
             proc = subprocess.Popen(["openssl", "enc", "-d", "-aes-256-cbc", "-pbkdf2", "-iter", "200000",
                                      "-pass", "stdin"], stdin=subprocess.PIPE, stdout=out, stderr=subprocess.PIPE)
-            proc.stdin.write((passphrase + "\\n").encode())
+            proc.stdin.write((passphrase + "\n").encode())
             shutil.copyfileobj(src, proc.stdin); proc.stdin.close()
             err = proc.stderr.read()
             if proc.wait() != 0:
