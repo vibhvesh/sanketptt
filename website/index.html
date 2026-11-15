@@ -2016,4 +2016,21 @@ body>footer{display:flex!important}
  .hero-process{flex-wrap:wrap!important;justify-content:center!important}
  .hero-process span,.hero-process i{font-size:7px!important}
 }
+
+/* Equal-height split workspace: PTT and live transcription each occupy one half of the page */
+#control .cockpit-bottom{width:100%!important}
+#control .live-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:stretch!important;gap:10px!important}
+#control .live-pair>.pane{display:flex!important;flex-direction:column!important;align-self:stretch!important;height:680px!important;min-height:680px!important;max-height:680px!important;min-width:0!important;overflow:hidden!important}
+#control .live-pair .join-pane iframe{display:block!important;flex:1 1 auto!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;border:0!important}
+#control .live-pair .transcript-pane .listener-mini{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important}
+#control .live-pair .transcript-pane .listener-mini iframe,
+#control .live-pair .transcript-pane iframe#liveTranscript{display:block!important;flex:1 1 auto!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;border:0!important}
+#control .live-pair .transcript-pane .transcript-feed{flex:0 0 72px!important;min-height:55px!important;max-height:72px!important;overflow:auto!important}
+@media(max-width:760px){
+ #control .live-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:5px!important;align-items:stretch!important}
+ #control .live-pair>.pane{height:560px!important;min-height:560px!important;max-height:560px!important}
+ #control .live-pair .pane>.ph{flex:0 0 auto!important}
+ #control .live-pair .try-live-guide,#control .live-pair .transcript-guide{flex:0 0 auto!important}
+ #control .live-pair .transcript-pane .transcript-feed{flex-basis:62px!important;max-height:62px!important}
+}
 </style></body></html>
