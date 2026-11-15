@@ -3,7 +3,7 @@ import datetime as dt, json, os, shutil, subprocess, threading
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs, unquote
 from .inputs import rtlsdr, rtlsweep
-from . import alerts, audio_io, bluetooth, inputs as inputs_mod
+from . import alerts, audio_io, bluetooth, inputs as inputs_mod, usb_backup
 from .config import KNOWN_CHANNELS, BROKERS, WEB_RADIO
 from .util import APP_DIR, LOG_RING, log, sh
 
@@ -51,6 +51,8 @@ def routes(app):
         "/api/rtlsdr/detect": lambda q, b: rtlsdr.detect(),
         "/api/sweep": lambda q, b: dict(sweeps=rtlsweep.snapshot()),
         "/api/auth": lambda q, b: dict(required=app.auth.required()),
+        "/api/usb/status": lambda q, b: usb_backup.status(),
+        "/api/usb/backups": lambda q, b: dict(backups=usb_backup.list_backups((q.get("mount") or [""])[0])) if (q.get("mount") or [""])[0] else dict(backups=[]),
     }
     def save_cfg(q, b):
         cfg.update(b); log.info("settings saved from web page")
@@ -93,6 +95,17 @@ def routes(app):
         if r.get("ok"):
             threading.Timer(1, restart, args=(app,)).start()
         return r
+    def usb_action(q, b):
+        action = b.get("action")
+        if action == "create":
+            return usb_backup.create(b.get("mount"), b.get("passphrase", ""),
+                                     bool(b.get("include_recordings", True)), bool(b.get("include_voices", True)))
+        if action == "restore":
+            result = usb_backup.restore(b.get("mount"), b.get("name"), b.get("passphrase", ""), b.get("hostname", ""))
+            from .app import restart
+            threading.Timer(2, restart, args=(app,)).start()
+            return result
+        return 400, dict(ok=False, error="Unknown USB backup action")
     P = {
         "/api/config": save_cfg, "/api/inputs": input_save, "/api/test": test, "/api/replay": replay,
         "/api/test_email": lambda q, b: (lambda r: dict(ok=r == "sent", result=r))(alerts.send(cfg, dict(channel="test", speaker=app.name(),
@@ -101,6 +114,7 @@ def routes(app):
         "/api/bt/action": lambda q, b: bluetooth.action(b.get("action"), b.get("mac")),
         "/api/wifi": wifi_join, "/api/restart": restart_, "/api/update": update_,
         "/api/clear_feed": lambda q, b: (app.store.clear(), dict(ok=True))[1],
+        "/api/usb/action": usb_action,
     }
     return G, P
 
