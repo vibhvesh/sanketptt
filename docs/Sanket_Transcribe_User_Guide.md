@@ -43,10 +43,9 @@ Sanket Transcribe listens to a Sanket PTT channel, or the phone's microphone, an
 
 1. **Source / Translate:** spoken language and the language to translate into.
 2. **Keyword alerts:** words to watch, separated by commas or new lines. Turn on **Beep + vibrate** if needed.
-3. **Email alerts:** tap **Connect Gmail for alerts** to email a chosen address, with the audio attached, when a keyword is heard.
 4. **Mic squelch:** set **Hang time** and **Threshold margin**; tap **Recalibrate squelch** if background noise changes.
 5. **Station / device:** device ID, location (or **Use current location**) and a place label.
-6. **ElevenLabs key:** stored only on this device (**Save key / Forget key**).
+6. **Transcription engine:** choose the available local or configured transcription service.
 
 ## 6. Always on (Android)
 
