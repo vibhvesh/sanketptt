@@ -2033,4 +2033,13 @@ body>footer{display:flex!important}
  #control .live-pair .try-live-guide,#control .live-pair .transcript-guide{flex:0 0 auto!important}
  #control .live-pair .transcript-pane .transcript-feed{flex-basis:62px!important;max-height:62px!important}
 }
+
+/* Product feature screenshots: keep tall phone UI illustrations compact beside their explainer */
+main#home .split>.shot{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;padding:12px!important;background:#f4f8fb!important}
+main#home .split>.shot img{display:block!important;width:auto!important;max-width:100%!important;height:auto!important;max-height:430px!important;object-fit:contain!important;object-position:center top!important;margin:0 auto!important}
+main#home .split>.shot .cap{width:100%!important;text-align:center!important}
+@media(max-width:760px){
+ main#home .split>.shot{padding:8px!important}
+ main#home .split>.shot img{max-height:340px!important}
+}
 </style></body></html>
