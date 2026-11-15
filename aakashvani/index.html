@@ -19,6 +19,24 @@ button,.btn,.cta{border-radius:9px;transition:background .16s ease,border-color 
 @media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}form{gap:16px}}
 @media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px} .wrap,.main,.content{padding-left:14px;padding-right:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+/* Sanket Bharat control-room UI — consistent controls across screen sizes */
+:root{--gov-navy:#12345a;--gov-blue:#174a78;--gov-blue2:#21649a;--gov-saffron:#f28c28;--gov-green:#138808;--gov-ink:#18324b;--gov-muted:#65788d;--gov-line:#d9e2ec;--gov-bg:#f3f6fa;--gov-surface:#fff;--gov-focus:rgba(33,100,154,.2);--gov-radius:12px}
+button,input,select,textarea{font:inherit;max-width:100%}
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea{min-height:44px;padding:10px 12px;border:1px solid var(--gov-line);border-radius:9px;background:var(--gov-surface);color:var(--gov-ink);box-shadow:0 1px 2px #102a4308;transition:border-color .16s,box-shadow .16s,background .16s}
+select{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2312345a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:0!important;border-color:var(--gov-blue2)!important;box-shadow:0 0 0 3px var(--gov-focus)!important}
+input::placeholder,textarea::placeholder{color:#8494a5;opacity:1}
+textarea{min-height:96px;resize:vertical}
+label{font-weight:650;letter-spacing:0}
+form{display:grid;gap:14px}
+form label{display:block;margin:0 0 6px}
+form input,form select,form textarea{width:100%}
+button,.btn,.cta{border-radius:9px;transition:background .16s,border-color .16s,box-shadow .16s,transform .16s}
+button:disabled{opacity:.55;cursor:not-allowed}
+.card,.panel,.box,.section-card{border-radius:14px}
+@media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}}
+@media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style></head><body><div class="shell">
 <header class="top"><div class="brand"><div class="mark">आ</div><div>SANKET <span style="color:#ff8b3d">आकाशवाणी</span><small>PUBLIC ANNOUNCEMENT SYSTEM</small></div></div><div class="status"><i></i> CONTROL INTERFACE · PREVIEW</div></header>
 <div class="layout"><aside><div class="site">VENUE CONTROL</div><nav class="nav" id="nav">
