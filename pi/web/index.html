@@ -176,6 +176,17 @@ body.kiosk .tabs,body.kiosk .nokiosk{display:none}body.kiosk .rig{max-width:none
  <label class=f><span>Transcribe messages</span><input type=checkbox data-k=transcribe></label>
  <label class=f><span>Whisper model<small>tiny = fastest (Pi 3), base = Pi 5 default</small></span><select data-k=whisper_model><option>tiny</option><option>base</option><option>small</option></select></label>
  <label class=f><span>Language</span><select data-k=language><option value=auto>Auto detect</option><option value=en>English</option><option value=hi>Hindi</option><option value=bn>Bengali</option><option value=gu>Gujarati</option><option value=mr>Marathi</option><option value=ta>Tamil</option><option value=te>Telugu</option></select></label>
+ <div class=panel style="margin:10px 0;background:#0008"><h3>TRANSCRIPTION ENGINE · EXTENSION POINT</h3>
+ <div class=hint>Provider settings are being reserved now. Local Whisper remains the active transcription engine until a provider adapter is implemented and enabled in a later update.</div>
+ <label class=f><span>Preferred engine<small>Selection is saved; custom server is not called yet</small></span><select data-k=stt_provider><option value=local_whisper>Local Whisper · active</option><option value=custom_server>Custom transcription server · reserved</option></select></label>
+ <label class=f><span>Custom server name</span><input data-k=stt_custom_name placeholder="e.g. Office GPU Whisper"></label>
+ <label class=f><span>Server URL<small>Include scheme, DNS/IP and port</small></span><input data-k=stt_custom_url placeholder="https://10.0.0.20:8000"></label>
+ <label class=f><span>API endpoint</span><input data-k=stt_custom_endpoint placeholder="/v1/audio/transcriptions"></label>
+ <label class=f><span>API compatibility profile</span><select data-k=stt_custom_profile><option value=openai_compatible>OpenAI-compatible audio transcription</option><option value=custom>Custom API · adapter required</option></select></label>
+ <label class=f><span>Authentication</span><select data-k=stt_custom_auth><option value=none>None</option><option value=bearer>Bearer API key</option></select></label>
+ <label class=f><span>API key<small id=sttKeySet>Stored on this Pi; blank keeps existing key</small></span><input type=password data-k=stt_custom_api_key placeholder="(optional; leave blank to keep)"></label>
+ <div class=hint>Use HTTPS outside a trusted LAN. API credentials are hidden from dashboard responses. No audio is sent to this server in this release.</div>
+ </div>
  <label class=f><span>SSTV pictures<small>Detect SSTV and announce it</small></span><input type=checkbox data-k=sstv></label>
  <label class=f><span>Decode SSTV audio on the Pi<small>Martin/Scottie/Robot36 with sync + slant correction</small></span><input type=checkbox data-k=sstv_decode></label>
  <div class=bar><button class=pri onclick="saveForm('v-audio')">SAVE</button></div></div></div></div></div>
@@ -224,7 +235,8 @@ function show(v){VIEW=v;document.querySelectorAll('.tabs button').forEach(functi
 function fill(){document.querySelectorAll('[data-k]').forEach(function(e){var k=e.dataset.k,v=C[k];if(e.type=='checkbox')e.checked=!!v;else if(k=='keywords')e.value=(v||[]).join(', ');else if(e.type=='password')e.value='';else{if(e.tagName=='SELECT'&&v!=null&&![].some.call(e.options,function(o){return o.value==v})){var o=document.createElement('option');o.value=o.textContent=v;e.appendChild(o)}e.value=v==null?'':v}});
  $('volV').textContent=C.volume+'%';$('qVol').value=C.volume;$('qVolV').textContent=C.volume+'%';$('qAnn').className=C.announce?'ok':'';$('qStt').className=C.transcribe?'ok':'';
  $('qAnn').textContent='ANNOUNCE '+(C.announce?'ON':'OFF');$('qStt').textContent='TRANSCRIBE '+(C.transcribe?'ON':'OFF');
- $('pwSet').textContent=C.smtp_password_set?'Saved ✓ (leave blank to keep)':'For Gmail use an App Password';$('pinSet').textContent=C.web_pin_set?'PIN is set (blank = keep)':'Optional; login needed before saving';renderChTable()}
+ $('pwSet').textContent=C.smtp_password_set?'Saved ✓ (leave blank to keep)':'For Gmail use an App Password';$('pinSet').textContent=C.web_pin_set?'PIN is set (blank = keep)':'Optional; login needed before saving';
+ $('sttKeySet').textContent=C.stt_custom_api_key_set?'Key saved ✓ (blank = keep)':'Stored on this Pi; blank keeps existing key';renderChTable()}
 function saveForm(id){var o={};document.querySelectorAll('#'+id+' [data-k]').forEach(function(e){var k=e.dataset.k;o[k]=e.type=='checkbox'?e.checked:(e.type=='number'||e.type=='range')?+e.value:e.value});
  if(id=='v-channels'){o.channels=C.channels;var cu=$('brokerCustom').value.trim();if(cu)o.broker_url=cu}return save(o)}
 function chLiveMap(){var m={};(ST.channels||[]).forEach(function(c){m[c.name]=c});return m}
