@@ -471,8 +471,9 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
 (()=>{
  const stations={
   bbcworld:{name:"BBC World Service · International English",url:"https://stream.live.vc.bbcmedia.co.uk/bbc_world_service"},
-  wnyc:{name:"WNYC 93.9 · USA English",url:"https://fm939.wnyc.org/wnycfm?type=.mp3"},
-  wfmu:{name:"WFMU Freeform · USA",url:"https://stream0.wfmu.org/freeform-128k"},
+  wnyc:{name:"WNYC 93.9 · USA English",url:"https://fm939.wnyc.org/wnycfm"},
+  wfmu:{name:"WFMU Freeform · USA",url:"https://stream0.wfmu.org/freeform-128k.mp3"},
+  kcrw24:{name:"KCRW Eclectic24 · USA",url:"https://kcrw.streamguys1.com/kcrw_192k_mp3_e24_internet_radio"},
 
   vividh:{name:"AIR Vividh Bharati",url:"https://radio.wavespb.com/live/146ed6ec6dea5a24/146ed6ec6dea5a24.m3u8"},
   fmgold:{name:"AIR FM Gold Delhi",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi03/air003_Auto.m3u8"},
@@ -543,7 +544,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  const scanBox=$("radioStationButtons"),scanProgress=$("radioScanProgress");
  const feedState={};let scanGeneration=0,scanRunning=false;
  function stationGroup(id){
-  if(["bbcworld","wnyc","wfmu"].includes(id))return "INTERNATIONAL · ENGLISH";
+  if(["bbcworld","wnyc","wfmu","kcrw24"].includes(id))return "INTERNATIONAL · ENGLISH";
   if(["vividh","fmgold","news","rainbowdelhi","indraprastha","vbsdelhi","aaradhana"].includes(id))return "INDIA · NATIONAL";
   if(["vadodara","ahmedabad","godhra","bhuj","rajkot","vbsrajkot","surat","daman"].includes(id))return "WEST INDIA · GUJARATI";
   if(["patna","rainbowpatna","vbspatna","purnia","bhagalpur","darbhanga"].includes(id))return "BIHAR · HINDI / REGIONAL";
@@ -569,22 +570,27 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
   populateVerifiedSelect();
  }
  function classifyError(d){
-  const msg=String(d&&((d.details||"")+" "+(d.response&&d.response.code||"")+" "+(d.reason||""))||"").toLowerCase();
-  if(/404|410|not found|manifestloaderror|fragloaderror/.test(msg))return "red";
+  const code=Number(d&&d.response&&d.response.code||0);
+  if(code===404||code===410)return "red";
   return "yellow";
  }
  function probeStation(id,generation){
   return new Promise(resolve=>{
-   if(!window.Hls||!Hls.isSupported()){resolve("yellow");return}
-   const video=document.createElement("video");video.muted=true;video.playsInline=true;
-   const probe=new Hls({enableWorker:true,lowLatencyMode:true,maxBufferLength:4,manifestLoadingTimeOut:5000,fragLoadingTimeOut:5000});
-   let done=false,manifest=false;
-   const finish=state=>{if(done)return;done=true;clearTimeout(timer);try{probe.destroy()}catch(e){}video.removeAttribute("src");video.load();resolve(state)};
-   const timer=setTimeout(()=>finish("yellow"),9000);
-   probe.on(Hls.Events.MANIFEST_PARSED,()=>{manifest=true});
-   probe.on(Hls.Events.FRAG_LOADED,()=>finish("green"));
-   probe.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(classifyError(d))});
-   try{probe.loadSource(stations[id].url);probe.attachMedia(video)}catch(e){finish("yellow")}
+   const url=stations[id].url,isHls=isHlsStream(url),media=document.createElement("audio");
+   media.crossOrigin="anonymous";media.muted=true;media.preload="auto";media.playsInline=true;
+   let done=false,probe=null;
+   const finish=state=>{if(done)return;done=true;clearTimeout(timer);try{if(probe)probe.destroy()}catch(e){}try{media.pause();media.removeAttribute("src");media.load()}catch(e){}resolve(state)};
+   const timer=setTimeout(()=>finish("yellow"),12000);
+   const checkPlayback=()=>{if(done)return;if(!media.paused&&media.readyState>=2&&media.currentTime>0.75){finish("green");return}setTimeout(checkPlayback,250)};
+   media.addEventListener("error",()=>finish("yellow"),{once:true});
+   if(isHls&&window.Hls&&Hls.isSupported()){
+    probe=new Hls({enableWorker:true,lowLatencyMode:true,maxBufferLength:4,manifestLoadingTimeOut:6000,fragLoadingTimeOut:6000});
+    probe.on(Hls.Events.MANIFEST_PARSED,()=>{media.play().then(checkPlayback).catch(()=>finish("yellow"))});
+    probe.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(classifyError(d))});
+    try{probe.loadSource(url);probe.attachMedia(media)}catch(e){finish("yellow")}
+   }else{
+    try{media.src=url;media.load();media.play().then(checkPlayback).catch(()=>finish("yellow"))}catch(e){finish("yellow")}
+   }
   });
  }
  async function scanAllStations(){
@@ -635,18 +641,19 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  function say(t){status.textContent=t}
  function station(){return stations[select.value]||stations.vividh}
  function cleanupStream(){if(hls){hls.destroy();hls=null}audio.pause();audio.removeAttribute("src");audio.load();streamReady=false;radioPowerState(false)}
+ function isHlsStream(url){return /\\.m3u8(?:$|[?#])/i.test(url)}
  async function playRadio(){
   const st=station();cleanupStream();audio.crossOrigin="anonymous";
   say("Tuning "+st.name+"…");
   return await new Promise(resolve=>{
-   let settled=false,timer=setTimeout(()=>finish(false,"No stream response from "+st.name),9000);
+   let settled=false,timer=setTimeout(()=>finish(false,"No stream response from "+st.name),12000);
    function finish(ok,msg){if(settled)return;settled=true;clearTimeout(timer);if(ok){streamReady=true;try{localStorage.setItem("sanketRadioLastStation",select.value)}catch(e){}refreshTuner();radioPowerState(true)}else{streamReady=false;radioPowerState(false)}say(msg);resolve(ok)}
-   if(window.Hls&&Hls.isSupported()){
+   if(isHlsStream(st.url)&&window.Hls&&Hls.isSupported()){
     hls=new Hls({enableWorker:true,lowLatencyMode:true});hls.loadSource(st.url);hls.attachMedia(audio);
     hls.on(Hls.Events.MANIFEST_PARSED,async()=>{try{await audio.play();finish(true,"Playing "+st.name+" · station remembered")}catch(e){finish(false,"Playback blocked for "+st.name+": "+e.message)}});
     hls.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(false,"No playable signal: "+st.name+" · "+(d.details||d.type))});
    }else{
-    audio.src=st.url;audio.play().then(()=>finish(true,"Playing "+st.name+" · station remembered")).catch(e=>finish(false,"Unable to play "+st.name+": "+e.message));
+    audio.src=st.url;audio.load();audio.play().then(()=>finish(true,"Playing "+st.name+" · station remembered")).catch(e=>finish(false,"Unable to play "+st.name+": "+e.message));
    }
   });
  }
