@@ -254,7 +254,33 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 </style>
 
-</head>
+
+<style id="sanket-ham-radio-space-console-v5">
+/* High-density split console: real handheld radio left, space-age receiver right */
+#control .cockpit-bottom{display:block!important;padding:8px!important}
+#control .live-pair{display:grid!important;grid-template-columns:minmax(300px, .38fr) minmax(0,.62fr)!important;gap:10px!important;align-items:stretch!important}
+#control .live-pair>.pane{min-width:0!important;border:1px solid #294b66!important;border-radius:10px!important;background:linear-gradient(145deg,#0c2136,#071625)!important;box-shadow:0 8px 24px #00101e33!important;overflow:hidden!important}
+#control .live-pair .pane>.ph{height:34px!important;min-height:34px!important;padding:8px 10px!important;background:linear-gradient(90deg,#102b43,#0b1c30)!important;color:#c7eaff!important;border-bottom:1px solid #294b66!important;font-size:10px!important;letter-spacing:1px!important}
+#control .live-pair .pane>.ph small{color:#55d9e9!important}
+#control .live-pair .join-pane iframe{display:block!important;width:100%!important;height:590px!important;min-height:590px!important;border:0!important;background:#0a1018!important}
+#control .live-pair .transcript-pane{display:flex!important;flex-direction:column!important;min-height:590px!important}
+#control .live-pair .transcript-feed{flex:0 0 85px!important;min-height:55px!important;max-height:85px!important;padding:7px 9px!important;background:#07182a!important;border-bottom:1px solid #244661!important}
+#control .live-pair .listener-mini{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;margin:0!important;padding:0!important;background:radial-gradient(ellipse at 70% 0%,#173a5a,#071525 58%,#0a1024)!important}
+#control .live-pair .listener-mini>span{height:25px!important;min-height:25px!important;padding:6px 9px!important;color:#77dff4!important;font-size:8px!important;letter-spacing:1.3px!important;border-bottom:1px solid #234660!important}
+#control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{display:block!important;width:100%!important;height:470px!important;min-height:470px!important;flex:1 1 auto!important;border:0!important;background:#050e1c!important}
+#control .live-pair .audio-feed{display:none!important}
+#control .cockpit-footer{font-size:8px!important;letter-spacing:.6px!important;color:#7897ae!important;padding:6px 10px!important}
+@media(max-width:760px){
+ #control .cockpit-bottom{padding:5px!important}
+ #control .live-pair{grid-template-columns:minmax(0,1fr)!important;gap:7px!important}
+ #control .live-pair .join-pane iframe{height:520px!important;min-height:520px!important}
+ #control .live-pair .transcript-pane{min-height:480px!important}
+ #control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{height:390px!important;min-height:390px!important}
+}
+@media(min-width:1500px){
+ #control .live-pair{grid-template-columns:minmax(360px,.36fr) minmax(0,.64fr)!important;max-width:1500px;margin:auto}
+}
+</style></head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
 <main id="home"><section class="hero" style="border:0"><div class="wrap">
