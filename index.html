@@ -172,6 +172,26 @@ body.embed-mode #ptt{height:clamp(76px,16vh,118px)!important;min-height:76px!imp
 body.embed-mode #powerOff{min-height:32px!important;margin-top:5px!important;padding:6px!important}
 body.embed-mode .rig>.panel:not(#login){display:none!important}
 body.embed-mode .rig:before,body.embed-mode .rig:after{display:none!important}
+</style>
+<style id="simple-radio-panel-v4">
+body.embed-mode{padding:0!important;margin:0!important;overflow:hidden!important;background:#071b2b!important;min-height:0!important}
+body.embed-mode .app-shell{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+body.embed-mode .sidebar,body.embed-mode .brand,body.embed-mode .lcd,body.embed-mode .status-strip,body.embed-mode .workspace>.transcribe-column,body.embed-mode .ptt-column>.section-kicker,body.embed-mode #onair,body.embed-mode .rig>.panel:not(#login){display:none!important}
+body.embed-mode .app-main,body.embed-mode .app-main>.rig{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+body.embed-mode .workspace{display:block!important;margin:0!important;padding:0!important}
+body.embed-mode .ptt-column{display:block!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+body.embed-mode #login{display:block;margin:0!important;padding:10px!important;border:0!important;border-radius:10px!important;background:linear-gradient(155deg,#123a50,#081b2c)!important;box-shadow:none!important}
+body.embed-mode #login h3{margin:0 0 7px!important;color:#8dffe0!important;font-size:10px!important;letter-spacing:2px!important}
+body.embed-mode #login .hint{display:block!important;margin:0 0 5px!important;color:#b8d5e5!important;font-size:10px!important}
+body.embed-mode #login input{display:block;width:100%!important;box-sizing:border-box!important;min-height:39px!important;margin:0 0 7px!important;padding:8px 10px!important;border:1px solid #367a84!important;border-radius:7px!important;background:#061726!important;color:#fff!important;font-size:14px!important}
+body.embed-mode #login #go{display:block;width:100%!important;min-height:43px!important;padding:9px!important;border:0!important;border-radius:7px!important;background:linear-gradient(90deg,#00d7a0,#8affd4)!important;color:#05251e!important;font-size:12px!important;font-weight:900!important;letter-spacing:.7px!important}
+body.embed-mode #main{display:none;margin:0!important;padding:8px!important;border:1px solid #23645f!important;border-radius:10px!important;background:linear-gradient(155deg,#123a50,#081b2c)!important}
+body.embed-mode #main #hd{display:block;margin:0 0 7px!important;color:#9bdacb!important;font-size:10px!important;text-align:center!important}
+body.embed-mode #main #unlock{display:none!important}
+body.embed-mode #main #ptt{display:block;width:100%!important;height:clamp(105px,24vh,165px)!important;min-height:105px!important;margin:0!important;border:2px solid #7dffd1!important;border-radius:12px!important;background:linear-gradient(145deg,#00d36f,#00a94f)!important;color:#fff!important;font-size:clamp(26px,6vw,42px)!important;font-weight:950!important;letter-spacing:2px!important;box-shadow:inset 0 2px 0 #ffffff55,0 5px 15px #00d77a30!important}
+body.embed-mode #main .hint{margin-top:6px!important;color:#b9d9e5!important;font-size:9px!important;text-align:center!important}
+body.embed-mode #powerOff{display:block!important;width:100%!important;min-height:34px!important;margin-top:7px!important;padding:7px!important;border:0!important;border-radius:7px!important;background:#ffb15f!important;color:#2b1708!important;font-size:10px!important;font-weight:900!important}
+body.embed-mode #powerOff[style*="display: none"]{display:none!important}
 </style></head><body><div class="app-shell"><aside class="sidebar"><div class="side-brand">SANKET <b>PTT</b><small>CONTROL MENU</small></div><details open><summary>Radio tools</summary><a href="#onair">On-air users</a><div id="side-log"></div></details><details><summary>Station & location</summary><div id="side-loc"></div></details><details><summary>Media tools</summary><div id="side-sstv"></div></details><div class="side-foot">Settings and tools</div></aside><div class="app-main"><div class=rig>
 <div class=brand><img src="website/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
