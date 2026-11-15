@@ -820,6 +820,29 @@ function googleTranslateElementInit(){
  .cockpit-bottom .join-pane iframe{height:190px!important;min-height:190px!important}
  .cockpit-bottom .listener-mini iframe,.cockpit-bottom #liveTranscript{height:300px!important;min-height:300px!important}
 }
+
+/* Final two-column operations console: full PTT controls + transcription workspace */
+.cockpit-bottom{display:block!important;padding:8px!important}
+.cockpit-bottom>.live-pair{display:grid!important;grid-template-columns:minmax(390px,.88fr) minmax(0,1.12fr)!important;gap:10px!important;align-items:stretch!important;width:100%!important}
+.cockpit-bottom>.live-pair>.pane{min-width:0!important}
+.cockpit-bottom>.live-pair>.join-pane{grid-column:1!important;grid-row:1!important}
+.cockpit-bottom>.live-pair>.transcript-pane{grid-column:2!important;grid-row:1!important}
+.cockpit-bottom .join-pane iframe{display:block!important;width:100%!important;height:640px!important;min-height:640px!important;border:0!important}
+.cockpit-bottom .transcript-pane{display:flex!important;flex-direction:column!important;min-height:640px!important}
+.cockpit-bottom .transcript-feed{order:1!important;flex:1 1 auto!important;min-height:300px!important;max-height:430px!important;overflow:auto!important}
+.cockpit-bottom .listener-mini{order:2!important;flex:0 0 auto!important}
+.cockpit-bottom .listener-mini>span{display:block!important;padding:6px 8px!important}
+.cockpit-bottom .listener-mini iframe,.cockpit-bottom #liveTranscript{display:block!important;width:100%!important;height:170px!important;min-height:170px!important;border:0!important}
+.cockpit-bottom .audio-feed{order:3!important;max-height:100px!important;overflow:auto!important}
+.cockpit-bottom>.cockpit-support{margin-top:8px!important}
+@media(max-width:900px){
+ .cockpit-bottom>.live-pair{grid-template-columns:minmax(0,1fr)!important}
+ .cockpit-bottom>.live-pair>.join-pane,.cockpit-bottom>.live-pair>.transcript-pane{grid-column:1!important;grid-row:auto!important}
+ .cockpit-bottom .join-pane iframe{height:620px!important;min-height:620px!important}
+ .cockpit-bottom .transcript-pane{min-height:620px!important}
+ .cockpit-bottom .transcript-feed{min-height:260px!important;max-height:360px!important}
+ .cockpit-bottom .listener-mini iframe,.cockpit-bottom #liveTranscript{height:210px!important;min-height:210px!important}
+}
 </style>
 <script>
 (()=>{const native=document.getElementById('siteLanguage');if(!native||native.dataset.customized)return;native.dataset.customized='1';const wrap=native.parentElement;const host=document.createElement('div');host.className='sanket-language-picker';host.id='sanket-language-picker';const trigger=document.createElement('button');trigger.type='button';trigger.className='sanket-language-trigger';trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');const label=()=>native.options[native.selectedIndex]?.text||'English';trigger.innerHTML='<span></span><span aria-hidden="true">⌄</span>';trigger.firstElementChild.textContent=label();const menu=document.createElement('div');menu.className='sanket-language-menu';menu.setAttribute('role','listbox');const searchWrap=document.createElement('div');searchWrap.className='sanket-language-search';const search=document.createElement('input');search.type='search';search.placeholder='Search languages…';search.setAttribute('aria-label','Search languages');searchWrap.append(search);menu.append(searchWrap);const options=[];[...native.options].forEach(o=>{const b=document.createElement('button');b.type='button';b.className='sanket-language-option';b.textContent=o.text;b.dataset.value=o.value;b.setAttribute('role','option');b.setAttribute('aria-selected',String(o.selected));b.addEventListener('click',()=>{native.value=o.value;native.dispatchEvent(new Event('change',{bubbles:true}));trigger.firstElementChild.textContent=o.text;options.forEach(x=>x.setAttribute('aria-selected',String(x===b)));close();});menu.append(b);options.push(b)});function open(){menu.classList.add('open');trigger.setAttribute('aria-expanded','true');search.value='';options.forEach(x=>x.hidden=false);search.focus()}function close(){menu.classList.remove('open');trigger.setAttribute('aria-expanded','false')}trigger.addEventListener('click',()=>menu.classList.contains('open')?close():open());search.addEventListener('input',()=>{const q=search.value.toLocaleLowerCase();options.forEach(x=>x.hidden=!x.textContent.toLocaleLowerCase().includes(q))});document.addEventListener('click',e=>{if(!host.contains(e.target))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});host.append(trigger,menu);native.insertAdjacentElement('afterend',host);})();
