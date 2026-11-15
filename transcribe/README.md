@@ -11,12 +11,12 @@ Live transcription and translation of Sanket PTT radio channels, in the browser.
 * Joins one or more Sanket PTT channels over the same MQTT relay as the radio app (listen only).
 * Plays each transmission and turns it into text with a speech-to-text API (ElevenLabs), with automatic language detection.
 * Translates transcripts to and from English and Indian languages.
-* Keyword alerts, searchable history and optional email of transcripts (Gmail, signed in with Google).
+* Keyword alerts and searchable local history.
 
 ## Use
 
 1. Open the link and enter the channel(s) to monitor (the same names used in Sanket PTT, e.g. `?ch=name`).
-2. Add your speech-to-text API key in settings when asked (stored only in the browser).
+2. Use the free in-browser Whisper engine, or configure an approved transcription backend.
 3. Leave the page open; new messages appear with transcript and translation.
 
 ## Files
