@@ -1,0 +1,30 @@
+{
+  "cloud_api": "https://central.example.com",
+  "site_id": "00000000-0000-0000-0000-000000000000",
+  "device_id": "00000000-0000-0000-0000-000000000000",
+  "exclude_patterns": ["cache", "*.db-wal", "*.db-shm"],
+  "sources": {
+    "config_clone": [
+      {"path": "/etc/sanket-ptt/export-safe", "archive_name": "sanket-ptt-config"},
+      {"path": "/etc/sanket-broadcast/export-safe", "archive_name": "sanket-broadcast-config"}
+    ],
+    "full_migration": [
+      {"path": "/etc/sanket-ptt/export-safe", "archive_name": "sanket-ptt-config"},
+      {"path": "/etc/sanket-broadcast/export-safe", "archive_name": "sanket-broadcast-config"},
+      {"path": "/var/lib/sanket-ptt/recordings", "archive_name": "recordings"},
+      {"path": "/var/lib/sanket-ptt/transcripts", "archive_name": "transcripts"}
+    ],
+    "scheduled": [
+      {"path": "/etc/sanket-ptt/export-safe", "archive_name": "sanket-ptt-config"},
+      {"path": "/etc/sanket-broadcast/export-safe", "archive_name": "sanket-broadcast-config"},
+      {"path": "/var/lib/sanket-ptt/recordings", "archive_name": "recordings"},
+      {"path": "/var/lib/sanket-ptt/transcripts", "archive_name": "transcripts"}
+    ],
+    "disaster_recovery": [
+      {"path": "/etc/sanket-ptt/export-safe", "archive_name": "sanket-ptt-config"},
+      {"path": "/etc/sanket-broadcast/export-safe", "archive_name": "sanket-broadcast-config"},
+      {"path": "/var/lib/sanket-ptt/recordings", "archive_name": "recordings"},
+      {"path": "/var/lib/sanket-ptt/transcripts", "archive_name": "transcripts"}
+    ]
+  }
+}
