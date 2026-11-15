@@ -223,7 +223,6 @@ body{overflow-x:hidden}
 <option value="ranchi">AIR · Akashvani Ranchi — Hindi / Nagpuri</option>
 <option value="vbsranchi">AIR · VBS Ranchi — Hindi / Nagpuri</option>
 <option value="daman">AIR · Akashvani Daman — Gujarati / Hindi</option>
-<option value="chandigarh">AIR · Akashvani Chandigarh — Punjabi / Hindi</option>
 </optgroup>
 </select>
 <button id="radioPlayBtn" type="button">PLAY RADIO</button>
@@ -489,8 +488,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
   rohtak:{name:"Akashvani Rohtak",url:"https://radio.wavespb.com/live/d617676f1e7ac0a1/d617676f1e7ac0a1.m3u8"},
   ranchi:{name:"Akashvani Ranchi",url:"https://radio.wavespb.com/live/66b77f1dfee894bc/66b77f1dfee894bc.m3u8"},
   vbsranchi:{name:"VBS Ranchi",url:"https://radio.wavespb.com/live/d839e1ea3f3fd644/d839e1ea3f3fd644.m3u8"},
-  daman:{name:"Akashvani Daman",url:"https://radio.wavespb.com/live/c124a58382e75a46/c124a58382e75a46.m3u8"},
-  chandigarh:{name:"Akashvani Chandigarh",url:"https://air.pc.cdn.bitgravity.com/air/live/pbaudio291/playlist.m3u8"}
+  daman:{name:"Akashvani Daman",url:"https://radio.wavespb.com/live/c124a58382e75a46/c124a58382e75a46.m3u8"}
  };
  const $=id=>document.getElementById(id),audio=$("radioLineAudio"),select=$("radioStationSelect"),status=$("radioLineStatus");
  let hls=null,mediaSource=null,processor=null,mute=null,bot=null,bridging=false,streamReady=false;
