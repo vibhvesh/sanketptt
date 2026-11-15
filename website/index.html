@@ -1221,4 +1221,76 @@ function googleTranslateElementInit(){
  refresh();setInterval(refresh,15*60*1000);
 })();
 </script>
+
+<style id="mobile-compact-final-fix">
+/* Final override: compact radio strip and persistent 50/50 live workspace */
+#control .taf-radio-hub{padding:5px 9px!important}
+#control .taf-radio-heading{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:6px!important;margin:0 0 4px!important}
+#control .taf-radio-heading h3{font-size:12px!important;line-height:1.1!important;margin:0!important}
+#control .taf-radio-heading .taf-kicker{font-size:7px!important;letter-spacing:1px!important}
+#control .taf-radio-heading p{display:none!important}
+#control .taf-radio-actions{gap:4px!important}
+#control .taf-radio-actions>span{font-size:7px!important;max-width:78px!important;white-space:nowrap!important;overflow:hidden!important}
+#control .taf-radio-actions select{height:25px!important;min-height:25px!important;padding:2px 5px!important;font-size:8px!important;max-width:116px!important}
+#control .taf-player-row{padding:3px 5px!important;gap:4px!important;min-height:29px!important}
+#control .taf-now{gap:5px!important}
+#control .taf-now b{font-size:8px!important;line-height:1.1!important}
+#control .taf-now small{font-size:7px!important;line-height:1.1!important}
+#control .taf-live-dot{width:6px!important;height:6px!important}
+#control .taf-player-row button{height:25px!important;min-height:25px!important;padding:2px 6px!important;font-size:7px!important;white-space:nowrap!important}
+#control .taf-top-five{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important;margin-top:4px!important}
+#control .taf-top-five button{height:31px!important;min-height:31px!important;max-height:31px!important;padding:3px 2px!important;border-radius:4px!important;text-align:center!important;overflow:hidden!important}
+#control .taf-top-five button b{font-size:7px!important;line-height:1.1!important;white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+#control .taf-top-five button small{display:none!important}
+#control .taf-radio-foot{display:none!important}
+#control .live-signals{display:none!important}
+#control .cockpit-bottom{display:block!important;width:100%!important;margin:0!important;padding:0 5px 5px!important;overflow:hidden!important}
+#control .cockpit-bottom>.live-pair{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ gap:5px!important;width:100%!important;max-width:100%!important;
+ height:clamp(340px,58svh,560px)!important;min-height:0!important;max-height:560px!important;
+ align-items:stretch!important;overflow:hidden!important
+}
+#control .live-pair>.pane{
+ display:flex!important;flex-direction:column!important;grid-row:1!important;
+ grid-column:auto!important;width:100%!important;min-width:0!important;min-height:0!important;
+ height:100%!important;max-height:100%!important;overflow:hidden!important
+}
+#control .live-pair>.join-pane{grid-column:1!important}
+#control .live-pair>.transcript-pane{grid-column:2!important}
+#control .live-pair>.pane>.ph{flex:0 0 25px!important;height:25px!important;min-height:25px!important;padding:4px 3px!important;font-size:7px!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important}
+#control .live-pair .pane>.ph small{font-size:6px!important;white-space:nowrap!important}
+#control .live-pair .join-pane iframe{display:block!important;flex:1 1 auto!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;border:0!important}
+#control .live-pair .transcript-pane{min-height:0!important;height:100%!important}
+#control .live-pair .transcript-feed,#control .live-pair .audio-feed{display:none!important}
+#control .live-pair .listener-mini{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-width:0!important;min-height:0!important;height:100%!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#control .live-pair .listener-mini>span{display:none!important}
+#control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{display:block!important;flex:1 1 auto!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;border:0!important;overflow:hidden!important}
+#control .cockpit-support{display:none!important}
+#control .cockpit-footer{display:none!important}
+@media(max-width:760px){
+ #control{padding:3px!important;min-height:0!important}
+ #control .taf-radio-hub{padding:4px 6px!important}
+ #control .taf-radio-heading{margin-bottom:3px!important}
+ #control .taf-radio-heading h3{font-size:11px!important}
+ #control .taf-radio-actions>span{display:none!important}
+ #control .taf-radio-actions select{max-width:102px!important;height:23px!important;min-height:23px!important;font-size:7px!important}
+ #control .taf-player-row{min-height:26px!important;padding:2px 4px!important}
+ #control .taf-player-row button{height:23px!important;min-height:23px!important;font-size:6px!important;padding:2px 5px!important}
+ #control .taf-top-five{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:2px!important;margin-top:3px!important}
+ #control .taf-top-five button{height:30px!important;min-height:30px!important;max-height:30px!important;padding:2px 1px!important}
+ #control .taf-top-five button b{font-size:6px!important;line-height:1.05!important}
+ #control .cockpit-bottom{padding:0 3px 3px!important}
+ #control .cockpit-bottom>.live-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:3px!important;height:clamp(300px,57svh,490px)!important;min-height:0!important;max-height:490px!important}
+ #control .live-pair>.pane{grid-row:1!important;min-width:0!important}
+ #control .live-pair>.join-pane{grid-column:1!important}
+ #control .live-pair>.transcript-pane{grid-column:2!important}
+ #control .live-pair>.pane>.ph{height:23px!important;min-height:23px!important;flex-basis:23px!important;padding:4px 2px!important;font-size:6px!important}
+ #control .live-pair .pane>.ph small{font-size:5px!important}
+}
+@media(max-width:360px){
+ #control .cockpit-bottom>.live-pair{height:54svh!important;min-height:280px!important}
+ #control .taf-top-five button b{font-size:5.5px!important}
+}
+</style>
 </body></html>
