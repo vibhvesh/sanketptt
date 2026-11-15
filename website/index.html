@@ -96,6 +96,25 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 /* Command Center: network health at top, live operations below */
 .cockpit-grid{display:block}.c-network-col{grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);align-items:stretch}.c-network .network-svg{max-height:190px}.cockpit-bottom{grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));padding-top:10px}.cockpit-bottom .live-transcript-wrap iframe{width:100%;height:520px;border:0;display:block;background:#081b2d}.cockpit-bottom .pane{min-width:0}@media(max-width:900px){.c-network-col{grid-template-columns:1fr}.cockpit-bottom{grid-template-columns:1fr 1fr}}@media(max-width:600px){.cockpit-bottom{grid-template-columns:1fr}.cockpit-bottom .live-transcript-wrap iframe{height:560px}}
+
+/* Akashvani radio hub replaces the illustrative network topology and gauges */
+.taf-radio-hub{padding:18px;background:linear-gradient(135deg,#081b30,#0d2b45);border-top:1px solid #234760;border-bottom:1px solid #234760;color:#eaf6ff}
+.taf-radio-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+.taf-kicker{font-size:9px;letter-spacing:1.8px;font-weight:900;color:#43d9c9}
+.taf-radio-heading h3{font-size:22px;letter-spacing:1px;margin:3px 0;color:#fff}
+.taf-radio-heading p{font-size:10px;color:#91aec3;margin:0;max-width:620px}
+.taf-directory,.taf-stream-card a{display:inline-flex;align-items:center;justify-content:center;background:#f47721;color:#fff;border-radius:6px;padding:9px 12px;font-size:9px;font-weight:900;letter-spacing:.5px;white-space:nowrap}
+.taf-stream-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.taf-stream-card{position:relative;min-width:0;padding:14px;border:1px solid #28516b;border-radius:9px;background:linear-gradient(145deg,#102f4a,#0a2138)}
+.taf-onair{font-size:8px;letter-spacing:.7px;color:#55e2b1;font-weight:900}
+.taf-station-icon{display:grid;place-items:center;width:38px;height:38px;margin:9px 0;background:#173f5c;border:1px solid #34718a;border-radius:9px;color:#70e5d9;font-size:16px;font-weight:900}
+.taf-stream-card h4{font-size:14px;margin:5px 0;color:#fff}
+.taf-stream-card p{font-size:10px;color:#91aec3;margin:0 0 12px}
+.taf-stream-card a{padding:8px 10px;background:#173f5c;border:1px solid #34718a}
+.taf-stream-card a:hover,.taf-directory:hover{filter:brightness(1.12)}
+.taf-radio-foot{display:flex;justify-content:space-between;gap:10px;margin-top:12px;padding-top:9px;border-top:1px solid #234760;color:#7899b1;font-size:8px;letter-spacing:.5px}
+@media(max-width:600px){.taf-radio-hub{padding:13px}.taf-radio-heading{align-items:flex-start;flex-direction:column}.taf-stream-grid{grid-template-columns:1fr}.taf-stream-card{display:grid;grid-template-columns:42px 1fr auto;align-items:center;column-gap:9px;padding:10px}.taf-onair{grid-column:1/-1}.taf-station-icon{grid-column:1;grid-row:2/4;margin:5px 0}.taf-stream-card h4{grid-column:2;grid-row:2;margin:0}.taf-stream-card p{grid-column:2;grid-row:3;margin:2px 0 0}.taf-stream-card a{grid-column:3;grid-row:2/4}.taf-radio-foot{font-size:7px}}
+
 </style><style>
 /* Prevent layout breakage from translated strings and long labels */
 html,body{max-width:100%;overflow-x:hidden}
@@ -623,29 +642,14 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="cstat"><span>ACTIVE TRANSMITTERS</span><b id="kTx">03</b><em>Floor control monitored</em></div>
 <div class="cstat"><span>ALERTS</span><b class="warnnum" id="kAlerts">02</b><em>Operator attention</em></div>
 </div>
-<div class="command-title"><h2>SANKET COMMAND CENTER</h2><p>LIVE SYSTEM OVERVIEW · PTT NETWORK · TRANSCRIPTION · DISPATCH</p></div><div class="cockpit-grid">
-
-<div class="c-network-col">
-<div class="pane c-network"><div class="ph">NETWORK & RELAY TOPOLOGY <small>shared demo channel · visual network map</small></div>
-<div class="network-stage">
-<svg class="network-svg" viewBox="0 0 720 260" role="img" aria-label="Illustrative data flow between radio channels, tower gateway and control room">
-<defs><linearGradient id="flowgrad"><stop stop-color="#27b9c9"/><stop offset="1" stop-color="#55edb0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<path class="route route-a" d="M125 52 C235 52 245 125 355 125"/><path class="route route-b" d="M125 208 C235 208 245 135 355 135"/><path class="route route-c" d="M365 130 C470 130 480 52 595 52"/><path class="route route-d" d="M365 140 C470 140 480 208 595 208"/>
-<path class="route route-faint" d="M125 52 C235 52 245 125 355 125 M365 130 C470 130 480 52 595 52"/>
-<g class="node"><rect x="18" y="25" width="110" height="54" rx="8"/><circle class="radio-led led-rx" cx="115" cy="37" r="4"/><text x="73" y="47">FIELD PTT</text><text x="73" y="63" class="sub">RX / TX LINES</text></g>
-<g class="node"><rect x="18" y="181" width="110" height="54" rx="8"/><circle class="radio-led led-edge" cx="115" cy="193" r="4"/><text x="73" y="203">EDGE NODES</text><text x="73" y="219" class="sub">PI · AUDIO · SDR</text></g>
-<g class="tower"><path d="M360 62 L326 197 M360 62 L394 197 M339 145 L381 145 M334 166 L386 166 M345 122 L375 122 M326 197 L394 197 M360 62 L360 35 M350 35 Q360 20 370 35 M344 27 Q360 4 376 27"/><circle cx="360" cy="62" r="6"/><text x="360" y="220">TOWER GATEWAY</text><text x="360" y="236" class="sub">SECURE RELAY / ROUTER</text></g>
-<g class="node"><rect x="592" y="25" width="110" height="54" rx="8"/><circle class="radio-led led-relay" cx="689" cy="37" r="4"/><text x="647" y="47">CONTROL ROOM</text><text x="647" y="63" class="sub">MONITOR / DISPATCH</text></g>
-<g class="node"><rect x="592" y="181" width="110" height="54" rx="8"/><circle class="radio-led led-tx" cx="689" cy="193" r="4"/><text x="647" y="203">OUTPUT ZONES</text><text x="647" y="219" class="sub">PA / RECORD / ALERT</text></g>
-<circle class="packet p1" r="5"><animateMotion dur="3.2s" repeatCount="indefinite" path="M125 52 C235 52 245 125 355 125"/></circle><circle class="packet p2" r="4"><animateMotion dur="4s" repeatCount="indefinite" path="M125 208 C235 208 245 135 355 135"/></circle><circle class="packet p3" r="5"><animateMotion dur="3.5s" repeatCount="indefinite" path="M365 130 C470 130 480 52 595 52"/></circle><circle class="packet p4" r="4"><animateMotion dur="4.3s" repeatCount="indefinite" path="M365 140 C470 140 480 208 595 208"/></circle>
-</svg>
-<div class="network-caption"><span><i class="g"></i> INBOUND DATA</span><span><i class="c"></i> RELAY / ROUTING</span><span><i class="o"></i> OUTBOUND DATA</span></div></div></div>
-<div class="c-gauges">
-<div class="pane gauge-pane"><div class="ph">NETWORK HEALTH <small>illustrative gauges · not live measurements</small></div><div class="gauge-row">
-<div class="gauge"><div class="gauge-face"><span class="radio-gauge-led led-relay" aria-hidden="true"></span><div class="gauge-arc"></div><i class="needle" id="needleA"></i><b id="gLatency">42<small>ms</small></b></div><label>RELAY LATENCY</label></div>
-<div class="gauge"><div class="gauge-face"><span class="radio-gauge-led led-tx" aria-hidden="true"></span><div class="gauge-arc arc-orange"></div><i class="needle needle2" id="needleB"></i><b id="gLoad">68<small>%</small></b></div><label>CHANNEL LOAD</label></div>
-<div class="gauge"><div class="gauge-face"><span class="radio-gauge-led led-rx" aria-hidden="true"></span><div class="gauge-arc arc-green"></div><i class="needle needle3" id="needleC"></i><b id="gQuality">98<small>%</small></b></div><label>LINK QUALITY</label></div>
-</div><div class="signal-meter"><span>RX SIGNAL</span><div><i id="rxMeter"></i></div><b id="rxDb">−62 dBm</b></div><div class="signal-meter"><span>TX POWER</span><div><i id="txMeter"></i></div><b id="txDb">−48 dBm</b></div></div>
+<div class="command-title"><h2>SANKET COMMAND CENTER</h2><p>LIVE SYSTEM OVERVIEW · PTT NETWORK · TRANSCRIPTION · DISPATCH</p></div><div class="taf-radio-hub" aria-label="Akashvani radio streams">
+<div class="taf-radio-heading"><div><span class="taf-kicker">AKASHVANI · OFFICIAL RADIO</span><h3>RADIO STREAMS</h3><p>Choose a station and open its official live player. No unverified third-party stream URLs are embedded here.</p></div><a class="taf-directory" href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">ALL STATIONS ↗</a></div>
+<div class="taf-stream-grid">
+<article class="taf-stream-card"><span class="taf-onair">● OFFICIAL</span><div class="taf-station-icon">♫</div><h4>Vividh Bharati</h4><p>National · Hindi</p><a href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">LISTEN LIVE ↗</a></article>
+<article class="taf-stream-card"><span class="taf-onair">● OFFICIAL</span><div class="taf-station-icon">FM</div><h4>FM Gold Delhi</h4><p>Delhi · Hindi</p><a href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">LISTEN LIVE ↗</a></article>
+<article class="taf-stream-card"><span class="taf-onair">● OFFICIAL</span><div class="taf-station-icon">24</div><h4>AIR Live News 24x7</h4><p>National · Hindi / English</p><a href="https://akashvani.gov.in/radio/live.php" target="_blank" rel="noopener">LISTEN LIVE ↗</a></article>
+</div>
+<div class="taf-radio-foot"><span>PRASAR BHARATI · AKASHVANI</span><span>Official player opens in a new tab</span></div>
 </div>
 </div>
 <div class="live-signals" aria-label="Live system signals">
