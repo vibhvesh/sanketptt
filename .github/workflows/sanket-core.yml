@@ -28,6 +28,23 @@ jobs:
           node-version: "22"
       - name: Compile Broadcast modules
         run: python -m compileall -q sanket-broadcast/pi
+      - name: Compile Raspberry Pi modules
+        run: python -m compileall -q pi/sanket pi/sanket_pi.py
+      - name: Syntax-check Pi dashboard JavaScript
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path("pi/web/index.html").read_text()
+          scripts = re.findall(r"<script(?:\\s[^>]*)?>(.*?)</script>", html, re.S | re.I)
+          inline = [s for s in scripts if s.strip()]
+          if not inline:
+              raise SystemExit("No inline Pi dashboard JavaScript found")
+          for i, script in enumerate(inline):
+              Path(f"/tmp/sanket-pi-inline-{i}.js").write_text(script)
+          print(f"Extracted {len(inline)} Pi dashboard script(s)")
+          PY
+          for file in /tmp/sanket-pi-inline-*.js; do node --check "$file"; done
       - name: Run relay safety tests
         working-directory: sanket-broadcast/pi
         run: python -m unittest discover -s tests -v
