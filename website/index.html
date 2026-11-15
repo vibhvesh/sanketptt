@@ -527,7 +527,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="cockpit-bottom">
 <div class="live-pair">
 <div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=virtual" allow="microphone; autoplay" loading="eager"></iframe></div>
-<div class="pane transcript-pane"><div class="ph">LIVE TRANSCRIPTION <small class="rx-label">● WORDS APPEAR HERE</small></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>LIVE LISTENER · LOCAL WHISPER</span><iframe id="liveTranscript" title="Sanket live transcription listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?ch=virtual&amp;source=en&amp;target=hi&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay; microphone" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">No audio recordings received yet.</p></div></div></div>
+<div class="pane transcript-pane"><div class="ph">LIVE TRANSCRIPTION <small class="rx-label">● WORDS APPEAR HERE</small></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>LIVE LISTENER · LOCAL WHISPER</span><iframe id="liveTranscript" title="Boondock Echo live PTT transcription" src="https://vibhvesh.github.io/boondock-echo-live/?source=ptt&amp;pttUrl=https%3A%2F%2Fvibhvesh.github.io%2Fsanketptt%2F%3Fch%3Dvirtual" loading="eager" allow="autoplay; microphone" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">No audio recordings received yet.</p></div></div></div>
 </div>
 <div class="cockpit-support">
 <div class="pane"><div class="ph">CONNECTED USERS <small><span id="presenceState">CONNECTING…</span> · <b id="presenceCount">0</b> ONLINE</small></div><div class="presence-columns"><div><h5>ONLINE NOW</h5><div id="connectedUsers" class="presence-list"><p class="empty-live">Connecting to shared PTT presence…</p></div></div><div><h5>SESSION ACTIVITY</h5><div id="userHistory" class="presence-list"><p class="empty-live">Waiting for user activity…</p></div></div></div></div>
@@ -842,6 +842,27 @@ function googleTranslateElementInit(){
  .cockpit-bottom .transcript-pane{min-height:620px!important}
  .cockpit-bottom .transcript-feed{min-height:260px!important;max-height:360px!important}
  .cockpit-bottom .listener-mini iframe,.cockpit-bottom #liveTranscript{height:210px!important;min-height:210px!important}
+}
+
+/* Unified Sanket + Boondock Echo live console: paired on laptop and mobile */
+.cockpit-bottom{display:block!important;padding:6px!important}
+.cockpit-bottom>.live-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;align-items:stretch!important;width:100%!important}
+.cockpit-bottom>.live-pair>.pane{min-width:0!important;overflow:hidden!important}
+.cockpit-bottom .join-pane iframe{display:block!important;width:100%!important;height:clamp(620px,78vh,900px)!important;min-height:620px!important;border:0!important}
+.cockpit-bottom .transcript-pane{display:flex!important;flex-direction:column!important;min-height:620px!important}
+.cockpit-bottom .transcript-feed,.cockpit-bottom .audio-feed{display:none!important}
+.cockpit-bottom .listener-mini{display:flex!important;flex:1 1 auto!important;min-height:620px!important;margin:0!important}
+.cockpit-bottom .listener-mini>span{display:none!important}
+.cockpit-bottom .listener-mini iframe,.cockpit-bottom #liveTranscript{display:block!important;width:100%!important;height:clamp(620px,78vh,900px)!important;min-height:620px!important;border:0!important}
+.cockpit-bottom>.cockpit-support{margin-top:8px!important}
+@media(max-width:700px){
+ .cockpit-bottom>.live-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:5px!important}
+ .cockpit-bottom .ph{font-size:10px!important;padding:7px 5px!important;letter-spacing:.3px!important}
+ .cockpit-bottom .ph small{font-size:8px!important}
+ .cockpit-bottom .join-pane iframe,.cockpit-bottom .listener-mini iframe,.cockpit-bottom #liveTranscript{height:76svh!important;min-height:590px!important}
+ .cockpit-bottom .transcript-pane,.cockpit-bottom .listener-mini{min-height:590px!important}
+ .cockpit-bottom{padding:3px!important}
+ .cockpit-bottom>.live-pair>.pane{border-radius:7px!important}
 }
 </style>
 <script>
