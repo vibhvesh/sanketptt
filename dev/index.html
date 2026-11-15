@@ -581,7 +581,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  function setBand(b){activeBand=b;bandButtons.forEach(x=>x.classList.toggle("active",x.dataset.band===b));if(b==="AM"||b==="SW"){refreshTuner();$("tunerNote").textContent="No verified "+b+" internet stream feeds are configured yet. The player cannot tune physical AM/SW frequencies without a radio receiver.";return}if(!visibleStations.includes(select.value))select.value=visibleStations[0]||"vividh";refreshTuner();$("tunerNote").textContent="Internet stream tuner: scan moves through the available "+b+" station list. Frequencies shown are dial positions, not verified terrestrial broadcast frequencies."}
  bandButtons.forEach(x=>x.addEventListener("click",()=>setBand(x.dataset.band)));
  $("tuneDown").addEventListener("click",()=>stepTune(-1,false));$("tuneUp").addEventListener("click",()=>stepTune(1,false));
- $("scanDown").addEventListener("click",()=>stepTune(-1,true));$("scanUp").addEventListener("click",()=>stepTune(1,true));
+ $("scanDown").addEventListener("click",()=>scanBand(-1));$("scanUp").addEventListener("click",()=>scanBand(1));
  dial.addEventListener("input",()=>{if(visibleStations[+dial.value])chooseStation(visibleStations[+dial.value],false)});
  favBtn.addEventListener("click",()=>{let f=[];try{f=JSON.parse(localStorage.getItem("sanketRadioFavorites")||"[]")}catch(e){}if(f.includes(select.value))f=f.filter(x=>x!==select.value);else f.push(select.value);localStorage.setItem("sanketRadioFavorites",JSON.stringify(f));updateFavorite();say((f.includes(select.value)?"Saved ":"Removed ")+stations[select.value].name+(f.includes(select.value)?" to favorites":" from favorites"))});
  try{const last=localStorage.getItem("sanketRadioLastStation");if(last&&stations[last])select.value=last}catch(e){}
@@ -593,17 +593,30 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  function cleanupStream(){if(hls){hls.destroy();hls=null}audio.pause();audio.removeAttribute("src");audio.load();streamReady=false}
  async function playRadio(){
   const st=station();cleanupStream();audio.crossOrigin="anonymous";
-  say("Connecting to "+st.name+"…");
-  try{
+  say("Tuning "+st.name+"…");
+  return await new Promise(resolve=>{
+   let settled=false,timer=setTimeout(()=>finish(false,"No stream response from "+st.name),9000);
+   function finish(ok,msg){if(settled)return;settled=true;clearTimeout(timer);if(ok){streamReady=true;try{localStorage.setItem("sanketRadioLastStation",select.value)}catch(e){}refreshTuner()}else{streamReady=false}say(msg);resolve(ok)}
    if(window.Hls&&Hls.isSupported()){
     hls=new Hls({enableWorker:true,lowLatencyMode:true});hls.loadSource(st.url);hls.attachMedia(audio);
-    hls.on(Hls.Events.MANIFEST_PARSED,async()=>{try{await audio.play();streamReady=true;try{localStorage.setItem("sanketRadioLastStation",select.value)}catch(e){}refreshTuner();say("Playing "+st.name+" · local monitor")}catch(e){say("Tap PLAY again to allow audio: "+e.message)}});
-    hls.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)say("Stream error: "+(d.details||d.type)+" · try another line or check stream availability")});
+    hls.on(Hls.Events.MANIFEST_PARSED,async()=>{try{await audio.play();finish(true,"Playing "+st.name+" · station remembered")}catch(e){finish(false,"Playback blocked for "+st.name+": "+e.message)}});
+    hls.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(false,"No playable signal: "+st.name+" · "+(d.details||d.type))});
    }else{
-    audio.src=st.url;
-    await audio.play();streamReady=true;say("Playing "+st.name+" · local monitor");
+    audio.src=st.url;audio.play().then(()=>finish(true,"Playing "+st.name+" · station remembered")).catch(e=>finish(false,"Unable to play "+st.name+": "+e.message));
    }
-  }catch(e){say("Unable to play "+st.name+": "+e.message)}
+  });
+ }
+ async function scanBand(dir){
+  if(scanBusy)return; if(!visibleStations.length){say("No "+activeBand+" stream sources are available to scan.");return}
+  scanBusy=true;const start=visibleStations.indexOf(select.value);let i=start<0?(dir>0?-1:0):start;
+  say("Scanning "+activeBand+" band for a playable stream…");
+  for(let n=0;n<visibleStations.length;n++){
+   i=(i+dir+visibleStations.length)%visibleStations.length;
+   chooseStation(visibleStations[i],false);
+   const ok=await playRadio();
+   if(ok){say("Signal found · "+station().name+" · saved as last station");scanBusy=false;return}
+  }
+  say("Scan complete: no playable stream found in "+activeBand+". Try another band or scan later.");scanBusy=false;
  }
  function stopBridge(){
   bridging=false;
