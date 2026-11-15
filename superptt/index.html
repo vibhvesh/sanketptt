@@ -15,6 +15,22 @@ button,input,select{background:#1d2d3c;color:#d6f0ff;border:1px solid #345;borde
 #ptt.on{background:#a81d1d;border-color:#ff6b6b}#ptt.busy{background:#f0a500;border-color:#ffd166;color:#1a1200}#ptt.off{background:#3a3f44;border-color:#5a6066;color:#b8c0c8}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.m{font-size:12px;color:#789}#log li{font-size:13px;margin:3px 0}.lock{color:#2ecc71;font-size:12px}.open{color:#f93;font-size:12px}.nokey{color:#f66;font-size:12px}
 .hide{display:none}label{font-size:13px}
+
+/* Sanket Government UI refresh — shared controls and responsive surfaces */
+:root{--gov-navy:#12345a;--gov-blue:#174a78;--gov-blue-2:#21649a;--gov-saffron:#f28c28;--gov-green:#138808;--gov-ink:#18324b;--gov-muted:#65788d;--gov-line:#d9e2ec;--gov-bg:#f3f6fa;--gov-surface:#fff;--gov-focus:rgba(33,100,154,.22);--gov-radius:12px}
+html{color-scheme:light}body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important;background:var(--gov-bg)!important;color:var(--gov-ink)!important}
+header,.top,.topbar,.app-header{background:var(--gov-navy)!important;color:#fff!important;border-color:#244b70!important}
+button,input,select,textarea{font:inherit;max-width:100%}input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea{min-height:42px;padding:10px 12px;border:1px solid #c7d3df;border-radius:9px;background:#fff;color:#18324b;box-shadow:0 1px 2px rgba(16,42,67,.04);transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+select{appearance:none;-webkit-appearance:none;padding-right:38px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2312345a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:0!important;border-color:var(--gov-blue-2)!important;box-shadow:0 0 0 3px var(--gov-focus)!important}
+input::placeholder,textarea::placeholder{color:#8494a5;opacity:1}textarea{min-height:96px;resize:vertical}label{color:var(--gov-ink);font-weight:650;letter-spacing:0!important}
+form{display:grid;gap:14px}form label{display:block;margin:0 0 6px}form input,form select,form textarea{width:100%}
+button,.btn,.cta{border-radius:9px;transition:background .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease}button:not(:disabled):hover,.btn:hover,.cta:hover{filter:brightness(1.04)}button:active,.btn:active,.cta:active{transform:translateY(1px)}button:disabled{opacity:.55;cursor:not-allowed}
+.card,.panel,.box,.section-card{border-radius:14px}
+.badge,.pill{letter-spacing:.01em}
+@media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}form{gap:16px}}
+@media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px} .wrap,.main,.content{padding-left:14px;padding-right:14px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 <header><b>SUPER·PTT</b><span id=me class=pill></span><span id=net>offline</span><button id=gear>⚙</button></header>
 <div class=wrap>
