@@ -475,21 +475,24 @@ $("emOn").addEventListener("change",()=>{emBanner();if($("emOn").checked)gisLoad
 (function w(){if(db){emRequeue().then(emKick).catch(()=>{});}else setTimeout(w,200);})();
 emBanner();
 
-/* Embedded control-room listener: join immediately; load Whisper only when the first clip arrives. */
+/* Auto-start the PTT transcription listener on every page load.
+   Use ?autostart=0 only when a manual start is explicitly required. */
 (function(){
  const q=new URLSearchParams(location.search);
- if(q.get("compact")!=="1")return;
- document.body.classList.add("embed-mode");
+ if(q.get("autostart")==="0")return;
+ const compact=q.get("compact")==="1";
+ if(compact)document.body.classList.add("embed-mode");
  $("engine").value="free";
  $("inSrc").value="ptt";
  const ch=(q.get("ch")||"virtual").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";
  $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
  inUI();syncPttBackLink();
- $("status").textContent="Starting live PTT listener… Whisper will load automatically when the first transmission arrives.";
- pttStart().then(()=>{
-   $("status").textContent="Listening to live PTT channel "+ch+". Incoming clips will be transcribed automatically.";
+ $("status").textContent="Starting live PTT listener… English speech will be transcribed and translated into Hindi automatically.";
+ const launch=()=>{if(pttOn)return;pttStart().then(()=>{
+   $("status").textContent="Listening to PTT channel "+ch+". English → Hindi transcription is active.";
  }).catch(e=>{
    $("status").textContent="Listener could not start: "+e.message;
    pttStat("listener startup failed");
- });
+ });};
+ if(document.readyState==="complete")launch();else window.addEventListener("load",launch,{once:true});
 })();</script></body></html>
