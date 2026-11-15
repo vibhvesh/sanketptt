@@ -726,7 +726,7 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#products">Platform</a><a href="demo.html">Try Live Demo</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
+<header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#products">Platform</a><a href="demo.html">Try Live Demo</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div><div class="landing-nav-actions"><a href="demo.html" class="nav-try">TRY IT LIVE ↗</a><a href="#contact" class="nav-contact">CONTACT</a></div></header>
 <main id="home"><section class="hero" style="border:0"><div class="wrap">
 <div class="herohead sanket-main-hero">
 <div class="hero-copy">
@@ -738,7 +738,7 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 <a class="hero-btn secondary" href="#contact"><span class="hero-btn-icon">✉</span> CONTACT US</a>
 <a class="hero-text-link" href="#products">Explore the platform <span>→</span></a>
 </div>
-<div class="hero-proof"><span>✓ Browser-based PTT</span><span>✓ Live radio streams</span><span>✓ Timestamped transcripts</span></div>
+<div class="public-demo-warning" role="note"><span class="warning-symbol">!</span><div><b>PUBLIC DEMO — NOT A PRIVATE CHANNEL</b><p>This is an open-source demonstration line. Anyone connected to this public channel may hear your transmission. Do not share personal, confidential, sensitive or operational information.</p></div></div>\n<div class="hero-proof"><span>✓ Browser-based PTT</span><span>✓ Live radio streams</span><span>✓ Timestamped transcripts</span></div>
 </div>
 <div class="hero-visual">
 <div class="hero-visual-top"><span class="hero-visual-dot"></span> YOUR COMMUNICATION WORKSPACE</div>
@@ -1809,4 +1809,51 @@ section{padding:72px 0!important}
  .hero .wrap>.live-signals #sigTx{grid-column:1/-1!important}
  section{padding:48px 0!important}
 }
+</style>
+<style id="sanket-main-landing-page">
+/* Full product landing page: minimal navigation, clear try/contact CTAs, and prominent public-demo safety notice. */
+.top{height:76px!important;background:#fff!important;border-bottom:1px solid #dce5ee!important;box-shadow:0 2px 12px #172b3d0a!important}
+.top .nav{justify-content:space-between!important}
+.top .links,.top .langWrap,.top .cta,.top .menu{display:none!important}
+.landing-nav-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.landing-nav-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 17px;border-radius:8px;font-size:13px;font-weight:800;text-decoration:none}
+.landing-nav-actions .nav-try{background:#1769aa;color:#fff;box-shadow:0 3px 9px #1769aa25}
+.landing-nav-actions .nav-contact{background:#fff;color:#1769aa;border:1px solid #b9cfe2}
+.hero{padding:40px 0 54px!important;background:linear-gradient(180deg,#f4f8fc 0%,#fff 100%)!important}
+.hero .wrap{width:min(1320px,calc(100% - 48px))!important;display:block!important}
+.hero .wrap>.herohead{display:block!important;margin:0 0 25px!important}
+.hero .wrap>.herohead>p,.hero .wrap>.herohead>.actions,.hero .wrap>.herohead>.note{display:none!important}
+.sanket-main-hero{display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr)!important;gap:40px!important;align-items:center!important;padding:28px 0 34px!important}
+.hero-eyebrow{display:flex;align-items:center;gap:9px;color:#1769aa;font-size:13px;font-weight:850;letter-spacing:1.6px}
+.hero-pulse{width:9px;height:9px;border-radius:50%;background:#21a36b;box-shadow:0 0 0 5px #e2f4eb}
+.hero-copy h1{font-size:clamp(46px,5.8vw,76px)!important;line-height:1.02!important;letter-spacing:-2.8px!important;color:#142d43!important;margin:18px 0!important}
+.hero-copy h1 span{color:#1769aa!important}
+.hero-lead{max-width:650px!important;font-size:21px!important;line-height:1.55!important;color:#52677c!important}
+.hero-actions{display:flex!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important;margin:25px 0 18px!important}
+.hero-btn{display:inline-flex!important;align-items:center!important;gap:10px!important;min-height:54px!important;padding:13px 21px!important;border-radius:9px!important;font-size:14px!important;font-weight:850!important;text-decoration:none!important}
+.hero-btn.primary{background:#1769aa!important;color:#fff!important;box-shadow:0 7px 18px #1769aa2c!important}
+.hero-btn.secondary{background:#fff!important;color:#1769aa!important;border:1px solid #c8d8e7!important}
+.hero-btn-icon{font-size:17px!important}
+.hero-text-link{font-size:14px!important;font-weight:750!important;color:#1769aa!important;text-decoration:none!important;padding:10px}
+.hero-proof{display:flex!important;flex-wrap:wrap!important;gap:10px 18px!important;color:#506579!important;font-size:14px!important}
+.hero-visual{padding:25px!important;background:linear-gradient(145deg,#123654,#1d527a)!important;border:1px solid #2a638a!important;border-radius:18px!important;box-shadow:0 22px 48px #12365426!important;color:#fff!important}
+.hero-visual-top{font-size:12px!important;letter-spacing:1.2px!important;color:#c9e6f7!important;font-weight:800!important}
+.hero-visual-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;margin:20px 0!important}
+.hero-visual-tile{min-height:126px!important;padding:18px!important;background:#ffffff12!important;border:1px solid #ffffff25!important;border-radius:12px!important}
+.hero-visual-icon{display:block!important;font-size:30px!important;color:#8ed5ff!important;margin-bottom:12px!important}
+.hero-visual-tile b{display:block!important;font-size:17px!important;color:#fff!important}
+.hero-visual-tile small{display:block!important;font-size:13px!important;color:#c8dcec!important;margin-top:6px!important}
+.hero-visual-foot{display:flex!important;align-items:center!important;gap:10px!important;font-size:10px!important;letter-spacing:1px!important;color:#c6deef!important}
+.hero-visual-line{height:1px!important;flex:1!important;background:#ffffff55!important}
+.public-demo-warning{display:flex!important;gap:14px!important;align-items:flex-start!important;max-width:680px!important;margin:20px 0 22px!important;padding:15px 17px!important;background:#fff8e8!important;border:1px solid #efcf8e!important;border-left:5px solid #d28a17!important;border-radius:10px!important;color:#664b19!important}
+.warning-symbol{display:grid!important;place-items:center!important;flex:0 0 25px!important;width:25px!important;height:25px!important;border-radius:50%!important;background:#d28a17!important;color:#fff!important;font-size:17px!important;font-weight:900!important}
+.public-demo-warning b{font-size:13px!important;letter-spacing:.4px!important;color:#714c0a!important}
+.public-demo-warning p{font-size:13px!important;line-height:1.5!important;margin:5px 0 0!important;color:#705b36!important}
+main#home>section:not(.hero),main#home>.demo-link-strip{display:block!important}
+main#home>section{padding:68px 0!important}
+body>footer{display:flex!important}
+#control{margin-top:0!important}
+#control .taf-radio-hub{margin-top:0!important}
+@media(max-width:850px){.sanket-main-hero{grid-template-columns:1fr!important;gap:25px!important}.hero-visual{max-width:680px!important}.hero-copy h1{font-size:clamp(42px,9vw,64px)!important}}
+@media(max-width:600px){.top{height:64px!important}.logo{font-size:22px!important}.logo img{width:34px!important;height:34px!important}.landing-nav-actions{gap:6px!important}.landing-nav-actions a{min-height:37px!important;padding:8px 10px!important;font-size:10px!important}.hero{padding:20px 0 30px!important}.hero .wrap{width:calc(100% - 24px)!important}.sanket-main-hero{padding:14px 0 22px!important}.hero-copy h1{font-size:43px!important;letter-spacing:-1.8px!important}.hero-lead{font-size:17px!important}.hero-actions{gap:8px!important}.hero-btn{min-height:48px!important;padding:11px 13px!important;font-size:12px!important}.hero-proof{font-size:12px!important;gap:8px 12px!important}.hero-visual{padding:16px!important}.hero-visual-tile{min-height:108px!important;padding:13px!important}.hero-visual-tile b{font-size:15px!important}.hero-visual-tile small{font-size:12px!important}.public-demo-warning{padding:12px!important;gap:10px!important}.public-demo-warning p{font-size:12px!important}main#home>section{padding:46px 0!important}}
 </style></body></html>
