@@ -889,6 +889,116 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
  #control .live-pair .transcript-guide{padding:4px 5px!important}
 }
 </style>
+
+<style id="actual-hero-live-pair-fix">
+/* The live pair is a sibling of #control inside .hero .wrap. Target its real DOM location. */
+.hero .wrap>.live-signals{display:none!important;height:0!important;min-height:0!important;max-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+.hero .wrap>.cockpit-bottom{display:block!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;margin:0!important;padding:0 8px 10px!important;overflow:visible!important}
+.hero .wrap>.cockpit-bottom>.live-pair{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ grid-template-rows:600px!important;grid-auto-flow:column!important;
+ gap:10px!important;align-items:stretch!important;width:100%!important;
+ height:600px!important;min-height:600px!important;max-height:600px!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane,
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane{
+ display:flex!important;position:relative!important;float:none!important;
+ flex-direction:column!important;grid-row:1!important;grid-column:auto!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ height:600px!important;min-height:600px!important;max-height:600px!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;
+ border:1px solid #cbd9e4!important;border-radius:10px!important;background:#fff!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane{grid-column:1!important}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane{grid-column:2!important}
+.hero .wrap>.cockpit-bottom>.live-pair>.pane>.ph{
+ display:flex!important;flex:0 0 32px!important;align-items:center!important;
+ height:32px!important;min-height:32px!important;padding:5px 8px!important;
+ box-sizing:border-box!important;background:#eaf2f8!important;color:#183b57!important;
+ font-size:9px!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.pane>.ph small{font-size:7px!important;color:#547087!important}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane>.try-live-guide{
+ display:flex!important;flex:0 0 58px!important;flex-direction:row!important;
+ align-items:center!important;gap:8px!important;width:100%!important;height:58px!important;
+ min-height:58px!important;max-height:58px!important;padding:6px 9px!important;margin:0!important;
+ overflow:hidden!important;box-sizing:border-box!important;background:#edf4f9!important;
+ border:0!important;border-bottom:1px solid #d7e3ec!important;color:#173b59!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair .try-live-button{
+ display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:center!important;
+ height:34px!important;min-height:34px!important;padding:5px 10px!important;
+ border:1px solid #155b8d!important;border-radius:6px!important;background:#155b8d!important;
+ color:#fff!important;font-size:10px!important;font-weight:850!important;line-height:1!important;
+ white-space:nowrap!important;text-decoration:none!important;box-shadow:none!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair .try-live-guide>div{display:block!important;flex:1 1 auto!important;min-width:0!important;overflow:hidden!important}
+.hero .wrap>.cockpit-bottom>.live-pair .try-live-guide b,
+.hero .wrap>.cockpit-bottom>.live-pair .transcript-guide b{
+ display:block!important;color:#173b59!important;font-size:10px!important;font-weight:850!important;
+ line-height:1.2!important;white-space:normal!important;letter-spacing:0!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair .try-live-guide span,
+.hero .wrap>.cockpit-bottom>.live-pair .transcript-guide span{
+ display:block!important;color:#526b80!important;font-size:8px!important;font-weight:500!important;
+ line-height:1.3!important;white-space:normal!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane>#pttControl{
+ display:block!important;flex:1 1 auto!important;width:100%!important;height:0!important;
+ min-height:0!important;max-height:none!important;border:0!important;background:#07192d!important;
+ overflow:auto!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane>.transcript-guide{
+ display:flex!important;flex:0 0 58px!important;flex-direction:column!important;
+ justify-content:center!important;align-items:flex-start!important;gap:3px!important;
+ width:100%!important;height:58px!important;min-height:58px!important;max-height:58px!important;
+ padding:6px 9px!important;margin:0!important;overflow:hidden!important;box-sizing:border-box!important;
+ background:#edf4f9!important;border:0!important;border-bottom:1px solid #d7e3ec!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane>.transcript-feed{display:none!important}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane>.listener-mini{
+ display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+ min-width:0!important;min-height:0!important;height:auto!important;margin:0!important;
+ padding:4px!important;overflow:hidden!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane>.listener-mini>span{
+ display:block!important;flex:0 0 20px!important;height:20px!important;min-height:20px!important;
+ padding:3px!important;color:#7890a2!important;font-size:7px!important
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane iframe#liveTranscript{
+ display:block!important;flex:1 1 auto!important;width:100%!important;height:0!important;
+ min-height:0!important;max-height:none!important;border:0!important;background:#07192d!important
+}
+.hero .wrap>.cockpit-bottom>.cockpit-support,
+.hero .wrap>.cockpit-bottom>.cockpit-footer{display:none!important}
+@media(max-width:760px){
+ .hero .wrap>.cockpit-bottom{padding:0 4px 6px!important}
+ .hero .wrap>.cockpit-bottom>.live-pair{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:540px!important;gap:5px!important;
+  height:540px!important;min-height:540px!important;max-height:540px!important
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.join-pane,
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane{
+  height:540px!important;min-height:540px!important;max-height:540px!important;border-radius:7px!important
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.pane>.ph{
+  flex-basis:29px!important;height:29px!important;min-height:29px!important;padding:4px 4px!important;font-size:7px!important
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair>.pane>.ph small{font-size:5px!important}
+ .hero .wrap>.cockpit-bottom>.live-pair>.join-pane>.try-live-guide,
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane>.transcript-guide{
+  flex-basis:68px!important;height:68px!important;min-height:68px!important;max-height:68px!important;padding:5px!important;gap:4px!important
+ }
+ .hero .wrap>.cockpit-bottom>.live-pair .try-live-button{height:29px!important;min-height:29px!important;padding:4px 5px!important;font-size:7px!important}
+ .hero .wrap>.cockpit-bottom>.live-pair .try-live-guide b,
+ .hero .wrap>.cockpit-bottom>.live-pair .transcript-guide b{font-size:7px!important;line-height:1.15!important}
+ .hero .wrap>.cockpit-bottom>.live-pair .try-live-guide span,
+ .hero .wrap>.cockpit-bottom>.live-pair .transcript-guide span{font-size:6px!important;line-height:1.2!important}
+ .hero .wrap>.cockpit-bottom>.live-pair>.transcript-pane>.listener-mini>span{font-size:6px!important}
+}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#products">Platform</a><a href="demo.html">Try Live Demo</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div><div class="landing-nav-actions"><a href="demo.html" class="nav-try">TRY IT LIVE ↗</a><a href="#contact" class="nav-contact">CONTACT</a></div></header>
