@@ -37,3 +37,14 @@ This first commit establishes the independent audio-routing core; MQTT, storage,
 ## Central cloud storage (initial adapter)
 
 The provider-independent S3-compatible storage adapter is in `pi/sanket_broadcast/cloud_storage.py`. It supports tenant/site-scoped object keys, connection checks, uploads, checksum-verified downloads and listing. See [CLOUD_STORAGE.md](CLOUD_STORAGE.md) for setup and security boundaries. This is the storage adapter foundation, not yet the complete background sync, backup/restore workflow or production installer.
+
+
+## Central storage
+
+Sanket Central Cloud is being developed under `../sanket-central-cloud/`. It provides the first API and Raspberry Pi agent foundation for tenant-isolated Cloudflare R2 object storage, backup catalogue and staged migration/restore.
+
+- Cloud storage design: `../sanket-central-cloud/README.md`
+- Implementation status and deployment gates: `../sanket-central-cloud/IMPLEMENTATION_STATUS.md`
+- Raspberry Pi export/restore agent: `../sanket-central-cloud/pi-agent/backup_agent.py`
+
+The cloud service is not yet deployed or production-ready. See the implementation status before connecting real customer recordings.
