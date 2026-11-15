@@ -552,11 +552,16 @@ emBanner();
  $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
  inUI();syncPttBackLink();
  $("status").textContent="Starting live PTT listener… English speech will be transcribed and translated into Hindi automatically.";
- const launch=()=>{if(pttOn)return;pttStart().then(()=>{
-   $("status").textContent="Listening to PTT channel "+ch+". English → Hindi transcription is active.";
- }).catch(e=>{
-   $("status").textContent="Listener could not start: "+e.message;
-   pttStat("listener startup failed");
- });};
+ const launch=()=>{if(pttOn)return;
+   /* Download and initialise local Whisper immediately, not after the first transmission. */
+   $("engine").value="free";localStorage.setItem("be_engine","free");
+   engSt("⏳ Waiting for local Whisper model download…");
+   loadAsr().catch(e=>{engSt("❌ Local Whisper download failed: "+e.message);});
+   pttStart().then(()=>{
+     $("status").textContent="Listening to PTT channel "+ch+". Local Whisper is loading; English → Hindi transcription will begin when the model is ready.";
+   }).catch(e=>{
+     $("status").textContent="Listener could not start: "+e.message;
+     pttStat("listener startup failed");
+   });};
  if(document.readyState==="complete")launch();else window.addEventListener("load",launch,{once:true});
 })();</script></body></html>
