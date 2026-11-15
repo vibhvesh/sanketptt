@@ -65,10 +65,13 @@ def current_principal(
             options={"require": ["exp", "iss", "aud", "sub"]},
         )
         tenant_id = str(uuid.UUID(str(claims["tenant_id"])))
+        roles = claims.get("roles", [])
+        if isinstance(roles, str):
+            roles = [roles]
         return {
             "tenant_id": tenant_id,
             "subject": str(claims["sub"]),
-            "roles": claims.get("roles", []),
+            "roles": roles,
         }
     except Exception as exc:
         raise HTTPException(status_code=401, detail="Invalid or expired access token") from exc
