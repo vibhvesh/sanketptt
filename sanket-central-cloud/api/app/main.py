@@ -21,7 +21,7 @@ from psycopg_pool import ConnectionPool
 from pydantic import BaseModel, Field
 
 APP_NAME = "Sanket Central Cloud"
-BASE_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parents[1]
 DASHBOARD = BASE_DIR / "dashboard" / "index.html"
 BUCKET = os.environ["R2_BUCKET"]
 ACCOUNT_ID = os.environ["R2_ACCOUNT_ID"]
