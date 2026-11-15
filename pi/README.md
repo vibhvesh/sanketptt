@@ -56,6 +56,17 @@ Open **http://&lt;pi-hostname&gt;.local:8080** from any phone or PC on the same 
   connect / disconnect / forget, TTS, Whisper, SSTV.
 * **Alerts**: keywords and email. **System**: Wi-Fi, restart, update, port, settings PIN (login), retention, kiosk, logs.
 
+## Transcription engine extension point
+
+**Audio → Transcription & SSTV → Transcription Engine** reserves provider configuration for future engines.
+
+- **Local Whisper** remains the active engine and continues to run offline on the Pi.
+- The dashboard can save a preferred provider and a custom server definition: display name, full URL (scheme + DNS/IP + port), API endpoint, compatibility profile, authentication mode and optional API key.
+- The custom API key is stored in the Pi's local `config.json` and is redacted from `/api/config` responses. Keep the settings PIN enabled and restrict dashboard access.
+- **Important:** custom-server settings are currently configuration-only. This release does not send audio to a remote endpoint and does not switch the recording pipeline away from local Whisper.
+
+The future provider adapter will normalize every engine to the same result contract: `text`, `language`, and `transcribe_s`. The recording pipeline will continue to attach the transcript to the original clip metadata (timestamp, channel, speaker, WAV filename and source), independent of provider. A future remote adapter must preserve the saved WAV and queue/retry failed requests rather than dropping recordings.
+
 ## RTL-SDR receiver
 
 Plug an RTL2832U/R820T USB dongle into the Pi and add an **RTL-SDR receiver** input (Inputs → + Add input). It runs `rtl_fm` and feeds the audio through the same VOX → recording → offline transcription → announcement → dashboard path as the mic inputs. Works on Pi 3 and Pi 5.
