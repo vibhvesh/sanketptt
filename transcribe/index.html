@@ -107,7 +107,7 @@ body{background:var(--gov-bg);color:var(--gov-ink);padding:18px 10px}.body{backg
  <div class="row" style="gap:6px;margin-bottom:8px"><label class="sel">TRANSCRIPTION ENGINE<select id="engine"><option value="free">🆓 Free (in-browser Whisper)</option><option value="eleven">ElevenLabs (API key)</option></select></label><div id="engSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
  <div class="ptt"><button id="startBtn">▶ START</button><button id="stopBtn" disabled>■ STOP</button></div>
 </div>
-<div class="one"><a href="../" target="_blank" style="color:inherit">📻 Open PTT Radio</a> · DEMO · Temporary data, auto-deleted after 7 days · ⚙ Settings for key, languages &amp; alerts</div>
+<div class="one"><a id="pttBackLink" href="../" target="_blank" rel="noopener" style="color:inherit">📻 Open PTT Radio</a> · DEMO · Temporary data, auto-deleted after 7 days · ⚙ Settings for key, languages &amp; alerts</div>
 </div></div>
 <div class="modal" id="setModal"><div class="panel"><div class="ph"><span>⚙ SETTINGS</span><button class="gear" id="setClose" aria-label="Close">✕</button></div><div class="dw">
  <div class="row"><label class="sel">SOURCE<select id="src"></select></label><label class="sel">TRANSLATE<select id="dst"></select></label></div>
@@ -288,10 +288,12 @@ $("startBtn").addEventListener("click",()=>{if(engine()==="free")loadAsr().catch
 /* ---------- PTT Radio link input (listen-only monitor) ---------- */
 const PTT_PREFIX="ptt-radio-66ab9178/",PTT_BROKERS=["wss://public:public@public.cloud.shiftr.io","wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt","wss://test.mosquitto.org:8081"],PTT_RATE=12000;
 const RADIO_DEF="https://vibhvesh.github.io/sanketptt/";
+const pttBackLink=document.getElementById("pttBackLink");
 function pttShareUI(){const u=$("pttUrl").value.trim()||RADIO_DEF,ch=pttChan(u),link=ch==="virtual"?u:u;$("pttShare").innerHTML=`Channel <b>${esc(ch)}</b> · share/open radio: <a href="${esc(link)}" target="_blank" rel="noopener" style="color:var(--lcdt)">${esc(link)}</a>`;}
 let pttSstv={};window.__sstvStats={images:0};let pttOn=false,pttC=null,pttId="",pttCh="virtual",pttUsers={},pttFloor=null,pttTimer=null,pttBi=0,pttClip=null;window.__pttStats={chunks:0,clips:0};
 $("inSrc").value=localStorage.getItem("be_in")||"mic";(function(){const v=localStorage.getItem("be_ptt");if(v&&/boondock-echo-live|ptt-radio/i.test(v)){let q="";try{const ch=new URL(v).searchParams.get("ch");if(ch)q="?ch="+encodeURIComponent(ch);}catch(e){}localStorage.setItem("be_ptt",RADIO_DEF+q);}})();$("pttUrl").value=localStorage.getItem("be_ptt")||RADIO_DEF;const demoParams=new URLSearchParams(location.search),demoChannel=(demoParams.get("ch")||"").replace(/[^\\w-]/g,"").slice(0,40);if(demoChannel){const demoLink=RADIO_DEF+"?ch="+encodeURIComponent(demoChannel);localStorage.setItem("be_in","ptt");localStorage.setItem("be_ptt",demoLink);$("inSrc").value="ptt";$("pttUrl").value=demoLink;}
-function inUI(){const p=$("inSrc").value==="ptt";$("pttWrap").style.display=$("pttShare").style.display=p?"":"none";if(p)pttShareUI();}$("pttUrl").oninput=pttShareUI;$("inSrc").onchange=()=>{localStorage.setItem("be_in",$("inSrc").value);inUI();};inUI();
+function inUI(){const p=$("inSrc").value==="ptt";$("pttWrap").style.display=$("pttShare").style.display=p?"":"none";if(p)pttShareUI();}$("pttUrl").oninput=()=>{pttShareUI();syncPttBackLink();};$("inSrc").onchange=()=>{localStorage.setItem("be_in",$("inSrc").value);inUI();};inUI();
+function syncPttBackLink(){const ch=pttChan($("pttUrl").value||RADIO_DEF);pttBackLink.href="../?ch="+encodeURIComponent(ch);}
 function pttChan(u){try{const x=new URL(u);return(x.searchParams.get("ch")||new URLSearchParams(x.hash.slice(1)).get("ch")||"virtual").replace(/[^\w-]/g,"")||"virtual";}catch(e){return"virtual";}}
 function pttT(s){return PTT_PREFIX+pttCh+"/"+s;}
 function pttStat(m){$("pttSt").textContent="📻 "+m;}
