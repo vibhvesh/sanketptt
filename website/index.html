@@ -201,6 +201,24 @@ html,body{max-width:100%;overflow-x:hidden}
 @media(max-height:540px){
  #control .live-pair{height:calc(100svh - 76px)!important;min-height:280px!important}
 }
+</style>
+<style id="simple-radio-cockpit-v4">
+#control .live-pair{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,7fr)!important;gap:8px!important;align-items:start!important;height:auto!important;min-height:0!important;max-height:none!important}
+#control .live-pair>.pane{height:auto!important;min-height:0!important;overflow:hidden!important}
+#control .live-pair .join-pane iframe{display:block!important;width:100%!important;height:245px!important;min-height:245px!important;border:0!important;overflow:hidden!important}
+#control .live-pair .transcript-pane{min-height:500px!important}
+#control .live-pair .transcript-feed{min-height:75px!important;max-height:120px!important;flex:0 0 100px!important}
+#control .live-pair .listener-mini{min-height:280px!important;flex:1 1 auto!important}
+#control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{height:330px!important;min-height:330px!important;width:100%!important;border:0!important}
+#control .live-pair .audio-feed{max-height:80px!important;overflow:auto!important}
+@media(max-width:760px){
+ #control .live-pair{grid-template-columns:minmax(0,3fr) minmax(0,7fr)!important;gap:5px!important}
+ #control .live-pair .pane>.ph{padding:6px 5px!important;font-size:8px!important}
+ #control .live-pair .join-pane iframe{height:225px!important;min-height:225px!important}
+ #control .live-pair .transcript-pane{min-height:440px!important}
+ #control .live-pair .transcript-feed{min-height:60px!important;max-height:90px!important;flex-basis:75px!important}
+ #control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{height:280px!important;min-height:280px!important}
+}
 </style></head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
