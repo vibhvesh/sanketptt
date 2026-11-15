@@ -133,6 +133,32 @@ def create_site(body: SiteCreate, principal: dict = Depends(current_principal)):
         ).fetchone()
 
 
+@app.get("/v1/sites")
+def list_sites(principal: dict = Depends(current_principal)):
+    with tenant_connection(principal) as conn:
+        rows = conn.execute(
+            "SELECT id,name,external_ref,created_at FROM sites ORDER BY created_at DESC"
+        ).fetchall()
+        return {"items": rows}
+
+
+@app.get("/v1/devices")
+def list_devices(
+    site_id: uuid.UUID | None = None,
+    limit: int = 100,
+    principal: dict = Depends(current_principal),
+):
+    limit = min(max(limit, 1), 500)
+    with tenant_connection(principal) as conn:
+        rows = conn.execute(
+            """SELECT id,site_id,name,device_type,software_version,last_seen_at,created_at
+               FROM devices WHERE (%s::uuid IS NULL OR site_id=%s)
+               ORDER BY created_at DESC LIMIT %s""",
+            (site_id, site_id, limit),
+        ).fetchall()
+        return {"items": rows}
+
+
 @app.post("/v1/sites/{site_id}/devices")
 def register_device(site_id: uuid.UUID, body: DeviceCreate, principal: dict = Depends(current_principal)):
     require_admin(principal)
