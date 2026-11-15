@@ -548,7 +548,7 @@ emBanner();
  if(compact)document.body.classList.add("embed-mode");
  $("engine").value="free";
  $("inSrc").value="ptt";
- const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^\\w-]/g,"").slice(0,40);const ch=(stored||q.get("ch")||"virtual").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";
+ const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40);const ch=(stored||q.get("ch")||"virtual").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40)||"virtual";
  $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
  inUI();syncPttBackLink();
  $("status").textContent="Starting live PTT listener… English speech will be transcribed and translated into Hindi automatically.";
@@ -567,7 +567,7 @@ emBanner();
 })();
 // Follow the active PTT radio channel automatically.
 (function(){
- const clean=v=>String(v||"").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";
+ const clean=v=>String(v||"").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40)||"virtual";
  async function follow(v){
   const next=clean(v);if(!next||next===pttCh)return;
   const link=RADIO_DEF+"?ch="+encodeURIComponent(next);
