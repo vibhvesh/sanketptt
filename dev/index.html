@@ -233,6 +233,12 @@ body{overflow-x:hidden}
  </div>
  <div class="tune-note" id="tunerNote">Tune or scan through available internet streams. A station is remembered after playback starts. AM/SW require verified stream sources; no RF receiver is connected.</div>
 </div>
+<div class="radio-scan">
+ <div class="radio-scan-head"><span>LIVE STATION SCANNER · RECOMMENDED FEEDS</span><button type="button" id="radioScanNow">SCAN NOW</button></div>
+ <div class="radio-scan-legend"><span class="g"><i></i>Green · stream verified</span><span class="y"><i></i>Yellow · intermittent / uncertain</span><span class="r"><i></i>Red · unavailable</span></div>
+ <div id="radioStationButtons" class="station-grid" aria-live="polite"></div>
+ <div id="radioScanProgress">Background scan will start automatically…</div>
+</div>
 <div class="rl-row">
 <select id="radioStationSelect" aria-label="Select radio line">
 <optgroup label="NATIONAL · HINDI">
@@ -597,6 +603,43 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  const bandButtons=[...document.querySelectorAll("[data-band]")],dial=$("tunerDial"),freq=$("tunerFrequency"),tunerName=$("tunerStationLabel"),bandLabel=$("tunerBandLabel"),favBtn=$("favoriteStation");
  let activeBand="ALL",visibleStations=[],scanBusy=false;
  const stationIds=Object.keys(stations);
+ const scanBox=$("radioStationButtons"),scanProgress=$("radioScanProgress");
+ const feedState={};let scanGeneration=0,scanRunning=false;
+ function renderStationButtons(){
+  const ids=stationIds.slice().sort((a,b)=>{const rank={green:0,yellow:1,unknown:2,checking:3,red:4};return (rank[feedState[a]||"unknown"]-rank[feedState[b]||"unknown"])||stations[a].name.localeCompare(stations[b].name)});
+  scanBox.innerHTML="";
+  ids.forEach(id=>{const state=feedState[id]||"unknown",btn=document.createElement("button");btn.type="button";btn.className="station-chip "+state+(select.value===id?" selected":"");btn.title=stations[id].name+" · "+state;const led=document.createElement("i"),label=document.createElement("span");label.textContent=stations[id].name;btn.append(led,label);btn.addEventListener("click",()=>{chooseStation(id,false);renderStationButtons();playRadio()});scanBox.appendChild(btn)});
+ }
+ function classifyError(d){
+  const msg=String(d&&((d.details||"")+" "+(d.response&&d.response.code||"")+" "+(d.reason||""))||"").toLowerCase();
+  if(/404|410|not found|manifestloaderror|fragloaderror/.test(msg))return "red";
+  return "yellow";
+ }
+ function probeStation(id,generation){
+  return new Promise(resolve=>{
+   if(!window.Hls||!Hls.isSupported()){resolve("yellow");return}
+   const video=document.createElement("video");video.muted=true;video.playsInline=true;
+   const probe=new Hls({enableWorker:true,lowLatencyMode:true,maxBufferLength:4,manifestLoadingTimeOut:5000,fragLoadingTimeOut:5000});
+   let done=false,manifest=false;
+   const finish=state=>{if(done)return;done=true;clearTimeout(timer);try{probe.destroy()}catch(e){}video.removeAttribute("src");video.load();resolve(state)};
+   const timer=setTimeout(()=>finish(manifest?"yellow":"yellow"),7500);
+   probe.on(Hls.Events.MANIFEST_PARSED,()=>{manifest=true});
+   probe.on(Hls.Events.FRAG_LOADED,()=>finish("green"));
+   probe.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(classifyError(d))});
+   try{probe.loadSource(stations[id].url);probe.attachMedia(video)}catch(e){finish("yellow")}
+  });
+ }
+ async function scanAllStations(){
+  if(scanRunning)return;scanRunning=true;const generation=++scanGeneration;
+  const ids=stationIds.slice();let done=0,green=0,yellow=0,red=0;
+  ids.forEach(id=>{feedState[id]="checking"});renderStationButtons();
+  scanProgress.textContent="Checking "+ids.length+" streams in the background…";
+  let cursor=0;
+  async function worker(){while(cursor<ids.length&&generation===scanGeneration){const id=ids[cursor++];const state=await probeStation(id,generation);if(generation!==scanGeneration)return;feedState[id]=state;done++;if(state==="green")green++;else if(state==="yellow")yellow++;else red++;renderStationButtons();scanProgress.textContent="Scanned "+done+"/"+ids.length+" · Green "+green+" · Yellow "+yellow+" · Red "+red;}}
+  await Promise.all([worker(),worker(),worker()]);
+  if(generation===scanGeneration){scanRunning=false;scanProgress.textContent="Scan complete · "+green+" playable now · "+yellow+" uncertain/intermittent · "+red+" unavailable. Auto-rescan in 5 minutes."}
+ }
+
  const isFM=id=>/fm|rainbow|vividh|vbs|indraprastha|aaradhana/i.test(stations[id].name);
  function refreshTuner(){
   visibleStations=stationIds.filter(id=>activeBand==="ALL"||(activeBand==="FM"&&isFM(id)));
@@ -701,10 +744,12 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
    say("LIVE BRIDGE · "+st.name+" → PTT channel "+radio.ch+" · RX-only radio source");
   });
  }
- powerBtn.addEventListener("click",async()=>{if(streamReady&&!audio.paused){stopBridge();cleanupStream();say("Radio powered off.");return}if(window.ac&&ac.state!=="closed")attachRadioMeter();await playRadio()});
+ $("radioScanNow").addEventListener("click",scanAllStations);
+ renderStationButtons();setTimeout(scanAllStations,1200);setInterval(()=>{if(!document.hidden)scanAllStations()},300000);
+  powerBtn.addEventListener("click",async()=>{if(streamReady&&!audio.paused){stopBridge();cleanupStream();say("Radio powered off.");return}if(window.ac&&ac.state!=="closed")attachRadioMeter();await playRadio()});
  $("radioBridgeBtn").addEventListener("click",bridge);
  $("radioBridgeStopBtn").addEventListener("click",stopBridge);
- select.addEventListener("change",()=>{if(bridging)stopBridge();cleanupStream();refreshTuner();say("Selected "+station().name+". Press POWER ON to listen.")});
+ select.addEventListener("change",()=>{if(bridging)stopBridge();cleanupStream();refreshTuner();renderStationButtons();say("Selected "+station().name+". Press POWER ON to listen.")});
  window.addEventListener("beforeunload",()=>{stopBridge();cleanupStream();cancelAnimationFrame(meterFrame)});
 })();
 </script></body></html>
