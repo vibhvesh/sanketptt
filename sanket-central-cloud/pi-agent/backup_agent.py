@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import shutil
 import sys
 import tempfile
@@ -24,8 +25,8 @@ from pathlib import Path, PurePosixPath
 import requests
 
 SECRET_PATTERNS = (
-    ".env", "*.pem", "*.key", "id_rsa", "*secret*", "*token*", "*credential*",
-    "authorized_keys", "known_hosts",
+    ".env", "*.pem", "*.key", "id_*", "*.p12", "*.pfx", "*.jks", "*secret*", "*token*", "*password*", "*credential*",
+    "authorized_keys", "known_hosts", ".ssh", "secrets",
 )
 DEFAULT_EXCLUDES = ("*.sock", "*.pid", "*.lock", "*.tmp", "*.swp", "__pycache__")
 
@@ -58,13 +59,15 @@ def get_access_token() -> str:
 def api_session(base_url: str) -> requests.Session:
     session = requests.Session()
     session.headers.update({"Authorization": f"Bearer {get_access_token()}"})
-    session.base_url = base_url.rstrip("/")  # type: ignore[attr-defined]
     return session
 
 
 def iter_safe_files(source: Path, excludes: list[str]):
-    source = source.expanduser().resolve(strict=True)
-    if source.is_symlink() or not source.is_dir():
+    source = source.expanduser()
+    if source.is_symlink():
+        raise ValueError(f"Symlink backup sources are not allowed: {source}")
+    source = source.resolve(strict=True)
+    if not source.is_dir():
         raise ValueError(f"Backup source must be a real directory: {source}")
     for path in source.rglob("*"):
         if path.is_symlink() or not path.is_file():
@@ -90,6 +93,8 @@ def export_backup(config_path: Path, backup_type: str) -> None:
             for item in sources:
                 root = Path(item["path"]).expanduser()
                 label = item["archive_name"]
+                if not re.fullmatch(r"[A-Za-z0-9._-]{1,80}", label):
+                    raise ValueError(f"Unsafe archive_name: {label}")
                 for file_path, rel in iter_safe_files(root, excludes):
                     arcname = f"payload/{label}/{rel}"
                     zf.write(file_path, arcname)
