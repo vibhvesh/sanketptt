@@ -34,4 +34,6 @@ jobs:
           JWT_ISSUER: https://identity.example.invalid/
           JWT_AUDIENCE: sanket-central-cloud
           JWKS_URL: https://identity.example.invalid/jwks.json
-        run: docker compose -f sanket-central-cloud/docker-compose.yml config --quiet
+        run: |
+          touch sanket-central-cloud/.env
+          docker compose -f sanket-central-cloud/docker-compose.yml config --quiet
