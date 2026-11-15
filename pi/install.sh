@@ -19,7 +19,7 @@ KIOSK="${SANKET_KIOSK:-auto}"
 say "Sanket PTT Pi listener -> $APP_DIR (user $RUN_USER) on: $MODEL [$HW] $([ $NEW = 1 ] && echo new install || echo upgrade)"
 
 say "System packages"
-PKGS="python3-venv python3-pip espeak-ng alsa-utils ffmpeg curl avahi-daemon network-manager wireless-tools iw bluez pulseaudio-utils"
+PKGS="openssl python3-venv python3-pip espeak-ng alsa-utils ffmpeg curl avahi-daemon network-manager wireless-tools iw bluez pulseaudio-utils"
 sudo apt-get update -y -qq
 sudo apt-get install -y -qq $PKGS >/dev/null || sudo apt-get install -y -qq python3-venv python3-pip espeak-ng alsa-utils curl >/dev/null
 sudo usermod -aG audio,bluetooth "$RUN_USER" 2>/dev/null || sudo usermod -aG audio "$RUN_USER" || true
@@ -93,7 +93,7 @@ WM=$(python3 -c "import json;print(json.load(open('$APP_DIR/config.json')).get('
   || echo "    (Whisper model will download on first start)"
 
 say "Allow the web page to join Wi-Fi networks"
-echo "$RUN_USER ALL=(root) NOPASSWD: /usr/bin/nmcli" | sudo tee /etc/sudoers.d/sanket-pi >/dev/null
+echo "$RUN_USER ALL=(root) NOPASSWD: /usr/bin/nmcli, /usr/bin/hostnamectl" | sudo tee /etc/sudoers.d/sanket-pi >/dev/null
 sudo chmod 440 /etc/sudoers.d/sanket-pi
 
 say "Always on: Wi-Fi power-save off, screen blanking off, hardware watchdog"
