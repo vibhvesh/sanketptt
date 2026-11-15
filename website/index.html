@@ -130,6 +130,47 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 .demo-link-strip{padding:12px 0;background:#f4f7fa;border-top:1px solid var(--line)}
 .demo-link-strip p{margin:0;font-size:11px;color:#617184}.demo-link-strip a{font-weight:800;color:var(--orange)}
 @media(max-width:700px){.live-pair{grid-template-columns:1fr!important}.live-pair .join-pane iframe{height:350px!important}.live-pair .listener-mini iframe,#liveTranscript{height:280px!important;min-height:280px!important}.cockpit-support{grid-template-columns:1fr!important}}
+</style>
+<style id="cockpit-rebuild-v2">
+/* Rebuilt operator cockpit: controls first, diagnostics secondary */
+.cockpit-topstats,.cockpit-grid{display:none!important}
+.command-title{padding:10px 15px!important}
+.command-title h2{font-size:18px!important;letter-spacing:.3px}
+.command-title p{display:none!important}
+.live-signals{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;padding:7px 9px!important}
+.live-signals .signal-card{min-width:0!important;padding:7px 9px!important;min-height:45px!important}
+.live-signals .signal-card b{font-size:9px!important}
+.live-signals .signal-card small{font-size:8px!important}
+.cockpit-bottom{display:block!important;padding:0 9px 9px!important}
+.live-pair{display:grid!important;grid-template-columns:minmax(235px,.36fr) minmax(0,.64fr)!important;gap:8px!important;align-items:stretch!important}
+.live-pair>.pane{min-width:0!important}
+.live-pair .pane .ph{padding:8px 10px!important;font-size:10px!important}
+.live-pair .join-pane iframe{display:block!important;width:100%!important;height:188px!important;min-height:188px!important;border:0!important;background:#07192d}
+.live-pair .transcript-pane{display:flex!important;flex-direction:column!important;min-height:0!important}
+.live-pair .transcript-feed{flex:0 0 74px!important;min-height:55px!important;max-height:74px!important;overflow:auto!important;padding:7px 10px!important;font-size:10px!important}
+.live-pair .listener-mini{display:flex!important;flex-direction:column!important;margin-top:0!important;padding:0 8px 7px!important;min-height:0!important}
+.live-pair .listener-mini>span{font-size:8px!important;padding:5px 0!important}
+.live-pair .listener-mini iframe,#liveTranscript{display:block!important;width:100%!important;height:205px!important;min-height:205px!important;border:0!important;background:#07192d}
+.live-pair .audio-feed{margin:0 8px 7px!important;max-height:65px!important;overflow:auto!important}
+.cockpit-support{margin-top:8px!important}
+@media(max-width:760px){
+ .command-title{padding:8px 11px!important}
+ .command-title h2{font-size:16px!important}
+ .live-signals{grid-template-columns:repeat(3,minmax(0,1fr))!important;padding:5px 7px!important;gap:5px!important}
+ .live-signals .signal-card{min-height:39px!important;padding:5px 7px!important}
+ .live-signals #sigRx,.live-signals #sigTranscript{display:none!important}
+ .cockpit-bottom{padding:0 7px 8px!important}
+ .live-pair{grid-template-columns:minmax(0,1fr)!important;gap:7px!important}
+ .live-pair .join-pane iframe{height:178px!important;min-height:178px!important}
+ .live-pair .transcript-feed{flex-basis:54px!important;max-height:54px!important;min-height:45px!important}
+ .live-pair .listener-mini iframe,#liveTranscript{height:180px!important;min-height:180px!important}
+ .live-pair .audio-feed{max-height:48px!important}
+ .cockpit-support{grid-template-columns:1fr!important}
+}
+@media(min-width:761px) and (max-height:850px){
+ .live-pair .join-pane iframe{height:170px!important;min-height:170px!important}
+ .live-pair .listener-mini iframe,#liveTranscript{height:175px!important;min-height:175px!important}
+}
 </style></head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
