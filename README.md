@@ -32,7 +32,7 @@ Run the same command again to update. See [pi/README.md](pi/README.md).
 
 ## Features
 
-* **PTT** – hold-to-talk voice on named channels (`?ch=name` links), floor control so one person talks at a time, who is online / talking,
+* **Relay selection** – public MQTT-over-WebSocket relay is the default, with automatic public broker fallback. Use **Relay Settings** in the PTT client to switch to a private `wss://` MQTT broker when one is deployed; the selection is saved on that device.\n* **PTT** – hold-to-talk voice on named channels (`?ch=name` links), floor control so one person talks at a time, who is online / talking,
   message history with playback, alerts and a settings PIN.
 * **SSTV** – send and receive pictures over the voice channel (slow-scan TV), decoded live in the browser.
 * **Transcribe** – listens to channels and gives a live transcript with translation to and from Indian languages,
