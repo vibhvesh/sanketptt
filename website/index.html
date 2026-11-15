@@ -1932,4 +1932,52 @@ body>footer{display:flex!important}
  #control .try-live-guide span,#control .transcript-guide span{font-size:7px!important}
  #control .transcript-guide{padding:6px!important}
 }
+
+/* FINAL MOBILE COCKPIT TUNE: radio is a compact add-on; PTT + transcript are the main workspace */
+#control .taf-radio-hub{padding:5px 8px!important;margin:4px 0 8px!important;border-radius:9px!important}
+#control .taf-radio-heading{display:flex!important;align-items:center!important;flex-direction:row!important;justify-content:space-between!important;margin:0 0 5px!important;gap:6px!important}
+#control .taf-radio-heading>div:first-child{display:flex!important;align-items:center!important;gap:6px!important}
+#control .taf-radio-heading h3{font-size:10px!important;margin:0!important;white-space:nowrap!important}
+#control .taf-radio-actions{margin-left:auto!important}
+#control .taf-radio-actions select{max-width:120px!important;padding:4px 6px!important;font-size:9px!important}
+#control .taf-player-row{padding:4px 6px!important;gap:5px!important}
+#control .taf-now b{font-size:9px!important}
+#control .taf-player-row button{padding:5px 8px!important;font-size:9px!important}
+#control .taf-top-five{display:flex!important;flex-wrap:nowrap!important;gap:4px!important;margin-top:5px!important;overflow-x:auto!important}
+#control .taf-top-five button{flex:0 0 auto!important;min-width:0!important;padding:5px 8px!important;border-radius:6px!important}
+#control .taf-top-five b{font-size:8px!important}
+#control .cockpit-bottom{padding:5px!important}
+#control .live-pair{display:grid!important;grid-template-columns:minmax(0,38fr) minmax(0,62fr)!important;gap:5px!important;align-items:start!important}
+#control .live-pair>.pane{min-width:0!important;min-height:0!important;height:auto!important;overflow:hidden!important}
+#control .live-pair .pane>.ph{height:auto!important;min-height:27px!important;padding:6px 5px!important;font-size:9px!important;line-height:1.15!important}
+#control .live-pair .pane>.ph small{font-size:7px!important}
+#control .live-pair .try-live-guide{padding:5px!important;gap:5px!important;align-items:center!important}
+#control .live-pair .try-live-button{min-height:30px!important;padding:5px 7px!important;font-size:9px!important}
+#control .live-pair .try-live-guide b{font-size:8px!important}
+#control .live-pair .try-live-guide span{font-size:7px!important}
+#control .live-pair .join-pane iframe{display:block!important;width:100%!important;height:250px!important;min-height:250px!important;border:0!important}
+#control .live-pair .transcript-pane{display:flex!important;flex-direction:column!important;min-height:0!important;height:auto!important}
+#control .live-pair .transcript-guide{padding:6px!important}
+#control .live-pair .transcript-guide b{font-size:8px!important}
+#control .live-pair .transcript-guide span{font-size:7px!important}
+#control .live-pair .transcript-feed{flex:0 0 62px!important;min-height:48px!important;max-height:62px!important;padding:5px!important;overflow:auto!important}
+#control .live-pair .listener-mini{display:flex!important;flex-direction:column!important;min-height:0!important;padding:0 4px 4px!important}
+#control .live-pair .listener-mini>span{font-size:7px!important;padding:4px 0!important}
+#control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{display:block!important;width:100%!important;height:300px!important;min-height:300px!important;border:0!important;flex:none!important}
+#control .live-pair .audio-feed,#control .cockpit-support{display:none!important}
+@media(min-width:761px){
+ #control .live-pair .join-pane iframe{height:300px!important;min-height:300px!important}
+ #control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{height:340px!important;min-height:340px!important}
+}
+@media(max-width:760px){
+ #control{padding:3px!important}
+ #control .taf-radio-hub{padding:4px 6px!important;margin:3px 0 6px!important}
+ #control .taf-radio-heading{margin-bottom:4px!important}
+ #control .taf-radio-actions select{max-width:100px!important;font-size:8px!important}
+ #control .taf-top-five button{padding:5px 7px!important}
+ #control .live-pair{grid-template-columns:minmax(0,38fr) minmax(0,62fr)!important;gap:4px!important}
+ #control .live-pair .join-pane iframe{height:235px!important;min-height:235px!important}
+ #control .live-pair .transcript-feed{flex-basis:55px!important;max-height:55px!important}
+ #control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{height:280px!important;min-height:280px!important}
+}
 </style></body></html>
