@@ -91,6 +91,13 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}}
 @media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+#radioStationSelect{display:block;width:100%;min-width:0;min-height:48px;padding:12px 44px 12px 14px;border:1px solid #b8c8d8;border-radius:12px;background-color:#fff;color:#163451;font-size:15px;font-weight:650;line-height:1.35;letter-spacing:.01em;box-shadow:0 3px 12px rgba(18,52,90,.07);transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;cursor:pointer}
+#radioStationSelect:hover:not(:disabled){border-color:#3979ad;background-color:#fbfdff}
+#radioStationSelect:focus{outline:none;border-color:#21649a;box-shadow:0 0 0 4px rgba(33,100,154,.16)}
+#radioStationSelect:disabled{opacity:.72;cursor:wait;background-color:#f1f5f9}
+#radioStationSelect optgroup{font-weight:800;color:#174a78;background:#eef4fa}
+#radioStationSelect option{font-weight:550;color:#18324b;background:#fff;padding:8px}
+.station-empty{grid-column:1/-1;padding:12px 14px;border:1px dashed #b8c8d8;border-radius:10px;color:#61758a;background:#f7fafd;font-size:13px}
 </style><style>
 /* Good Configuration #1 visual refinement — compact handheld transceiver faceplate */
 .rig{width:min(100%,470px);max-width:470px;padding:12px;border-radius:18px;background:linear-gradient(145deg,#4b535d 0%,#252c35 24%,#151a20 78%,#080c11 100%);border:1px solid #78828d;box-shadow:0 16px 38px #000b,inset 0 1px 0 #ffffff55,inset 0 -2px 0 #000}
@@ -240,86 +247,7 @@ body{overflow-x:hidden}
  <div id="radioScanProgress">Background scan will start automatically…</div>
 </div>
 <div class="rl-row">
-<select id="radioStationSelect" aria-label="Select radio line">
-<optgroup label="INTERNATIONAL · ENGLISH">
-<option value="bbcworld">BBC World Service — International English</option>
-<option value="wnyc">WNYC 93.9 — USA English</option>
-<option value="wfmu">WFMU Freeform — USA</option>
-</optgroup>
-<optgroup label="NATIONAL · HINDI">
-<option value="vividh">AIR · Vividh Bharati — Hindi</option>
-<option value="fmgold">AIR · FM Gold Delhi — Hindi</option>
-<option value="news">AIR · Live News 24x7 — Hindi / English</option>
-<option value="rainbowdelhi">AIR · FM Rainbow Delhi — Hindi</option>
-<option value="indraprastha">AIR · Indraprastha Delhi — Hindi</option>
-<option value="vbsdelhi">AIR · VBS Delhi — Hindi</option>
-<option value="aaradhana">AIR · Akashvani Aaradhana — Hindi devotional</option>
-</optgroup>
-<optgroup label="GUJARAT · HINDI / GUJARATI">
-<option value="vadodara">AIR · Akashvani Vadodara</option>
-<option value="ahmedabad">AIR · VBS Ahmedabad</option>
-<option value="godhra">AIR · Akashvani Godhra</option>
-<option value="bhuj">AIR · Akashvani Bhuj</option>
-<option value="rajkot">AIR · Akashvani Rajkot</option>
-<option value="vbsrajkot">AIR · VBS Rajkot</option>
-<option value="surat">AIR · Akashvani Surat</option>
-</optgroup>
-<optgroup label="BIHAR · HINDI / MAITHILI">
-<option value="patna">AIR · Akashvani Patna</option>
-<option value="rainbowpatna">AIR · FM Rainbow Patna</option>
-<option value="vbspatna">AIR · VBS Patna</option>
-<option value="purnia">AIR · Akashvani Purnia</option>
-<option value="bhagalpur">AIR · Akashvani Bhagalpur</option>
-<option value="darbhanga">AIR · Akashvani Darbhanga</option>
-</optgroup>
-<optgroup label="MADHYA PRADESH · HINDI">
-<option value="bhopal">AIR · Akashvani Bhopal</option>
-<option value="indore">AIR · VBS Indore</option>
-<option value="jabalpur">AIR · Akashvani Jabalpur</option>
-<option value="jabalpurfm">AIR · Akashvani Jabalpur FM</option>
-<option value="rewa">AIR · Akashvani Rewa</option>
-<option value="balaghat">AIR · Akashvani Balaghat</option>
-<option value="betul">AIR · Akashvani Betul</option>
-<option value="khandwa">AIR · Akashvani Khandwa</option>
-<option value="sagar">AIR · Akashvani Sagar</option>
-</optgroup>
-<optgroup label="RAJASTHAN · HINDI / RAJASTHANI">
-<option value="jaipur">AIR · Akashvani Jaipur</option>
-<option value="vbsjaipur">AIR · VBS Jaipur</option>
-<option value="alwar">AIR · Akashvani Alwar</option>
-<option value="jodhpur">AIR · Akashvani Jodhpur</option>
-<option value="bikaner">AIR · Akashvani Bikaner</option>
-<option value="jaisalmer">AIR · Akashvani Jaisalmer</option>
-<option value="jhalawar">AIR · Akashvani Jhalawar</option>
-</optgroup>
-<optgroup label="OTHER REGIONAL · HINDI INCLUDED">
-<option value="hisar">AIR · Akashvani Hisar — Haryanvi / Hindi</option>
-<option value="rohtak">AIR · Akashvani Rohtak — Haryanvi / Hindi</option>
-<option value="ranchi">AIR · Akashvani Ranchi — Hindi / Nagpuri</option>
-<option value="vbsranchi">AIR · VBS Ranchi — Hindi / Nagpuri</option>
-<option value="daman">AIR · Akashvani Daman — Gujarati / Hindi</option>
-</optgroup>
-<option value="simahapuri">AIR · FM Simahapuri Nellore — ANDHRA PRADESH</option>
-<option value="rainbowvijayawada">AIR · FM Rainbow Vijayawada — ANDHRA PRADESH</option>
-<option value="rainbowvizag">AIR · FM Rainbow Visakhapatnam — ANDHRA PRADESH</option>
-<option value="fmitanagar">AIR · FM Arun Itanagar — ARUNACHAL PRADESH</option>
-<option value="vbsraipur">AIR · VBS Raipur — CHHATTISGARH</option>
-<option value="vbspanaji">AIR · VBS Panaji — GOA</option>
-<option value="shimlafm">AIR · Akashvani Shimla FM — HIMACHAL PRADESH</option>
-<option value="rainbowranchi">AIR · FM Rainbow Ranchi — JHARKHAND</option>
-<option value="kannadakaamanbilu">AIR · Rainbow Kannada Kaamanbilu — KARNATAKA</option>
-<option value="rainbowkochi">AIR · FM Rainbow Kochi — KERALA</option>
-<option value="fmgoldmumbai">AIR · FM Gold Mumbai — MAHARASHTRA</option>
-<option value="rainbowmumbai">AIR · FM Rainbow Mumbai — MAHARASHTRA</option>
-<option value="jongphi">AIR · FM Jongphi Shillong — MEGHALAYA</option>
-<option value="zoawi">AIR · FM Zoawi Aizawl — MIZORAM</option>
-<option value="tragopan">AIR · FM Tragopan Kohima — NAGALAND</option>
-<option value="rainbowcuttack">AIR · FM Rainbow Cuttack — ODISHA</option>
-<option value="rainbowjalandhar">AIR · FM Rainbow Jalandhar — PUNJAB</option>
-<option value="fmgoldchennai">AIR · FM Gold Chennai — TAMIL NADU</option>
-<option value="rainbowhyderabad">AIR · FM Rainbow Hyderabad — TELANGANA</option>
-<option value="ujjayanta">AIR · FM Ujjayanta Agartala — TRIPURA</option>
-</select>
+<select id="radioStationSelect" aria-label="Select verified radio stream" disabled><option value="">Scanning for working stations…</option></select>
 
 </div>
 <div class="rl-row" style="margin-top:7px">
@@ -460,7 +388,7 @@ function unlockAudio(){ac.resume();var b=ac.createBuffer(1,1,22050),s=ac.createB
 unlock.onclick=unlockAudio;
 function play(a){if(!ac)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
  var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+1)playT=now+0.15;s.start(playT);playT+=b.duration}
-function down(e){e&&e.preventDefault();if(holding||sstvTx)return;unlockAudio();holding=true;render();radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})}
+function down(e){e&&e.preventDefault();if(holding||sstvTx)return;unlockAudio();holding=true;render();var claimPTT=function(){if(!holding)return;radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})};if(window.__sanketRadioPreempt){window.__sanketRadioPreempt(claimPTT)}else claimPTT()}
 function up(e){e&&e.preventDefault();if(!holding||sstvTx)return;holding=false;granted=false;radio.release();rec.end();render()}
 ptt.addEventListener('pointerdown',function(e){ptt.setPointerCapture(e.pointerId);down(e)});['pointerup','pointercancel'].forEach(function(t){ptt.addEventListener(t,up)});
 ptt.oncontextmenu=function(e){e.preventDefault()};
@@ -614,10 +542,31 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  const stationIds=Object.keys(stations);
  const scanBox=$("radioStationButtons"),scanProgress=$("radioScanProgress");
  const feedState={};let scanGeneration=0,scanRunning=false;
+ function stationGroup(id){
+  if(["bbcworld","wnyc","wfmu"].includes(id))return "INTERNATIONAL · ENGLISH";
+  if(["vividh","fmgold","news","rainbowdelhi","indraprastha","vbsdelhi","aaradhana"].includes(id))return "INDIA · NATIONAL";
+  if(["vadodara","ahmedabad","godhra","bhuj","rajkot","vbsrajkot","surat","daman"].includes(id))return "WEST INDIA · GUJARATI";
+  if(["patna","rainbowpatna","vbspatna","purnia","bhagalpur","darbhanga"].includes(id))return "BIHAR · HINDI / REGIONAL";
+  if(["bhopal","indore","jabalpur","jabalpurfm","rewa","balaghat","betul","khandwa","sagar"].includes(id))return "CENTRAL INDIA · HINDI";
+  if(["jaipur","vbsjaipur","alwar","jodhpur","bikaner","jaisalmer","jhalawar","hisar","rohtak"].includes(id))return "NORTH / WEST INDIA · REGIONAL";
+  if(["ranchi","vbsranchi","simahapuri","rainbowvijayawada","rainbowvizag","fmitanagar","vbsraipur","vbspanaji","shimlafm","rainbowranchi","kannadakaamanbilu","rainbowkochi","fmgoldmumbai","rainbowmumbai","jongphi","zoawi","tragopan","rainbowcuttack","rainbowjalandhar","fmgoldchennai","rainbowhyderabad","ujjayanta"].includes(id))return "OTHER INDIAN LANGUAGES";
+  return "OTHER VERIFIED STATIONS";
+ }
+ function populateVerifiedSelect(){
+  const current=select.value,groups={};
+  const good=stationIds.filter(id=>feedState[id]==="green");
+  good.forEach(id=>{const g=stationGroup(id);(groups[g]||(groups[g]=[])).push(id)});
+  select.innerHTML="";
+  if(!good.length){const o=document.createElement("option");o.value="";o.textContent=scanRunning?"Scanning for working stations…":"No verified stations yet — scan again";select.appendChild(o);select.disabled=true;return}
+  Object.keys(groups).forEach(group=>{const og=document.createElement("optgroup");og.label=group;groups[group].sort((a,b)=>stations[a].name.localeCompare(stations[b].name)).forEach(id=>{const o=document.createElement("option");o.value=id;o.textContent=stations[id].name;og.appendChild(o)});select.appendChild(og)});
+  select.disabled=false;select.value=good.includes(current)?current:good[0];
+ }
  function renderStationButtons(){
-  const ids=stationIds.slice().sort((a,b)=>{const rank={green:0,yellow:1,unknown:2,checking:3,red:4};return (rank[feedState[a]||"unknown"]-rank[feedState[b]||"unknown"])||stations[a].name.localeCompare(stations[b].name)});
+  const ids=stationIds.filter(id=>feedState[id]==="green").sort((a,b)=>stations[a].name.localeCompare(stations[b].name));
   scanBox.innerHTML="";
-  ids.forEach(id=>{const state=feedState[id]||"unknown",btn=document.createElement("button");btn.type="button";btn.className="station-chip "+state+(select.value===id?" selected":"");btn.title=stations[id].name+" · "+state;const led=document.createElement("i"),label=document.createElement("span");label.textContent=stations[id].name;btn.append(led,label);btn.addEventListener("click",()=>{chooseStation(id,false);renderStationButtons();playRadio()});scanBox.appendChild(btn)});
+  ids.forEach(id=>{const btn=document.createElement("button");btn.type="button";btn.className="station-chip green"+(select.value===id?" selected":"");btn.title=stations[id].name+" · verified working";const led=document.createElement("i"),label=document.createElement("span");label.textContent=stations[id].name;btn.append(led,label);btn.addEventListener("click",()=>{chooseStation(id,false);renderStationButtons();playRadio()});scanBox.appendChild(btn)});
+  if(!ids.length){const note=document.createElement("div");note.className="station-empty";note.textContent=scanRunning?"Testing feeds; only verified working stations will appear here…":"No green feeds yet. Run SCAN NOW to verify streams.";scanBox.appendChild(note)}
+  populateVerifiedSelect();
  }
  function classifyError(d){
   const msg=String(d&&((d.details||"")+" "+(d.response&&d.response.code||"")+" "+(d.reason||""))||"").toLowerCase();
@@ -631,7 +580,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
    const probe=new Hls({enableWorker:true,lowLatencyMode:true,maxBufferLength:4,manifestLoadingTimeOut:5000,fragLoadingTimeOut:5000});
    let done=false,manifest=false;
    const finish=state=>{if(done)return;done=true;clearTimeout(timer);try{probe.destroy()}catch(e){}video.removeAttribute("src");video.load();resolve(state)};
-   const timer=setTimeout(()=>finish(manifest?"yellow":"yellow"),7500);
+   const timer=setTimeout(()=>finish("yellow"),9000);
    probe.on(Hls.Events.MANIFEST_PARSED,()=>{manifest=true});
    probe.on(Hls.Events.FRAG_LOADED,()=>finish("green"));
    probe.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(classifyError(d))});
@@ -646,7 +595,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
   let cursor=0;
   async function worker(){while(cursor<ids.length&&generation===scanGeneration){const id=ids[cursor++];const state=await probeStation(id,generation);if(generation!==scanGeneration)return;feedState[id]=state;done++;if(state==="green")green++;else if(state==="yellow")yellow++;else red++;renderStationButtons();scanProgress.textContent="Scanned "+done+"/"+ids.length+" · Green "+green+" · Yellow "+yellow+" · Red "+red;}}
   await Promise.all([worker(),worker(),worker()]);
-  if(generation===scanGeneration){scanRunning=false;scanProgress.textContent="Scan complete · "+green+" playable now · "+yellow+" uncertain/intermittent · "+red+" unavailable. Auto-rescan in 5 minutes."}
+  if(generation===scanGeneration){scanRunning=false;populateVerifiedSelect();renderStationButtons();scanProgress.textContent="Scan complete · "+green+" verified and listed · "+yellow+" uncertain (hidden) · "+red+" unavailable (hidden). Auto-rescan in 5 minutes."}
  }
 
  const isFM=id=>/fm|rainbow|vividh|vbs|indraprastha|aaradhana/i.test(stations[id].name);
@@ -718,8 +667,11 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
   if(processor)processor.onaudioprocess=null;
   if(bot){try{bot.leave()}catch(e){}bot=null}
   $("radioBridgeBtn").disabled=false;
-  say("Radio bridge stopped. The local radio player can continue independently.");
+  say("Radio bridge stopped. PTT has priority; radio playback remains local.");
  }
+ window.__sanketRadioPreempt=function(claimPTT){
+  if(bridging||bot){stopBridge();setTimeout(claimPTT,220)}else claimPTT();
+ };
  function setupAudioGraph(){
   if(!window.ac||ac.state==="closed")throw new Error("First power on / join PTT, then enable audio.");
   if(!meterSource){meterSource=ac.createMediaElementSource(audio);mediaSource=meterSource}
