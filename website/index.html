@@ -519,6 +519,58 @@ html,body{max-width:100%;overflow-x:hidden}
 @media(max-width:900px){.field-grid{grid-template-columns:1fr;gap:22px}.field-copy{max-width:none}.field-photo{max-width:760px;width:100%;margin:0 auto}}
 @media(max-width:650px){.field-story{padding:34px 0}.field-points{grid-template-columns:1fr 1fr}.workflow-visual{border-radius:12px}.workflow-visual figcaption{font-size:10px;padding:9px 11px}#products .cards{grid-template-columns:1fr 1fr}#products .card{min-height:0;padding:17px 14px}#edge-detail .gallery{grid-template-columns:1fr}.gallery{gap:12px}#use-cases .usecases{grid-template-columns:1fr 1fr}#use-cases .usecase{min-height:0;padding:15px}#migration .steps{grid-template-columns:1fr 1fr}}
 @media(max-width:420px){#products .cards,#use-cases .usecases{grid-template-columns:1fr}.field-points{grid-template-columns:1fr 1fr}.workflow-visual svg{min-height:180px}}
+</style><style>
+/* Scientific SDR cockpit */
+.sdr-section{background:linear-gradient(180deg,#f7f9fb,#edf2f7)}
+.sdr-cockpit{padding:18px;border:1px solid #294e69;border-radius:16px;background:#061728;box-shadow:0 24px 65px #07192d25;color:#e8f5ff}
+.sdr-cockpit .sdrhead{align-items:flex-start;padding:3px 2px 15px;border-bottom:1px solid #24445d}
+.sdr-subline{font-size:9px;letter-spacing:1px;color:#83a8c2;margin-top:6px}
+.sdr-status{font-size:9px;color:#ffca94;border:1px solid #87552f;border-radius:20px;padding:6px 9px;white-space:nowrap}
+.sdr-status i,.sdr-footer i,.water-live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ffb15b;margin-right:6px;box-shadow:0 0 10px #ffb15b}
+.sdr-controls{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:13px 0}
+.sdr-controls>div{padding:10px;background:#0b253c;border:1px solid #1e425d;border-radius:8px;min-width:0}
+.sdr-controls label,.sdr-metrics span{display:block;font-size:8px;color:#85a8c0;letter-spacing:1px;font-weight:800}
+.sdr-controls b{display:block;margin-top:6px;font-size:15px;color:#f2f8fc;white-space:nowrap}
+.sdr-controls b small{font-size:9px;color:#8eb0c6}
+.sdr-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.sdr-metrics>div{padding:12px;background:#0b253c;border:1px solid #1e425d;border-radius:8px}
+.sdr-metrics b{display:block;font-size:22px;line-height:1.3;color:#63e4d0;font-variant-numeric:tabular-nums}
+.sdr-metrics b small{font-size:10px;color:#a5c2d4}
+.sdr-metrics em{display:block;font-size:9px;color:#7899b1;font-style:normal}
+.sdr-visual-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(250px,.8fr);gap:10px}
+.sdr-plot-panel,.sdr-side-panel,.sdr-waterfall-panel,.sdr-table-wrap{background:#091f33;border:1px solid #1d4059;border-radius:10px;overflow:hidden;min-width:0}
+.sdr-panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 13px;border-bottom:1px solid #1d4059;color:#cfe2ef;font-size:10px}
+.sdr-panel-head span{font-size:8px;color:#789bb4;letter-spacing:.8px}
+.sdr-plot-panel canvas{display:block;width:100%;height:auto;aspect-ratio:1200/330}
+.sdr-axis{display:flex;justify-content:space-between;gap:3px;padding:6px 11px;color:#7798b1;font:8px ui-monospace,monospace}
+.sdr-legend{display:flex;gap:14px;flex-wrap:wrap;padding:4px 12px 11px;color:#8eabc0;font-size:8px}
+.sdr-legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:4px}
+.legend-trace{background:#40dfce}.legend-peak{background:#ffad59}.legend-watch{background:#9c8cff}
+.sdr-alert{margin:10px;padding:11px;border:1px solid #87572f;background:linear-gradient(130deg,#34291f,#202b36);border-radius:8px}
+.sdr-alert-top{display:flex;align-items:center;gap:6px;color:#ffca91;font-size:8px}
+.sdr-alert-top i{width:6px;height:6px;border-radius:50%;background:#ffad59;box-shadow:0 0 8px #ffad59}
+.sdr-alert-top span{margin-left:auto;border:1px solid #a46c38;padding:2px 5px;border-radius:4px}
+.sdr-alert strong{display:block;margin-top:10px;font-size:12px;color:#fff0dc}
+.sdr-alert p{font-size:9px;line-height:1.55;color:#c1b8a9;margin:6px 0 10px}
+.sdr-alert-meta{display:flex;gap:10px;flex-wrap:wrap;color:#b5a58f;font-size:8px}
+.sdr-alert-meta b{color:#fff}
+.sdr-mini-stat{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #1b394f;font-size:9px;color:#94b1c5}
+.sdr-mini-stat b{color:#d8e9f4}
+.sdr-green{color:#5be0ad!important}
+.sdr-caution{margin:10px 12px 12px;color:#8da9bc;font-size:8px;line-height:1.55}
+.sdr-waterfall-panel{margin-top:10px}
+.sdr-waterfall-panel canvas{display:block;width:100%;height:auto;aspect-ratio:1200/250;background:#061728}
+.sdr-table-wrap{margin-top:10px}
+.sdr-table{width:100%;border-collapse:collapse;color:#b9d0df;font:9px ui-monospace,monospace}
+.sdr-table th{text-align:left;color:#7fa3bd;font-size:8px;letter-spacing:.7px}
+.sdr-table td,.sdr-table th{padding:10px 12px;border-bottom:1px solid #1d4059;white-space:nowrap}
+.sdr-pill{padding:3px 6px;border-radius:4px;font:8px system-ui,sans-serif}
+.sdr-pill-green{background:#123e3b;color:#78e5c1}.sdr-pill-amber{background:#49351f;color:#ffd09a}.sdr-pill-blue{background:#163d58;color:#8acaf0}
+.sdr-footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 3px 0;color:#7998af;font-size:8px}
+.sdr-footer i{background:#ffb15b}
+@media(max-width:850px){.sdr-controls{grid-template-columns:repeat(3,minmax(0,1fr))}.sdr-visual-grid{grid-template-columns:1fr}.sdr-side-panel{display:grid;grid-template-columns:1fr 1fr;align-items:start}.sdr-side-panel>.sdr-panel-head,.sdr-side-panel>.sdr-alert,.sdr-side-panel>.sdr-caution{grid-column:1/-1}}
+@media(max-width:600px){.sdr-cockpit{padding:10px;border-radius:11px}.sdr-cockpit .sdrhead{display:block}.sdr-status{display:inline-block;margin-top:10px}.sdr-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.sdr-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sdr-metrics b{font-size:19px}.sdr-side-panel{display:block}.sdr-table-wrap{overflow-x:auto}.sdr-table{min-width:690px}.sdr-panel-head{padding:9px;font-size:9px}.sdr-panel-head span{font-size:7px}.sdr-axis{font-size:7px}.sdr-footer{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.sdr-status i,.water-live-dot{box-shadow:none}}
 </style></head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
@@ -634,7 +686,17 @@ html,body{max-width:100%;overflow-x:hidden}
 <section><div class="wrap split"><div><div class="eyebrow">Field communication</div><div class="head"><h2>Sanket PTT puts the radio in every browser.</h2><p>Join named talk-groups from phones, tablets and PCs. Hold to talk, listen to channel traffic and review session history.</p></div><ul class="bullets"><li>Named channels and shareable channel links</li><li>Push-to-talk floor control and presence</li><li>Message history with audio playback</li><li>Android application and browser access</li><li>SSTV picture transmission in the documented client</li></ul><a class="btn" href="https://vibhvesh.github.io/sanketptt/">Launch Sanket PTT ↗</a></div><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/ptt_1.jpg" alt="Sanket PTT mobile interface from the user guide"><div class="cap">Sanket PTT — actual screen from the product user guide</div></div></div></section>
 <section><div class="wrap split"><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/tr_1.jpg" alt="Sanket Transcribe application screen from the user guide"><div class="cap">Sanket Transcribe — documented transcription interface</div></div><div><div class="eyebrow">From voice to searchable record</div><div class="head"><h2>Every transmission becomes a timestamped clip.</h2><p>Listen to a PTT channel or local microphone. Review each clip, its transcript and translation, then export records for follow-up.</p></div><ul class="bullets"><li>Clip segmentation at PTT release or silence boundaries</li><li>Source channel and call-sign context</li><li>Timestamped transcript and translation</li><li>Keyword watch list and review alerts</li><li>Per-clip download and batch ZIP export</li><li>Keep original source filenames and timestamps in the record workflow</li></ul><a class="btn" href="https://vibhvesh.github.io/sanketptt/transcribe/">Open Transcribe ↗</a></div></div></section>
 <section id="edge-detail"><div class="wrap"><div class="head"><div class="eyebrow">Raspberry Pi listener station</div><h2>Sanket Edge brings the control room closer to the radio.</h2><p>Receive channel audio, transcribe locally with Whisper, announce selected alerts and operate a local dashboard on a Raspberry Pi installation.</p></div><div class="gallery"><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/v2_dashboard.jpg" alt="Sanket Edge Raspberry Pi dashboard screenshot"><div class="cap">Edge dashboard</div></div><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/v2_kiosk.jpg" alt="Sanket Edge kiosk screen"><div class="cap">Full-screen kiosk view</div></div><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/v2_inputs.jpg" alt="Sanket Edge input configuration"><div class="cap">Input sources</div></div><div class="shot"><img loading="lazy" src="https://raw.githubusercontent.com/vibhvesh/sanketptt/main/docs/img/06_alerts.jpg" alt="Sanket Edge alert settings"><div class="cap">Alert configuration</div></div></div></div></section>
-<section id="sdr-detail"><div class="wrap"><div class="head"><div class="eyebrow">Software-defined radio</div><h2>Sanket SDR — see activity across the spectrum.</h2><p>RTL-SDR-based monitoring with a live spectrum plot, waterfall history, frequency watchlists and signal analytics. This is a simulated visual preview; connect a supported receiver for real measurements.</p></div><div class="sdr"><div class="sdrhead"><strong>◉ SANKET SDR <small> / RECEIVER MONITOR</small></strong><small>DEMO VISUALISATION · NO RECEIVER CONNECTED</small></div><div class="sdrmeta"><span>FREQUENCY <b>433.920 MHz</b></span><span>SAMPLE RATE <b>2.4 MSPS</b></span><span>GAIN <b>32.8 dB</b></span><span>DEVICE <b>RTL-SDR</b></span><span>MODE <b>RX ONLY</b></span></div><div class="chart"><canvas id="spectrum" width="1100" height="220" aria-label="Illustrative spectrum graph"></canvas><div class="water"></div></div><table class="table"><thead><tr><th>TIME</th><th>FREQUENCY</th><th>DURATION</th><th>PEAK</th><th>LABEL</th></tr></thead><tbody><tr><td>16:08:21</td><td>433.920 MHz</td><td>2.4 s</td><td>-41 dBFS</td><td>Watchlist A</td></tr><tr><td>16:07:53</td><td>434.120 MHz</td><td>0.8 s</td><td>-57 dBFS</td><td>Unlabelled</td></tr><tr><td>16:06:11</td><td>433.500 MHz</td><td>4.1 s</td><td>-48 dBFS</td><td>Watchlist B</td></tr></tbody></table></div><p class="note">Receiver coverage depends on tuner bandwidth and configuration. One RTL-SDR typically observes a limited frequency slice at a time; distant bands require retuning, hopping or additional receivers. Receive only on lawful public or properly authorised frequencies. No encrypted/private communications decoding is offered.</p></div></section>
+<section id="sdr-detail" class="sdr-section"><div class="wrap"><div class="head"><div class="eyebrow">Software-defined radio · RF intelligence</div><h2>Sanket SDR — a spectrum-monitoring cockpit.</h2><p>See the radio environment, identify signal activity, compare signal strength and bandwidth, and review watchlist or anomalous activity. Connect a supported SDR receiver for real RF measurements; this animated cockpit is clearly marked as a simulation.</p></div>
+<div class="sdr sdr-cockpit">
+<div class="sdrhead"><div><strong>◉ SANKET SDR <small> / RF SPECTRUM ANALYSER</small></strong><div class="sdr-subline">RECEIVER: RTL-SDR · RX ONLY · CHANNELISED SCAN VIEW</div></div><div class="sdr-status"><i></i> SIMULATION MODE · NO RECEIVER CONNECTED</div></div>
+<div class="sdr-controls"><div><label>CENTER FREQUENCY</label><b>433.920 <small>MHz</small></b></div><div><label>SPAN</label><b>2.400 <small>MHz</small></b></div><div><label>SAMPLE RATE</label><b>2.4 <small>MS/s</small></b></div><div><label>GAIN</label><b>32.8 <small>dB</small></b></div><div><label>DEMOD</label><b>WFM / NFM</b></div><div><label>SCAN MODE</label><b>WATERFALL</b></div></div>
+<div class="sdr-metrics"><div><span>PEAK RSSI</span><b id="sdrPeak">−41.2 <small>dBm*</small></b><em>Strongest detected peak</em></div><div><span>NOISE FLOOR</span><b id="sdrNoise">−108.4 <small>dBm*</small></b><em>Estimated receiver baseline</em></div><div><span>ACTIVE SIGNALS</span><b id="sdrCount">06</b><em>Visible in current span</em></div><div><span>CHANNEL OCCUPANCY</span><b id="sdrOccupancy">18.6<small>%</small></b><em>Illustrative time-window estimate</em></div></div>
+<div class="sdr-visual-grid"><div class="sdr-plot-panel"><div class="sdr-panel-head"><b>LIVE SPECTRUM · POWER vs FREQUENCY</b><span>FFT · dBFS · AUTO REFRESH</span></div><canvas id="spectrum" width="1200" height="330" aria-label="Animated simulated radio frequency spectrum with signal peaks"></canvas><div class="sdr-axis"><span>432.720 MHz</span><span>433.320 MHz</span><span>433.920 MHz</span><span>434.520 MHz</span><span>435.120 MHz</span></div><div class="sdr-legend"><span><i class="legend-trace"></i> Spectrum trace</span><span><i class="legend-peak"></i> Detected carrier</span><span><i class="legend-watch"></i> Watchlist frequency</span></div></div>
+<div class="sdr-side-panel"><div class="sdr-panel-head"><b>DETECTION COCKPIT</b><span>DEMO EVENTS</span></div><div class="sdr-alert"><div class="sdr-alert-top"><i></i><b>POTENTIAL ANOMALOUS ACTIVITY</b><span>REVIEW</span></div><strong>Unclassified narrowband carrier</strong><p>Signal energy observed near 434.120 MHz. Compare against authorized frequency plans and local regulations before drawing conclusions.</p><div class="sdr-alert-meta"><span>RSSI <b>−57.0 dBm*</b></span><span>BW <b>12.5 kHz*</b></span><span>SNR <b>18.4 dB*</b></span></div></div><div class="sdr-mini-stat"><span>Watchlist matches</span><b>03</b></div><div class="sdr-mini-stat"><span>Unclassified peaks</span><b id="sdrUnclassified">02</b></div><div class="sdr-mini-stat"><span>Capture buffer</span><b>00:30</b></div><div class="sdr-mini-stat"><span>Receiver status</span><b class="sdr-green">SIMULATED</b></div><p class="sdr-caution">RF activity alone cannot establish that a transmission is illegal. Sanket flags signals for operator review; authorization depends on frequency allocation, location, service and applicable law.</p></div></div>
+<div class="sdr-waterfall-panel"><div class="sdr-panel-head"><b>WATERFALL HISTORY · FREQUENCY vs TIME</b><span><i class="water-live-dot"></i> SCROLLING LIVE DEMO</span></div><canvas id="sdrWaterfall" width="1200" height="250" aria-label="Animated simulated radio spectrum waterfall showing signal energy over time"></canvas><div class="sdr-axis"><span>432.720 MHz</span><span>433.320 MHz</span><span>433.920 MHz</span><span>434.520 MHz</span><span>435.120 MHz</span></div></div>
+<div class="sdr-table-wrap"><div class="sdr-panel-head"><b>RECENT SIGNAL OBSERVATIONS</b><span>ILLUSTRATIVE DATA · NOT LIVE RF</span></div><table class="table sdr-table"><thead><tr><th>TIME</th><th>CENTER FREQ.</th><th>BW</th><th>RSSI</th><th>SNR</th><th>CLASSIFICATION</th><th>STATUS</th></tr></thead><tbody id="sdrSignalRows"><tr><td>16:08:21</td><td>433.920 MHz</td><td>25 kHz</td><td>−41 dBm</td><td>32 dB</td><td>Watchlist match</td><td><span class="sdr-pill sdr-pill-green">KNOWN</span></td></tr><tr><td>16:07:53</td><td>434.120 MHz</td><td>12.5 kHz</td><td>−57 dBm</td><td>18 dB</td><td>Unclassified carrier</td><td><span class="sdr-pill sdr-pill-amber">REVIEW</span></td></tr><tr><td>16:06:11</td><td>433.500 MHz</td><td>50 kHz</td><td>−48 dBm</td><td>24 dB</td><td>Wideband activity</td><td><span class="sdr-pill sdr-pill-blue">OBSERVED</span></td></tr></tbody></table></div>
+<div class="sdr-footer"><span><i></i> SIMULATED DISPLAY · VALUES ARE EXAMPLE DATA</span><span>Connect supported SDR hardware to view calibrated measurements.</span></div></div>
+<p class="note">A receiver only observes the bandwidth and frequencies it is tuned to. A single RTL-SDR has limited instantaneous bandwidth; wider coverage may require retuning, scheduled scanning or multiple receivers. Signal detection does not decode encrypted/private communications and does not determine legal status. Operate and monitor only within applicable law and authorized frequency allocations.</p></div></section>
 <section id="use-cases"><div class="wrap"><div class="head"><div class="eyebrow">Practical starting points</div><h2>Six practical ways to use Sanket.</h2><p>Use cases based on the current PTT, transcription, Edge and SDR capabilities — start small, then add control-room and audio-routing hardware as needed.</p></div><div class="usecases">
 <article class="usecase"><div class="num">01 · TEAM RADIO</div><h3>Small teams & field coordination</h3><p>Give field staff, supervisors and dispatchers a shared push-to-talk talk group from phones, tablets or PCs. Useful for maintenance, service crews, facility teams and on-site coordination.</p></article>
 <article class="usecase"><div class="num">02 · EVENTS & VENUES</div><h3>Event operations & venue teams</h3><p>Coordinate gate staff, stage managers, parking, housekeeping and security operations with named channels, call signs, presence and session playback.</p></article>
@@ -1040,4 +1102,47 @@ function googleTranslateElementInit(){
  #control .live-pair>.pane>.ph{font-size:6px!important;padding:4px 2px!important}
 }
 </style>
-</body></html>
+
+<script>
+(()=> {
+ const spec=document.getElementById('spectrum'),water=document.getElementById('sdrWaterfall');
+ if(!spec||!water)return;
+ const ctx=spec.getContext('2d'),wctx=water.getContext('2d');
+ const W=spec.width,H=spec.height,WW=water.width,WH=water.height;
+ const peaks=[{x:.19,a:42,w:.009},{x:.34,a:27,w:.014},{x:.50,a:61,w:.006},{x:.585,a:34,w:.011},{x:.72,a:47,w:.008},{x:.84,a:23,w:.016}];
+ let tick=0,raf=0;
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function drawSpectrum(){
+  tick++;
+  ctx.clearRect(0,0,W,H);
+  const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#0b2940');bg.addColorStop(1,'#061728');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(125,169,197,.17)';ctx.lineWidth=1;
+  for(let i=0;i<=10;i++){let x=i*W/10;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let i=0;i<=6;i++){let y=i*H/6;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.fillStyle='#789bb2';ctx.font='13px monospace';ctx.fillText((-(20+i*15))+' dBFS',8,y-5);}
+  const values=[];
+  for(let x=0;x<W;x++){let v=-102+Math.sin(x*.025+tick*.035)*2.5+Math.sin(x*.009-tick*.018)*2;for(const p of peaks){let dx=(x/W-p.x);v+=p.a*Math.exp(-(dx*dx)/(p.w*p.w*2))*(.9+.1*Math.sin(tick*.04+p.x*20));}values.push(v);}
+  const yOf=v=>H-((v+120)/115)*H;
+  ctx.beginPath();values.forEach((v,x)=>x?ctx.lineTo(x,yOf(v)):ctx.moveTo(x,yOf(v)));ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();const fill=ctx.createLinearGradient(0,0,0,H);fill.addColorStop(0,'rgba(50,222,205,.28)');fill.addColorStop(1,'rgba(21,115,151,.02)');ctx.fillStyle=fill;ctx.fill();
+  ctx.beginPath();values.forEach((v,x)=>x?ctx.lineTo(x,yOf(v)):ctx.moveTo(x,yOf(v)));ctx.strokeStyle='#48e3d1';ctx.lineWidth=2.2;ctx.shadowColor='#35d7d0';ctx.shadowBlur=7;ctx.stroke();ctx.shadowBlur=0;
+  peaks.forEach((p,i)=>{let x=p.x*W,y=yOf(-102+p.a);ctx.strokeStyle=i===2?'#ffb15b':'#9c91ff';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(x,22);ctx.lineTo(x,H-12);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=i===2?'#ffc27d':'#b6aaff';ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();if(i===0||i===2||i===4){ctx.font='12px monospace';ctx.fillText(['433.176','433.920','434.640'][i===0?0:i===2?1:2]+' MHz',Math.min(W-105,x+7),Math.max(17,y-12));}});
+  ctx.fillStyle='#8caec3';ctx.font='12px monospace';ctx.fillText('RBW 2.4 kHz  ·  FFT 4096  ·  AVG 4  ·  PEAK HOLD ON',W-390,H-12);
+ }
+ function drawWaterfall(){
+  const image=wctx.getImageData(0,0,WW,WH);wctx.putImageData(image,0,1);
+  const row=wctx.createImageData(WW,1);
+  for(let x=0;x<WW;x++){
+   let v=0.08+0.035*Math.sin(x*.07+tick*.03)+0.025*Math.sin(x*.017-tick*.06);
+   for(const p of peaks){const d=x/WW-p.x;v+=.72*Math.exp(-(d*d)/(p.w*p.w*2))*(.82+.18*Math.sin(tick*.035+p.x*13));}
+   v=Math.max(0,Math.min(1,v));
+   let r,g,b;
+   if(v<.18){r=5;g=18+v*65;b=45+v*160;}else if(v<.48){let q=(v-.18)/.30;r=10+q*20;g=35+q*150;b=100+q*80;}else{let q=(v-.48)/.52;r=30+q*220;g=185+q*60;b=180-q*150;}
+   const k=x*4;row.data[k]=r;row.data[k+1]=g;row.data[k+2]=b;row.data[k+3]=255;
+  }
+  wctx.putImageData(row,0,0);
+  wctx.strokeStyle='rgba(155,190,214,.13)';for(let i=1;i<10;i++){let x=i*WW/10;wctx.beginPath();wctx.moveTo(x,0);wctx.lineTo(x,WH);wctx.stroke();}
+ }
+ function frame(){drawSpectrum();drawWaterfall();if(!reduced)raf=requestAnimationFrame(frame);}
+ frame();
+ document.addEventListener('visibilitychange',()=>{if(document.hidden&&raf)cancelAnimationFrame(raf);else if(!document.hidden&&!reduced)frame();});
+})();
+</script></body></html>
