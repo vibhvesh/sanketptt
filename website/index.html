@@ -154,8 +154,8 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 </div>
 </div>
 <div class="cockpit-bottom">
-<div class="pane"><div class="ph">CONNECTED USERS & CHANNEL ACTIVITY <small>shared demo channel</small></div><div class="stream-list"><article><b>LIVE PRESENCE</b><p>The connected PTT/transcription client count is shown in the live listener status inside the transcript panel.</p></article><article><b>CHANNEL</b><p>sanket-website-demo</p></article></div></div>
-<div class="pane"><div class="ph">LIVE MESSAGE + TRANSCRIPTION <small class="rx-label">● LIVE RX</small></div><div class="live-transcript-wrap"><iframe id="liveTranscript" title="Always-on Sanket live PTT transcription" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay; microphone" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+<div class="pane"><div class="ph">CONNECTED USERS <small><span id="presenceState">CONNECTING…</span> · <b id="presenceCount">0</b> ONLINE</small></div><div class="presence-columns"><div><h5>ONLINE NOW</h5><div id="connectedUsers" class="presence-list"><p class="empty-live">Connecting to shared PTT presence…</p></div></div><div><h5>SESSION ACTIVITY</h5><div id="userHistory" class="presence-list"><p class="empty-live">Waiting for user activity…</p></div></div></div></div>
+<div class="pane transcript-pane"><div class="ph">INCOMING MESSAGES & LIVE TRANSCRIPTIONS <small class="rx-label">● REAL PTT EVENTS</small></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>TRANSCRIBE LISTENER · LOCAL WHISPER</span><iframe id="liveTranscript" title="Sanket live PTT transcription listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay; microphone" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
 <div class="pane"><div class="ph">OUTGOING MESSAGES <small class="tx-label">● TX</small></div><div class="stream-list" id="outgoingText"><div class="warning-item"><b>TX</b><span>No outgoing dispatch messages received yet. Live PTT transmissions will appear when a connected operator sends them.</span></div></div></div>
 <div class="pane"><div class="ph">PRIORITIES · ALERTS · NOTICES <small class="warn-label">● SYSTEM</small></div><div class="warning-list" id="warningList"><div class="warning-item"><b>INFO</b><span>System monitoring active. No live priority alerts or notices have been received.</span></div></div></div>
 </div>
@@ -279,7 +279,67 @@ function googleTranslateElementInit(){
  .cockpit-bottom .live-transcript-wrap,.cockpit-bottom .live-transcript-wrap iframe{height:360px}
  .cockpit-bottom>.pane>.ph{font-size:9px}
 }
+
+/* Real-time presence and transcript event cards */
+.presence-columns{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:11px}
+.presence-columns h5{font-size:8px;letter-spacing:.8px;color:#8eb0c7;margin:0 0 6px}
+.presence-list{max-height:220px;overflow:auto}
+.presence-user,.presence-event{padding:7px 8px;margin:0 0 5px;border:1px solid #244861;border-radius:6px;background:#102b44;color:#d9edf6;font-size:9px;line-height:1.35}
+.presence-user b,.presence-event b{color:#72dfd2;font-size:9px}
+.presence-user small,.presence-event small{display:block;color:#84a6bb;font-size:8px;margin-top:3px}
+.empty-live{padding:12px;color:#8aa8bc;font-size:9px;line-height:1.5}
+.transcript-feed{padding:10px;max-height:360px;min-height:190px;overflow:auto}
+.transcript-event{padding:10px;margin:0 0 8px;border:1px solid #2b526a;border-left:3px solid #43d9b6;border-radius:7px;background:#102d47}
+.transcript-event .event-meta{display:flex;justify-content:space-between;gap:8px;color:#81a9bf;font-size:8px}
+.transcript-event .event-speaker{color:#74e2d3;font-size:10px;font-weight:800}
+.transcript-event .event-text{margin-top:7px;color:#f0f8fc;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.transcript-event .event-translation{margin-top:5px;padding-top:5px;border-top:1px solid #2a4b62;color:#b8d5e4;font-size:10px}
+.listener-mini{border-top:1px solid #234760;padding:6px 9px;background:#091e32}
+.listener-mini>span{display:block;color:#85a7bd;font-size:7px;letter-spacing:.6px;margin-bottom:4px}
+.listener-mini iframe{display:block;width:100%;height:118px;border:0;background:#081b2d}
+@media(max-width:760px){.presence-columns{grid-template-columns:1fr}.presence-list{max-height:150px}.transcript-feed{max-height:400px}.listener-mini iframe{height:120px}}
 </style>
 <script>
 (()=>{const native=document.getElementById('siteLanguage');if(!native||native.dataset.customized)return;native.dataset.customized='1';const wrap=native.parentElement;const host=document.createElement('div');host.className='sanket-language-picker';host.id='sanket-language-picker';const trigger=document.createElement('button');trigger.type='button';trigger.className='sanket-language-trigger';trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');const label=()=>native.options[native.selectedIndex]?.text||'English';trigger.innerHTML='<span></span><span aria-hidden="true">⌄</span>';trigger.firstElementChild.textContent=label();const menu=document.createElement('div');menu.className='sanket-language-menu';menu.setAttribute('role','listbox');const searchWrap=document.createElement('div');searchWrap.className='sanket-language-search';const search=document.createElement('input');search.type='search';search.placeholder='Search languages…';search.setAttribute('aria-label','Search languages');searchWrap.append(search);menu.append(searchWrap);const options=[];[...native.options].forEach(o=>{const b=document.createElement('button');b.type='button';b.className='sanket-language-option';b.textContent=o.text;b.dataset.value=o.value;b.setAttribute('role','option');b.setAttribute('aria-selected',String(o.selected));b.addEventListener('click',()=>{native.value=o.value;native.dispatchEvent(new Event('change',{bubbles:true}));trigger.firstElementChild.textContent=o.text;options.forEach(x=>x.setAttribute('aria-selected',String(x===b)));close();});menu.append(b);options.push(b)});function open(){menu.classList.add('open');trigger.setAttribute('aria-expanded','true');search.value='';options.forEach(x=>x.hidden=false);search.focus()}function close(){menu.classList.remove('open');trigger.setAttribute('aria-expanded','false')}trigger.addEventListener('click',()=>menu.classList.contains('open')?close():open());search.addEventListener('input',()=>{const q=search.value.toLocaleLowerCase();options.forEach(x=>x.hidden=!x.textContent.toLocaleLowerCase().includes(q))});document.addEventListener('click',e=>{if(!host.contains(e.target))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});host.append(trigger,menu);native.insertAdjacentElement('afterend',host);})();
+</script>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script>
+(()=> {
+ const PREFIX="ptt-radio-66ab9178/", CHANNEL="sanket-website-demo", ROOT=PREFIX+CHANNEL+"/";
+ const BROKERS=["wss://public:public@public.cloud.shiftr.io","wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt","wss://test.mosquitto.org:8081"];
+ const $=id=>document.getElementById(id), users=new Map(), history=[], seen=new Set();
+ let client=null, brokerIndex=0, connected=false;
+ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const clock=t=>new Date(t||Date.now()).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"});
+ function event(type,name,detail){history.unshift({type,name,detail,ts:Date.now()});history.splice(30);renderHistory();}
+ function renderHistory(){const host=$("userHistory");if(!history.length){host.innerHTML='<p class="empty-live">No join/leave events observed in this page session yet.</p>';return;}host.innerHTML=history.map(e=>'<div class="presence-event"><b>'+esc(e.type)+'</b> · '+esc(e.name)+'<small>'+esc(e.detail||"")+' · '+clock(e.ts)+'</small></div>').join("");}
+ function renderUsers(){const list=[...users.values()].sort((a,b)=>a.name.localeCompare(b.name));$("presenceCount").textContent=list.length;$("connectedUsers").innerHTML=list.length?list.map(u=>'<div class="presence-user"><b>● '+esc(u.name)+'</b><small>Seen '+clock(u.lastSeen)+' · '+esc(u.id.slice(0,10))+'</small></div>').join(""):'<p class="empty-live">No connected PTT users detected on this channel.</p>';}
+ function transcript(m){if(!m||!m.text)return;const id=String(m.id||"");if(id&&seen.has(id))return;if(id){seen.add(id);if(seen.size>300)seen.delete(seen.values().next().value);}
+ const el=document.createElement("article");el.className="transcript-event";
+ const meta=document.createElement("div");meta.className="event-meta";
+ const who=document.createElement("span");who.className="event-speaker";who.textContent=m.speaker||"PTT user";
+ const tm=document.createElement("span");tm.textContent=clock(+m.ts||Date.now())+" · "+(m.language||"language n/a");
+ meta.append(who,tm);
+ const body=document.createElement("div");body.className="event-text";body.textContent=m.text;
+ el.append(meta,body);
+ if(m.translation){const tr=document.createElement("div");tr.className="event-translation";tr.textContent="Translation: "+m.translation;el.append(tr);}
+ const ch=document.createElement("div");ch.className="event-meta";ch.style.marginTop="7px";ch.textContent="CHANNEL "+(m.channel||CHANNEL)+" · "+(m.source||"Sanket Transcribe");el.append(ch);
+ const feed=$("liveMessageFeed");const empty=feed.querySelector(".empty-live");if(empty)empty.remove();feed.prepend(el);while(feed.children.length>25)feed.lastElementChild.remove();
+ }
+ function message(topic,payload){const suffix=topic.slice(ROOT.length),raw=payload.toString(),now=Date.now();
+ if(suffix.startsWith("presence/")){const id=suffix.slice(9);if(!raw){const old=users.get(id);if(old){users.delete(id);event("LEFT",old.name,"Disconnected from "+CHANNEL);renderUsers();}return;}
+ try{const m=JSON.parse(raw);if(!m.id||!m.name)return;const old=users.get(id);users.set(id,{id,name:String(m.name).slice(0,40),lastSeen:now});if(!old)event("JOINED",String(m.name).slice(0,40),"Connected to "+CHANNEL);else old.lastSeen=now;renderUsers();}catch(e){}return;}
+ if(suffix==="transcript"){try{const m=JSON.parse(raw);transcript(m);if(m&&m.speaker)event("TRANSCRIBED",String(m.speaker).slice(0,40),String(m.text||"").slice(0,100));}catch(e){}}
+ if(suffix==="floor"){try{const m=JSON.parse(raw);if(m.t==="claim")event("TRANSMITTING",m.name||"PTT user","Floor claimed on "+CHANNEL);if(m.t==="release")event("TX ENDED",m.name||"PTT user","Floor released on "+CHANNEL);}catch(e){}}
+ }
+ function connect(){if(!window.mqtt){$("presenceState").textContent="MQTT LIBRARY UNAVAILABLE";return;}
+ const url=BROKERS[brokerIndex%BROKERS.length];let wasConnected=false;
+ client=mqtt.connect(url,{clientId:"sanket_web_"+Math.random().toString(36).slice(2,12),clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000});
+ client.on("connect",()=>{wasConnected=true;connected=true;$("presenceState").textContent="LIVE";client.subscribe([ROOT+"presence/+",ROOT+"transcript",ROOT+"floor"]);});
+ client.on("message",message);client.on("error",()=>{$("presenceState").textContent="RELAY ERROR";});
+ client.on("close",()=>{connected=false;$("presenceState").textContent="RECONNECTING";users.clear();renderUsers();if(client===null)return;if(!wasConnected)brokerIndex++;setTimeout(()=>{if(client)client.end(true);client=null;connect();},wasConnected?1800:500);});
+ }
+ setInterval(()=>{const now=Date.now();for(const [id,u] of users){if(now-u.lastSeen>16000){users.delete(id);event("TIMED OUT",u.name,"Presence heartbeat expired");}}renderUsers();},3000);
+ renderUsers();renderHistory();connect();
+})();
 </script></body></html>
