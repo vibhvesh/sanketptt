@@ -384,6 +384,39 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 </style>
 
+
+<style id="sanket-live-boards-side-by-side">
+/* Sanket live boards: keep Transcription and Listener side by side at every viewport */
+.live-pair{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+  align-items:stretch!important;
+  width:100%!important;
+}
+.live-pair>.pane,
+.live-pair>.transcript-pane,
+.live-pair>.listener-mini{
+  display:flex!important;
+  flex-direction:column!important;
+  min-width:0!important;
+  width:100%!important;
+  grid-column:auto!important;
+  grid-row:auto!important;
+}
+.live-pair iframe,
+.live-pair .listener-mini iframe,
+.live-pair #liveTranscript{
+  width:100%!important;
+  min-width:0!important;
+}
+@media(max-width:700px){
+  .live-pair{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
