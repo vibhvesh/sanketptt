@@ -12,6 +12,8 @@ Branch: `sanket-broadcast-v1`
 - Authenticated upload with server-calculated SHA-256.
 - Tenant-scoped object listing and short-lived signed downloads.
 - Backup catalogue registration and restore-download URL.
+- Responsive operator dashboard served at `/`, with tenant-scoped storage metrics, backup history, object inventory and signed download/restore package actions.
+- Docker Compose deployment stack for PostgreSQL, API and Caddy HTTPS reverse proxy.
 - Raspberry Pi backup agent for config-clone/full-migration/scheduled/disaster-recovery package creation.
 - Restore agent verifies the archive hash and extracts into a staging directory only.
 - Example daily systemd timer/service and example agent configuration.
@@ -27,7 +29,15 @@ Branch: `sanket-broadcast-v1`
 - Application-specific configuration export must be prepared to omit embedded credentials.
 - Need quota enforcement, per-tenant retention policies, audit events, malware/archive scanning, backup immutability/version strategy, database backup, key management and credential rotation.
 - Need cross-tenant security tests using a non-owner PostgreSQL runtime role with RLS enabled.
-- Need frontend Storage Manager and operator approval/rollback workflow.
+- Dashboard is an initial operator console; site/device inventory management, backup creation controls, quota management and operator approval/rollback workflow are not yet implemented.
+
+## Latest build notes
+
+- Corrected a malformed import line in the API module and added the dashboard root route.
+- Corrected the dashboard asset path for the container layout.
+- Added cleanup of an uploaded R2 object if its database metadata insert fails.
+- The dashboard uses a short-lived bearer token held in page memory; it does not persist the token in local storage.
+- Dashboard/API integration and the Docker image have not yet been executed in a real deployment. Run `docker compose config` before startup and perform API, RLS and R2 smoke tests.
 
 ## Required first deployment steps
 
