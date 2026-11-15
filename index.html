@@ -152,7 +152,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button></div>
-<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div></div>
+<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div><label class=hint style="display:flex;justify-content:center;align-items:center;gap:7px;margin:8px 0 2px"><input type=checkbox id=morseCall style="width:16px;margin:0"> CALL SIGN MORSE TONES · first 5 characters</label></div>
 <div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -245,7 +245,7 @@ Recorder.prototype.clear=function(){this.entries=[];this.cur=null;this.onChange(
 if(typeof module!=='undefined')module.exports={Recorder:Recorder,buildWav:buildWav};
 </script>
 <script>
-var RATE=12000,radio,ac,stream,proc,playT=0,holding=false,granted=false,st0={users:[],floor:null},rxLvl=0,txLvl=0,rxAt=0;
+var RATE=12000,radio,ac,stream,proc,playT=0,holding=false,granted=false,st0={users:[],floor:null},rxLvl=0,txLvl=0,rxAt=0,rxCallId='',rxCallAt=0;
 try{localStorage.removeItem('ch')}catch(e){}nm.value=localStorage.nm||'';
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var NB=20;bars.innerHTML=new Array(NB+1).join('<b></b>');var barEls=bars.children;
@@ -254,6 +254,30 @@ function meterLoop(){var v=granted?txLvl:(Date.now()-rxAt<300?rxLvl:0);txLvl*=.8
  for(var i=0;i<NB;i++)barEls[i].className=i<k?('l'+(i>=NB*.85?' r':i>=NB*.6?' y':'')):'';
  ledtx.classList.toggle('on',granted);ledrx.classList.toggle('on',Date.now()-rxAt<400);requestAnimationFrame(meterLoop)}meterLoop();
 var rec=new Recorder(RATE,renderLog),player=null,playingKey=null;
+// ---- receive call-sign identifier: five-character Morse preamble ----
+var morseCall=document.getElementById('morseCall');
+try{morseCall.checked=localStorage.getItem('sanketptt.morseCallsign')!=='off'}catch(e){morseCall.checked=true}
+morseCall.onchange=function(){try{localStorage.setItem('sanketptt.morseCallsign',this.checked?'on':'off')}catch(e){}};
+function callSignMorse(name){
+ var code={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',
+ '0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.'};
+ var chars=String(name||'UNKNOWN').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5)||'UNK';
+ var unit=.075,segments=[];
+ for(var c=0;c<chars.length;c++){
+  var marks=code[chars[c]]||'';
+  for(var j=0;j<marks.length;j++){segments.push({on:true,d:unit*(marks[j]==='-'?3:1)});if(j<marks.length-1)segments.push({on:false,d:unit})}
+  if(c<chars.length-1)segments.push({on:false,d:unit*3});
+ }
+ var total=0;segments.forEach(function(x){total+=x.d});
+ var out=new Int16Array(Math.ceil(total*RATE)),pos=0,phase=0,amp=6200,fade=Math.max(1,Math.floor(RATE*.006));
+ segments.forEach(function(seg){
+  var n=Math.round(seg.d*RATE);
+  if(seg.on)for(var k=0;k<n;k++){var env=Math.min(1,k/fade,(n-k-1)/fade);out[pos+k]=Math.round(amp*Math.max(0,env)*Math.sin(2*Math.PI*740*(phase+k)/RATE))}
+  pos+=n;if(seg.on)phase+=n;
+ });
+ return out;
+}
+
 setInterval(function(){rec.tick()},500);
 function fmtD(s){return s<60?s.toFixed(1)+'s':Math.floor(s/60)+'m'+('0'+Math.round(s%60)).slice(-2)+'s'}
 function renderLog(es){log.innerHTML=es.length?es.map(function(e){return '<li class="'+(e.mine?'mine':'')+'"><button data-k="'+e.key+'" class="'+(playingKey===e.key?'playing':'')+'">'+(playingKey===e.key?'■':'▶')+'</button><span class=cs>'+esc(e.name)+(e.mine?' (you)':'')+(e.loc?'<span class=lg>📍 '+esc(locTxt(e.loc))+'</span>':'')+'</span><span class=tm>'+new Date(e.t0).toLocaleTimeString()+'</span><span class=du>'+fmtD(e.dur)+'</span></li>'}).join(''):'<li class=hint>No transmissions yet</li>'}
@@ -268,7 +292,7 @@ function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.tex
  st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
 function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end()}render()}
- else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}rxAt=Date.now();rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc)}play(v)}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
+ else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);if(morseCall.checked&&(f.id!==rxCallId||packetAt-rxCallAt>900)){play(callSignMorse(f.name||(fu&&fu.name)||f.id));rxCallId=f.id}}rxCallAt=packetAt;play(v)}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^\w-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}start(CHANNEL);document.getElementById('transcribeLink').href='./transcribe/?ch='+encodeURIComponent(CHANNEL);
 go.onclick=async function(){var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');localStorage.nm=me;
  ac=new (window.AudioContext||window.webkitAudioContext)();unlockAudio();
@@ -281,7 +305,7 @@ go.onclick=async function(){var me=fmtCS(nm.value);nm.value=me;if(!me)return ale
 function unlockAudio(){ac.resume();var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)} // iOS unlock
 unlock.onclick=unlockAudio;
 function play(a){if(!ac)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
- var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+1)playT=now+0.15;s.start(playT);playT+=b.duration}
+ var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+8)playT=now+0.15;s.start(playT);playT+=b.duration}
 function down(e){e&&e.preventDefault();if(holding||sstvTx)return;unlockAudio();holding=true;render();radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})}
 function up(e){e&&e.preventDefault();if(!holding||sstvTx)return;holding=false;granted=false;radio.release();rec.end();render()}
 ptt.addEventListener('pointerdown',function(e){ptt.setPointerCapture(e.pointerId);down(e)});['pointerup','pointercancel'].forEach(function(t){ptt.addEventListener(t,up)});
