@@ -1001,7 +1001,10 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 </style>
 
 <style id="final-equal-live-panels">
-/* Final constraint: two equal-width, equal-height PTT and transcription panels */
+/* Final constraint: clean single-column hero and two equal PTT/transcription panels */
+.sanket-main-hero{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important}
+.sanket-main-hero>.hero-copy{width:100%!important;max-width:920px!important}
+.sanket-main-hero>.hero-device-visual{display:none!important}
 .hero .wrap>.cockpit-bottom>.live-pair{
  display:grid!important;
  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
