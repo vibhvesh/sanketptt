@@ -1684,4 +1684,36 @@ html,body{background:var(--console-bg)!important;color:var(--console-ink)!import
  #control .taf-top-five button b{font-size:16px!important}
  #control .taf-top-five button small{font-size:13px!important}
 }
+</style>
+<style id="sanket-two-row-status-cards">
+/* Compact cloud dashboard: radio + three key status cards in a clear two-row grid. */
+.hero .wrap{display:grid!important;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr)!important;column-gap:16px!important;row-gap:14px!important;align-items:stretch!important}
+.hero .wrap>.herohead{grid-column:1/-1!important;margin-bottom:0!important}
+.hero .wrap>#control{grid-column:1!important;grid-row:2!important;min-width:0!important}
+.hero .wrap>#control .taf-radio-hub{height:100%!important;min-height:100%!important;box-sizing:border-box!important;padding:22px!important}
+.hero .wrap>.live-signals{grid-column:2!important;grid-row:2!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(132px,1fr))!important;gap:12px!important;align-content:stretch!important;min-width:0!important;margin:0!important;padding:0!important}
+.hero .wrap>.live-signals .signal-card{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;gap:12px!important;min-width:0!important;min-height:132px!important;padding:20px!important;background:#fff!important;color:#1f2937!important;border:1px solid #d8e1ea!important;border-radius:12px!important;box-shadow:0 3px 12px #172b3d0b!important}
+.hero .wrap>.live-signals .signal-card>div{display:flex!important;flex-direction:column!important;gap:7px!important}
+.hero .wrap>.live-signals .signal-card b{font-size:17px!important;line-height:1.25!important;color:#24384d!important;letter-spacing:.2px!important}
+.hero .wrap>.live-signals .signal-card small{font-size:16px!important;line-height:1.35!important;color:#1769aa!important;font-weight:700!important}
+.hero .wrap>.live-signals .sig-led{width:12px!important;height:12px!important;flex:0 0 12px!important}
+.hero .wrap>.live-signals #sigRelay{grid-column:1!important;grid-row:1!important}
+.hero .wrap>.live-signals #sigUsers{grid-column:2!important;grid-row:1!important}
+.hero .wrap>.live-signals #sigTx{grid-column:1/-1!important;grid-row:2!important;min-height:110px!important}
+.hero .wrap>.live-signals #sigRx,.hero .wrap>.live-signals #sigTranscript{display:none!important}
+@media(max-width:900px){
+ .hero .wrap{grid-template-columns:minmax(0,1fr)!important}
+ .hero .wrap>#control{grid-column:1!important;grid-row:2!important}
+ .hero .wrap>.live-signals{grid-column:1!important;grid-row:3!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:auto auto!important}
+ .hero .wrap>.live-signals #sigTx{grid-column:1/-1!important;grid-row:2!important}
+}
+@media(max-width:600px){
+ .hero .wrap{width:calc(100% - 20px)!important;row-gap:10px!important}
+ .hero .wrap>#control .taf-radio-hub{padding:15px!important}
+ .hero .wrap>.live-signals{gap:8px!important}
+ .hero .wrap>.live-signals .signal-card{min-height:104px!important;padding:13px!important;gap:9px!important}
+ .hero .wrap>.live-signals .signal-card b{font-size:15px!important}
+ .hero .wrap>.live-signals .signal-card small{font-size:14px!important}
+ .hero .wrap>.live-signals #sigTx{min-height:88px!important}
+}
 </style></body></html>
