@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import hashlib
+from contextlib import contextmanager
+from pathlib import PurePath
 import os
 import uuid
 from datetime import datetime, timezone
@@ -12,6 +14,7 @@ from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import PyJWKClient
 from psycopg.rows import dict_row
+from psycopg.types.json import Jsonb
 from psycopg_pool import ConnectionPool
 from pydantic import BaseModel, Field
 
@@ -71,6 +74,7 @@ def current_principal(
         raise HTTPException(status_code=401, detail="Invalid or expired access token") from exc
 
 
+@contextmanager
 def tenant_connection(principal: dict):
     conn = pool.getconn()
     try:
@@ -189,7 +193,7 @@ def upload_object(
                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                RETURNING id,category,file_name,size_bytes,sha256,created_at""",
             (object_id, principal["tenant_id"], site_id, device_id, category, key,
-             file.filename or "upload.bin", file.content_type or "application/octet-stream",
+             PurePath(file.filename or "upload.bin").name, file.content_type or "application/octet-stream",
              size, sha256, principal["subject"]),
         ).fetchone()
         return row
@@ -208,9 +212,9 @@ def list_objects(
         rows = conn.execute(
             """SELECT id,site_id,device_id,category,file_name,content_type,size_bytes,sha256,created_at
                FROM stored_objects
-               WHERE (%s IS NULL OR category=%s)
-                 AND (%s IS NULL OR site_id=%s)
-                 AND (%s IS NULL OR device_id=%s)
+               WHERE (%s::text IS NULL OR category=%s)
+                 AND (%s::uuid IS NULL OR site_id=%s)
+                 AND (%s::uuid IS NULL OR device_id=%s)
                ORDER BY created_at DESC LIMIT %s""",
             (category, category, site_id, site_id, device_id, device_id, limit),
         ).fetchall()
@@ -225,7 +229,7 @@ def download_object(object_id: uuid.UUID, principal: dict = Depends(current_prin
             raise HTTPException(status_code=404, detail="Object not found")
         url = s3.generate_presigned_url(
             "get_object",
-            Params={"Bucket": BUCKET, "Key": row["object_key"], "ResponseContentDisposition": f'attachment; filename="{row["file_name"]}"'},
+            Params={"Bucket": BUCKET, "Key": row["object_key"]},
             ExpiresIn=300,
         )
         return {"download_url": url, "expires_in": 300}
@@ -251,7 +255,7 @@ def register_backup(body: BackupCreate, principal: dict = Depends(current_princi
                VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
                RETURNING id,backup_type,sha256,size_bytes,created_at""",
             (principal["tenant_id"], obj["site_id"], body.source_device_id, body.object_id,
-             body.backup_type, body.manifest, obj["sha256"], obj["size_bytes"]),
+             body.backup_type, Jsonb(body.manifest), obj["sha256"], obj["size_bytes"]),
         ).fetchone()
         return row
 
@@ -267,8 +271,8 @@ def list_backups(
     with tenant_connection(principal) as conn:
         rows = conn.execute(
             """SELECT id,site_id,source_device_id,object_id,backup_type,sha256,size_bytes,created_at
-               FROM backups WHERE (%s IS NULL OR site_id=%s)
-               AND (%s IS NULL OR source_device_id=%s)
+               FROM backups WHERE (%s::uuid IS NULL OR site_id=%s)
+               AND (%s::uuid IS NULL OR source_device_id=%s)
                ORDER BY created_at DESC LIMIT %s""",
             (site_id, site_id, device_id, device_id, limit),
         ).fetchall()
