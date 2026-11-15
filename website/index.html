@@ -845,6 +845,50 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
  #control .live-pair .transcript-pane .listener-mini>span{font-size:6px!important}
 }
 </style>
+
+<style id="paired-live-guide-polish">
+/* Only polish the two instruction strips inside the live PTT and transcription cards */
+#control .live-pair .try-live-guide,
+#control .live-pair .transcript-guide{
+  background:#eaf2f8!important;
+  border:0!important;
+  border-bottom:1px solid #d4e2ed!important;
+  color:#173b59!important;
+  box-shadow:none!important;
+}
+#control .live-pair .try-live-guide{
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  gap:8px!important;padding:6px 9px!important;
+}
+#control .live-pair .try-live-button{
+  background:#155b8d!important;color:#fff!important;border:1px solid #155b8d!important;
+  border-radius:6px!important;box-shadow:none!important;font-weight:800!important;
+  letter-spacing:.25px!important;text-decoration:none!important;
+}
+#control .live-pair .try-live-guide b,
+#control .live-pair .transcript-guide b{
+  color:#173b59!important;font-size:9px!important;font-weight:850!important;
+  letter-spacing:.15px!important;line-height:1.2!important;
+}
+#control .live-pair .try-live-guide span,
+#control .live-pair .transcript-guide span{
+  color:#526b80!important;font-size:8px!important;font-weight:500!important;
+  line-height:1.25!important;
+}
+#control .live-pair .transcript-guide{
+  display:flex!important;flex-direction:column!important;justify-content:center!important;
+  align-items:flex-start!important;gap:3px!important;padding:6px 9px!important;
+}
+@media(max-width:760px){
+ #control .live-pair .try-live-guide{gap:5px!important;padding:4px 5px!important}
+ #control .live-pair .try-live-button{font-size:7px!important;padding:4px 5px!important}
+ #control .live-pair .try-live-guide b,
+ #control .live-pair .transcript-guide b{font-size:7px!important;letter-spacing:0!important}
+ #control .live-pair .try-live-guide span,
+ #control .live-pair .transcript-guide span{font-size:6px!important;line-height:1.2!important}
+ #control .live-pair .transcript-guide{padding:4px 5px!important}
+}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#products">Platform</a><a href="demo.html">Try Live Demo</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div><div class="landing-nav-actions"><a href="demo.html" class="nav-try">TRY IT LIVE ↗</a><a href="#contact" class="nav-contact">CONTACT</a></div></header>
