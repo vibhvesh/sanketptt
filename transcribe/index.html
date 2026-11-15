@@ -168,6 +168,41 @@ body.embed-mode .one,body.embed-mode .grille,body.embed-mode .ant,body.embed-mod
  body.embed-mode #log .clip .tr{font-size:14px!important}
  body.embed-mode .keys #startBtn,body.embed-mode .keys #stopBtn{min-height:30px!important;font-size:9px!important}
 }
+</style><style>
+/* Space-science receiver console — compact high-density display */
+body.embed-mode{background:radial-gradient(ellipse at 78% 8%,#153b68 0,transparent 36%),radial-gradient(ellipse at 12% 88%,#25164e 0,transparent 38%),linear-gradient(145deg,#030914,#07182a 55%,#080d20)!important;color:#e7f7ff!important;padding:5px!important}
+body.embed-mode:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(1px 1px at 18% 22%,#d7f7ff 98%,transparent),radial-gradient(1px 1px at 72% 18%,#8deaff 98%,transparent),radial-gradient(1px 1px at 42% 76%,#fff 98%,transparent),radial-gradient(2px 2px at 88% 68%,#b9a5ff 98%,transparent);background-size:173px 151px,211px 197px,263px 229px,307px 281px}
+body.embed-mode .radio{width:100%!important;max-width:none!important;min-height:0!important;position:relative;z-index:1}
+body.embed-mode .ant,body.embed-mode .knob,body.embed-mode .grille,body.embed-mode .one{display:none!important}
+body.embed-mode .body{padding:7px!important;border-radius:12px!important;background:linear-gradient(145deg,#172c43ed,#081522f5 55%,#11172e)!important;border:1px solid #4b7797!important;box-shadow:0 8px 24px #0008,inset 0 1px #b9eaff22!important;gap:6px!important}
+body.embed-mode .plate{margin:0 2px 3px!important;min-height:28px}
+body.embed-mode .brand{font-size:11px!important;letter-spacing:1.5px!important;color:#e9f7ff!important}
+body.embed-mode .brand small{font-size:7px!important;letter-spacing:1.1px!important;color:#82a8c7!important}
+body.embed-mode .tri{width:32px;height:4px}
+body.embed-mode .demo{font-size:7px!important;padding:2px 5px!important}
+body.embed-mode .lcd{min-height:0!important;flex:1 1 auto!important;padding:7px!important;border-radius:8px!important;border:1px solid #2e668c!important;background:linear-gradient(155deg,#06182b,#071f36 65%,#101a3a)!important;color:#9deeff!important;box-shadow:inset 0 0 22px #000b,0 0 18px #1da8ef18!important}
+body.embed-mode #meter{height:32px!important;filter:hue-rotate(35deg) saturate(1.3)}
+body.embed-mode #status{font-size:10px!important;line-height:1.35;color:#b9eaff!important;text-shadow:0 0 8px #20bfff66}
+body.embed-mode .lh{font-size:8px!important;color:#7fb7d6!important;letter-spacing:.8px!important}
+body.embed-mode #log{max-height:none!important;min-height:80px!important;flex:1 1 auto!important}
+body.embed-mode #log:empty:before{font-size:10px!important;margin-top:24px!important;color:#6e9ab9}
+body.embed-mode #log .clip{border-left:2px solid #39d9ff!important;border-radius:6px!important;background:linear-gradient(100deg,#0b2b43,#101d38)!important;padding:7px!important;margin-bottom:5px!important;box-shadow:inset 0 0 12px #1ba6d10b}
+body.embed-mode #log .clip .meta{font-size:8px!important;color:#7fdcff!important}
+body.embed-mode #log .clip .tx{font-size:clamp(12px,1.3vw,16px)!important;line-height:1.35!important;color:#effaff!important;text-shadow:0 0 8px #38caff22}
+body.embed-mode #log .clip .tr{font-size:clamp(11px,1.2vw,14px)!important;color:#c5a8ff!important}
+body.embed-mode .keys{grid-template-columns:minmax(0,1fr)!important;gap:5px!important}
+body.embed-mode .keys .row{margin:0!important;gap:5px!important}
+body.embed-mode .keys .sel{font-size:8px!important;color:#86b9d5!important}
+body.embed-mode .keys select,body.embed-mode .keys input{min-height:28px!important;padding:4px 7px!important;font-size:10px!important;border:1px solid #315b7b!important;border-radius:6px!important;background:#081a2b!important;color:#b9eaff!important}
+body.embed-mode .keys #pttUrl,body.embed-mode #pttShare{display:none!important}
+body.embed-mode .keys #inRow{display:none!important}
+body.embed-mode .keys .ptt{gap:6px!important}
+body.embed-mode .keys #startBtn,body.embed-mode .keys #stopBtn{min-height:32px!important;padding:6px 10px!important;border-radius:7px!important;font-size:10px!important;letter-spacing:1px!important}
+body.embed-mode .keys #startBtn{background:linear-gradient(90deg,#087f9c,#16b8ca)!important;box-shadow:0 2px 0 #064a66!important}
+body.embed-mode .keys #stopBtn{background:linear-gradient(90deg,#6e3e9f,#a34e87)!important;box-shadow:0 2px 0 #41235f!important}
+body.embed-mode #engSt{font-size:8px!important;color:#82b7d7!important}
+body.embed-mode .modal .panel{background:#0b1c30!important;color:#e5f7ff!important}
+@media(max-width:700px){body.embed-mode .body{padding:5px!important;gap:4px!important}body.embed-mode #log .clip .tx{font-size:12px!important}body.embed-mode .keys #startBtn,body.embed-mode .keys #stopBtn{min-height:29px!important;font-size:9px!important}}
 </style></head><body>
 <div class="radio"><div class="ant"></div><div class="knob"></div>
 <div class="body">
