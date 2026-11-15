@@ -1202,6 +1202,35 @@ function googleTranslateElementInit(){
 <script>
 (()=>{
  const audio=document.getElementById('tafAudio'),select=document.getElementById('tafStationSelect'),play=document.getElementById('tafPlayBtn'),stop=document.getElementById('tafStopBtn'),name=document.getElementById('tafNowName'),meta=document.getElementById('tafNowMeta'),status=document.getElementById('tafDirectoryStatus'),checked=document.getElementById('tafLastChecked');if(!audio||!select)return;
+ const STORE='sanket.radio.preferences.v1';
+ const catalog=[
+ {id:'bbc-world-service',name:'BBC World Service',region:'International',language:'English',url:'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service',type:'mp3'},
+ {id:'npr-news',name:'NPR News',region:'USA',language:'English',url:'https://npr-ice.streamguys1.com/live.mp3',type:'mp3'},
+ {id:'vividh-bharati',name:'Vividh Bharati',region:'India',language:'Hindi',url:'https://radio.wavespb.com/live/146ed6ec6dea5a24/146ed6ec6dea5a24.m3u8',type:'hls'},
+ {id:'fm-gold-delhi',name:'FM Gold Delhi',region:'India',language:'Hindi',url:'https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi03/air003_Auto.m3u8',type:'hls'},
+ {id:'air-news',name:'AIR News 24×7',region:'India',language:'Hindi / English',url:'https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi01/air001_Auto.m3u8',type:'hls'}];
+ let current=null,hls=null,restored=null;
+ const directory=[];
+ function loadPrefs(){try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch(_){return {}}}
+ function savePrefs(patch){try{const old=loadPrefs();localStorage.setItem(STORE,JSON.stringify({...old,...patch,updatedAt:new Date().toISOString()}));}catch(_){status.textContent='Browser storage unavailable';}}
+ function stopAudio(){audio.pause();audio.removeAttribute('src');audio.load();if(hls){hls.destroy();hls=null;}play.disabled=!current;stop.disabled=true;play.textContent='▶ PLAY';}
+ function find(id){return catalog.find(x=>x.id===id)||directory.find(x=>x.id===id);}
+ function choose(st,remember=true){if(!st)return;stopAudio();current=st;name.textContent=st.name;meta.textContent=st.region+' · '+st.language;play.disabled=false;stop.disabled=false;document.querySelectorAll('.taf-top-five button').forEach(b=>b.classList.toggle('active',b.dataset.station===st.id));if(remember)savePrefs({stationId:st.id});}
+ function start(){if(!current)return;stopAudio();play.disabled=true;play.textContent='CONNECTING…';if(current.type==='hls'&&window.Hls&&Hls.isSupported()){hls=new Hls({enableWorker:true,lowLatencyMode:false});hls.loadSource(current.url);hls.attachMedia(audio);hls.on(Hls.Events.MANIFEST_PARSED,()=>audio.play().catch(()=>{play.disabled=false;play.textContent='▶ PLAY';status.textContent='Tap Play to start audio';}));hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal){status.textContent='Stream unavailable';stopAudio();}});}else{audio.src=current.url;audio.load();audio.play().catch(()=>{play.disabled=false;play.textContent='▶ PLAY';status.textContent='Tap Play to start audio';});}play.textContent='▶ PLAY';play.disabled=false;stop.disabled=false;}
+ document.querySelectorAll('.taf-top-five button').forEach(b=>b.addEventListener('click',()=>{const st=find(b.dataset.station);choose(st);start();}));play.addEventListener('click',()=>start());stop.addEventListener('click',()=>stopAudio());audio.addEventListener('playing',()=>{play.textContent='▶ PLAY';play.disabled=false;status.textContent='Playing';});audio.addEventListener('error',()=>{status.textContent='Stream could not be played';play.disabled=false;});
+ audio.volume=Math.max(0,Math.min(1,Number(loadPrefs().volume??0.8)));audio.muted=!!loadPrefs().muted;
+ audio.addEventListener('volumechange',()=>savePrefs({volume:audio.volume,muted:audio.muted}));
+ function renderDirectory(data){directory.splice(0,directory.length,...data.filter(x=>!catalog.some(c=>c.id===x.id)));select.innerHTML='<option value="">More stations…</option>';directory.forEach(st=>{const o=document.createElement('option');o.value=st.id;o.textContent=st.name+' · '+st.region;select.append(o);});if(restored){const st=find(restored);if(st)choose(st,false);restored=null;}}
+ select.addEventListener('change',()=>{const st=find(select.value);if(st){choose(st);start();select.value='';}});
+ const prefs=loadPrefs();restored=prefs.stationId||null;
+ if(restored){const st=find(restored);if(st)choose(st,false);else{name.textContent='Restoring last station…';meta.textContent='Waiting for station directory';}}
+ async function refresh(){try{const r=await fetch('./data/radio-directory.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('directory');const j=await r.json();renderDirectory(j.stations||[]);status.textContent='Directory refreshed';checked.textContent='Updated '+new Date(j.generated_at||Date.now()).toLocaleTimeString();}catch(e){if(restored){const st=find(restored);if(st)choose(st,false);else status.textContent='Saved station not currently listed';}else status.textContent='Using built-in top five';}}
+ refresh();setInterval(refresh,15*60*1000);
+})();
+</script>
+<script>
+(()=>{
+ const audio=document.getElementById('tafAudio'),select=document.getElementById('tafStationSelect'),play=document.getElementById('tafPlayBtn'),stop=document.getElementById('tafStopBtn'),name=document.getElementById('tafNowName'),meta=document.getElementById('tafNowMeta'),status=document.getElementById('tafDirectoryStatus'),checked=document.getElementById('tafLastChecked');if(!audio||!select)return;
  const catalog=[
  {id:'bbc-world-service',name:'BBC World Service',region:'International',language:'English',url:'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service',type:'mp3'},
  {id:'npr-news',name:'NPR News',region:'USA',language:'English',url:'https://npr-ice.streamguys1.com/live.mp3',type:'mp3'},
