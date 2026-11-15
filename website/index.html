@@ -784,8 +784,8 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 </div>
 <div class="cockpit-bottom">
 <div class="live-pair">
-<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=virtual&v=bc4938a" allow="microphone; autoplay" loading="eager"></iframe></div>
-<div class="pane transcript-pane"><div class="ph">LIVE TRANSCRIPTION <small class="rx-label">● WORDS APPEAR HERE</small></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>SANKET LISTENER · LIVE TRANSCRIPTION</span><iframe id="liveTranscript" title="Sanket Transcription live PTT listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?compact=1&amp;ch=virtual" loading="eager" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">No audio recordings received yet.</p></div></div></div>
+<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><div class="try-live-guide"><a class="try-live-button" href="#pttControl">🎙 TRY TALK</a><div><b>Start a live conversation</b><span>Allow microphone access when your browser asks. Turn up your device volume and tap the PTT button to speak.</span></div></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=virtual&v=bc4938a" allow="microphone; autoplay" loading="eager"></iframe></div>
+<div class="pane transcript-pane"><div class="ph">LIVE TRANSCRIPTION <small class="rx-label">● WORDS APPEAR HERE</small></div><div class="transcript-guide"><b>TRY LIVE · READ LIVE TRANSCRIPTIONS HERE</b><span>Speak in the PTT panel. Your received words will appear below with the speaker and timestamp.</span></div><div class="transcript-feed id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>SANKET LISTENER · LIVE TRANSCRIPTION</span><iframe id="liveTranscript" title="Sanket Transcription live PTT listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?compact=1&amp;ch=virtual" loading="eager" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">No audio recordings received yet.</p></div></div></div>
 </div>
 <div class="cockpit-support">
 <div class="pane"><div class="ph">CONNECTED USERS <small><span id="presenceState">CONNECTING…</span> · <b id="presenceCount">0</b> ONLINE</small></div><div class="presence-columns"><div><h5>ONLINE NOW</h5><div id="connectedUsers" class="presence-list"><p class="empty-live">Connecting to shared PTT presence…</p></div></div><div><h5>SESSION ACTIVITY</h5><div id="userHistory" class="presence-list"><p class="empty-live">Waiting for user activity…</p></div></div></div></div>
@@ -1915,5 +1915,21 @@ body>footer{display:flex!important}
  #control .cockpit-bottom .transcript-feed{flex-basis:62px!important;max-height:62px!important}
  #control .cockpit-bottom .listener-mini iframe,
  #control .cockpit-bottom .listener-mini iframe#liveTranscript{height:clamp(300px,90vw,410px)!important}
+}
+
+/* Clear first-time live demo instructions */
+#control .try-live-guide{display:flex!important;align-items:center!important;gap:9px!important;padding:9px!important;background:#eaf4fb!important;border-bottom:1px solid #cbddea!important;color:#173b59!important}
+#control .try-live-button{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;min-height:38px!important;padding:8px 13px!important;border-radius:8px!important;background:#087b55!important;color:#fff!important;font-size:12px!important;font-weight:950!important;letter-spacing:.35px!important;text-decoration:none!important;box-shadow:0 3px 0 #075b40!important}
+#control .try-live-guide>div,#control .transcript-guide{display:flex!important;flex-direction:column!important;gap:3px!important;min-width:0!important}
+#control .try-live-guide b,#control .transcript-guide b{font-size:10px!important;font-weight:900!important;color:#173b59!important}
+#control .try-live-guide span,#control .transcript-guide span{font-size:9px!important;line-height:1.35!important;color:#49657c!important}
+#control .transcript-guide{padding:9px 10px!important;background:#eaf4fb!important;border-bottom:1px solid #cbddea!important}
+#control .transcript-guide b{font-size:11px!important;letter-spacing:.25px!important}
+@media(max-width:760px){
+ #control .try-live-guide{align-items:flex-start!important;gap:6px!important;padding:6px!important}
+ #control .try-live-button{min-height:34px!important;padding:7px 9px!important;font-size:10px!important}
+ #control .try-live-guide b,#control .transcript-guide b{font-size:8px!important}
+ #control .try-live-guide span,#control .transcript-guide span{font-size:7px!important}
+ #control .transcript-guide{padding:6px!important}
 }
 </style></body></html>
