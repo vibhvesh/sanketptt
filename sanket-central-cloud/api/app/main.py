@@ -1,16 +1,18 @@
 from __future__ import annotations
 
 import hashlib
-from contextlib import contextmanager
-from pathlib import Path, PurePath
 import os
 import uuid
+from contextlib import contextmanager
 from datetime import datetime, timezone
+from pathlib import Path, PurePath
 from typing import Annotated
 
 import boto3
 import jwt
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile\nfrom fastapi.responses import FileResponse
+from botocore.exceptions import ClientError
+from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import PyJWKClient
 from psycopg.rows import dict_row
@@ -19,6 +21,8 @@ from psycopg_pool import ConnectionPool
 from pydantic import BaseModel, Field
 
 APP_NAME = "Sanket Central Cloud"
+BASE_DIR = Path(__file__).resolve().parents[2]
+DASHBOARD = BASE_DIR / "dashboard" / "index.html"
 BUCKET = os.environ["R2_BUCKET"]
 ACCOUNT_ID = os.environ["R2_ACCOUNT_ID"]
 R2_ENDPOINT = f"https://{ACCOUNT_ID}.r2.cloudflarestorage.com"
@@ -30,15 +34,13 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 
 pool = ConnectionPool(DATABASE_URL, min_size=1, max_size=10, kwargs={"row_factory": dict_row}, open=False)
 s3 = boto3.client(
-    "s3",
-    endpoint_url=R2_ENDPOINT,
-    region_name="auto",
+    "s3", endpoint_url=R2_ENDPOINT, region_name="auto",
     aws_access_key_id=os.environ["R2_ACCESS_KEY_ID"],
     aws_secret_access_key=os.environ["R2_SECRET_ACCESS_KEY"],
 )
 jwks = PyJWKClient(JWKS_URL)
 bearer = HTTPBearer(auto_error=True)
-app = FastAPI(title=APP_NAME, version="0.1.0")
+app = FastAPI(title=APP_NAME, version="0.2.0")
 
 
 @app.on_event("startup")
@@ -51,28 +53,20 @@ def shutdown() -> None:
     pool.close()
 
 
-def current_principal(
-    credentials: Annotated[HTTPAuthorizationCredentials, Depends(bearer)],
-) -> dict:
+def current_principal(credentials: Annotated[HTTPAuthorizationCredentials, Depends(bearer)]) -> dict:
     try:
-        signing_key = jwks.get_signing_key_from_jwt(credentials.credentials).key
+        token = credentials.credentials
+        signing_key = jwks.get_signing_key_from_jwt(token).key
         claims = jwt.decode(
-            credentials.credentials,
-            signing_key,
-            algorithms=["RS256", "ES256"],
-            issuer=JWT_ISSUER,
-            audience=JWT_AUDIENCE,
+            token, signing_key, algorithms=["RS256", "ES256"],
+            issuer=JWT_ISSUER, audience=JWT_AUDIENCE,
             options={"require": ["exp", "iss", "aud", "sub"]},
         )
         tenant_id = str(uuid.UUID(str(claims["tenant_id"])))
         roles = claims.get("roles", [])
         if isinstance(roles, str):
             roles = [roles]
-        return {
-            "tenant_id": tenant_id,
-            "subject": str(claims["sub"]),
-            "roles": roles,
-        }
+        return {"tenant_id": tenant_id, "subject": str(claims["sub"]), "roles": roles}
     except Exception as exc:
         raise HTTPException(status_code=401, detail="Invalid or expired access token") from exc
 
@@ -89,7 +83,7 @@ def tenant_connection(principal: dict):
 
 
 def require_admin(principal: dict) -> None:
-    if "sanket_admin" not in principal["roles"] and "tenant_admin" not in principal["roles"]:
+    if not {"sanket_admin", "tenant_admin"}.intersection(principal["roles"]):
         raise HTTPException(status_code=403, detail="Tenant administrator role required")
 
 
@@ -117,6 +111,13 @@ ALLOWED_CATEGORIES = {
 }
 
 
+@app.get("/", include_in_schema=False)
+def dashboard():
+    if not DASHBOARD.is_file():
+        raise HTTPException(status_code=503, detail="Dashboard assets are not installed")
+    return FileResponse(DASHBOARD)
+
+
 @app.get("/health")
 def health() -> dict:
     return {"ok": True, "service": APP_NAME, "time": datetime.now(timezone.utc).isoformat()}
@@ -126,11 +127,10 @@ def health() -> dict:
 def create_site(body: SiteCreate, principal: dict = Depends(current_principal)):
     require_admin(principal)
     with tenant_connection(principal) as conn:
-        row = conn.execute(
-            "INSERT INTO sites (tenant_id, name, external_ref) VALUES (%s,%s,%s) RETURNING id,name,external_ref,created_at",
+        return conn.execute(
+            "INSERT INTO sites (tenant_id,name,external_ref) VALUES (%s,%s,%s) RETURNING id,name,external_ref,created_at",
             (principal["tenant_id"], body.name, body.external_ref),
         ).fetchone()
-        return row
 
 
 @app.post("/v1/sites/{site_id}/devices")
@@ -140,11 +140,12 @@ def register_device(site_id: uuid.UUID, body: DeviceCreate, principal: dict = De
         site = conn.execute("SELECT id FROM sites WHERE id=%s", (site_id,)).fetchone()
         if not site:
             raise HTTPException(status_code=404, detail="Site not found")
-        row = conn.execute(
-            "INSERT INTO devices (tenant_id,site_id,name,device_type,software_version) VALUES (%s,%s,%s,%s,%s) RETURNING id,site_id,name,device_type,software_version,created_at",
+        return conn.execute(
+            """INSERT INTO devices (tenant_id,site_id,name,device_type,software_version)
+               VALUES (%s,%s,%s,%s,%s)
+               RETURNING id,site_id,name,device_type,software_version,created_at""",
             (principal["tenant_id"], site_id, body.name, body.device_type, body.software_version),
         ).fetchone()
-        return row
 
 
 @app.post("/v1/objects", status_code=201)
@@ -159,14 +160,11 @@ def upload_object(
         raise HTTPException(status_code=400, detail="Unsupported object category")
     with tenant_connection(principal) as conn:
         device = conn.execute(
-            "SELECT id FROM devices WHERE id=%s AND site_id=%s",
-            (device_id, site_id),
+            "SELECT id FROM devices WHERE id=%s AND site_id=%s", (device_id, site_id)
         ).fetchone()
         if not device:
             raise HTTPException(status_code=404, detail="Device not found in this tenant/site")
-
-        digest = hashlib.sha256()
-        size = 0
+        digest, size = hashlib.sha256(), 0
         file.file.seek(0)
         while chunk := file.file.read(1024 * 1024):
             size += len(chunk)
@@ -178,38 +176,39 @@ def upload_object(
         object_id = uuid.uuid4()
         key = f"tenants/{principal['tenant_id']}/sites/{site_id}/devices/{device_id}/{category}/{object_id}"
         s3.upload_fileobj(
-            file.file,
-            BUCKET,
-            key,
+            file.file, BUCKET, key,
             ExtraArgs={
                 "ContentType": file.content_type or "application/octet-stream",
-                "Metadata": {
-                    "tenant-id": principal["tenant_id"],
-                    "object-id": str(object_id),
-                    "sha256": sha256,
-                },
+                "Metadata": {"tenant-id": principal["tenant_id"], "object-id": str(object_id), "sha256": sha256},
             },
         )
-        row = conn.execute(
-            """INSERT INTO stored_objects
-               (id,tenant_id,site_id,device_id,category,object_key,file_name,content_type,size_bytes,sha256,uploaded_by)
-               VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-               RETURNING id,category,file_name,size_bytes,sha256,created_at""",
-            (object_id, principal["tenant_id"], site_id, device_id, category, key,
-             PurePath(file.filename or "upload.bin").name, file.content_type or "application/octet-stream",
-             size, sha256, principal["subject"]),
-        ).fetchone()
+        try:
+            row = conn.execute(
+                """INSERT INTO stored_objects
+                   (id,tenant_id,site_id,device_id,category,object_key,file_name,content_type,size_bytes,sha256,uploaded_by)
+                   VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                   RETURNING id,category,file_name,size_bytes,sha256,created_at""",
+                (object_id, principal["tenant_id"], site_id, device_id, category, key,
+                 PurePath(file.filename or "upload.bin").name, file.content_type or "application/octet-stream",
+                 size, sha256, principal["subject"]),
+            ).fetchone()
+        except Exception:
+            try:
+                s3.delete_object(Bucket=BUCKET, Key=key)
+            except ClientError:
+                pass
+            raise
         return row
 
 
 @app.get("/v1/objects")
 def list_objects(
-    category: str | None = None,
-    site_id: uuid.UUID | None = None,
-    device_id: uuid.UUID | None = None,
-    limit: int = 100,
+    category: str | None = None, site_id: uuid.UUID | None = None,
+    device_id: uuid.UUID | None = None, limit: int = 100,
     principal: dict = Depends(current_principal),
 ):
+    if category is not None and category not in ALLOWED_CATEGORIES:
+        raise HTTPException(status_code=400, detail="Unsupported object category")
     limit = min(max(limit, 1), 500)
     with tenant_connection(principal) as conn:
         rows = conn.execute(
@@ -227,13 +226,11 @@ def list_objects(
 @app.get("/v1/objects/{object_id}/download")
 def download_object(object_id: uuid.UUID, principal: dict = Depends(current_principal)):
     with tenant_connection(principal) as conn:
-        row = conn.execute("SELECT object_key,file_name FROM stored_objects WHERE id=%s", (object_id,)).fetchone()
+        row = conn.execute("SELECT object_key FROM stored_objects WHERE id=%s", (object_id,)).fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="Object not found")
         url = s3.generate_presigned_url(
-            "get_object",
-            Params={"Bucket": BUCKET, "Key": row["object_key"]},
-            ExpiresIn=300,
+            "get_object", Params={"Bucket": BUCKET, "Key": row["object_key"]}, ExpiresIn=300
         )
         return {"download_url": url, "expires_in": 300}
 
@@ -242,33 +239,29 @@ def download_object(object_id: uuid.UUID, principal: dict = Depends(current_prin
 def register_backup(body: BackupCreate, principal: dict = Depends(current_principal)):
     with tenant_connection(principal) as conn:
         obj = conn.execute(
-            "SELECT id,site_id,device_id,category,size_bytes,sha256 FROM stored_objects WHERE id=%s AND category='backups'",
+            "SELECT id,site_id,category,size_bytes,sha256 FROM stored_objects WHERE id=%s AND category='backups'",
             (body.object_id,),
         ).fetchone()
         if not obj:
             raise HTTPException(status_code=404, detail="Backup archive not found")
         source = conn.execute(
-            "SELECT id FROM devices WHERE id=%s AND site_id=%s",
-            (body.source_device_id, obj["site_id"]),
+            "SELECT id FROM devices WHERE id=%s AND site_id=%s", (body.source_device_id, obj["site_id"])
         ).fetchone()
         if not source:
             raise HTTPException(status_code=400, detail="Backup source device does not match archive site")
-        row = conn.execute(
+        return conn.execute(
             """INSERT INTO backups (tenant_id,site_id,source_device_id,object_id,backup_type,manifest,sha256,size_bytes)
                VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
                RETURNING id,backup_type,sha256,size_bytes,created_at""",
             (principal["tenant_id"], obj["site_id"], body.source_device_id, body.object_id,
              body.backup_type, Jsonb(body.manifest), obj["sha256"], obj["size_bytes"]),
         ).fetchone()
-        return row
 
 
 @app.get("/v1/backups")
 def list_backups(
-    site_id: uuid.UUID | None = None,
-    device_id: uuid.UUID | None = None,
-    limit: int = 100,
-    principal: dict = Depends(current_principal),
+    site_id: uuid.UUID | None = None, device_id: uuid.UUID | None = None,
+    limit: int = 100, principal: dict = Depends(current_principal),
 ):
     limit = min(max(limit, 1), 500)
     with tenant_connection(principal) as conn:
@@ -286,9 +279,8 @@ def list_backups(
 def get_restore_package(backup_id: uuid.UUID, principal: dict = Depends(current_principal)):
     with tenant_connection(principal) as conn:
         row = conn.execute(
-            """SELECT o.object_key,o.file_name,b.sha256,b.manifest
-               FROM backups b JOIN stored_objects o ON o.id=b.object_id
-               WHERE b.id=%s""",
+            """SELECT o.object_key,b.sha256,b.manifest FROM backups b
+               JOIN stored_objects o ON o.id=b.object_id WHERE b.id=%s""",
             (backup_id,),
         ).fetchone()
         if not row:
@@ -302,9 +294,8 @@ def get_restore_package(backup_id: uuid.UUID, principal: dict = Depends(current_
 @app.get("/v1/storage/summary")
 def storage_summary(principal: dict = Depends(current_principal)):
     with tenant_connection(principal) as conn:
-        row = conn.execute(
+        return conn.execute(
             """SELECT COUNT(*) AS object_count, COALESCE(SUM(size_bytes),0) AS bytes_used,
                       COUNT(*) FILTER (WHERE category='backups') AS backup_count
                FROM stored_objects"""
         ).fetchone()
-        return row
