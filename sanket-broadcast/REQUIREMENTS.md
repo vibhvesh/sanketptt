@@ -203,3 +203,24 @@ Provide a guided **Backup & Migration** workflow so an operator can replace a Ra
 6. Test an interrupted export/import and confirm safe resume or clean rollback without corrupting the source backup.
 7. Confirm secrets are not exposed in the archive and the operator is prompted to provision credentials securely.
 8. Confirm an existing destination installation is not overwritten without explicit approval.
+
+
+## 12. Sanket Central Cloud storage manager
+
+Cloud object storage provider selected: Cloudflare R2. Location preference: Automatic placement/global API access, with no jurisdiction restriction selected for the initial bucket. Global accessibility must not be described as global replication or a data-residency guarantee.
+
+- Central Cloud API is the only application-facing gateway to R2. Raspberry Pi devices must never contain R2 account keys.
+- Multi-tenant isolation is mandatory: derive tenant identity from a verified OIDC access token, generate object keys server-side, scope all catalogue queries by tenant, and enforce PostgreSQL row-level security using a non-owner runtime DB role without BYPASSRLS.
+- Organize objects by tenant/site/device/category. Categories include recordings, transcripts, backups, images, screenshots, diagnostics, exports and releases.
+- Store metadata, manifests, SHA-256 checksums, sizes, timestamps, source device and backup type in PostgreSQL; store object bytes in private R2 buckets.
+- Use short-lived signed download/upload permissions where appropriate. Do not make buckets or objects public.
+- Keep credentials, private keys and tokens out of export packages. Use device identity/service credentials with rotation and revocation.
+- Support local-first operation: queue uploads during internet outages, retry with backoff, and only mark cloud sync complete after server-side object verification.
+- Support config clone, full migration, scheduled backup and disaster recovery packages.
+- Restore must verify hashes, manifest/schema compatibility and free space, then stage and preview changes. Require operator confirmation before activation; retain rollback snapshot and never overwrite existing data silently.
+- On replacement Pi, rescan hardware and remap USB audio outputs; never assume old device indexes or hardware identity.
+- Provide per-tenant usage/quota, retention controls, backup history, device last-seen and sync health.
+- Keep a separate backup of PostgreSQL metadata and critical manifests; R2 object storage alone is not a complete database disaster-recovery plan.
+- Production acceptance requires cross-tenant negative tests, interrupted upload/restore tests, offline retry tests, real R2 integration tests and Raspberry Pi 5 hardware validation.
+
+Implementation scaffold and outstanding production gates: see `../sanket-central-cloud/README.md` and `../sanket-central-cloud/IMPLEMENTATION_STATUS.md`.
