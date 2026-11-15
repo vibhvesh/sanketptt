@@ -126,3 +126,54 @@ Test time below is the audit-run timestamp in India Standard Time. All candidate
 - KCRW's official page explicitly calls Eclectic24 a 24-hour all-music channel. No other candidate is newly described as 24/7 by this run; no continuous-operation claim is inferred from a live-player link alone.
 - No station was removed. No existing Indian station entry, radio selector priority or PTT priority behavior was changed.
 
+
+
+## Latest cumulative snapshot — 2026-11-16 03:03 IST
+
+- **GREEN (0):** none. No feed has passed an actual decoded-audio test with playback progression.
+- **YELLOW (15):** BBC World Service; WNYC 93.9 FM; WNYC 820 AM; WFMU Freeform; KCRW Eclectic24; ABC NewsRadio; RTÉ Radio 1; RTÉ 2FM; RTÉ Raidió na Gaeltachta; WQXR 105.9 FM; WNYC New Sounds; WNYC Operavore; WNYC New Standards; France Inter; franceinfo.
+- **RED (0):** none. DNS failures, reader-side 403s, unsupported media responses and test-runner timeouts are not confirmed origin failures and do not count toward the three-consecutive-hourly RED rule.
+- **Removed:** none. No selectable international entry was deleted; all Indian stations and PTT priority behavior remain unchanged.
+
+## Re-test log — 2026-11-16 03:03 IST
+
+### Method
+
+- Re-fetched `dev/radio-audit.md` and `dev/index.html` from GitHub `main` before the audit.
+- Attempted HTTP byte-range reads (bytes 0–4095) with `curl`, `Icy-MetaData: 0`, a browser-like User-Agent and short connection/overall timeouts against 14 direct candidate URLs: WNYC 93.9, WNYC 820, WQXR, New Sounds, Operavore, New Standards, WFMU, KCRW Eclectic24, France Inter, franceinfo, BBC World Service, and the three RTÉ HLS manifests.
+- All completed direct requests returned `HTTP 000`, zero body bytes and no remote IP. The first requests emitted explicit `Could not resolve host` errors; the final RTÉ manifest attempt also returned curl exit 6 (DNS resolution failure). No origin HTTP response was received.
+- Opened direct media URLs with the web reader. MP3 endpoints for WNYC, WFMU, WQXR/New Sounds/Operavore/New Standards, Radio France, BBC and KCRW were not accessible to that reader. All three RTÉ manifest opens returned reader-side 403 Forbidden. These are reader/proxy results, not verified origin responses.
+- Successfully fetched current official information pages: WNYC's stream-format page, WFMU's mobile/live-stream page, KCRW's Eclectic24 page, ABC's live NewsRadio player and third-party stream policy, and BBC's international listening guidance.
+- WNYC's official page continues to publish the MP3/AAC endpoint pairs for WNYC 93.9, WNYC 820, WQXR, New Sounds, Operavore and New Standards. WFMU's official pages continue to publish live 128k/32k MP3 and AAC stream choices. KCRW's current Eclectic24 page labels it a 24-hour show and describes it as a 24-hour all-music channel; its tracklist panel displayed "off air" in the reader snapshot, which is not proof that the audio endpoint is down.
+- ABC's official third-party distribution notice (updated 21 July 2026) says ABC is changing distribution to meet obligations and directs listeners to ABC listen or selected formal partners. Its official NewsRadio live player is reachable as a web page, but no direct public stream URL was extracted or tested; it remains a player-only YELLOW candidate.
+- BBC's current international guidance confirms World Service English live access through BBC.com and the BBC app. The raw CDN URL in this audit is not published by that help page and could not be tested directly.
+- RTÉ's current Listen support page says the old RTÉ Radio Player stops working on 16 November 2026, while live radio remains available through rte.ie/radio. This is a migration warning for the three older manifest candidates, not proof that the manifests are invalid. The web reader's 403 and the audit runner's DNS failure provided no manifest body, so no media-segment URLs could be extracted.
+- No HLS manifest body or media segment was retrieved. No MP3/AAC frame was decoded. `ffprobe` was available locally but had no media bytes to inspect. No browser playback clock could be observed in this non-browser audit runner.
+
+### Station-by-station outcome at 03:03 IST
+
+| Stream | Country | Language | Official source | Direct URL tested / player | Manifest or HTTP result | Audio-segment / decode result | Status |
+|---|---|---|---|---|---|---|---|
+| BBC World Service | UK / international | English | https://help.bbc.com/hc/en-us/articles/42652680528659-Update-on-access-to-BBC-Sounds-outside-the-UK | https://stream.live.vc.bbcmedia.co.uk/bbc_world_service | HTTP 000 / DNS resolution failure; web reader cannot consume media URL | No bytes or decoded audio; official BBC.com player access is documented separately | YELLOW |
+| WNYC 93.9 FM | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://fm939.wnyc.org/wnycfm | HTTP 000 / DNS resolution failure; official page confirms MP3 and AAC alternatives | No MP3/AAC frames decoded | YELLOW |
+| WNYC 820 AM | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://am820.wnyc.org/wnycam | HTTP 000 / DNS resolution failure; official page confirms MP3 and AAC alternatives | No MP3/AAC frames decoded | YELLOW |
+| WFMU Freeform | USA | English | https://freeform.wfmu.org/mobile.shtml and https://freeform.wfmu.org/audiostream.shtml | https://stream0.wfmu.org/freeform-128k.mp3 | HTTP 000 / DNS resolution failure; official page confirms 128k/32k direct streams | No MP3 frames decoded | YELLOW |
+| KCRW Eclectic24 | USA | English | https://www.kcrw.com/shows/eclectic24/latest | https://kcrw.streamguys1.com/kcrw_192k_mp3_e24_internet_radio | HTTP 000 / DNS resolution failure; official page currently labels the service 24-hour | No MP3 frames decoded; page tracklist widget said "off air" in reader snapshot only | YELLOW |
+| ABC NewsRadio | Australia | English | https://www.abc.net.au/listen/live/news and https://help.abc.net.au/hc/en-us/articles/15071793950607-Changes-to-ABC-Radio-Live-Streams-on-Third-Party-Platforms | Official player only; no direct URL confirmed | Official player HTML reachable; no direct audio endpoint exposed to test | No direct media bytes decoded | YELLOW |
+| RTÉ Radio 1 | Ireland | English | https://www.rte.ie/radio/support/2026/0728/1585419-rte-listen-support-contact/ | https://www.rte.ie/manifests/radio1.m3u8 | Reader-side 403; curl HTTP 000 / DNS failure; no manifest body | No HLS media segment fetched or decoded | YELLOW |
+| RTÉ 2FM | Ireland | English | Same RTÉ Listen support page | https://www.rte.ie/manifests/2fm.m3u8 | Reader-side 403; curl HTTP 000 / DNS failure; no manifest body | No HLS media segment fetched or decoded | YELLOW |
+| RTÉ Raidió na Gaeltachta | Ireland | Irish | Same RTÉ Listen support page | https://www.rte.ie/manifests/rnag.m3u8 | Reader-side 403; curl HTTP 000 / DNS failure; no manifest body | No HLS media segment fetched or decoded | YELLOW |
+| WQXR 105.9 FM | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://stream.wqxr.org/wqxr | HTTP 000 / DNS resolution failure; official page confirms MP3/AAC alternatives | No MP3/AAC frames decoded | YELLOW |
+| WNYC New Sounds | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://q2stream.wqxr.org/q2 | HTTP 000 / DNS resolution failure; official page confirms MP3/AAC alternatives | No MP3/AAC frames decoded | YELLOW |
+| WNYC Operavore | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://opera-stream.wqxr.org/operavore | HTTP 000 / DNS resolution failure; official page confirms MP3/AAC alternatives | No MP3/AAC frames decoded | YELLOW |
+| WNYC New Standards | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://tjc.wnyc.org/js-stream | HTTP 000 / DNS resolution failure; official page confirms MP3/AAC alternatives | No MP3/AAC frames decoded | YELLOW |
+| France Inter | France | French | https://developers.radiofrance.fr/doc/en/tutorial-by-example/list-brands | https://icecast.radiofrance.fr/franceinter-midfi.mp3?id=openapi | HTTP 000 / DNS resolution failure | No MP3 frames decoded | YELLOW |
+| franceinfo | France | French | https://developers.radiofrance.fr/doc/en/tutorial-by-example/list-brands | https://icecast.radiofrance.fr/franceinfo-midfi.mp3?id=openapi | HTTP 000 / DNS resolution failure | No MP3 frames decoded | YELLOW |
+
+### Classification and repository decision
+
+- **GREEN:** none. Official source documentation or a reachable player page is not a substitute for decoded audio.
+- **YELLOW:** all 15 candidates. The test environment failed before origin connection; RTÉ's reader-side 403s do not establish an origin 403.
+- **RED:** none. No origin 404/410 or other invalid response was independently confirmed, so no hourly RED failure streak was incremented.
+- No station was removed or added to the selectable Dev list. No Indian station or PTT priority logic was changed.
+- The current Dev browser scanner remains the only available way in this workflow to prove playback-clock advancement. Its state is in-memory and the page must be open; this audit runner cannot claim continuous uptime monitoring.
