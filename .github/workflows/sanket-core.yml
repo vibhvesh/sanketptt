@@ -37,7 +37,7 @@ jobs:
           import re
           from pathlib import Path
           html = Path("index.html").read_text()
-          scripts = re.findall(r"<script(?:\\s[^>]*)?>(.*?)</script>", html, re.S | re.I)
+          scripts = re.findall(r"<script(?:\s[^>]*)?>(.*?)</script>", html, re.S | re.I)
           inline = [s for s in scripts if s.strip()]
           if not inline:
               raise SystemExit("No inline JavaScript found")
