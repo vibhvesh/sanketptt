@@ -1,0 +1,48 @@
+name: Sanket Core CI
+
+on:
+  push:
+    branches: [sanket-core-v1]
+    paths:
+      - "index.html"
+      - "pi/**"
+      - "sanket-broadcast/**"
+      - ".github/workflows/sanket-core.yml"
+  pull_request:
+    paths:
+      - "index.html"
+      - "pi/**"
+      - "sanket-broadcast/**"
+      - ".github/workflows/sanket-core.yml"
+
+jobs:
+  core-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Compile Broadcast modules
+        run: python -m compileall -q sanket-broadcast/pi
+      - name: Run relay safety tests
+        working-directory: sanket-broadcast/pi
+        run: python -m unittest discover -s tests -v
+      - name: Syntax-check inline PTT JavaScript
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path("index.html").read_text()
+          scripts = re.findall(r"<script(?:\s[^>]*)?>(.*?)</script>", html, re.S | re.I)
+          inline = [s for s in scripts if s.strip()]
+          if not inline:
+              raise SystemExit("No inline JavaScript found")
+          for i, script in enumerate(inline):
+              Path(f"/tmp/sanket-inline-{i}.js").write_text(script)
+          print(f"Extracted {len(inline)} inline script(s)")
+          PY
+          for file in /tmp/sanket-inline-*.js; do node --check "$file"; done

@@ -22,6 +22,10 @@ DEFAULTS = {
     "tts_engine": "espeak-ng", "espeak_voice": "en", "tts_speed": 150, "piper_model": "",
     # transcription
     "transcribe": True, "whisper_model": "base", "language": "auto",
+    # transcription provider extension point (custom provider is configuration-only for now)
+    "stt_provider": "local_whisper", "stt_custom_name": "", "stt_custom_url": "",
+    "stt_custom_endpoint": "/v1/audio/transcriptions", "stt_custom_profile": "openai_compatible",
+    "stt_custom_auth": "none", "stt_custom_api_key": "",
     "keywords": ["mayday", "emergency", "fire", "help", "chetavani", "चेतावनी", "alert"],
     # sstv
     "sstv": True, "sstv_decode": True,
@@ -35,7 +39,7 @@ DEFAULTS = {
     "kiosk": True, "kiosk_browser": "chromium",
     "hw_profile": "",      # set once at first install from hw.py; never overrides user changes later
 }
-SECRET = ("smtp_password", "web_pin")
+SECRET = ("smtp_password", "web_pin", "stt_custom_api_key")
 INPUT_KEYS = {"id", "type", "name", "enabled", "device", "vox_threshold", "vox_hang_s", "min_clip_s", "max_clip_s",
               "gain", "forward", "forward_channel", "url", "broker_url", "channel", "file", "interval_s",
               "freq_mhz", "mode", "squelch", "rf_gain", "sample_rate", "ppm", "device_index", "scan", "dwell_s", "preset",

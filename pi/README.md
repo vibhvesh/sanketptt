@@ -45,16 +45,27 @@ the output; a Bluetooth headset mic appears under **Inputs** as its own channel.
 
 Open **http://&lt;pi-hostname&gt;.local:8080** from any phone or PC on the same network.
 
-* **Home**: configuration (device, channels, audio in/out, broker, model), live CPU / temperature / RAM / disk / uptime / network,
+* **Home**: configuration (device, channels, audio in/out, relay, model), live CPU / temperature / RAM / disk / uptime / network,
   graphs of messages received / transcribed / announced / SSTV and audio in/out levels, input level meters, latest messages.
 * **Live**: message feed with transcripts, alerts, SSTV pictures and playback; who is online / talking.
 * **Inputs**: every input is a channel — PTT web-relay links (editable https link `…/?ch=name` and broker), the Pi's mic,
   USB mics / sound cards (as many as are attached, one channel each), Bluetooth mics. Local inputs use VOX (adjustable threshold,
   hang time, gain) and go through the same transcribe → announce → feed pipeline. Optional forward to the relay (off by default).
-* **Channels**: main relay channels, listen to all, auto-add, device name, broker.
+* **Channels**: main relay channels, listen to all, auto-add, device name, broker. The PTT client defaults to public MQTT-over-WebSocket brokers with automatic fallback; use **Relay Settings** in the PTT client to select a private `wss://` MQTT endpoint later. The selection is saved per browser/device.
 * **Audio**: output device (default ALSA/PipeWire, 3.5 mm jack, HDMI, USB, Bluetooth speaker), volume, Bluetooth scan / pair /
   connect / disconnect / forget, TTS, Whisper, SSTV.
 * **Alerts**: keywords and email. **System**: Wi-Fi, restart, update, port, settings PIN (login), retention, kiosk, logs.
+
+## Transcription engine extension point
+
+**Audio → Transcription & SSTV → Transcription Engine** reserves provider configuration for future engines.
+
+- **Local Whisper** remains the active engine and continues to run offline on the Pi.
+- The dashboard can save a preferred provider and a custom server definition: display name, full URL (scheme + DNS/IP + port), API endpoint, compatibility profile, authentication mode and optional API key.
+- The custom API key is stored in the Pi's local `config.json` and is redacted from `/api/config` responses. Keep the settings PIN enabled and restrict dashboard access.
+- **Important:** custom-server settings are currently configuration-only. This release does not send audio to a remote endpoint and does not switch the recording pipeline away from local Whisper.
+
+The future provider adapter will normalize every engine to the same result contract: `text`, `language`, and `transcribe_s`. The recording pipeline will continue to attach the transcript to the original clip metadata (timestamp, channel, speaker, WAV filename and source), independent of provider. A future remote adapter must preserve the saved WAV and queue/retry failed requests rather than dropping recordings.
 
 ## RTL-SDR receiver
 

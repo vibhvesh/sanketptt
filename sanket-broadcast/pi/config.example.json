@@ -1,0 +1,16 @@
+{
+  "input_rate": 12000,
+  "web": {"host": "0.0.0.0", "port": 8091, "admin_pin_required": true},
+  "outputs": {
+    "speaker-1": {
+      "device": {"name_contains": "USB Audio", "hostapi_contains": "ALSA"},
+      "samplerate": 48000, "output_channels": 2,
+      "channels": ["control", "master"], "volume": 0.85, "muted": false
+    },
+    "speaker-2": {
+      "device": {"name_contains": "USB PnP Sound Device", "hostapi_contains": "ALSA"},
+      "samplerate": 48000, "output_channels": 2,
+      "channels": ["city-control"], "volume": 0.85, "muted": false
+    }
+  }
+}
