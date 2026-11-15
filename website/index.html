@@ -1479,4 +1479,22 @@ function googleTranslateElementInit(){
   min-height:280px!important;max-height:420px!important;
  }
 }
+</style><style id="remove-cockpit-forced-viewport-height">
+/* The empty block was #control itself: an older rule forced it to fill almost the viewport. */
+#control,
+.hero .wrap>#control,
+.hero .wrap>.console#control{
+ display:block!important;
+ height:auto!important;
+ min-height:0!important;
+ max-height:none!important;
+ margin-bottom:0!important;
+ padding-bottom:0!important;
+ align-self:stretch!important;
+}
+#control .taf-radio-hub{
+ height:auto!important;min-height:0!important;max-height:none!important;
+ margin-bottom:0!important;
+}
+.hero .wrap>.live-signals{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important}
 </style></body></html>
