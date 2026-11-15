@@ -45,13 +45,13 @@ the output; a Bluetooth headset mic appears under **Inputs** as its own channel.
 
 Open **http://&lt;pi-hostname&gt;.local:8080** from any phone or PC on the same network.
 
-* **Home**: configuration (device, channels, audio in/out, broker, model), live CPU / temperature / RAM / disk / uptime / network,
+* **Home**: configuration (device, channels, audio in/out, relay, model), live CPU / temperature / RAM / disk / uptime / network,
   graphs of messages received / transcribed / announced / SSTV and audio in/out levels, input level meters, latest messages.
 * **Live**: message feed with transcripts, alerts, SSTV pictures and playback; who is online / talking.
 * **Inputs**: every input is a channel — PTT web-relay links (editable https link `…/?ch=name` and broker), the Pi's mic,
   USB mics / sound cards (as many as are attached, one channel each), Bluetooth mics. Local inputs use VOX (adjustable threshold,
   hang time, gain) and go through the same transcribe → announce → feed pipeline. Optional forward to the relay (off by default).
-* **Channels**: main relay channels, listen to all, auto-add, device name, broker.
+* **Channels**: main relay channels, listen to all, auto-add, device name, broker. The PTT client defaults to public MQTT-over-WebSocket brokers with automatic fallback; use **Relay Settings** in the PTT client to select a private `wss://` MQTT endpoint later. The selection is saved per browser/device.
 * **Audio**: output device (default ALSA/PipeWire, 3.5 mm jack, HDMI, USB, Bluetooth speaker), volume, Bluetooth scan / pair /
   connect / disconnect / forget, TTS, Whisper, SSTV.
 * **Alerts**: keywords and email. **System**: Wi-Fi, restart, update, port, settings PIN (login), retention, kiosk, logs.
