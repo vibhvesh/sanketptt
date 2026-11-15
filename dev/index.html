@@ -170,6 +170,39 @@ body{overflow-x:hidden}
 .radio-tuner .fav{background:#9b5b00}
 .radio-tuner .tune-note{font:10px/1.4 system-ui;color:#526b80;margin-top:6px}
 .radio-lines .rl-row select{flex:1 1 100%}
+
+/* Physical radio faceplate */
+.radio-lines{background:linear-gradient(145deg,#303943,#151b22 62%,#3b434b);border:2px solid #68727c;border-radius:18px;padding:13px;color:#e8edf1;box-shadow:inset 0 1px 2px #ffffff30,0 8px 22px #0005}
+.radio-lines h3{color:#ffd36a;font:800 12px system-ui;letter-spacing:2px;text-shadow:0 1px #000}
+.radio-tuner{background:linear-gradient(160deg,#414b55,#202830 55%,#151b20);border:1px solid #77828c;border-radius:14px;padding:12px;color:#e7edf2;box-shadow:inset 0 2px 5px #ffffff18,inset 0 -5px 12px #0008}
+.radio-tuner .band-row{justify-content:center;margin-bottom:9px}
+.radio-tuner .band-row button{background:#252c33;border:1px solid #77828b;color:#dce4eb;min-width:64px}
+.radio-tuner .band-row button.active{background:linear-gradient(#ffcf67,#c87517);color:#20170a;border-color:#ffe09b;box-shadow:0 0 10px #ffb52b66}
+.radio-tuner .dial{background:linear-gradient(180deg,#071b20,#102f35);border:2px solid #070e11;border-radius:8px;box-shadow:inset 0 0 18px #000;padding:12px}
+.radio-tuner .frequency{font:800 30px/1.2 ui-monospace,monospace;color:#ffe28b;text-shadow:0 0 12px #ffc64b88}
+.radio-tuner .tune-meta{color:#9fd7d2}
+.radio-tuner .radio-lamps{display:flex;justify-content:center;gap:18px;margin:9px 0}
+.radio-tuner .lamp{display:flex;align-items:center;gap:6px;font:800 9px system-ui;letter-spacing:1px;color:#aebbc5}
+.radio-tuner .lamp i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#252a2d;border:1px solid #080c0e;box-shadow:inset 0 1px 2px #000}
+.radio-tuner .lamp i.on{background:#39ed82;box-shadow:0 0 9px #39ed82}
+.radio-tuner .lamp.power i.on{background:#ffbd36;box-shadow:0 0 9px #ffbd36}
+.radio-tuner .lamp.signal i.on{background:#4bd8ff;box-shadow:0 0 9px #4bd8ff}
+.radio-tuner .radio-bars{height:34px;display:flex;align-items:end;gap:3px;padding:4px 8px;background:#091216;border:1px solid #46545c;border-radius:6px}
+.radio-tuner .radio-bars b{flex:1;height:10%;border-radius:2px 2px 0 0;background:#287c60;box-shadow:0 0 5px #2ad98a55;transition:height .09s}
+.radio-tuner .radio-bars b:nth-child(n+14){background:#d69b28}
+.radio-tuner .power-row{display:flex;justify-content:center;margin:11px 0}
+.radio-tuner #radioPowerBtn{width:min(100%,250px);min-height:58px;border-radius:13px;background:linear-gradient(180deg,#f4c85d,#bd7417);border:2px solid #ffe09b;color:#241806;font:900 18px system-ui;letter-spacing:2px;box-shadow:0 5px 0 #70400d,0 8px 16px #0008}
+.radio-tuner #radioPowerBtn.on{background:linear-gradient(180deg,#79f0a8,#16874b);border-color:#b5ffd0;box-shadow:0 5px 0 #07532b,0 0 18px #34df8255;color:#052b17}
+.radio-tuner #radioPowerBtn:active{transform:translateY(3px);box-shadow:0 2px 0 #70400d}
+.radio-tuner .tune-row{justify-content:center}
+.radio-tuner .tune-row button{background:linear-gradient(#526170,#27313a);border:1px solid #87939c;color:#f2f5f7}
+.radio-tuner .tune-row .fav{background:linear-gradient(#c18a31,#79500e);color:#fff3d0}
+.radio-tuner input[type=range]{accent-color:#f2b63d}
+.radio-tuner .tune-note{color:#aab9c3}
+.radio-lines .rl-row select{background:#e8edf1;color:#152536;border:1px solid #7e8a94}
+.radio-lines .rl-status{color:#d4e2ed}
+.radio-lines .rl-note{color:#aebbc5}
+
 </style>
 </head><body><div class=rig>
 <div class="dev-ribbon">SANKET PTT · DEVELOPMENT BUILD · /dev</div>
@@ -189,6 +222,9 @@ body{overflow-x:hidden}
   <button type="button" data-band="SW">SW</button>
  </div>
  <div class="dial"><div class="tune-meta" id="tunerBandLabel">ALL INTERNET RADIO STREAMS</div><div class="frequency" id="tunerFrequency">TUNE</div><div class="tune-meta" id="tunerStationLabel">Select a station or scan</div></div>
+ <div class="radio-lamps"><span class="lamp power"><i id="radioPowerLed"></i>POWER</span><span class="lamp"><i id="radioPlayLed"></i>ON AIR</span><span class="lamp signal"><i id="radioSignalLed"></i>SIGNAL</span></div>
+ <div class="radio-bars" id="radioBars" aria-label="Audio level meter"></div>
+ <div class="power-row"><button type="button" id="radioPowerBtn" aria-pressed="false">⏻ POWER ON</button></div>
  <input id="tunerDial" type="range" min="0" max="0" value="0" step="1" aria-label="Tune station">
  <div class="tune-row">
   <button type="button" id="tuneDown">◀ TUNE</button><button type="button" id="scanDown">◀ SCAN</button>
@@ -273,8 +309,7 @@ body{overflow-x:hidden}
 <option value="rainbowhyderabad">AIR · FM Rainbow Hyderabad — TELANGANA</option>
 <option value="ujjayanta">AIR · FM Ujjayanta Agartala — TRIPURA</option>
 </select>
-<button id="radioPlayBtn" type="button">PLAY RADIO</button>
-<button id="radioStopBtn" class="secondary" type="button">STOP</button>
+
 </div>
 <div class="rl-row" style="margin-top:7px">
 <button id="radioBridgeBtn" type="button">BRIDGE INTO PTT CHANNEL</button>
@@ -588,15 +623,23 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  refreshTuner();
 
  let hls=null,mediaSource=null,processor=null,mute=null,bot=null,bridging=false,streamReady=false;
+ const powerBtn=$("radioPowerBtn"),powerLed=$("radioPowerLed"),playLed=$("radioPlayLed"),signalLed=$("radioSignalLed"),radioBars=$("radioBars");
+ const meterBars=Array.from({length:24},()=>{const b=document.createElement("b");radioBars.appendChild(b);return b});
+ let meterCtx=null,meterAnalyser=null,meterSource=null,meterData=null,meterFrame=0;
+ function radioPowerState(on){powerBtn.classList.toggle("on",on);powerBtn.textContent=on?"⏻ POWER OFF":"⏻ POWER ON";powerBtn.setAttribute("aria-pressed",String(on));powerLed.classList.toggle("on",on);playLed.classList.toggle("on",on&&streamReady);signalLed.classList.toggle("on",on&&streamReady&&!audio.paused)}
+ function animateRadioMeter(){if(meterAnalyser&&meterData&&streamReady&&!audio.paused){meterAnalyser.getByteFrequencyData(meterData);meterBars.forEach((b,i)=>{const v=meterData[Math.floor(i*meterData.length/meterBars.length)]||0;b.style.height=Math.max(5,Math.round(v/255*100))+"%"});signalLed.classList.toggle("on",meterData.some(v=>v>8))}else{meterBars.forEach(b=>b.style.height="5%");signalLed.classList.remove("on")}meterFrame=requestAnimationFrame(animateRadioMeter)}
+ animateRadioMeter();
+ function attachRadioMeter(){try{if(!window.ac||ac.state==="closed")return;if(!meterSource){meterSource=ac.createMediaElementSource(audio);meterAnalyser=ac.createAnalyser();meterAnalyser.fftSize=128;meterData=new Uint8Array(meterAnalyser.frequencyBinCount);meterSource.connect(meterAnalyser);meterAnalyser.connect(ac.destination)}}catch(e){/* meter remains idle when browser audio graph is unavailable */}}
+
  function say(t){status.textContent=t}
  function station(){return stations[select.value]||stations.vividh}
- function cleanupStream(){if(hls){hls.destroy();hls=null}audio.pause();audio.removeAttribute("src");audio.load();streamReady=false}
+ function cleanupStream(){if(hls){hls.destroy();hls=null}audio.pause();audio.removeAttribute("src");audio.load();streamReady=false;radioPowerState(false)}
  async function playRadio(){
   const st=station();cleanupStream();audio.crossOrigin="anonymous";
   say("Tuning "+st.name+"…");
   return await new Promise(resolve=>{
    let settled=false,timer=setTimeout(()=>finish(false,"No stream response from "+st.name),9000);
-   function finish(ok,msg){if(settled)return;settled=true;clearTimeout(timer);if(ok){streamReady=true;try{localStorage.setItem("sanketRadioLastStation",select.value)}catch(e){}refreshTuner()}else{streamReady=false}say(msg);resolve(ok)}
+   function finish(ok,msg){if(settled)return;settled=true;clearTimeout(timer);if(ok){streamReady=true;try{localStorage.setItem("sanketRadioLastStation",select.value)}catch(e){}refreshTuner();radioPowerState(true)}else{streamReady=false;radioPowerState(false)}say(msg);resolve(ok)}
    if(window.Hls&&Hls.isSupported()){
     hls=new Hls({enableWorker:true,lowLatencyMode:true});hls.loadSource(st.url);hls.attachMedia(audio);
     hls.on(Hls.Events.MANIFEST_PARSED,async()=>{try{await audio.play();finish(true,"Playing "+st.name+" · station remembered")}catch(e){finish(false,"Playback blocked for "+st.name+": "+e.message)}});
@@ -628,10 +671,10 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  function setupAudioGraph(){
   if(!window.ac||ac.state==="closed")throw new Error("First power on / join PTT, then enable audio.");
   if(!mediaSource){
-   mediaSource=ac.createMediaElementSource(audio);
+   mediaSource=meterSource||ac.createMediaElementSource(audio);
+   if(!meterAnalyser){meterAnalyser=ac.createAnalyser();meterAnalyser.fftSize=128;meterData=new Uint8Array(meterAnalyser.frequencyBinCount);mediaSource.connect(meterAnalyser);meterAnalyser.connect(ac.destination)}
    processor=ac.createScriptProcessor(4096,1,1);
    mute=ac.createGain();mute.gain.value=0;
-   mediaSource.connect(ac.destination);
    mediaSource.connect(processor);processor.connect(mute);mute.connect(ac.destination);
    processor.onaudioprocess=e=>{
     if(!bridging||!bot||!bot.talking||!bot.c||!bot.c.connected)return;
@@ -658,11 +701,10 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
    say("LIVE BRIDGE · "+st.name+" → PTT channel "+radio.ch+" · RX-only radio source");
   });
  }
- $("radioPlayBtn").addEventListener("click",playRadio);
- $("radioStopBtn").addEventListener("click",()=>{stopBridge();cleanupStream();say("Radio stopped.")});
+ powerBtn.addEventListener("click",async()=>{if(streamReady&&!audio.paused){stopBridge();cleanupStream();say("Radio powered off.");return}if(window.ac&&ac.state!=="closed")attachRadioMeter();await playRadio()});
  $("radioBridgeBtn").addEventListener("click",bridge);
  $("radioBridgeStopBtn").addEventListener("click",stopBridge);
- select.addEventListener("change",()=>{if(bridging)stopBridge();cleanupStream();refreshTuner();say("Selected "+station().name+". Tap PLAY RADIO to listen.")});
- window.addEventListener("beforeunload",()=>{stopBridge();cleanupStream()});
+ select.addEventListener("change",()=>{if(bridging)stopBridge();cleanupStream();refreshTuner();say("Selected "+station().name+". Press POWER ON to listen.")});
+ window.addEventListener("beforeunload",()=>{stopBridge();cleanupStream();cancelAnimationFrame(meterFrame)});
 })();
 </script></body></html>
