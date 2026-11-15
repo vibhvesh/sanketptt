@@ -171,6 +171,36 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
  .live-pair .join-pane iframe{height:170px!important;min-height:170px!important}
  .live-pair .listener-mini iframe,#liveTranscript{height:175px!important;min-height:175px!important}
 }
+</style>
+<style id="cockpit-30-70-fit-v3">
+html,body{max-width:100%;overflow-x:hidden}
+#control{min-height:calc(100svh - 58px)!important;padding-top:8px!important;padding-bottom:8px!important}
+#control .live-signals{display:none!important}
+#control .cockpit-bottom{display:block!important;margin:0!important;padding:0!important}
+#control .live-pair{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,7fr)!important;gap:8px!important;height:calc(100svh - 112px)!important;min-height:420px!important;max-height:850px!important;align-items:stretch!important}
+#control .live-pair>.pane{min-width:0!important;min-height:0!important;height:100%!important;overflow:hidden!important}
+#control .live-pair .pane>.ph{height:32px!important;min-height:32px!important;padding:7px 9px!important;font-size:10px!important}
+#control .live-pair .join-pane iframe{display:block!important;width:100%!important;height:calc(100% - 32px)!important;min-height:0!important;border:0!important}
+#control .live-pair .transcript-pane{display:flex!important;flex-direction:column!important}
+#control .live-pair .transcript-feed{flex:0 0 17%!important;min-height:50px!important;max-height:110px!important;overflow:auto!important}
+#control .live-pair .listener-mini{flex:1 1 auto!important;min-height:0!important;margin:0!important;display:flex!important;flex-direction:column!important}
+#control .live-pair .listener-mini>span{flex:0 0 22px!important;padding:5px 8px!important;margin:0!important}
+#control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{flex:1 1 auto!important;width:100%!important;height:100%!important;min-height:0!important;border:0!important}
+#control .live-pair .audio-feed{flex:0 0 16%!important;min-height:45px!important;max-height:95px!important;overflow:auto!important;margin:0!important}
+#control .cockpit-support{display:none!important}
+@media(max-width:760px){
+ #control{padding:4px!important;min-height:calc(100svh - 48px)!important}
+ #control .live-pair{grid-template-columns:minmax(0,3fr) minmax(0,7fr)!important;gap:4px!important;height:calc(100svh - 82px)!important;min-height:330px!important}
+ #control .live-pair .pane>.ph{height:28px!important;min-height:28px!important;padding:6px 5px!important;font-size:8px!important}
+ #control .live-pair .pane>.ph small{font-size:7px!important}
+ #control .live-pair .join-pane iframe{height:calc(100% - 28px)!important}
+ #control .live-pair .transcript-feed{flex-basis:15%!important;min-height:42px!important}
+ #control .live-pair .listener-mini>span{font-size:7px!important}
+ #control .live-pair .audio-feed{flex-basis:13%!important}
+}
+@media(max-height:540px){
+ #control .live-pair{height:calc(100svh - 76px)!important;min-height:280px!important}
+}
 </style></head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
