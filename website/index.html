@@ -153,6 +153,13 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 </div><div class="signal-meter"><span>RX SIGNAL</span><div><i id="rxMeter"></i></div><b id="rxDb">−62 dBm</b></div><div class="signal-meter"><span>TX POWER</span><div><i id="txMeter"></i></div><b id="txDb">−48 dBm</b></div></div>
 </div>
 </div>
+<div class="live-signals" aria-label="Live system signals">
+<div class="signal-card" id="sigRelay"><span class="sig-led"></span><div><b>RELAY</b><small id="sigRelayText">CONNECTING</small></div></div>
+<div class="signal-card" id="sigUsers"><span class="sig-led"></span><div><b>ONLINE STATIONS</b><small id="sigUsersText">0 CONNECTED</small></div></div>
+<div class="signal-card" id="sigTx"><span class="sig-led"></span><div><b>PTT TRANSMIT</b><small id="sigTxText">IDLE</small></div></div>
+<div class="signal-card" id="sigRx"><span class="sig-led"></span><div><b>INCOMING AUDIO</b><small id="sigRxText">WAITING</small></div></div>
+<div class="signal-card" id="sigTranscript"><span class="sig-led"></span><div><b>TRANSCRIPTION</b><small id="sigTranscriptText">WAITING</small></div></div>
+</div>
 <div class="cockpit-bottom"><div class="pane join-pane"><div class="ph">JOIN PTT · LIVE RADIO <small>ON / OFF · PUSH TO TALK</small></div><iframe id="pttControl" title="Sanket PTT join and push-to-talk controls" src="https://vibhvesh.github.io/sanketptt/?ch=sanket-website-demo&amp;embed=1" allow="microphone; autoplay" loading="eager"></iframe></div>
 <div class="pane"><div class="ph">CONNECTED USERS <small><span id="presenceState">CONNECTING…</span> · <b id="presenceCount">0</b> ONLINE</small></div><div class="presence-columns"><div><h5>ONLINE NOW</h5><div id="connectedUsers" class="presence-list"><p class="empty-live">Connecting to shared PTT presence…</p></div></div><div><h5>SESSION ACTIVITY</h5><div id="userHistory" class="presence-list"><p class="empty-live">Waiting for user activity…</p></div></div></div></div>
 <div class="pane transcript-pane"><div class="ph">INCOMING MESSAGES & LIVE TRANSCRIPTIONS <small class="rx-label">● REAL PTT EVENTS</small></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO RECORDINGS <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">Audio recordings will appear here with playback controls.</p></div></div><div class="listener-mini"><span>TRANSCRIBE LISTENER · LOCAL WHISPER</span><iframe id="liveTranscript" title="Sanket live PTT transcription listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay; microphone" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
@@ -315,6 +322,21 @@ function googleTranslateElementInit(){
 .audio-record audio{display:block;width:100%;height:30px;margin-top:5px}
 .join-pane iframe{display:block;width:100%;height:280px;border:0;background:#09192c}
 @media(max-width:760px){.join-pane iframe{height:300px}}
+
+/* Compact Azure-style live signal tiles */
+.live-signals{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:10px 0 12px}
+.signal-card{min-width:0;display:flex;align-items:center;gap:9px;padding:10px 11px;border:1px solid #244b66;border-radius:8px;background:linear-gradient(135deg,#102b43,#0a1d31);box-shadow:inset 0 1px #ffffff08,0 3px 12px #0002}
+.signal-card .sig-led{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#64788a;box-shadow:0 0 0 3px #64788a22}
+.signal-card b{display:block;color:#c9e8f7;font-size:8px;letter-spacing:.55px;white-space:nowrap}
+.signal-card small{display:block;color:#8faec2;font-size:8px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.signal-card.good{border-color:#1e7567;box-shadow:inset 0 0 15px #22e6b40b,0 0 10px #22e6b414}
+.signal-card.good .sig-led{background:#54f6c5;box-shadow:0 0 9px #54f6c5,0 0 0 3px #54f6c522}
+.signal-card.active{border-color:#b07a2b;box-shadow:inset 0 0 15px #ffbf4410,0 0 10px #ffbf4420}
+.signal-card.active .sig-led{background:#ffc45b;box-shadow:0 0 9px #ffc45b,0 0 0 3px #ffc45b22}
+.signal-card.bad{border-color:#8b424d}
+.signal-card.bad .sig-led{background:#ff6577;box-shadow:0 0 9px #ff6577}
+@media(max-width:900px){.live-signals{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.live-signals{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.signal-card{padding:8px}.signal-card b,.signal-card small{font-size:7px}}
 </style>
 <script>
 (()=>{const native=document.getElementById('siteLanguage');if(!native||native.dataset.customized)return;native.dataset.customized='1';const wrap=native.parentElement;const host=document.createElement('div');host.className='sanket-language-picker';host.id='sanket-language-picker';const trigger=document.createElement('button');trigger.type='button';trigger.className='sanket-language-trigger';trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');const label=()=>native.options[native.selectedIndex]?.text||'English';trigger.innerHTML='<span></span><span aria-hidden="true">⌄</span>';trigger.firstElementChild.textContent=label();const menu=document.createElement('div');menu.className='sanket-language-menu';menu.setAttribute('role','listbox');const searchWrap=document.createElement('div');searchWrap.className='sanket-language-search';const search=document.createElement('input');search.type='search';search.placeholder='Search languages…';search.setAttribute('aria-label','Search languages');searchWrap.append(search);menu.append(searchWrap);const options=[];[...native.options].forEach(o=>{const b=document.createElement('button');b.type='button';b.className='sanket-language-option';b.textContent=o.text;b.dataset.value=o.value;b.setAttribute('role','option');b.setAttribute('aria-selected',String(o.selected));b.addEventListener('click',()=>{native.value=o.value;native.dispatchEvent(new Event('change',{bubbles:true}));trigger.firstElementChild.textContent=o.text;options.forEach(x=>x.setAttribute('aria-selected',String(x===b)));close();});menu.append(b);options.push(b)});function open(){menu.classList.add('open');trigger.setAttribute('aria-expanded','true');search.value='';options.forEach(x=>x.hidden=false);search.focus()}function close(){menu.classList.remove('open');trigger.setAttribute('aria-expanded','false')}trigger.addEventListener('click',()=>menu.classList.contains('open')?close():open());search.addEventListener('input',()=>{const q=search.value.toLocaleLowerCase();options.forEach(x=>x.hidden=!x.textContent.toLocaleLowerCase().includes(q))});document.addEventListener('click',e=>{if(!host.contains(e.target))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});host.append(trigger,menu);native.insertAdjacentElement('afterend',host);})();
@@ -330,8 +352,9 @@ function googleTranslateElementInit(){
  const clock=t=>new Date(t||Date.now()).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"});
  function event(type,name,detail){history.unshift({type,name,detail,ts:Date.now()});history.splice(30);renderHistory();}
  function renderHistory(){const host=$("userHistory");if(!history.length){host.innerHTML='<p class="empty-live">No join/leave events observed in this page session yet.</p>';return;}host.innerHTML=history.map(e=>'<div class="presence-event"><b>'+esc(e.type)+'</b> · '+esc(e.name)+'<small>'+esc(e.detail||"")+' · '+clock(e.ts)+'</small></div>').join("");}
- function renderUsers(){const list=[...users.values()].sort((a,b)=>a.name.localeCompare(b.name));$("presenceCount").textContent=list.length;$("connectedUsers").innerHTML=list.length?list.map(u=>'<div class="presence-user"><b>● '+esc(u.name)+'</b><small>Seen '+clock(u.lastSeen)+' · '+esc(u.id.slice(0,10))+'</small></div>').join(""):'<p class="empty-live">No connected PTT users detected on this channel.</p>';}
- function transcript(m){if(!m||!m.text)return;const id=String(m.id||"");if(id&&seen.has(id))return;if(id){seen.add(id);if(seen.size>300)seen.delete(seen.values().next().value);}
+ function setSignal(id,state,label){const el=$(id);if(!el)return;el.classList.remove("good","active","bad");if(state)el.classList.add(state);const target=el.querySelector("small");if(target)target.textContent=label;}
+ function renderUsers(){const list=[...users.values()].sort((a,b)=>a.name.localeCompare(b.name));$("presenceCount").textContent=list.length;setSignal("sigUsers",list.length?"good":"",list.length+" CONNECTED");$("connectedUsers").innerHTML=list.length?list.map(u=>'<div class="presence-user"><b>● '+esc(u.name)+'</b><small>Seen '+clock(u.lastSeen)+' · '+esc(u.id.slice(0,10))+'</small></div>').join(""):'<p class="empty-live">No connected PTT users detected on this channel.</p>';}
+ function transcript(m){if(!m||!m.text)return;setSignal("sigTranscript","good","LAST: "+clock(+m.ts||Date.now()));const id=String(m.id||"");if(id&&seen.has(id))return;if(id){seen.add(id);if(seen.size>300)seen.delete(seen.values().next().value);}
  const el=document.createElement("article");el.className="transcript-event";
  const meta=document.createElement("div");meta.className="event-meta";
  const who=document.createElement("span");who.className="event-speaker";who.textContent=m.speaker||"PTT user";
@@ -343,20 +366,20 @@ function googleTranslateElementInit(){
  const ch=document.createElement("div");ch.className="event-meta";ch.style.marginTop="7px";ch.textContent="CHANNEL "+(m.channel||CHANNEL)+" · "+(m.source||"Sanket Transcribe");el.append(ch);
  const feed=$("liveMessageFeed");const empty=feed.querySelector(".empty-live");if(empty)empty.remove();feed.prepend(el);while(feed.children.length>25)feed.lastElementChild.remove();
  }
- function message(topic,payload){const suffix=topic.slice(ROOT.length),raw=payload.toString(),now=Date.now();
+ function message(topic,payload){const suffix=topic.slice(ROOT.length),raw=payload.toString(),now=Date.now();if(suffix==="audio"){setSignal("sigRx","active","AUDIO PACKET "+clock(now));return;}
  if(suffix.startsWith("presence/")){const id=suffix.slice(9);if(!raw){const old=users.get(id);if(old){users.delete(id);event("LEFT",old.name,"Disconnected from "+CHANNEL);renderUsers();}return;}
  try{const m=JSON.parse(raw);if(!m.id||!m.name)return;const old=users.get(id);users.set(id,{id,name:String(m.name).slice(0,40),lastSeen:now});if(!old)event("JOINED",String(m.name).slice(0,40),"Connected to "+CHANNEL);else old.lastSeen=now;renderUsers();}catch(e){}return;}
  if(suffix==="transcript"){try{const m=JSON.parse(raw);transcript(m);if(m&&m.speaker)event("TRANSCRIBED",String(m.speaker).slice(0,40),String(m.text||"").slice(0,100));}catch(e){}}
- if(suffix==="floor"){try{const m=JSON.parse(raw);if(m.t==="claim")event("TRANSMITTING",m.name||"PTT user","Floor claimed on "+CHANNEL);if(m.t==="release")event("TX ENDED",m.name||"PTT user","Floor released on "+CHANNEL);}catch(e){}}
+ if(suffix==="floor"){try{const m=JSON.parse(raw);if(m.t==="claim"){event("TRANSMITTING",m.name||"PTT user","Floor claimed on "+CHANNEL);setSignal("sigTx","active",String(m.name||"STATION")+" TRANSMITTING");}if(m.t==="release"){event("TX ENDED",m.name||"PTT user","Floor released on "+CHANNEL);setSignal("sigTx","","IDLE");}}catch(e){}}
  }
  function connect(){if(!window.mqtt){$("presenceState").textContent="MQTT LIBRARY UNAVAILABLE";return;}
  const url=BROKERS[brokerIndex%BROKERS.length];let wasConnected=false;
  client=mqtt.connect(url,{clientId:"sanket_web_"+Math.random().toString(36).slice(2,12),clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000});
- client.on("connect",()=>{wasConnected=true;connected=true;$("presenceState").textContent="LIVE";client.subscribe([ROOT+"presence/+",ROOT+"transcript",ROOT+"floor"]);});
- client.on("message",message);client.on("error",()=>{$("presenceState").textContent="RELAY ERROR";});
- client.on("close",()=>{connected=false;$("presenceState").textContent="RECONNECTING";users.clear();renderUsers();if(client===null)return;if(!wasConnected)brokerIndex++;setTimeout(()=>{if(client)client.end(true);client=null;connect();},wasConnected?1800:500);});
+ client.on("connect",()=>{wasConnected=true;connected=true;$("presenceState").textContent="LIVE";client.subscribe([ROOT+"presence/+",ROOT+"transcript",ROOT+"floor",ROOT+"audio"]);setSignal("sigRelay","good","CONNECTED");});
+ client.on("message",message);client.on("error",()=>{$("presenceState").textContent="RELAY ERROR";setSignal("sigRelay","bad","CONNECTION ERROR");});
+ client.on("close",()=>{connected=false;$("presenceState").textContent="RECONNECTING";setSignal("sigRelay","bad","RECONNECTING");users.clear();renderUsers();if(client===null)return;if(!wasConnected)brokerIndex++;setTimeout(()=>{if(client)client.end(true);client=null;connect();},wasConnected?1800:500);});
  }
  setInterval(()=>{const now=Date.now();for(const [id,u] of users){if(now-u.lastSeen>16000){users.delete(id);event("TIMED OUT",u.name,"Presence heartbeat expired");}}renderUsers();},3000);
- renderUsers();renderHistory();connect();
+ renderUsers();renderHistory();setSignal("sigRelay","","CONNECTING");setSignal("sigTx","","IDLE");setSignal("sigRx","","WAITING FOR AUDIO");setSignal("sigTranscript","","WAITING FOR TEXT");connect();
 })();
 </script><script>(()=>{const feed=document.getElementById("receivedAudioList"),count=document.getElementById("audioReceivedCount");let n=0;window.addEventListener("message",e=>{const d=e.data;if(!d||d.type!=="sanket-clip"||!(d.audio instanceof Blob))return;const row=document.createElement("div");row.className="audio-record";const title=document.createElement("div");title.textContent=(d.speaker||"PTT user")+" · "+Number(d.duration||0).toFixed(1)+" sec · "+new Date(d.timestamp||Date.now()).toLocaleTimeString();const audio=document.createElement("audio");audio.controls=true;audio.preload="none";audio.src=URL.createObjectURL(d.audio);row.append(title,audio);const empty=feed.querySelector(".empty-live");if(empty)empty.remove();feed.prepend(row);while(feed.children.length>12){const last=feed.lastElementChild;const a=last.querySelector("audio");if(a)URL.revokeObjectURL(a.src);last.remove();}count.textContent=String(++n);});})();</script></body></html>
