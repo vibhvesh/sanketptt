@@ -789,6 +789,62 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
  #tafRadioHub .taf-player-row button{height:24px!important;min-height:24px!important;padding:2px 5px!important;font-size:7px!important}
 }
 </style>
+
+<style id="authoritative-mobile-live-layout">
+/* One authoritative layout override for the live PTT + transcription workspace */
+#control{display:block!important;width:100%!important;max-width:100%!important;overflow:hidden!important}
+#control>.cockpit-topstats,#control>.command-title,#control>.live-signals{display:none!important}
+#control>#tafRadioHub{display:flex!important;flex-direction:row!important;align-items:center!important;flex-wrap:nowrap!important;gap:6px!important;width:100%!important;height:42px!important;min-height:42px!important;max-height:42px!important;box-sizing:border-box!important;padding:4px 7px!important;margin:0 0 8px!important;overflow:hidden!important;border:1px solid #d7e2eb!important;border-radius:8px!important;background:#f4f8fb!important;color:#23384b!important}
+#control #tafRadioHub .taf-radio-heading{display:block!important;flex:0 0 auto!important;margin:0!important}
+#control #tafRadioHub .taf-radio-heading>div:first-child{display:block!important}
+#control #tafRadioHub .taf-radio-heading h3{font-size:9px!important;margin:0!important}
+#control #tafRadioHub .taf-kicker,#control #tafRadioHub .taf-radio-heading p,#control #tafRadioHub .taf-radio-actions,#control #tafRadioHub .taf-now,#control #tafRadioHub .taf-radio-foot,#control #tafRadioHub audio{display:none!important}
+#control #tafRadioHub .taf-top-five{display:flex!important;flex:1 1 auto!important;flex-wrap:nowrap!important;gap:4px!important;min-width:0!important;margin:0!important;overflow-x:auto!important;overflow-y:hidden!important}
+#control #tafRadioHub .taf-top-five button{display:block!important;flex:0 0 auto!important;min-width:0!important;height:28px!important;min-height:28px!important;padding:4px 8px!important;border:1px solid #ccdbe6!important;border-radius:5px!important;background:#e8f1f7!important;color:#20577e!important;white-space:nowrap!important}
+#control #tafRadioHub .taf-top-five button b{font-size:8px!important}
+#control #tafRadioHub .taf-top-five button small{display:none!important}
+#control #tafRadioHub .taf-player-row{display:flex!important;flex:0 0 auto!important;gap:3px!important;padding:0!important;margin:0!important}
+#control #tafRadioHub .taf-player-row button{height:27px!important;min-height:27px!important;padding:3px 6px!important;font-size:8px!important}
+#control>.cockpit-bottom{display:block!important;position:relative!important;width:100%!important;min-width:0!important;padding:0!important;margin:0!important;box-sizing:border-box!important}
+#control .live-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-auto-flow:row!important;gap:8px!important;align-items:stretch!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+#control .live-pair>.pane.join-pane,#control .live-pair>.pane.transcript-pane{display:flex!important;position:relative!important;float:none!important;flex-direction:column!important;grid-column:auto!important;grid-row:auto!important;width:100%!important;min-width:0!important;max-width:100%!important;height:620px!important;min-height:620px!important;max-height:620px!important;margin:0!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;border:1px solid #b8cbd9!important;border-radius:9px!important;background:#fff!important}
+#control .live-pair .pane>.ph{display:flex!important;flex:0 0 32px!important;align-items:center!important;height:32px!important;min-height:32px!important;padding:5px 7px!important;box-sizing:border-box!important;font-size:9px!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important}
+#control .live-pair .pane>.ph small{font-size:7px!important}
+#control .live-pair .try-live-guide{display:flex!important;flex:0 0 38px!important;align-items:center!important;gap:6px!important;height:38px!important;min-height:38px!important;max-height:38px!important;padding:4px 6px!important;margin:0!important;overflow:hidden!important;box-sizing:border-box!important;background:#edf5fa!important}
+#control .live-pair .try-live-button{display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:center!important;height:28px!important;min-height:28px!important;padding:4px 7px!important;font-size:9px!important;line-height:1!important;white-space:nowrap!important}
+#control .live-pair .try-live-guide>div{display:block!important;flex:1 1 auto!important;min-width:0!important;overflow:hidden!important}
+#control .live-pair .try-live-guide b{display:block!important;font-size:8px!important;line-height:1.15!important;white-space:nowrap!important}
+#control .live-pair .try-live-guide span{display:block!important;font-size:7px!important;line-height:1.15!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#control .live-pair .join-pane iframe{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;border:0!important;background:#07192d!important}
+#control .live-pair .transcript-guide{display:flex!important;flex:0 0 48px!important;flex-direction:column!important;justify-content:center!important;gap:2px!important;height:48px!important;min-height:48px!important;max-height:48px!important;padding:5px 7px!important;margin:0!important;overflow:hidden!important;box-sizing:border-box!important;background:#edf5fa!important}
+#control .live-pair .transcript-guide b{font-size:8px!important;line-height:1.15!important;white-space:nowrap!important}
+#control .live-pair .transcript-guide span{font-size:7px!important;line-height:1.2!important;white-space:normal!important}
+#control .live-pair .transcript-feed{display:none!important}
+#control .live-pair .transcript-pane .listener-mini{display:flex!important;flex:1 1 0!important;flex-direction:column!important;min-width:0!important;min-height:0!important;margin:0!important;padding:3px!important;overflow:hidden!important}
+#control .live-pair .transcript-pane .listener-mini>span{display:block!important;flex:0 0 18px!important;height:18px!important;min-height:18px!important;padding:3px!important;font-size:7px!important;line-height:1.1!important}
+#control .live-pair .transcript-pane .listener-mini iframe{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;border:0!important;background:#07192d!important}
+#control .live-pair .audio-feed,#control .cockpit-support,#control .cockpit-footer{display:none!important}
+@media(max-width:760px){
+ #control{padding:5px!important;box-sizing:border-box!important}
+ #control>#tafRadioHub{height:34px!important;min-height:34px!important;max-height:34px!important;margin-bottom:5px!important;padding:2px 4px!important;gap:4px!important}
+ #control #tafRadioHub .taf-radio-heading h3{font-size:7px!important}
+ #control #tafRadioHub .taf-top-five button{height:24px!important;min-height:24px!important;padding:2px 6px!important}
+ #control #tafRadioHub .taf-top-five button b{font-size:7px!important}
+ #control #tafRadioHub .taf-player-row button{height:24px!important;min-height:24px!important;padding:2px 5px!important;font-size:7px!important}
+ #control .live-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:4px!important}
+ #control .live-pair>.pane.join-pane,#control .live-pair>.pane.transcript-pane{height:590px!important;min-height:590px!important;max-height:590px!important;border-radius:7px!important}
+ #control .live-pair .pane>.ph{flex-basis:28px!important;height:28px!important;min-height:28px!important;padding:4px!important;font-size:8px!important}
+ #control .live-pair .pane>.ph small{font-size:6px!important}
+ #control .live-pair .try-live-guide{flex-basis:34px!important;height:34px!important;min-height:34px!important;max-height:34px!important;padding:3px!important;gap:3px!important}
+ #control .live-pair .try-live-button{height:25px!important;min-height:25px!important;padding:3px 5px!important;font-size:7px!important}
+ #control .live-pair .try-live-guide b{font-size:7px!important}
+ #control .live-pair .try-live-guide span{font-size:6px!important}
+ #control .live-pair .transcript-guide{flex-basis:42px!important;height:42px!important;min-height:42px!important;max-height:42px!important;padding:4px!important}
+ #control .live-pair .transcript-guide b{font-size:7px!important}
+ #control .live-pair .transcript-guide span{font-size:6px!important}
+ #control .live-pair .transcript-pane .listener-mini>span{font-size:6px!important}
+}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#products">Platform</a><a href="demo.html">Try Live Demo</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div><div class="landing-nav-actions"><a href="demo.html" class="nav-try">TRY IT LIVE ↗</a><a href="#contact" class="nav-contact">CONTACT</a></div></header>
