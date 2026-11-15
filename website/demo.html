@@ -3,16 +3,26 @@
 <style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:#211914;color:#f8eadc;font:14px/1.35 Inter,system-ui,Arial,sans-serif;display:flex;flex-direction:column}
 header{height:48px;flex:0 0 48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:linear-gradient(90deg,#39271d,#182c38);border-bottom:1px solid #76523a}
-.brand{font-weight:900;letter-spacing:1px;font-size:15px}.brand b{color:#ffb16c}.sub{font-size:9px;color:#c9ab91;letter-spacing:1.5px;margin-left:8px}.home{color:#f1c49e;text-decoration:none;font-size:11px}
+.brand{font-weight:900;letter-spacing:1px;font-size:15px}.brand b{color:#ffb16c}.sub{font-size:9px;color:#c9ab91;letter-spacing:1.5px;margin-left:8px}.head-actions{display:flex;align-items:center;gap:10px}.home{color:#f1c49e;text-decoration:none;font-size:11px}.invite{border:1px solid #d99a62;background:#a65d2e;color:#fff5e9;border-radius:7px;padding:7px 11px;font-weight:800;font-size:10px;cursor:pointer}
 main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,3fr) minmax(0,7fr);gap:7px;padding:7px}
 .panel{min-width:0;min-height:0;height:100%;display:flex;flex-direction:column;overflow:hidden;border:1px solid #74533c;border-radius:11px;background:#171e24;box-shadow:0 8px 25px #0005}
 .ph{height:37px;flex:0 0 37px;display:flex;align-items:center;justify-content:space-between;gap:5px;padding:0 10px;background:linear-gradient(90deg,#563522,#19384a);font-weight:900;font-size:11px;letter-spacing:.8px}
 .ph small{font-size:9px;color:#e4c1a2;font-weight:500;letter-spacing:0}
 .panel iframe{display:block;width:100%;height:calc(100% - 37px);min-height:0;flex:1;border:0;background:#07192d}
-@media(max-width:560px){header{height:42px;flex-basis:42px;padding:0 8px}.brand{font-size:12px}.sub{display:none}.home{font-size:9px}main{gap:4px;padding:4px}.panel{border-radius:7px}.ph{height:34px;flex-basis:34px;padding:0 5px;font-size:9px;letter-spacing:.2px}.ph small{font-size:7px}.panel iframe{height:calc(100% - 34px)}}
+@media(max-width:560px){header{height:42px;flex-basis:42px;padding:0 8px}.invite{padding:6px 7px;font-size:8px}.head-actions{gap:6px}.brand{font-size:12px}.sub{display:none}.home{font-size:9px}main{gap:4px;padding:4px}.panel{border-radius:7px}.ph{height:34px;flex-basis:34px;padding:0 5px;font-size:9px;letter-spacing:.2px}.ph small{font-size:7px}.panel iframe{height:calc(100% - 34px)}}
 </style></head><body>
-<header><div class="brand">SANKET <b>PTT</b><span class="sub">LIVE RADIO CONSOLE</span></div><a class="home" href="./">← Sanket Home</a></header>
+<header><div class="brand">SANKET <b>PTT</b><span class="sub">LIVE RADIO CONSOLE</span></div><div class="head-actions"><button class="invite" id="inviteBtn" type="button">↗ INVITE / SHARE</button><a class="home" href="./">← Sanket Home</a></div></header>
 <main>
 <section class="panel"><div class="ph"><span>01 · SANKET PTT DEMO</span><small>JOIN · TALK · SSTV</small></div><iframe title="Sanket PTT Demo" src="https://vibhvesh.github.io/sanketptt/?ch=sanket-website-demo&amp;embed=1" allow="microphone; autoplay" loading="eager"></iframe></section>
 <section class="panel"><div class="ph"><span>02 · SANKET TRANSCRIBE DEMO</span><small>ENGLISH → HINDI · AUTO POWER</small></div><iframe title="Sanket Transcribe Demo" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" allow="microphone; autoplay" loading="eager"></iframe></section>
-</main></body></html>
+</main>
+<script>
+(()=>{const q=new URLSearchParams(location.search),channel=(q.get('ch')||'sanket-website-demo').replace(/[^\\w-]/g,'').slice(0,40)||'sanket-website-demo';
+ const p=document.querySelector('iframe[title="Sanket PTT Demo"]'),t=document.querySelector('iframe[title="Sanket Transcribe Demo"]');
+ if(p)p.src='https://vibhvesh.github.io/sanketptt/?ch='+encodeURIComponent(channel)+'&embed=1';
+ if(t)t.src='https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&ch='+encodeURIComponent(channel)+'&autostart=1&compact=1';
+ document.getElementById('inviteBtn').addEventListener('click',async()=>{const url=new URL(location.href);url.searchParams.set('ch',channel);const data={title:'Join my Sanket PTT channel',text:'Join me on Sanket PTT. Open this link to talk on the same channel:',url:url.href};
+  try{if(navigator.share)await navigator.share(data);else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url.href);alert('Invite link copied. Share it on WhatsApp, Facebook or anywhere.')}else prompt('Copy this invite link',url.href)}catch(e){if(e.name!=='AbortError')prompt('Copy this invite link',url.href)}
+ });
+})();
+</script></body></html>
