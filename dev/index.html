@@ -158,6 +158,18 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .radio-lines .rl-note{margin-top:5px;font:10px/1.35 system-ui;color:#697d8e}
 .radio-lines audio{display:none}
 body{overflow-x:hidden}
+.radio-tuner{margin:8px 0;padding:10px;border:1px solid #9bb8cf;border-radius:12px;background:linear-gradient(145deg,#eaf3fb,#dce9f4);color:#15324c}
+.radio-tuner .band-row,.radio-tuner .tune-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.radio-tuner button{padding:9px 11px;border-radius:8px;background:#174a78;color:#fff;font:800 11px system-ui}
+.radio-tuner button.active{background:#e47716;box-shadow:0 0 0 2px #ffd39d}
+.radio-tuner button:disabled{opacity:.45}
+.radio-tuner .dial{margin:10px 0 4px;padding:10px;border-radius:9px;background:#102a40;color:#b9f2ff;text-align:center}
+.radio-tuner .frequency{font:800 27px/1.2 ui-monospace,monospace;letter-spacing:2px;color:#ffe08a}
+.radio-tuner input[type=range]{width:100%;accent-color:#e47716}
+.radio-tuner .tune-meta{font:11px system-ui;color:#d9eaf7}
+.radio-tuner .fav{background:#9b5b00}
+.radio-tuner .tune-note{font:10px/1.4 system-ui;color:#526b80;margin-top:6px}
+.radio-lines .rl-row select{flex:1 1 100%}
 </style>
 </head><body><div class=rig>
 <div class="dev-ribbon">SANKET PTT · DEVELOPMENT BUILD · /dev</div>
@@ -169,6 +181,22 @@ body{overflow-x:hidden}
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button></div>
 <section class="radio-lines" id="radioLinesDev" aria-label="Hindi radio lines">
 <h3>📻 SANKET RADIO LINES · DEV</h3>
+<div class="radio-tuner" id="radioTuner">
+ <div class="band-row" aria-label="Radio bands">
+  <button type="button" class="active" data-band="ALL">ALL BANDS</button>
+  <button type="button" data-band="FM">FM</button>
+  <button type="button" data-band="AM">AM</button>
+  <button type="button" data-band="SW">SW</button>
+ </div>
+ <div class="dial"><div class="tune-meta" id="tunerBandLabel">ALL INTERNET RADIO STREAMS</div><div class="frequency" id="tunerFrequency">TUNE</div><div class="tune-meta" id="tunerStationLabel">Select a station or scan</div></div>
+ <input id="tunerDial" type="range" min="0" max="0" value="0" step="1" aria-label="Tune station">
+ <div class="tune-row">
+  <button type="button" id="tuneDown">◀ TUNE</button><button type="button" id="scanDown">◀ SCAN</button>
+  <button type="button" id="scanUp">SCAN ▶</button><button type="button" id="tuneUp">TUNE ▶</button>
+  <button type="button" id="favoriteStation" class="fav">☆ SAVE</button>
+ </div>
+ <div class="tune-note" id="tunerNote">Tune or scan through available internet streams. A station is remembered after playback starts. AM/SW require verified stream sources; no RF receiver is connected.</div>
+</div>
 <div class="rl-row">
 <select id="radioStationSelect" aria-label="Select radio line">
 <optgroup label="NATIONAL · HINDI">
@@ -531,6 +559,34 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
   ujjayanta:{name:"FM Ujjayanta Agartala",url:"https://radio.wavespb.com/live/d65912ef9829b8c9/d65912ef9829b8c9.m3u8"},
  };
  const $=id=>document.getElementById(id),audio=$("radioLineAudio"),select=$("radioStationSelect"),status=$("radioLineStatus");
+ const bandButtons=[...document.querySelectorAll("[data-band]")],dial=$("tunerDial"),freq=$("tunerFrequency"),tunerName=$("tunerStationLabel"),bandLabel=$("tunerBandLabel"),favBtn=$("favoriteStation");
+ let activeBand="ALL",visibleStations=[],scanBusy=false;
+ const stationIds=Object.keys(stations);
+ const isFM=id=>/fm|rainbow|vividh|vbs|indraprastha|aaradhana/i.test(stations[id].name);
+ function refreshTuner(){
+  visibleStations=stationIds.filter(id=>activeBand==="ALL"||(activeBand==="FM"&&isFM(id)));
+  if(activeBand==="AM"||activeBand==="SW")visibleStations=[];
+  const ix=Math.max(0,visibleStations.indexOf(select.value));
+  dial.max=Math.max(0,visibleStations.length-1);dial.value=ix;
+  bandLabel.textContent=activeBand==="ALL"?"ALL INTERNET RADIO STREAMS":activeBand+" BAND";
+  $("tuneDown").disabled=$("tuneUp").disabled=$("scanDown").disabled=$("scanUp").disabled=!visibleStations.length;
+  if(!visibleStations.length){freq.textContent=activeBand==="AM"?"AM — NO FEEDS":"SW — NO FEEDS";tunerName.textContent="No verified "+activeBand+" stream source loaded";favBtn.textContent="☆ SAVE";return}
+  const n=ix+1;freq.textContent=activeBand==="FM"?(87.5+((n-1)*0.2)%20).toFixed(1)+" MHz":"CH "+String(n).padStart(2,"0");
+  tunerName.textContent=stations[visibleStations[ix]].name;
+  updateFavorite();
+ }
+ function updateFavorite(){let f=[];try{f=JSON.parse(localStorage.getItem("sanketRadioFavorites")||"[]")}catch(e){}favBtn.textContent=f.includes(select.value)?"★ SAVED":"☆ SAVE"}
+ function chooseStation(id,autoplay){if(!id||!stations[id])return;select.value=id;refreshTuner();say("Tuned to "+stations[id].name+(autoplay?" · scanning for stream":""));if(autoplay)playRadio()}
+ function stepTune(dir,scan){if(!visibleStations.length){say("No verified "+activeBand+" stream sources are loaded yet.");return}let i=visibleStations.indexOf(select.value);if(i<0)i=dir>0?-1:0;const next=(i+dir+visibleStations.length)%visibleStations.length;chooseStation(visibleStations[next],scan)}
+ function setBand(b){activeBand=b;bandButtons.forEach(x=>x.classList.toggle("active",x.dataset.band===b));if(b==="AM"||b==="SW"){refreshTuner();$("tunerNote").textContent="No verified "+b+" internet stream feeds are configured yet. The player cannot tune physical AM/SW frequencies without a radio receiver.";return}if(!visibleStations.includes(select.value))select.value=visibleStations[0]||"vividh";refreshTuner();$("tunerNote").textContent="Internet stream tuner: scan moves through the available "+b+" station list. Frequencies shown are dial positions, not verified terrestrial broadcast frequencies."}
+ bandButtons.forEach(x=>x.addEventListener("click",()=>setBand(x.dataset.band)));
+ $("tuneDown").addEventListener("click",()=>stepTune(-1,false));$("tuneUp").addEventListener("click",()=>stepTune(1,false));
+ $("scanDown").addEventListener("click",()=>stepTune(-1,true));$("scanUp").addEventListener("click",()=>stepTune(1,true));
+ dial.addEventListener("input",()=>{if(visibleStations[+dial.value])chooseStation(visibleStations[+dial.value],false)});
+ favBtn.addEventListener("click",()=>{let f=[];try{f=JSON.parse(localStorage.getItem("sanketRadioFavorites")||"[]")}catch(e){}if(f.includes(select.value))f=f.filter(x=>x!==select.value);else f.push(select.value);localStorage.setItem("sanketRadioFavorites",JSON.stringify(f));updateFavorite();say((f.includes(select.value)?"Saved ":"Removed ")+stations[select.value].name+(f.includes(select.value)?" to favorites":" from favorites"))});
+ try{const last=localStorage.getItem("sanketRadioLastStation");if(last&&stations[last])select.value=last}catch(e){}
+ refreshTuner();
+
  let hls=null,mediaSource=null,processor=null,mute=null,bot=null,bridging=false,streamReady=false;
  function say(t){status.textContent=t}
  function station(){return stations[select.value]||stations.vividh}
@@ -541,7 +597,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
   try{
    if(window.Hls&&Hls.isSupported()){
     hls=new Hls({enableWorker:true,lowLatencyMode:true});hls.loadSource(st.url);hls.attachMedia(audio);
-    hls.on(Hls.Events.MANIFEST_PARSED,async()=>{try{await audio.play();streamReady=true;say("Playing "+st.name+" · local monitor")}catch(e){say("Tap PLAY again to allow audio: "+e.message)}});
+    hls.on(Hls.Events.MANIFEST_PARSED,async()=>{try{await audio.play();streamReady=true;try{localStorage.setItem("sanketRadioLastStation",select.value)}catch(e){}refreshTuner();say("Playing "+st.name+" · local monitor")}catch(e){say("Tap PLAY again to allow audio: "+e.message)}});
     hls.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)say("Stream error: "+(d.details||d.type)+" · try another line or check stream availability")});
    }else{
     audio.src=st.url;
@@ -593,7 +649,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  $("radioStopBtn").addEventListener("click",()=>{stopBridge();cleanupStream();say("Radio stopped.")});
  $("radioBridgeBtn").addEventListener("click",bridge);
  $("radioBridgeStopBtn").addEventListener("click",stopBridge);
- select.addEventListener("change",()=>{if(bridging)stopBridge();cleanupStream();say("Selected "+station().name+". Tap PLAY RADIO to listen.")});
+ select.addEventListener("change",()=>{if(bridging)stopBridge();cleanupStream();refreshTuner();say("Selected "+station().name+". Tap PLAY RADIO to listen.")});
  window.addEventListener("beforeunload",()=>{stopBridge();cleanupStream()});
 })();
 </script></body></html>
