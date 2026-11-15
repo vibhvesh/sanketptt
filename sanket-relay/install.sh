@@ -43,12 +43,15 @@ if [[ ! -f "$CONFIG_DIR/config.json" ]]; then
   "allowed_channels": []
 }
 EOF
-  chmod 0600 "$CONFIG_DIR/config.json"
+  chmod 0640 "$CONFIG_DIR/config.json"
+  chown root:sanket-relay "$CONFIG_DIR/config.json"
   echo
   echo "IMPORTANT: Save this Sanket Relay access token now:"
   echo "$TOKEN"
   echo "It is stored in $CONFIG_DIR/config.json (root-only)."
 else
+  chown root:sanket-relay "$CONFIG_DIR/config.json"
+  chmod 0640 "$CONFIG_DIR/config.json"
   echo "Existing relay configuration preserved."
 fi
 
