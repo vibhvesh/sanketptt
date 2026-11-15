@@ -32,3 +32,8 @@ On Raspberry Pi OS 64-bit:
     pip install -r requirements.txt
 
 This first commit establishes the independent audio-routing core; MQTT, storage, STT, web API, kiosk launcher and installer are subsequent integration steps. Do not point production services at this v1 until integration and hardware tests pass.
+
+
+## Central cloud storage (initial adapter)
+
+The provider-independent S3-compatible storage adapter is in `pi/sanket_broadcast/cloud_storage.py`. It supports tenant/site-scoped object keys, connection checks, uploads, checksum-verified downloads and listing. See [CLOUD_STORAGE.md](CLOUD_STORAGE.md) for setup and security boundaries. This is the storage adapter foundation, not yet the complete background sync, backup/restore workflow or production installer.
