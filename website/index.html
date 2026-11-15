@@ -1889,4 +1889,31 @@ body>footer{display:flex!important}
  #tafRadioHub .taf-top-five button{padding:7px 9px!important}
  #tafRadioHub .taf-top-five b{font-size:9px!important}
 }
+
+/* FIX: PTT and transcription remain side-by-side on every screen, including phones */
+#control .cockpit-bottom{display:block!important;width:100%!important;overflow-x:hidden!important;padding:7px!important}
+#control .cockpit-bottom>.live-pair,
+#control .live-pair{display:grid!important;grid-template-columns:minmax(0,38fr) minmax(0,62fr)!important;grid-auto-flow:column!important;gap:6px!important;align-items:stretch!important;width:100%!important}
+#control .cockpit-bottom>.live-pair{display:grid!important}
+#control .cockpit-bottom .join-pane,
+#control .cockpit-bottom .transcript-pane{display:flex!important;flex-direction:column!important;grid-column:auto!important;grid-row:auto!important;width:auto!important;min-width:0!important;max-width:100%!important;min-height:0!important;height:auto!important}
+#control .cockpit-bottom .pane>.ph{font-size:clamp(7px,2vw,10px)!important;padding:7px 5px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#control .cockpit-bottom .join-pane iframe{width:100%!important;height:clamp(390px,115vw,560px)!important;min-height:0!important}
+#control .cockpit-bottom .transcript-pane{overflow:hidden!important}
+#control .cockpit-bottom .transcript-feed{flex:0 0 72px!important;min-height:48px!important;max-height:72px!important;overflow:auto!important}
+#control .cockpit-bottom .listener-mini{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;padding:0 4px 5px!important}
+#control .cockpit-bottom .listener-mini>span{font-size:7px!important;line-height:1.2!important;white-space:normal!important}
+#control .cockpit-bottom .listener-mini iframe,
+#control .cockpit-bottom .listener-mini iframe#liveTranscript{width:100%!important;height:clamp(300px,88vw,460px)!important;min-height:0!important;flex:1 1 auto!important}
+#control .cockpit-bottom .audio-feed,
+#control .cockpit-bottom>.cockpit-support{display:none!important}
+@media(max-width:760px){
+ #control .cockpit-bottom{display:block!important;padding:5px!important}
+ #control .cockpit-bottom>.live-pair,
+ #control .live-pair{grid-template-columns:minmax(0,38fr) minmax(0,62fr)!important;gap:5px!important}
+ #control .cockpit-bottom .join-pane iframe{height:clamp(390px,118vw,510px)!important}
+ #control .cockpit-bottom .transcript-feed{flex-basis:62px!important;max-height:62px!important}
+ #control .cockpit-bottom .listener-mini iframe,
+ #control .cockpit-bottom .listener-mini iframe#liveTranscript{height:clamp(300px,90vw,410px)!important}
+}
 </style></body></html>
