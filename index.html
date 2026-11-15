@@ -178,7 +178,19 @@ html.ptt-embed #main>.panel:first-of-type{margin-top:5px!important}
  .rig{padding:10px!important}
  #ptt{width:120px!important;height:120px!important;margin:8px auto 4px!important}
 }
-</style></head><body><div class=rig>
+</style>
+<style id="ptt-embed-final-fit">
+html.ptt-embed,html.ptt-embed body{width:100%!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+html.ptt-embed body{display:flex!important;flex-direction:column!important;background:#07192d!important}
+html.ptt-embed .rig{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;width:100%!important;max-width:none!important;height:100%!important;min-height:0!important;margin:0!important;padding:8px!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important}
+html.ptt-embed .brand{flex:0 0 auto!important}
+html.ptt-embed .lcd,html.ptt-embed #login{flex:0 0 auto!important}
+html.ptt-embed #main{display:block;flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+html.ptt-embed #main[style*="display: none"]{display:none!important}
+html.ptt-embed #ptt{width:clamp(72px,24vw,120px)!important;height:clamp(72px,24vw,120px)!important}
+@media(max-width:760px){html.ptt-embed .rig{padding:6px!important}html.ptt-embed .brand{margin-bottom:5px!important}html.ptt-embed .lcd{padding:5px!important}}
+</style>
+</head><body><div class=rig>
 <div class=brand><img src="website/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
