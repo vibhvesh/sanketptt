@@ -856,4 +856,5 @@ function googleTranslateElementInit(){
  const tx=document.getElementById("liveTranscript");
  if(tx&&tx.contentWindow)tx.contentWindow.postMessage({type:"sanket-ptt-channel",channel:d.channel},"*");
 });})();
-</script></body></html>
+</script><script id="ptt-channel-sync-bridge">(function(){var tx=document.getElementById('liveTranscript');if(!tx)return;window.addEventListener('message',function(e){var d=e.data;if(!d||d.type!=='sanket-ptt-channel'||!d.channel)return;var ch=String(d.channel).replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40)||'virtual';try{localStorage.setItem('sanketptt.activeChannel',ch);}catch(_){}var u=new URL(tx.src,location.href);if(u.searchParams.get('ch')!==ch){u.searchParams.set('ch',ch);tx.src=u.toString();}});})();</script>
+</body></html>
