@@ -91,7 +91,39 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}}
 @media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
-</style><link rel=stylesheet href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head><body><div class=rig>
+</style><link rel=stylesheet href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>
+/* Good Configuration #1 visual refinement — compact handheld transceiver faceplate */
+.rig{width:min(100%,470px);max-width:470px;padding:12px;border-radius:18px;background:linear-gradient(145deg,#4b535d 0%,#252c35 24%,#151a20 78%,#080c11 100%);border:1px solid #78828d;box-shadow:0 16px 38px #000b,inset 0 1px 0 #ffffff55,inset 0 -2px 0 #000}
+.rig:before,.rig:after{width:8px;height:8px;top:8px;background:radial-gradient(circle at 35% 30%,#dce3e8,#65707a 45%,#151a20 75%);box-shadow:0 1px 2px #000}
+.rig:before{left:8px}.rig:after{right:8px}
+.brand{margin:0 4px 8px;min-height:42px}
+.brand h1{font-size:clamp(15px,3vw,19px);letter-spacing:2.4px;background:linear-gradient(90deg,#f4f7fa,#9eabb8 55%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand small{font-size:8px;letter-spacing:2px;color:#aab7c4}
+.leds{gap:8px;font-size:9px}.led i{width:10px;height:10px}
+.lcd{padding:8px 11px;border:2px solid #080d12;border-radius:8px;background:linear-gradient(180deg,#071f2a,#03131e);color:#72f5e0;text-shadow:0 0 7px #36d9ce;box-shadow:inset 0 0 18px #000,0 0 0 1px #66727c}
+.freq{font-size:clamp(24px,7vw,36px);letter-spacing:2px;margin:2px 0}
+#st{font-size:12px;letter-spacing:1.5px}
+.meter{margin-top:5px}.bars{height:11px;gap:2px}
+.panel{margin-top:8px;padding:8px;border-radius:9px;background:linear-gradient(145deg,#252c34dd,#111820ee);border:1px solid #68737f55;box-shadow:inset 0 1px #ffffff12}
+.panel h3{font-size:10px;letter-spacing:1.5px;color:#d6e0e9;margin-bottom:6px}
+#us li{font-size:9px;padding:4px 8px;letter-spacing:.6px}
+#login{margin-top:9px}
+#login h3{font-size:11px}
+#login input{font-size:14px;min-height:36px;padding:8px 10px;margin:3px 0}
+#go{font-size:13px;min-height:40px;padding:9px 12px;border-radius:7px;background:linear-gradient(180deg,#32c98b,#087c55);box-shadow:0 3px 0 #064b38,inset 0 1px #ffffff55}
+#main{padding:7px 0 2px}
+#hd{font-size:10px;color:#a9c1d2;letter-spacing:.5px}
+#unlock{font-size:10px;padding:8px;margin-top:5px;border-radius:7px}
+#ptt{width:min(42vw,150px);height:min(42vw,150px);max-width:150px;max-height:150px;margin:10px auto 5px;font-size:17px;letter-spacing:2px;border:5px solid #111820;background:radial-gradient(circle at 34% 25%,#8bffe2,#0dbd91 48%,#075c54);box-shadow:0 0 0 2px #87939e,0 7px 14px #0009,inset 0 -8px 14px #001b20aa}
+#ptt.on{background:radial-gradient(circle at 34% 25%,#ffb5b5,#ef3939 48%,#740e19);box-shadow:0 0 0 2px #aeb7c0,0 0 25px #ff4545aa,inset 0 -8px 14px #300}
+#ptt.busy{background:radial-gradient(circle at 34% 25%,#fff0a6,#e6a329 48%,#79500c)}
+#main .hint{font-size:9px;color:#a5b1bc}
+#locp #map{height:125px!important}
+#locnote{font-size:9px;padding:5px}
+#sstvP button,#clr{font-size:10px;border-radius:7px;padding:7px 9px}
+#net{font-size:8px;margin-top:6px}
+@media(max-width:760px){body{padding:6px!important}.rig{padding:9px;border-radius:14px}.brand{margin-bottom:6px}.panel{margin-top:6px;padding:7px}#ptt{width:min(38vw,132px);height:min(38vw,132px)}#locp #map{height:110px!important}}
+</style></head><body><div class=rig>
 <div class=brand><img src="website/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
