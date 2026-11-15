@@ -93,6 +93,9 @@ button:disabled{opacity:.55;cursor:not-allowed}
 #liveTranscript{display:block;width:100%;height:100%;border:0;background:#07192d}
 .cockpit-footer{font-size:8px}
 @media(max-width:760px){.cockpit-grid{grid-template-columns:minmax(0,1fr)!important}.c-lines{display:none!important}.c-network .network-stage{max-height:70px!important}.c-network .network-svg{height:55px!important;max-height:55px!important}.cockpit-bottom{grid-template-columns:1fr!important}.live-transcript-wrap{height:65vh;min-height:430px}.cockpit-bottom .stream-list{max-height:180px}}
+
+/* Command Center: network health at top, live operations below */
+.cockpit-grid{display:block}.c-network-col{grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);align-items:stretch}.c-network .network-svg{max-height:190px}.cockpit-bottom{grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));padding-top:10px}.cockpit-bottom .live-transcript-wrap iframe{width:100%;height:520px;border:0;display:block;background:#081b2d}.cockpit-bottom .pane{min-width:0}@media(max-width:900px){.c-network-col{grid-template-columns:1fr}.cockpit-bottom{grid-template-columns:1fr 1fr}}@media(max-width:600px){.cockpit-bottom{grid-template-columns:1fr}.cockpit-bottom .live-transcript-wrap iframe{height:560px}}
 </style><style>
 /* Prevent layout breakage from translated strings and long labels */
 html,body{max-width:100%;overflow-x:hidden}
@@ -114,9 +117,9 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="#live-trial">Live Trial</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#ptt">PTT</a><a href="#transcribe">Transcribe</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
 <main id="home"><section class="hero" style="border:0"><div class="wrap">
-<div class="herohead"><div><div class="eyebrow">A connected communications suite</div><h1>Communication.<br>Control. Clarity.</h1><p>From push-to-talk field communications to operator control rooms, timestamped transcripts and software-defined radio monitoring — one connected Sanket ecosystem.</p><div class="actions"><a class="btn" href="#products">Explore the platform ↓</a><a class="btn alt" href="#contact">Talk to our team</a></div><div class="note">The console below is an illustrative product preview, not a live radio feed.</div></div><div class="eyebrow">For teams in the field and at the console</div></div>
+<div class="herohead"><div><div class="eyebrow">A connected communications suite</div><h1>Communication.<br>Control. Clarity.</h1><p>From push-to-talk field communications to operator control rooms, timestamped transcripts and software-defined radio monitoring — one connected Sanket ecosystem.</p><div class="actions"><a class="btn" href="#products">Explore the platform ↓</a><a class="btn alt" href="#contact">Talk to our team</a></div><div class="note">Live PTT audio and transcription appear below. Network topology is illustrative; health gauges are not measured from the relay.</div></div><div class="eyebrow">For teams in the field and at the console</div></div>
 <div class="console cockpit" id="control">
-<div class="ch"><b>◉ SANKET <em>NETWORK OPERATIONS COCKPIT</em> / LIVE SYSTEM OVERVIEW</b><span class="demo"><i class="live-dot"></i> SIMULATED TELEMETRY</span></div>
+<div class="ch"><b>◉ SANKET <em>NETWORK OPERATIONS COCKPIT</em> / LIVE SYSTEM OVERVIEW</b><span class="demo"><i class="live-dot"></i> LIVE PTT DEMO · GAUGES ILLUSTRATIVE</span></div>
 <div class="cockpit-topstats">
 <div class="cstat"><span>RADIO LINES</span><b id="kLines">08 <small>/ 08</small></b><em>Configured channels</em></div>
 <div class="cstat"><span>CONNECTED NODES</span><b id="kNodes">24</b><em>PTT clients · edge stations</em></div>
@@ -126,19 +129,9 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 <div class="cstat"><span>ALERTS</span><b class="warnnum" id="kAlerts">02</b><em>Operator attention</em></div>
 </div>
 <div class="command-title"><h2>SANKET COMMAND CENTER</h2><p>LIVE SYSTEM OVERVIEW · PTT NETWORK · TRANSCRIPTION · DISPATCH</p></div><div class="cockpit-grid">
-<aside class="pane c-lines"><div class="ph">RADIO LINES <small>8 channels · floor status</small></div>
-<div id="cockpitLines">
-<div class="c-line rx"><i></i><b>MASTER</b><span>RX ACTIVE</span><small>06 users</small></div>
-<div class="c-line tx"><i></i><b>CITY CONTROL</b><span>TX ACTIVE</span><small>04 users</small></div>
-<div class="c-line idle"><i></i><b>KOLKATA CONTROL</b><span>STANDBY</span><small>03 users</small></div>
-<div class="c-line rx"><i></i><b>UNIT ALPHA</b><span>RX ACTIVE</span><small>05 users</small></div>
-<div class="c-line idle"><i></i><b>UNIT BRAVO</b><span>STANDBY</span><small>02 users</small></div>
-<div class="c-line tx"><i></i><b>DISPATCH</b><span>TX ACTIVE</span><small>02 users</small></div>
-<div class="c-line idle"><i></i><b>GROUND TEAM</b><span>STANDBY</span><small>01 user</small></div>
-<div class="c-line rx"><i></i><b>EMERGENCY</b><span>RX ACTIVE</span><small>01 user</small></div>
-</div><div class="c-legend"><span><i class="g"></i> RX</span><span><i class="o"></i> TX</span><span><i class="d"></i> Standby</span></div></aside>
+
 <div class="c-network-col">
-<div class="pane c-network"><div class="ph">NETWORK HEALTH & CONNECTED DEVICES <small>live presence · shared demo channel</small></div>
+<div class="pane c-network"><div class="ph">NETWORK & RELAY TOPOLOGY <small>shared demo channel · visual network map</small></div>
 <div class="network-stage">
 <svg class="network-svg" viewBox="0 0 720 260" role="img" aria-label="Illustrative data flow between radio channels, tower gateway and control room">
 <defs><linearGradient id="flowgrad"><stop stop-color="#27b9c9"/><stop offset="1" stop-color="#55edb0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -153,7 +146,7 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 </svg>
 <div class="network-caption"><span><i class="g"></i> INBOUND DATA</span><span><i class="c"></i> RELAY / ROUTING</span><span><i class="o"></i> OUTBOUND DATA</span></div></div></div>
 <div class="c-gauges">
-<div class="pane gauge-pane"><div class="ph">NETWORK HEALTH <small>demo instruments</small></div><div class="gauge-row">
+<div class="pane gauge-pane"><div class="ph">NETWORK HEALTH <small>illustrative gauges · not live measurements</small></div><div class="gauge-row">
 <div class="gauge"><div class="gauge-face"><div class="gauge-arc"></div><i class="needle" id="needleA"></i><b id="gLatency">42<small>ms</small></b></div><label>RELAY LATENCY</label></div>
 <div class="gauge"><div class="gauge-face"><div class="gauge-arc arc-orange"></div><i class="needle needle2" id="needleB"></i><b id="gLoad">68<small>%</small></b></div><label>CHANNEL LOAD</label></div>
 <div class="gauge"><div class="gauge-face"><div class="gauge-arc arc-green"></div><i class="needle needle3" id="needleC"></i><b id="gQuality">98<small>%</small></b></div><label>LINK QUALITY</label></div>
@@ -161,7 +154,8 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 </div>
 </div>
 <div class="cockpit-bottom">
-<div class="pane"><div class="ph">INCOMING TRANSMISSIONS / LIVE TRANSCRIPTIONS <small class="rx-label">● LIVE RX</small></div><div class="live-transcript-wrap"><iframe id="liveTranscript" title="Always-on Sanket live PTT transcription" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+<div class="pane"><div class="ph">CONNECTED USERS & CHANNEL ACTIVITY <small>shared demo channel</small></div><div class="stream-list"><article><b>LIVE PRESENCE</b><p>The connected PTT/transcription client count is shown in the live listener status inside the transcript panel.</p></article><article><b>CHANNEL</b><p>sanket-website-demo</p></article></div></div>
+<div class="pane"><div class="ph">LIVE MESSAGE + TRANSCRIPTION <small class="rx-label">● LIVE RX</small></div><div class="live-transcript-wrap"><iframe id="liveTranscript" title="Always-on Sanket live PTT transcription" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay; microphone" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
 <div class="pane"><div class="ph">OUTGOING MESSAGES <small class="tx-label">● TX</small></div><div class="stream-list" id="outgoingText"><div class="warning-item"><b>TX</b><span>No outgoing dispatch messages received yet. Live PTT transmissions will appear when a connected operator sends them.</span></div></div></div>
 <div class="pane"><div class="ph">PRIORITIES · ALERTS · NOTICES <small class="warn-label">● SYSTEM</small></div><div class="warning-list" id="warningList"><div class="warning-item"><b>INFO</b><span>System monitoring active. No live priority alerts or notices have been received.</span></div></div></div>
 </div>
@@ -217,44 +211,7 @@ document.querySelectorAll('.demoTab').forEach(btn=>btn.addEventListener('click',
 const pw=document.getElementById('pttWave');for(let i=0;i<65;i++){const n=document.createElement('i');n.style.setProperty('--v',(7+Math.random()*42)+'px');pw.appendChild(n)}
 const wave=document.getElementById('wave');for(let i=0;i<92;i++){let b=document.createElement('i');b.style.setProperty('--h',(10+Math.random()*37)+'px');b.style.setProperty('--d',(Math.random()*-1.5)+'s');wave.appendChild(b)}
 
-/* Animated illustrative control-room telemetry. This is intentionally not connected to a live relay. */
-(function(){
- const $=id=>document.getElementById(id);
- const lines=[...document.querySelectorAll('#cockpitLines .c-line')];
- const incoming=$('incomingText'),outgoing=$('outgoingText');
- const samplesIn=[
-  ['MASTER · PATROL-12','Control, reached point Alpha. Traffic congestion near crossing.'],
-  ['UNIT ALPHA · FIELD-04','Visual confirmation received. Team moving to assigned location.'],
-  ['EMERGENCY · BASE','Stand by for status update. Acknowledgement requested.'],
-  ['CITY CONTROL · OP-02','All units confirm radio check. Signal is clear.'],
-  ['GROUND TEAM · G-07','Perimeter check complete. No obstruction reported.']
- ];
- const samplesOut=[
-  ['DISPATCH → MASTER','Message received. Maintain position and report status.'],
-  ['CONTROL → UNIT BRAVO','Proceed to gate two. Confirm when on site.'],
-  ['ANNOUNCEMENT → ZONE A+B','Scheduled public information announcement queued.'],
-  ['MASTER → UNIT ALPHA','Copy your update. Continue to the next checkpoint.']
- ];
- const stamp=()=>new Date().toLocaleTimeString('en-GB',{hour12:false});
- function addMessage(el,item){const a=document.createElement('article'),t=document.createElement('time'),b=document.createElement('b'),p=document.createElement('p');t.textContent=stamp();b.textContent=item[0];p.textContent=item[1];a.append(t,b,p);el.prepend(a);while(el.children.length>3)el.lastElementChild.remove()}
- function tick(){
-  const active=Math.floor(2+Math.random()*4),nodes=20+Math.floor(Math.random()*9),inc=4+Math.floor(Math.random()*5),out=2+Math.floor(Math.random()*4);
-  $('kNodes').textContent=nodes;$('kIn').textContent=inc;$('kOut').textContent=out;$('kTx').textContent=active;
-  $('kAlerts').textContent=Math.random()>.72?'03':'02';
-  $('gLatency').innerHTML=(28+Math.floor(Math.random()*42))+'<small>ms</small>';
-  $('gLoad').innerHTML=(48+Math.floor(Math.random()*40))+'<small>%</small>';
-  $('gQuality').innerHTML=(94+Math.floor(Math.random()*6))+'<small>%</small>';
-  $('needleA').style.transform='rotate('+(15+Math.random()*75)+'deg)';
-  $('needleB').style.transform='rotate('+(20+Math.random()*100)+'deg)';
-  $('needleC').style.transform='rotate('+(5+Math.random()*40)+'deg)';
-  $('rxMeter').style.width=(45+Math.random()*48)+'%';$('txMeter').style.width=(35+Math.random()*55)+'%';
-  $('rxDb').textContent='−'+(48+Math.floor(Math.random()*24))+' dBm';$('txDb').textContent='−'+(42+Math.floor(Math.random()*18))+' dBm';
-  $('flowIn').textContent=(1.2+Math.random()*2.6).toFixed(1)+' MB/s';$('flowOut').textContent=(.4+Math.random()*1.8).toFixed(1)+' MB/s';
-  lines.forEach((el,i)=>{const r=Math.random();el.classList.remove('rx','tx','idle');el.classList.add(r<.23?'tx':r<.62?'rx':'idle');const state=el.querySelector('span');state.textContent=el.classList.contains('tx')?'TX ACTIVE':el.classList.contains('rx')?'RX ACTIVE':'STANDBY'});
- }
- let n=0;setInterval(()=>{tick();if(++n%3===0)addMessage(incoming,samplesIn[Math.floor(Math.random()*samplesIn.length)]);if(n%4===0)addMessage(outgoing,samplesOut[Math.floor(Math.random()*samplesOut.length)])},2200);
- tick();
-})();
+/* Removed fabricated live telemetry and sample dispatch messages. */
 document.getElementById('year').textContent=new Date().getFullYear();
 const mc=document.getElementById('miniSpectrum'),mx=mc.getContext('2d');mx.strokeStyle='#2b5874';for(let y=15;y<130;y+=25){mx.beginPath();mx.moveTo(0,y);mx.lineTo(440,y);mx.stroke()}mx.beginPath();for(let x=0;x<440;x+=2){let y=76+Math.sin(x/15)*7+Math.random()*5;for(let p of [95,185,280,360])y-=Math.max(0,30-Math.abs(x-p)*.7);if(x===0)mx.moveTo(x,y);else mx.lineTo(x,y)}mx.strokeStyle='#42d9d0';mx.lineWidth=2;mx.stroke();
 const canvas=document.getElementById('spectrum'),ctx=canvas.getContext('2d');function draw(){let w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#244661';ctx.lineWidth=1;for(let y=25;y<h;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}for(let x=0;x<w;x+=100){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}ctx.fillStyle='#83a9c4';ctx.font='13px sans-serif';ctx.fillText('POWER (dBFS)',12,17);ctx.fillText('FREQUENCY (MHz) →',w-175,h-8);ctx.beginPath();for(let x=0;x<w;x+=3){let v=145+Math.sin(x/38)*8+Math.sin(x/13)*5+Math.random()*5;for(let p of [280,520,735,910])v-=Math.max(0,75-Math.abs(x-p)*.8);if(x===0)ctx.moveTo(x,v);else ctx.lineTo(x,v)}ctx.strokeStyle='#40dfd1';ctx.lineWidth=2;ctx.stroke();ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fillStyle='rgba(35,191,185,.12)';ctx.fill()}draw();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)setInterval(draw,1300);
