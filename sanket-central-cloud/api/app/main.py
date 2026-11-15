@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 from contextlib import contextmanager
-from pathlib import PurePath
+from pathlib import Path, PurePath
 import os
 import uuid
 from datetime import datetime, timezone
@@ -10,7 +10,7 @@ from typing import Annotated
 
 import boto3
 import jwt
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile\nfrom fastapi.responses import FileResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import PyJWKClient
 from psycopg.rows import dict_row
