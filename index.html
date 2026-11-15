@@ -91,6 +91,27 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}}
 @media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* Minimal embedded PTT handset for Command Center */
+body.embed-mode{padding:7px;background:linear-gradient(135deg,#07192d,#0b3144);min-height:0}
+body.embed-mode .rig{max-width:none;width:100%;margin:0;padding:9px;border-radius:12px;border:1px solid #24776e;background:linear-gradient(160deg,#142f42,#09192b);box-shadow:0 0 18px #20eac044}
+body.embed-mode .brand{display:none}
+body.embed-mode .lcd{margin:0 0 7px;padding:8px 10px;border-color:#256a62;background:#061e2b}
+body.embed-mode .lcd .freq{font-size:14px;color:#76ffd7}
+body.embed-mode .lcd #st{color:#a9ffe4}
+body.embed-mode .meter{display:none}
+body.embed-mode #login{margin:0;padding:9px;border-color:#28675f;background:#0b2b3c}
+body.embed-mode #login h3{margin:0 0 6px;color:#7fffd7;font-size:11px}
+body.embed-mode #login .hint{display:block;text-align:left;margin-bottom:4px}
+body.embed-mode #login input{padding:9px;background:#061b2a;color:#eafffa;border:1px solid #2c8276}
+body.embed-mode #login button{padding:10px;background:linear-gradient(90deg,#00d7a0,#80ffcf);color:#06251f;font-weight:900}
+body.embed-mode #main{display:block;margin:0;padding:6px 0 0}
+body.embed-mode #main #hd{font-size:9px;color:#a8d4e1;margin-bottom:5px}
+body.embed-mode #unlock{display:block;width:100%;margin:0 0 6px;padding:7px;font-size:10px}
+body.embed-mode #ptt{width:100%;height:72px;margin:0;border-radius:10px;font-size:22px;font-weight:900;letter-spacing:2px}
+body.embed-mode #main .hint{font-size:8px;margin-top:5px}
+body.embed-mode .rig>.panel:not(#login){display:none!important}
+body.embed-mode #login[style*="display: none"]{display:none!important}
 </style><link rel=stylesheet href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head><body><div class=rig>
 <div class=brand><img src="website/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -318,4 +339,4 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script></body></html>
+</script><script>(()=>{const q=new URLSearchParams(location.search);if(q.get("embed")!=="1")return;document.body.classList.add("embed-mode");const n=localStorage.getItem("nm");if(n&&document.getElementById("nm"))document.getElementById("nm").value=n;})();</script></body></html>
