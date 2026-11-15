@@ -69,7 +69,7 @@ mark.kw{background:#ff3b2f;color:#fff;padding:0 3px;border-radius:3px;font-weigh
 .clip.alert{border-left:5px solid #ff3b2f;background:#ff3b2f26;box-shadow:0 0 0 1px #ff3b2f88,0 0 14px #ff3b2f55}
 .abadge{color:#fff;background:#ff3b2f;border-radius:4px;padding:0 5px;font-weight:800;font-size:10px;letter-spacing:1px}
 .em{font-size:11px;margin-top:3px}.em.ok{color:#7fe07a}.em.err{color:#ff8a80}.em.pend{color:var(--amb)}
-#emBanner{display:none;margin:4px 0;padding:8px;border-radius:8px;background:#ff3b2f;color:#fff;font-weight:800;font-size:12px;text-align:center;cursor:pointer;animation:bl 1.6s infinite;font-family:"Segoe UI",Roboto,sans-serif}
+
 .em button{background:#ffb43a;color:#1a1000;border:0;border-radius:6px;padding:4px 8px;font-weight:800;font-size:11px;margin-left:4px}
 /* Sanket Bharat control-room UI — consistent controls across screen sizes */
 :root{--gov-navy:#12345a;--gov-blue:#174a78;--gov-blue2:#21649a;--gov-saffron:#f28c28;--gov-green:#138808;--gov-ink:#18324b;--gov-muted:#65788d;--gov-line:#d9e2ec;--gov-bg:#f3f6fa;--gov-surface:#fff;--gov-focus:rgba(33,100,154,.2);--gov-radius:12px}
@@ -102,7 +102,7 @@ body.embed-mode #pttSt{display:block!important;color:#9bd7ce!important;font-size
 body.embed-mode #log{height:500px!important;max-height:none!important;min-height:280px!important;overflow-y:auto!important}
 body.embed-mode .clip{background:#102b45!important;border-color:#28506d!important;color:#e8f2f8!important}
 body.embed-mode .clip .tx{color:#f4fbff!important}
-body.embed-mode #kwBar,body.embed-mode #emBanner{display:none!important}
+body.embed-mode #kwBar,body.embed-mode 
 @media(max-width:700px){body.embed-mode #log{height:65vh!important;min-height:300px!important}}
 </style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../sstv.js"></script>
 <style id="transcribe-demo-fit-v2">
@@ -114,7 +114,7 @@ body.embed-mode .strip{flex:0 0 auto!important;padding:4px!important}
 body.embed-mode #meter{height:30px!important}
 body.embed-mode #status{font-size:10px!important;color:#bce9dc!important}
 body.embed-mode .lh{flex:0 0 auto!important;padding:5px 2px!important;font-size:9px!important;color:#e8c7a8!important}
-body.embed-mode #emBanner,body.embed-mode #kwBar{display:none!important}
+
 body.embed-mode #log{flex:1 1 auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:hidden!important;display:block!important}
 body.embed-mode .clip{margin:4px 0!important;padding:8px!important;border-radius:8px!important;background:linear-gradient(110deg,#1b3b4c,#202c35)!important;border-color:#44687a!important;color:#f6f8fa!important}
 body.embed-mode .clip .tx{font-size:clamp(12px,1.5vw,16px)!important;line-height:1.35!important;color:#fff!important}
@@ -141,7 +141,7 @@ body.embed-mode .lh{flex:0 0 auto!important;padding:6px 1px!important;border-bot
 body.embed-mode .lh #devLine{display:none!important}
 body.embed-mode #sess{font-size:8px!important}
 body.embed-mode #cnt{font-size:8px!important}
-body.embed-mode #emBanner,body.embed-mode #kwBar{display:none!important}
+
 body.embed-mode #log{flex:1 1 auto!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:hidden!important;padding:4px 2px!important}
 body.embed-mode #log:empty::before{content:"WAITING FOR THE FIRST TRANSMISSION";font-size:clamp(12px,1.5vw,17px)!important;color:#8297a7!important;margin-top:28px!important}
 body.embed-mode #log .clip{display:block!important;margin:0 0 7px!important;padding:9px 10px!important;border:1px solid #38566a!important;border-left:3px solid #e9a65c!important;border-radius:9px!important;background:linear-gradient(120deg,#1c3546,#1a2935)!important;color:#f4f7fa!important}
@@ -217,7 +217,7 @@ body.embed-mode .keys .sel{flex:1 1 130px!important;min-width:0!important}
 body.embed-mode .keys input,body.embed-mode .keys select{min-height:34px!important;height:34px!important;padding:5px 7px!important;font-size:12px!important}
 body.embed-mode .keys .ptt{grid-column:1/-1!important;display:flex!important;gap:7px!important;margin-top:2px!important}
 body.embed-mode .keys #startBtn,body.embed-mode .keys #stopBtn{padding:9px!important;font-size:14px!important;min-height:38px!important}
-body.embed-mode #kwBar,body.embed-mode #emBanner{display:block!important}
+body.embed-mode #kwBar,body.embed-mode 
 @media(max-width:700px){
  body.embed-mode #log{height:280px!important;min-height:220px!important}
  body.embed-mode .keys{grid-template-columns:1fr!important}
@@ -229,7 +229,7 @@ body.embed-mode #kwBar,body.embed-mode #emBanner{display:block!important}
 <div class="lcd">
  <div class="strip"><canvas id="meter" width="900" height="56"></canvas><div class="prog" id="prog"><div></div></div><div id="status">Idle. Enter your API key in Settings, then press Start.</div></div>
  <div class="lh"><span>◂ RX LOG · NEWEST FIRST</span><span><span id="devLine" style="font-size:10px"></span> <span id="sess">SESSION —</span> <span id="cnt"></span></span></div>
- <div id="emBanner" role="button">✉ Email alerts paused — tap to connect Gmail</div>
+ 
  <div id="kwBar"></div>
  <div id="log"></div>
 </div>
@@ -260,28 +260,16 @@ body.embed-mode #kwBar,body.embed-mode #emBanner{display:block!important}
  <label>Keywords (comma or newline separated, case-insensitive)<textarea id="kwList" rows="4"></textarea></label>
  <div class="row"><button class="lt" id="kwSave">Save keywords</button><button class="lt" id="kwReset">Restore defaults</button></div>
  <label class="chk"><input type="checkbox" id="kwSound"> Beep + vibrate on hit</label></div>
- <div class="sect"><b>EMAIL ALERTS (GMAIL)</b>
- <label class="chk"><input type="checkbox" id="emOn"> Email me when a keyword is detected (WAV attached)</label>
- <label>Send alerts to<input id="emTo" type="email" placeholder="you@example.com"></label>
- <div class="row"><button class="sec" id="gdConn"><span id="gdLbl">Connect Gmail for alerts</span></button><button class="lt" id="gdDisc" style="display:none">Disconnect</button></div>
- <div style="font-size:10px">Sent from your own Gmail (Google sign-in only when you tap Connect). Failed emails are retried once.</div></div>
+ 
  <div class="note d"><b>Demo only</b> — not for official or commercial use.</div>
  <div class="note"><b>Data notice:</b> Your data is temporary and stored only in this browser. Download your data yourself; anything older than 7 days is deleted automatically.</div>
  <div class="foot">Audio clips are transcribed on-device (free Whisper) or sent to ElevenLabs if selected, and text to Google Translate (fallback MyMemory) for processing. Sanket Transcribe · Proprietary product of Canberra Vision AI Systems.</div>
 </div></div></div>
-<div id="gWarn" role="status" style="display:none;position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;max-width:92vw;background:#ffd84a;color:#2a2200;border:2px solid #b38f00;border-radius:8px;padding:8px 34px 8px 12px;font:13px/1.35 system-ui,sans-serif;box-shadow:0 4px 14px #0006"><span id="gWarnT"></span><button id="gWarnX" aria-label="Dismiss" style="position:absolute;right:6px;top:4px;background:none;border:0;font-size:18px;cursor:pointer;color:#2a2200">×</button></div>
+
 <script>
-/* ---------- Fail-safe layer: Google/Drive/Gmail problems never stop the app ---------- */
-var __wT=null;
-function gWarn(msg){try{var b=document.getElementById("gWarn");if(!b)return;document.getElementById("gWarnT").textContent="⚠ "+msg;b.style.display="block";clearTimeout(__wT);__wT=setTimeout(function(){b.style.display="none";},12000);}catch(e){}}
-document.getElementById("gWarnX").onclick=function(){document.getElementById("gWarn").style.display="none";};
 function withTimeout(p,ms,label){return new Promise(function(res,rej){var t=setTimeout(function(){rej(new Error((label||"Request")+" timed out"));},ms);Promise.resolve(p).then(function(v){clearTimeout(t);res(v);},function(e){clearTimeout(t);rej(e);});});}
 function fetchT(url,opt,ms){opt=opt||{};var ac=typeof AbortController!=="undefined"?new AbortController():null;if(ac)opt.signal=ac.signal;
  return withTimeout(fetch(url,opt),ms||30000,"Network request").catch(function(e){try{ac&&ac.abort();}catch(_){}throw e;});}
-function __isG(s){return /google|gsi|gapi|drive|gmail|oauth|token/i.test(String(s||""));}
-window.addEventListener("error",function(e){try{if(e&&e.target&&e.target!==window&&e.target.src&&/gsi\/client/.test(e.target.src)){window.__gisFail=1;gWarn("Google sign-in unavailable – emails queued, app running normally");return;}
- gWarn(__isG((e.message||"")+(e.filename||""))?"Google not connected – emails queued, app running normally":"A background error was caught – app running normally");e.preventDefault&&e.preventDefault();}catch(_){}},true);
-window.addEventListener("unhandledrejection",function(e){try{var m=e&&e.reason&&(e.reason.message||String(e.reason));gWarn(__isG(m)?"Google request failed – emails queued, app running normally":"A background task failed – app running normally");e.preventDefault();}catch(_){}});
 </script>
 <script>
 "use strict";
@@ -327,9 +315,9 @@ function renderClip(c){let el=document.getElementById("c"+c.id);const isNew=!el;
  el.classList.toggle("alert",!!(c.kw&&c.kw.length));
  const url=el.dataset.url||URL.createObjectURL(c.audio);el.dataset.url=url;
  el.innerHTML=`<div class="meta"><span>${c.kw&&c.kw.length?'<span class="abadge">⚠ ALERT</span> ':""}${c.speaker?"📻 <b>"+esc(c.speaker)+"</b>"+(mapUrl(c.dev)?" 📍"+esc(c.dev.lbl||c.dev.lat+","+c.dev.lon):"")+" · ":""}🕒 ${esc(fmtT(c.t))} · ${c.dur.toFixed(1)} s${c.lang?" · "+esc(c.lang):""}</span><span><button class="lt" data-a="dl">⬇ Download</button> <button class="lt" data-a="rm">✕</button></span></div>
- <div class="tx">${c.text?hl(c.text):'<i style="color:#888">'+esc(c.status||"Transcribing…")+'</i>'}</div>${c.trans?`<div class="tr">↳ ${hl(c.trans)} <small>(${esc(c.dst)})</small></div>`:""}${c.kw&&c.kw.length?`<div class="em pend">📟 ${esc(c.dev?.id||"—")}${mapUrl(c.dev)?` · 📍 ${esc(c.dev.lat)}, ${esc(c.dev.lon)}${c.dev.lbl?" ("+esc(c.dev.lbl)+")":""} · <a href="${esc(mapUrl(c.dev))}" target="_blank" rel="noopener" style="color:var(--lcdt)">Google Maps</a>`:" · no location"}</div>`:""}${c.em?`<div class="em ${c.em.st}">✉ ${esc(c.em.msg)}${c.emPending&&!gTokOK()?' <button data-a="gc">Connect Google &amp; send</button>':""}${c.em.hint?`<br><small>💡 ${esc(c.em.hint)}</small>`:""}</div>`:""}<audio controls src="${url}"></audio>`;
+ <div class="tx">${c.text?hl(c.text):'<i style="color:#888">'+esc(c.status||"Transcribing…")+'</i>'}</div>${c.trans?`<div class="tr">↳ ${hl(c.trans)} <small>(${esc(c.dst)})</small></div>`:""}${c.kw&&c.kw.length?`<div class="em pend">📟 ${esc(c.dev?.id||"—")}${mapUrl(c.dev)?` · 📍 ${esc(c.dev.lat)}, ${esc(c.dev.lon)}${c.dev.lbl?" ("+esc(c.dev.lbl)+")":""} · <a href="${esc(mapUrl(c.dev))}" target="_blank" rel="noopener" style="color:var(--lcdt)">Google Maps</a>`:" · no location"}</div>`:""}<audio controls src="${url}"></audio>`;
  if(c.img){const u=el.dataset.img||URL.createObjectURL(c.img);el.dataset.img=u;const tx=el.querySelector(".tx");if(tx)tx.insertAdjacentHTML("afterend",`<a href="${u}" download="sstv_${stamp(c.t)}.png"><img src="${u}" alt="SSTV image" style="width:100%;max-width:320px;display:block;border-radius:6px;margin-top:6px"></a>`);}
- if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip",speaker:c.speaker||"PTT user",timestamp:c.t,duration:c.dur,audio:c.audio,text:c.text||"",translation:c.trans||"",language:c.lang||""},"*");}catch(e){}} el.querySelector('[data-a=dl]').onclick=()=>dlClip(c);const gcb=el.querySelector('[data-a=gc]');if(gcb)gcb.onclick=googleConnect;el.querySelector('[data-a=rm]').onclick=async()=>{await del(c.id);URL.revokeObjectURL(url);el.remove();count();};count();}
+ if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip",speaker:c.speaker||"PTT user",timestamp:c.t,duration:c.dur,audio:c.audio,text:c.text||"",translation:c.trans||"",language:c.lang||""},"*");}catch(e){}} el.querySelector('[data-a=dl]').onclick=()=>dlClip(c);el.querySelector('[data-a=rm]').onclick=async()=>{await del(c.id);URL.revokeObjectURL(url);el.remove();count();};count();}
 async function count(){const n=(await getAll()).length;$("cnt").textContent=n+" clip(s) stored";}
 function saveBlob(b,name){const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);}
 const stamp=t=>new Date(t).toISOString().replace(/[:.]/g,"-").slice(0,19);
@@ -386,7 +374,7 @@ async function processClip(chunks,rate,t,meta){{const d=toneDet();for(const x of
  const c={id:t+"_"+Math.random().toString(36).slice(2,6),t,session:sessionId,dur,audio,text:"",trans:"",dst:FIXED_TARGET,dev:meta&&meta.dev||devGet(),src:meta&&meta.src||"mic",speaker:meta&&meta.speaker||"",status:"Transcribing…"};window.__beLast=c;await put(c);renderClip(c);
  try{const r=await stt(audio);c.text=r.text||"";c.lang=r.lang;c.status=c.text?"":"(no speech recognised)";
   if(c.text&&c.dst){c.trans=await translate(c.text,FIXED_TARGET,FIXED_SOURCE);}}catch(e){c.status="⚠ "+e.message;}
- c.kw=kwMatch((c.text||"")+"\n"+(c.trans||""));if(c.kw.length){try{kwHit(c.kw);}catch(e){}if(localStorage.getItem("be_emon")!=="0")emEnqueue(c).catch(e=>gWarn("Email queue problem – "+e.message));}
+ c.kw=kwMatch((c.text||"")+"\n"+(c.trans||""));if(c.kw.length){try{kwHit(c.kw);}catch(e){}}
  await put(c);renderClip(c);if(c.text&&c.src==="ptt"&&pttC&&pttC.connected){pttC.publish(pttT("transcript"),JSON.stringify({id:c.id,speaker:c.speaker||"PTT user",text:c.text,translation:c.trans||"",language:c.lang||"",channel:pttCh,ts:c.t,source:"Sanket Transcribe"}),{qos:0,retain:false});}}
 function renderSharedTranscript(m){const id="shared_"+String(m.id||"").replace(/[^a-zA-Z0-9_-]/g,"");if(!id||document.getElementById("c"+id))return;const el=document.createElement("div");el.className="clip";el.id="c"+id;el.innerHTML=`<div class="meta"><span>📡 <b>${esc(m.speaker||"PTT user")}</b> · ${esc(m.channel||pttCh)} · ${esc(fmtT(+m.ts||Date.now()))} · SHARED LIVE TRANSCRIPT</span><span class="lt">REMOTE</span></div><div class="tx">${hl(m.text||"")}</div>${m.translation?`<div class="tr">↳ ${hl(m.translation)}</div>`:""}`;$("log").prepend(el);}
 
@@ -501,22 +489,6 @@ let sessionId="";
 const p2=n=>String(n).padStart(2,"0");
 const ymd=d=>`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`,hms=d=>`${p2(d.getHours())}-${p2(d.getMinutes())}-${p2(d.getSeconds())}`;
 function newSession(){const d=new Date();sessionId=`S-${ymd(d).replace(/-/g,"")}-${hms(d).replace(/-/g,"")}-${Math.random().toString(36).slice(2,6)}`;$("sess").textContent="SESSION "+sessionId;}
-const GD_CID="296319479317-gaavhft9vjr3ci349v3udtvv236pbbnr.apps.googleusercontent.com",GD_SCOPE="https://www.googleapis.com/auth/gmail.send";
-let gmailOK=false,gdTok=null,gdExp=0,gdClient=null,gdPending=null;
-function gisLoad(){if(window.google&&google.accounts&&google.accounts.oauth2)return Promise.resolve();return new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://accounts.google.com/gsi/client";s.async=true;s.onload=()=>res();s.onerror=()=>{window.__gisFail=1;rej(new Error("Google sign-in script failed to load"));};document.head.appendChild(s);});}
-function gdUI(){$("gdLbl").textContent=gTokOK()?"Gmail connected ✓":"Connect Gmail for alerts";$("gdDisc").style.display=gTokOK()?"":"none";}
-function gdInit(){if(gdClient)return true;if(!(window.google&&google.accounts&&google.accounts.oauth2))return false;
- try{gdClient=google.accounts.oauth2.initTokenClient({client_id:GD_CID,scope:GD_SCOPE,callback:r=>{const p=gdPending;gdPending=null;
-  if(r.error){p&&p.rej(new Error(r.error));return;}gdTok=r.access_token;try{gmailOK=google.accounts.oauth2.hasGrantedAllScopes(r,GD_SCOPE);}catch(e){gmailOK=/gmail\.send/.test(r.scope||"");}gdExp=Date.now()+(r.expires_in-60)*1000;gdUI();p&&p.res(gdTok);setTimeout(()=>{emRequeue().then(emKick).catch(()=>{});},0);},
-  error_callback:e=>{const p=gdPending;gdPending=null;p&&p.rej(new Error(e&&e.type==="popup_closed"?"Google sign-in popup closed":e&&e.type==="popup_failed_to_open"?"Google sign-in popup blocked":(e&&e.type)||"popup error"));}});}catch(e){gdClient=null;return false;}return true;}
-async function gdRequest(prompt){await gisLoad();const p=new Promise((res,rej)=>{try{if(!gdInit())return rej(new Error("Google sign-in library not loaded"));if(gdPending)gdPending.rej(new Error("superseded"));gdPending={res,rej};gdClient.requestAccessToken({prompt});}catch(e){gdPending=null;rej(e);}});
- return withTimeout(p,120000,"Google sign-in").catch(e=>{gdPending=null;throw e;});}
-/* Only ever called from an explicit user click (Connect Gmail / banner / "Connect Google & send"). */
-async function googleConnect(){try{await gdRequest(gdTok?"":"consent");setStatus(gmailOK?"✉ Gmail connected · email alerts ready.":"⚠ Gmail send permission not granted.");emKick();}catch(e){try{setStatus("⚠ Gmail connect failed: "+esc(e.message)+" — app running normally.");}catch(_){}gWarn("Google not connected ("+e.message+") – emails queued, app running normally");}try{gdUI();emBanner();}catch(_){}}
-$("gdConn").onclick=()=>{googleConnect().catch(()=>{});};
-$("gdDisc").onclick=()=>{if(gdTok&&window.google)try{google.accounts.oauth2.revoke(gdTok,()=>{});}catch(e){}gdTok=null;gdExp=0;gmailOK=false;gdUI();emBanner();setStatus("Gmail disconnected.");};
-gdUI();
-
 /* ---------- Station / Device ---------- */
 function devGet(){try{return JSON.parse(localStorage.getItem("be_dev")||"{}");}catch(e){return{};}}
 function mapUrl(d){return d&&d.lat!==""&&d.lat!=null&&d.lon!==""&&d.lon!=null?`https://maps.google.com/?q=${d.lat},${d.lon}`:"";}
@@ -551,58 +523,6 @@ $("kwSave").onclick=()=>{kws=[...new Set($("kwList").value.split(/[,\n]/).map(s=
 $("kwReset").onclick=()=>{localStorage.removeItem("be_kw");kwLoad();setStatus("Default keywords restored.");};
 $("kwSound").checked=localStorage.getItem("be_kwsound")!=="0";$("kwSound").onchange=()=>localStorage.setItem("be_kwsound",$("kwSound").checked?"1":"0");
 kwLoad();
-
-/* ---------- Email alerts (Gmail API) ---------- */
-$("emOn").checked=localStorage.getItem("be_emon")!=="0";$("emOn").onchange=()=>localStorage.setItem("be_emon",$("emOn").checked?"1":"0");
-$("emTo").value=localStorage.getItem("be_emto")||"vibhvesh@gmail.com";$("emTo").onchange=()=>localStorage.setItem("be_emto",$("emTo").value.trim());
-let emQ=[],emBusy=false;
-const istStr=t=>new Date(t).toLocaleString("en-IN",{timeZone:"Asia/Kolkata",dateStyle:"medium",timeStyle:"medium"})+" IST";
-const b64u=s=>s.replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
-const utf8b64=s=>{const b=new TextEncoder().encode(s);let r="";for(let i=0;i<b.length;i+=0x8000)r+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(r);};
-async function blobB64(b){const u=new Uint8Array(await b.arrayBuffer());let r="";for(let i=0;i<u.length;i+=0x8000)r+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(r);}
-const wrap76=s=>s.replace(/.{1,76}/g,"$&\r\n");
-function alertSubject(c){let m=String(c.text||"").replace(/\s+/g," ").trim();if(!m)m=String(c.trans||"").replace(/\s+/g," ").trim();if(!m)m="(no transcript)";
- const ch=[...m];if(ch.length>120)m=ch.slice(0,119).join("").trimEnd()+"…";return "BD ALERT: "+m;}
-function rfc2047(s){if(/^[\x20-\x7e]*$/.test(s)&&s.length<=68)return s;const out=[];let cur="";const enc=new TextEncoder();
- for(const ch of s){if(enc.encode(cur+ch).length>39){out.push(cur);cur="";}cur+=ch;}if(cur)out.push(cur);
- return out.map(p=>"=?UTF-8?B?"+utf8b64(p)+"?=").join("\r\n ");}
-async function buildMime(c){const to=localStorage.getItem("be_emto")||"vibhvesh@gmail.com",sess=c.session||"no-session",when=istStr(c.t),kw=(c.kw||[]).join(", ");
- const dv=c.dev||{};const subj=alertSubject(c),b="be"+Math.random().toString(36).slice(2);
- const body=`SANKET PTT TRANSCRIBE KEYWORD ALERT (DEMO)\n\nKeywords: ${kw}\nTimestamp: ${when} (${new Date(c.t).toISOString()})\nSession ID: ${sess}\nDevice ID: ${dv.id||"—"}\nLocation: ${devLoc(dv)}\nGoogle Maps: ${mapUrl(dv)||"—"}\nDuration: ${c.dur.toFixed(1)} s\nSource language: ${c.lang||"auto"}\n\nTranscript:\n${c.text||""}\n\nTranslation${c.dst?" ("+c.dst+")":""}:\n${c.trans||"(none)"}\n\nAudio clip attached (WAV).\n`;
- const fn=`${ymd(new Date(c.t))}_${hms(new Date(c.t))}_${sess}.wav`;
- const mime=`To: ${to}\r\nSubject: ${rfc2047(subj)}\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary="${b}"\r\n\r\n--${b}\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n${wrap76(utf8b64(body))}--${b}\r\nContent-Type: audio/wav; name="${fn}"\r\nContent-Disposition: attachment; filename="${fn}"\r\nContent-Transfer-Encoding: base64\r\n\r\n${wrap76(await blobB64(c.audio))}--${b}--\r\n`;
- return b64u(utf8b64(mime));}
-let emCur=null;function gTokOK(){return !!(gdTok&&Date.now()<gdExp);}
-const emTo=()=>localStorage.getItem("be_emto")||"vibhvesh@gmail.com";
-function emBanner(){const on=$("emOn")&&$("emOn").checked;$("emBanner").style.display=on&&!gTokOK()?"block":"none";
- const n=emQ.length;$("emBanner").textContent=n?`✉ Email alerts paused (${n} queued) — tap to connect Gmail`:"✉ Email alerts paused — tap to connect Gmail";}
-$("emBanner").onclick=()=>{googleConnect().catch(()=>{});};
-async function gmailErr(r){const t=await r.text();let m=t.slice(0,200),reason="";try{const j=JSON.parse(t).error;m=j.message||m;reason=(j.errors&&j.errors[0]&&j.errors[0].reason)||j.status||"";}catch(e){}
- const er=new Error(`Gmail ${r.status}${reason?" "+reason:""}: ${m}`);
- er.hint=r.status===403&&/disabled|not been used|accessNotConfigured|SERVICE_DISABLED/i.test(t)?"Enable the Gmail API in the same Google Cloud project (APIs & Services → Library → Gmail API → Enable), wait a few minutes, then retry."
-  :r.status===403?"Gmail send permission missing: add the gmail.send scope on the OAuth consent screen, then Disconnect + Connect Google and approve Gmail."
-  :r.status===401?"Google session expired — tap Connect Google & send.":r.status===400?"Bad request — check the alert recipient address in Settings.":"";
- return er;}
-async function emSend(c){const r=await fetchT("https://gmail.googleapis.com/gmail/v1/users/me/messages/send",{method:"POST",headers:{Authorization:"Bearer "+gdTok,"Content-Type":"application/json"},body:JSON.stringify({raw:await buildMime(c)})},60000);
- if(r.status===401){gdTok=null;gdExp=0;}if(!r.ok)throw await gmailErr(r);}
-async function emEnqueue(c){c.emPending=true;c.emTry=0;c.em={st:"pend",msg:"Email alert queued → "+emTo()+(gTokOK()?"":" · Google not connected")};
- if(!emQ.find(x=>x.id===c.id))emQ.push(c);await put(c);try{emBanner();}catch(e){}setTimeout(()=>emKick().catch(()=>{}),0);if(!gTokOK())gWarn("Google not connected – emails queued, app running normally");}
-async function emRequeue(){if(!db)return;for(const c of await getAll())if(c.emPending&&c.id!==emCur&&!emQ.find(x=>x.id===c.id))emQ.push(c);emBanner();}
-async function emKick(){try{return await emKick0();}catch(e){emBusy=false;gWarn("Email send failed – alert kept in queue");}}
-async function emKick0(){emBanner();if(emBusy||!emQ.length)return;
- if(!gTokOK()){for(const c of emQ){c.em={st:"pend",msg:"Email alert queued → "+emTo()+" · Google not connected"};renderClip(c);}return;}
- if(!gmailOK){for(const c of emQ){c.em={st:"err",msg:"Queued — Gmail send permission not granted",hint:"Add the gmail.send scope on the OAuth consent screen, then Disconnect + Connect Google and tick the Gmail permission."};renderClip(c);}return;}
- emBusy=true;
- while(emQ.length&&gTokOK()){const c=emQ.shift();if(!c.emPending)continue;emCur=c.id;try{c.em={st:"pend",msg:"Sending email alert…"};renderClip(c);await emSend(c);c.emPending=false;c.em={st:"ok",msg:"Email alert sent to "+emTo()+" · "+istStr(Date.now())};}
-  catch(e){c.emTry=(c.emTry||0)+1;
-   if(!gTokOK()){c.em={st:"err",msg:e.message,hint:e.hint};emQ.push(c);}
-   else{const w=Math.min(300000,15000*Math.pow(2,c.emTry-1));c.em={st:"err",msg:e.message+" — kept in queue, retrying in "+Math.round(w/1000)+" s",hint:e.hint};setTimeout(()=>{if(!emQ.find(x=>x.id===c.id))emQ.push(c);emKick();},w);}
-   if(c.emTry===1||!gTokOK())gWarn((/403/.test(e.message)?"Gmail send blocked (403)":/401/.test(e.message)?"Google session expired":"Email send failed")+" – email queued, app running normally");}
-  await put(c);renderClip(c);emCur=null;}
- emBusy=false;emBanner();}
-$("emOn").addEventListener("change",()=>{emBanner();if($("emOn").checked)gisLoad().catch(()=>{});});
-(function w(){if(db){emRequeue().then(emKick).catch(()=>{});}else setTimeout(w,200);})();
-emBanner();
 
 /* Auto-start the PTT transcription listener on every page load.
    Use ?autostart=0 only when a manual start is explicitly required. */
