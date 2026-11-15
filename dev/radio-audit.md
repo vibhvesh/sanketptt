@@ -21,6 +21,9 @@ No GREEN streams yet. No RED streams yet.
 | WFMU Freeform | USA | English | https://stream0.wfmu.org/freeform-128k.mp3 | WFMU's own mobile/stream information page publishes this direct MP3 URL: https://freeform.wfmu.org/mobile.shtml. | Continuous station stream is offered; a formal 24-hour schedule statement was not confirmed in this run. | YELLOW |
 | KCRW Eclectic24 | USA | English | https://kcrw.streamguys1.com/kcrw_192k_mp3_e24_internet_radio | KCRW describes Eclectic24 as its 24-hour music stream: https://www.kcrw.com/shows/eclectic24/latest. KCRW publishes a playlist link for Eclectic24 at https://newmedia.kcrw.com/legacy/pls/kcrwmusic.pls; the direct MP3 endpoint above is reported by third-party stream users and needs validation against the current playlist. | Official KCRW page explicitly says 24-hour all-music channel. | YELLOW |
 | ABC NewsRadio | Australia | English | Not resolved — official live player only: https://www.abc.net.au/listen/live/news | ABC describes NewsRadio as a continuous national news network: https://www.abc.net.au/news/2021-11-16/newsradio-about-us/100623580. | ABC explicitly calls it continuous national news coverage. | YELLOW — no direct endpoint |
+| RTÉ Radio 1 | Ireland | English | https://www.rte.ie/manifests/radio1.m3u8 | RTÉ publishes this live HLS manifest for internet-radio devices: https://www.rte.ie/radio/radio1/static/2021/0704/1232947-rte-radio-help-support/. | Continuous stream is offered; formal 24-hour schedule not confirmed in this run. | YELLOW |
+| RTÉ 2FM | Ireland | English | https://www.rte.ie/manifests/2fm.m3u8 | RTÉ publishes this live HLS manifest on its official support page above. | Formal 24-hour schedule not confirmed in this run. | YELLOW |
+| RTÉ Raidió na Gaeltachta | Ireland | Irish | https://www.rte.ie/manifests/rnag.m3u8 | RTÉ publishes this live HLS manifest on its official support page above. | Formal 24-hour schedule not confirmed in this run. | YELLOW |
 
 ## Test log
 
@@ -30,7 +33,7 @@ No GREEN streams yet. No RED streams yet.
 - Found the scanner only used Hls.js. This meant MP3 streams such as BBC, WNYC and WFMU could never be positively verified by the old scanner.
 - Updated the Dev player/scanner to distinguish HLS (.m3u8) from direct audio streams, use native audio playback for MP3/AAC, and mark GREEN only after the media element is actually playing and its playback clock advances. HLS candidates now also require playback-clock advancement rather than only a manifest/fragment event.
 - Corrected the WNYC and WFMU direct MP3 URLs using their broadcaster-published stream information.
-- Added KCRW Eclectic24 as an additional famous US public-radio candidate. It remains hidden from the selectable list unless the browser scanner verifies it.
+- Added KCRW Eclectic24 as an additional famous US public-radio candidate and RTÉ Radio 1, 2FM and Raidió na Gaeltachta using RTÉ-published HLS manifests. They remain hidden from the selectable list unless the browser scanner verifies them.
 - Attempted direct HTTP range tests against BBC, WNYC, WFMU, DW and RFI from the audit runner. All failed before connecting with DNS resolution error (Temporary failure in name resolution). Opening the media endpoints through the web reader also returned inaccessible-media errors. This is a runner/network limitation, not proof that the stations are down.
 - Therefore no station was marked GREEN or RED in this run. All candidates remain YELLOW pending a real browser playback test.
 
