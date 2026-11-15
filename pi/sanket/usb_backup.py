@@ -50,7 +50,7 @@ def list_backups(mount):
         return []
     out = []
     for name in sorted(os.listdir(root), reverse=True):
-        if re.fullmatch(r"sanket-[0-9]{8}-[0-9]{6}\\.tar\\.gz\\.enc", name):
+        if re.fullmatch(r"sanket-[0-9]{8}-[0-9]{6}\.tar\.gz\.enc", name):
             p = os.path.join(root, name)
             if os.path.isfile(p):
                 out.append({"name": name, "bytes": os.path.getsize(p), "modified": int(os.path.getmtime(p))})
@@ -94,7 +94,7 @@ def create(mount, passphrase, include_recordings=True, include_voices=True):
                 if os.path.isdir(voices):
                     tar.add(voices, arcname="voices")
         # Passphrase is sent over stdin, never exposed in process arguments.
-        with open(temp_tar, "rb") as src, open(temp_enc, "wb") as out:
+        with open(temp_tar.name, "rb") as src, open(temp_enc, "wb") as out:
             proc = subprocess.Popen(["openssl", "enc", "-aes-256-cbc", "-salt", "-pbkdf2", "-iter", "200000",
                                      "-pass", "stdin"], stdin=subprocess.PIPE, stdout=out, stderr=subprocess.PIPE)
             # OpenSSL reads the passphrase first; feed it, then archive bytes.
