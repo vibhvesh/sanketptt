@@ -477,7 +477,49 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 </style>
 
-</head>
+<style>
+/* Consistent visual language for the product story below the untouched home dashboard */
+.field-story{padding:64px 0;background:linear-gradient(180deg,#f4f7fa,#edf2f7)}
+.field-grid{grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);gap:34px;align-items:center}
+.workflow-visual{padding:0;background:#07192d;border:1px solid #25445e;border-radius:18px;box-shadow:0 22px 55px #102a4324}
+.workflow-visual svg{display:block;width:100%;height:auto}
+.workflow-visual figcaption{padding:12px 16px;background:#fff;color:#66788b;font-size:11px;line-height:1.5}
+.field-copy{max-width:620px}
+.field-copy h2{max-width:540px;letter-spacing:-1.4px}
+.field-copy p{font-size:13px;line-height:1.75}
+.field-points{gap:10px}
+.field-point{min-height:82px;padding:13px;border-radius:11px;box-shadow:0 4px 14px #17324b08}
+.network-illustration{display:none}
+#products .cards{gap:16px}
+#products .card{position:relative;min-height:205px;padding:22px;border-radius:13px;box-shadow:0 5px 18px #172b3d08}
+#products .card:before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:0 4px 4px 0;background:var(--orange);opacity:.85}
+#products .card small{letter-spacing:1.2px}
+#products .card p{line-height:1.7}
+.product-visuals{align-items:stretch;gap:18px}
+.product-visuals .shot,.gallery .shot{display:flex;flex-direction:column;min-width:0;padding:10px;border-radius:14px;background:#fff;box-shadow:0 10px 30px #172b3d0d}
+.product-visuals .shot img,.gallery .shot img{width:100%;height:auto;aspect-ratio:16/10;object-fit:contain;object-position:center;background:#eef2f6;border-radius:8px}
+.product-visuals .cap,.gallery .cap{padding:10px 4px 2px;font-size:11px;line-height:1.5;color:#5e7083}
+#edge-detail .gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+#edge-detail .head p,#sdr-detail .head p,#use-cases .head p{max-width:760px;line-height:1.75}
+#edge-detail .shot img{aspect-ratio:16/10}
+#sdr-detail .sdr{border-radius:16px;padding:22px;box-shadow:0 18px 45px #102a431c}
+#sdr-detail .chart{border-radius:10px;padding:12px}
+#sdr-detail .water{height:90px;border-radius:8px}
+#sdr-detail .table{border-collapse:collapse;width:100%;overflow:hidden;border-radius:8px}
+#sdr-detail .table th,#sdr-detail .table td{padding:11px 13px;border-bottom:1px solid #24465f}
+#use-cases .usecases{gap:15px}
+#use-cases .usecase{min-height:190px;padding:20px;border-radius:13px;box-shadow:0 5px 18px #172b3d08;transition:transform .2s ease,box-shadow .2s ease}
+#use-cases .usecase:hover{transform:translateY(-3px);box-shadow:0 14px 28px #172b3d12}
+#use-cases .usecase h3{line-height:1.35}
+#use-cases .usecase p{line-height:1.7}
+#migration .steps{gap:14px}
+#migration .step{min-height:160px;padding:18px;border-radius:12px;background:#fff;box-shadow:0 5px 18px #172b3d08}
+#migration .step b{width:30px;height:30px}
+#migration .step p{line-height:1.7}
+@media(max-width:900px){.field-grid{grid-template-columns:1fr;gap:22px}.field-copy{max-width:none}.field-photo{max-width:760px;width:100%;margin:0 auto}}
+@media(max-width:650px){.field-story{padding:34px 0}.field-points{grid-template-columns:1fr 1fr}.workflow-visual{border-radius:12px}.workflow-visual figcaption{font-size:10px;padding:9px 11px}#products .cards{grid-template-columns:1fr 1fr}#products .card{min-height:0;padding:17px 14px}#edge-detail .gallery{grid-template-columns:1fr}.gallery{gap:12px}#use-cases .usecases{grid-template-columns:1fr 1fr}#use-cases .usecase{min-height:0;padding:15px}#migration .steps{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){#products .cards,#use-cases .usecases{grid-template-columns:1fr}.field-points{grid-template-columns:1fr 1fr}.workflow-visual svg{min-height:180px}}
+</style></head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
 <main id="home"><section class="hero" style="border:0"><div class="wrap">
@@ -537,7 +579,34 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="cockpit-footer"><span><i class="live-dot"></i> PTT RELAY · LIVE LISTENER</span><span>CHANNEL <b>sanket-website-demo</b></span><span>TRANSCRIPTION <b>LOCAL WHISPER · BROWSER</b></span><span>PUBLIC DEMO CHANNEL · DO NOT SEND SENSITIVE TRAFFIC</span></div>
 </div><div class="note">Live dispatch preview: the embedded listener joins the shared public demo channel and displays actual received PTT audio transcriptions. Tower illustration is visual only. The public demo is not for sensitive or operational traffic.</div></div></section>
 <section class="demo-link-strip"><div class="wrap"><p>Need a dedicated test screen? <a href="demo.html">Open the live PTT + transcription demo ↗</a></p></div></section><section class="field-story" id="field-communications"><div class="wrap field-grid">
-<figure class="field-photo"><img src="https://www.nps.gov/gaar/getinvolved/images/2019GAARTinaygukPatrolJSpice024.jpg?autorotate=false&amp;maxwidth=1100" alt="Field ranger using a satellite phone in a remote mountain valley" loading="lazy"><figcaption>Remote field communications — illustrative field-use photography. Image: U.S. National Park Service.</figcaption></figure>
+<figure class="field-photo workflow-visual" aria-label="Sanket communication workflow illustration">
+<svg viewBox="0 0 760 500" role="img" aria-labelledby="fieldFlowTitle fieldFlowDesc">
+<title id="fieldFlowTitle">How Sanket connects field teams to operators</title><desc id="fieldFlowDesc">Field radios and mobile clients send voice through a network to Sanket services, which deliver channel audio, transcripts and activity to a control-room dashboard.</desc>
+<defs><linearGradient id="wfbg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102b46"/><stop offset="1" stop-color="#07192d"/></linearGradient><linearGradient id="wforange"><stop stop-color="#ffb15b"/><stop offset="1" stop-color="#f47721"/></linearGradient><linearGradient id="wfcyn"><stop stop-color="#39d9d0"/><stop offset="1" stop-color="#42d99a"/></linearGradient><filter id="wfshadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#00101e" flood-opacity=".32"/></filter></defs>
+<rect width="760" height="500" rx="22" fill="url(#wfbg)"/>
+<g opacity=".18" stroke="#8eb3ce"><path d="M0 100H760M0 200H760M0 300H760M0 400H760M120 0V500M240 0V500M360 0V500M480 0V500M600 0V500"/></g>
+<text x="38" y="48" fill="#9bb8cd" font-size="12" font-weight="700" letter-spacing="2">SANKET · COMMUNICATION FLOW</text>
+<g filter="url(#wfshadow)">
+<rect x="30" y="105" width="205" height="280" rx="16" fill="#f7fafc"/>
+<rect x="278" y="105" width="204" height="280" rx="16" fill="#123d60" stroke="#2d6c89"/>
+<rect x="525" y="105" width="205" height="280" rx="16" fill="#f7fafc"/>
+</g>
+<g font-family="Arial,sans-serif" text-anchor="middle">
+<text x="132" y="139" fill="#f47721" font-size="12" font-weight="700" letter-spacing="1.3">01 · FIELD</text>
+<text x="380" y="139" fill="#64e4d5" font-size="12" font-weight="700" letter-spacing="1.3">02 · SANKET SERVICES</text>
+<text x="627" y="139" fill="#f47721" font-size="12" font-weight="700" letter-spacing="1.3">03 · CONTROL ROOM</text>
+<g transform="translate(77 165)" stroke="#173b59" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="15" y="0" width="54" height="102" rx="10"/><rect x="24" y="12" width="36" height="54" rx="4" fill="#dceaf3" stroke-width="2"/><circle cx="42" cy="83" r="5" fill="#f47721" stroke="none"/><path d="M72 14l14 -25M86 -11l4 16M89 -4l8 -8" stroke-width="3"/></g>
+<g transform="translate(158 182)" fill="none" stroke="#f47721" stroke-width="3" stroke-linecap="round"><path d="M0 22q18 -18 36 0M7 31q11 -11 22 0M15 39q3 -3 6 0"/></g>
+<text x="132" y="300" fill="#18324b" font-size="15" font-weight="700">Radios + mobile</text><text x="132" y="322" fill="#65788d" font-size="11">PTT · headsets · browser</text><text x="132" y="350" fill="#65788d" font-size="10">Cellular / Wi-Fi / site link</text>
+<g transform="translate(326 174)" fill="none" stroke="#65e5d6" stroke-width="4" stroke-linecap="round"><path d="M54 0C26 0 9 19 9 42c0 21 16 38 38 38h54c19 0 34-14 34-33 0-18-14-32-32-33C95 -2 75 -8 54 0z"/><path d="M63 28v42M45 45h36M51 58h24"/></g>
+<g fill="#e9f5ff" font-family="Arial,sans-serif" text-anchor="middle"><text x="380" y="300" font-size="15" font-weight="700">Channels + audio</text><text x="380" y="322" font-size="11" fill="#a8c7dc">Routing · presence · events</text><text x="380" y="350" font-size="10" fill="#a8c7dc">Optional transcription + Edge</text></g>
+<g transform="translate(565 171)" fill="none" stroke="#173b59" stroke-width="4" stroke-linejoin="round"><rect x="0" y="0" width="124" height="79" rx="7"/><path d="M14 19h34M14 32h46M14 45h27M74 17h34M74 29h34M74 41h34" stroke="#39b8b1" stroke-width="5" stroke-linecap="round"/><path d="M44 80v15M80 80v15M25 96h74" stroke-width="4" stroke-linecap="round"/></g>
+<text x="627" y="300" fill="#18324b" font-size="15" font-weight="700">Operator dashboard</text><text x="627" y="322" fill="#65788d" font-size="11">Live activity · logs · alerts</text><text x="627" y="350" fill="#65788d" font-size="10">Review · playback · transcripts</text>
+</g>
+<g fill="none" stroke="url(#wfcyn)" stroke-width="5" stroke-linecap="round"><path d="M236 245H270M261 236l9 9-9 9"/><path d="M483 245H517M508 236l9 9-9 9"/></g>
+<g font-family="Arial,sans-serif" text-anchor="middle"><text x="380" y="438" fill="#e7f4fc" font-size="15" font-weight="700">One coordinated communication workspace</text><text x="380" y="462" fill="#9bb8cd" font-size="11">Connectivity and supported devices depend on each deployment.</text></g>
+</svg>
+<figcaption>Illustrative workflow — shows how supported field clients, Sanket services and operators fit together.</figcaption></figure>
 <div class="field-copy"><div class="eyebrow">Built for distributed teams</div><h2>From the field to the control room.</h2><p>Teams may work with rugged handhelds, speaker-mics, hands-free headsets, smartphones, tablets or satellite communication equipment. Sanket is the software layer that brings supported PTT users, channels, recordings and operator dashboards into one coordinated workspace.</p><p>Connectivity depends on the device and network available at each location. Satellite links may provide a site's backhaul where supported; Sanket itself is not a satellite-phone service.</p>
 <div class="field-points"><div class="field-point"><b>Field teams</b><span>Talk from supported mobile and browser clients</span></div><div class="field-point"><b>Dispatch operators</b><span>Manage channels and activity from a dashboard</span></div><div class="field-point"><b>Remote locations</b><span>Use available cellular, Wi-Fi or site connectivity</span></div><div class="field-point"><b>One software platform</b><span>PTT, transcription, monitoring and announcements</span></div></div>
 <svg class="network-illustration" viewBox="0 0 620 142" role="img" aria-label="Field devices connect through a network to the Sanket software dashboard"><defs><linearGradient id="netline" x1="0" x2="1"><stop stop-color="#f28c28"/><stop offset="1" stop-color="#174a78"/></linearGradient></defs><path d="M96 70H250M370 70H520" stroke="url(#netline)" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 8"/><rect x="8" y="27" width="176" height="86" rx="12" fill="#fff" stroke="#d5e0ea"/><rect x="220" y="27" width="180" height="86" rx="12" fill="#12345a"/><rect x="436" y="27" width="176" height="86" rx="12" fill="#fff" stroke="#d5e0ea"/><g fill="#12345a" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle"><text x="96" y="58">FIELD DEVICES</text><text x="96" y="82" font-size="10" font-weight="400">PTT · Headsets · Mobile</text><text x="308" y="59" fill="#fff">SANKET NETWORK</text><text x="308" y="82" fill="#dce9f5" font-size="10" font-weight="400">Channels · Audio · Events</text><text x="524" y="58">CONTROL ROOM</text><text x="524" y="82" font-size="10" font-weight="400">Dashboard · Logs · Alerts</text></g><circle cx="205" cy="70" r="5" fill="#f28c28"/><circle cx="415" cy="70" r="5" fill="#174a78"/></svg>
