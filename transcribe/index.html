@@ -98,6 +98,7 @@ body.embed-mode .ant,body.embed-mode .knob,body.embed-mode .plate,body.embed-mod
 body.embed-mode .body{display:block!important;padding:0!important;margin:0!important;border:0!important;box-shadow:none!important;background:#07192d!important}
 body.embed-mode .lcd{display:flex!important;min-height:0!important;height:100%!important;border:0!important;border-radius:0!important;padding:8px!important;box-shadow:none!important;background:#0b2035!important}
 body.embed-mode .strip{flex:none!important}
+body.embed-mode #pttSt{display:block!important;color:#9bd7ce!important;font-size:11px!important;padding:3px 0}
 body.embed-mode #log{height:500px!important;max-height:none!important;min-height:280px!important;overflow-y:auto!important}
 body.embed-mode .clip{background:#102b45!important;border-color:#28506d!important;color:#e8f2f8!important}
 body.embed-mode .clip .tx{color:#f4fbff!important}
@@ -253,7 +254,8 @@ async function processClip(chunks,rate,t,meta){{const d=toneDet();for(const x of
  try{const r=await stt(audio);c.text=r.text||"";c.lang=r.lang;c.status=c.text?"":"(no speech recognised)";
   if(c.text&&c.dst){const sl=(c.lang||"").slice(0,2);if(sl!==c.dst)c.trans=await translate(c.text,c.dst,sl);}}catch(e){c.status="⚠ "+e.message;}
  c.kw=kwMatch((c.text||"")+"\n"+(c.trans||""));if(c.kw.length){try{kwHit(c.kw);}catch(e){}if(localStorage.getItem("be_emon")!=="0")emEnqueue(c).catch(e=>gWarn("Email queue problem – "+e.message));}
- await put(c);renderClip(c);}
+ await put(c);renderClip(c);if(c.text&&c.src==="ptt"&&pttC&&pttC.connected){pttC.publish(pttT("transcript"),JSON.stringify({id:c.id,speaker:c.speaker||"PTT user",text:c.text,translation:c.trans||"",language:c.lang||"",channel:pttCh,ts:c.t,source:"Sanket Transcribe"}),{qos:0,retain:false});}}
+function renderSharedTranscript(m){const id="shared_"+String(m.id||"").replace(/[^a-zA-Z0-9_-]/g,"");if(!id||document.getElementById("c"+id))return;const el=document.createElement("div");el.className="clip";el.id="c"+id;el.innerHTML=`<div class="meta"><span>📡 <b>${esc(m.speaker||"PTT user")}</b> · ${esc(m.channel||pttCh)} · ${esc(fmtT(+m.ts||Date.now()))} · SHARED LIVE TRANSCRIPT</span><span class="lt">REMOTE</span></div><div class="tx">${hl(m.text||"")}</div>${m.translation?`<div class="tr">↳ ${hl(m.translation)}</div>`:""}`;$("log").prepend(el);}
 
 /* ---------- Audio engine / smart squelch ---------- */
 let ctx,stream,src,node,an,fbuf,running=false,mode="idle";
@@ -313,7 +315,7 @@ function pttStat(m){$("pttSt").textContent="📻 "+m;}
 function pttBeat(){if(pttC&&pttC.connected)pttC.publish(pttT("presence/"+pttId),JSON.stringify({id:pttId,name:"SanketTranscribe",ts:Date.now()}),{retain:true});}
 function pttConnect(){const url=PTT_BROKERS[pttBi%PTT_BROKERS.length];let ok=false;
  const c=pttC=mqtt.connect(url,{clientId:"ptt_"+pttId+"_"+Date.now()%1e6,clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000,will:{topic:pttT("presence/"+pttId),payload:"",retain:true,qos:0}});
- c.on("connect",()=>{ok=true;c.subscribe([pttT("presence/+"),pttT("floor"),pttT("audio"),pttT("sstv")]);pttBeat();pttStat("Monitoring channel '"+pttCh+"' as SanketTranscribe (listen-only) · "+url.replace(/\/\/.*@/,"//"));setStatus("📻 Listening to PTT channel <b>"+esc(pttCh)+"</b> — each transmission is transcribed.");});
+ c.on("connect",()=>{ok=true;c.subscribe([pttT("presence/+"),pttT("floor"),pttT("audio"),pttT("sstv"),pttT("transcript")]);pttBeat();pttStat("Monitoring channel '"+pttCh+"' as SanketTranscribe (listen-only) · "+url.replace(/\/\/.*@/,"//"));setStatus("📻 Listening to PTT channel <b>"+esc(pttCh)+"</b> — each transmission is transcribed.");});
  c.on("message",pttMsg);c.on("error",()=>{});
  c.on("close",()=>{if(!pttOn||c!==pttC)return;pttStat("disconnected — retrying…");if(!ok)pttBi++;setTimeout(()=>{c.end(true);if(pttOn)pttConnect();},ok?1500:300);});}
 function pttEnd(){const k=pttClip;pttClip=null;if(!k||!k.len)return;const dur=k.len/PTT_RATE;if(dur<0.4){setStatus("Short PTT burst ignored.");return;}
@@ -331,6 +333,7 @@ async function sstvClip(k,meta,dev){const W=320,H=240,cv=document.createElement(
 function pttMsg(t,p){const now=Date.now(),s=t.slice(PTT_PREFIX.length+pttCh.length+1);
  if(s.startsWith("presence/")){const id=s.slice(9);if(!p.length)delete pttUsers[id];else try{const m=JSON.parse(p.toString());if(now-m.ts<60000)pttUsers[id]={name:String(m.name).slice(0,40),seen:now,loc:m.loc&&isFinite(+m.loc.lat)&&isFinite(+m.loc.lon)?m.loc:null};}catch(e){}return;}
  if(s==="sstv"){try{const m=JSON.parse(p.toString());if(m&&m.id)pttSstv[m.id]=m;}catch(e){}return;}
+ if(s==="transcript"){try{const m=JSON.parse(p.toString());if(m&&m.text&&m.id!==pttId)renderSharedTranscript(m);}catch(e){}return;}
  if(s==="floor"){let m;try{m=JSON.parse(p.toString());}catch(e){return;}
   if(m.t==="claim"||m.t==="hb"){if(!pttFloor||pttFloor.id!==m.id){if(pttClip)pttEnd();pttFloor={id:m.id,name:String(m.name||"?").slice(0,40)};}pttFloor.seen=now;if(pttUsers[m.id])pttUsers[m.id].seen=now;}
   else if(m.t==="release"&&pttFloor&&pttFloor.id===m.id){pttFloor=null;pttEnd();}return;}
@@ -338,7 +341,7 @@ function pttMsg(t,p){const now=Date.now(),s=t.slice(PTT_PREFIX.length+pttCh.leng
   const pcm=b.slice(1+n),i16=new Int16Array(pcm.buffer,0,pcm.length>>1),f=new Float32Array(i16.length);for(let i=0;i<i16.length;i++)f[i]=i16[i]/32768;
   if(!pttClip)pttClip={id,name:pttFloor.name,t:now,chunks:[],len:0,det:toneDet(),rx:window.SSTV?new SSTV.Rx(PTT_RATE):null};if(pttClip.rx)try{pttClip.rx.push(i16);}catch(e){}pttClip.det.feed(f,PTT_RATE);if(pttClip.len<120*PTT_RATE)pttClip.chunks.push(f);pttClip.len+=f.length;window.__pttStats.chunks++;lastDb=rmsDb(f);
   if(pttClip.len>=((pttClip.det.sstv||(pttClip.rx&&pttClip.rx.started))?300:60)*PTT_RATE)pttEnd();}}
-function pttTick(){const now=Date.now();for(const k in pttUsers)if(now-pttUsers[k].seen>15000)delete pttUsers[k];
+function pttTick(){const now=Date.now();for(const k in pttUsers)if(now-pttUsers[k].seen>15000)delete pttUsers[k];if($("pttSt"))$("pttSt").textContent="📻 "+Object.keys(pttUsers).length+" connected PTT/transcribe users · channel "+pttCh;
  if(pttFloor&&now-pttFloor.seen>2500){pttFloor=null;pttEnd();}if(!pttClip&&!pttFloor)lastDb=-120;}
 async function pttStart(){if(!window.mqtt){alert("MQTT library failed to load — check internet.");return;}
  if(engine()==="eleven"&&!(localStorage.getItem("be_key")||$("key").value.trim())){alert("Please enter and save your ElevenLabs API key in Settings first.");return;}
