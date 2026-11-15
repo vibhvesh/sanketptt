@@ -641,7 +641,7 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  function say(t){status.textContent=t}
  function station(){return stations[select.value]||stations.vividh}
  function cleanupStream(){if(hls){hls.destroy();hls=null}audio.pause();audio.removeAttribute("src");audio.load();streamReady=false;radioPowerState(false)}
- function isHlsStream(url){return /\\.m3u8(?:$|[?#])/i.test(url)}
+ function isHlsStream(url){return /\.m3u8(?:$|[?#])/i.test(url)}
  async function playRadio(){
   const st=station();cleanupStream();audio.crossOrigin="anonymous";
   say("Tuning "+st.name+"…");
