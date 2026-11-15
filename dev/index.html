@@ -241,6 +241,11 @@ body{overflow-x:hidden}
 </div>
 <div class="rl-row">
 <select id="radioStationSelect" aria-label="Select radio line">
+<optgroup label="INTERNATIONAL · ENGLISH">
+<option value="bbcworld">BBC World Service — International English</option>
+<option value="wnyc">WNYC 93.9 — USA English</option>
+<option value="wfmu">WFMU Freeform — USA</option>
+</optgroup>
 <optgroup label="NATIONAL · HINDI">
 <option value="vividh">AIR · Vividh Bharati — Hindi</option>
 <option value="fmgold">AIR · FM Gold Delhi — Hindi</option>
@@ -537,6 +542,10 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
 </script><script id="sanket-radio-lines-dev-runtime">
 (()=>{
  const stations={
+  bbcworld:{name:"BBC World Service · International English",url:"https://stream.live.vc.bbcmedia.co.uk/bbc_world_service"},
+  wnyc:{name:"WNYC 93.9 · USA English",url:"https://fm939.wnyc.org/wnycfm?type=.mp3"},
+  wfmu:{name:"WFMU Freeform · USA",url:"https://stream0.wfmu.org/freeform-128k"},
+
   vividh:{name:"AIR Vividh Bharati",url:"https://radio.wavespb.com/live/146ed6ec6dea5a24/146ed6ec6dea5a24.m3u8"},
   fmgold:{name:"AIR FM Gold Delhi",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi03/air003_Auto.m3u8"},
   news:{name:"AIR Live News 24x7",url:"https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi01/air001_Auto.m3u8"},
