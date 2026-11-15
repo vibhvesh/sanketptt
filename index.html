@@ -73,13 +73,13 @@ button{font-family:Orbitron,sans-serif;cursor:pointer;border:0;border-radius:10p
 <input type=file id=sstvFile accept="image/*" style="display:none"><button id=sstvBtn style="width:100%;margin-bottom:6px">📷 SSTV · send a picture</button>
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
 <div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
-<div id=net>connecting…</div><div class=hint style="text-align:center;margin-top:8px"><a href="./transcribe/" target=_blank style="color:inherit">🎙 Open Sanket PTT Transcribe (transcribe this channel)</a></div></div>
+<div id=net>connecting…</div><button id=relayCfg style="width:100%;padding:9px;margin-top:7px;background:#303b50;border:1px solid #789;color:#fff">⚙ RELAY SETTINGS · PUBLIC</button><div class=hint style="text-align:center;margin-top:8px"><a href="./transcribe/" target=_blank style="color:inherit">🎙 Open Sanket PTT Transcribe (transcribe this channel)</a></div></div>
 <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="sstv.js"></script>
 <script id=core>
 // ---- protocol core (also used by headless tests) ----
 var PTT_PREFIX='ptt-radio-66ab9178/',CHANNEL='virtual';
-var BROKERS=['wss://public:public@public.cloud.shiftr.io','wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081'];
+var PUBLIC_BROKERS=['wss://public:public@public.cloud.shiftr.io','wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081'];\nvar BROKERS=PUBLIC_BROKERS;\nfunction getRelayConfig(){try{return Object.assign({mode:'public',privateUrl:''},JSON.parse(localStorage.getItem('sanketRelayConfig')||'{}'))}catch(e){return {mode:'public',privateUrl:''}}}\nfunction getRelayBrokers(){var cfg=getRelayConfig();return cfg.mode==='private'&&cfg.privateUrl?[cfg.privateUrl]:PUBLIC_BROKERS}\nfunction renderRelayConfig(){var b=document.getElementById('relayCfg');if(!b)return;var cfg=getRelayConfig();b.textContent='⚙ RELAY SETTINGS · '+cfg.mode.toUpperCase()}
 var HB_MS=5000,EXPIRE_MS=15000,FLOOR_TIMEOUT_MS=2500,CLAIM_GRACE_MS=700;
 function fmtCS(v){v=(v||'').trim();return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\/]+$/.test(v)?v.toUpperCase():v}
 function Radio(mqttLib,opts){var R=this;R.mqtt=mqttLib;R.ch=opts.ch||CHANNEL;
@@ -178,7 +178,7 @@ function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.tex
  us.innerHTML=st0.users.map(function(u){var t=f&&f.id===u.id;return '<li class="'+(t?'tk':u.id===radio.id?'me':'')+'">'+(t?'🎙 ':'')+esc(u.name)+(u.id===radio.id?' ·YOU':'')+pinTxt(u)+'</li>'}).join('')||'<li class=none>No stations</li>';
  var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.textContent=granted?'ON AIR':busy?'BUSY':holding?'…':'PTT';
  drawMap();st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
-function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
+function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,brokers:getRelayBrokers(),on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end()}render()}
  else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}rxAt=Date.now();rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc)}play(v)}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^\w-]/g,'').slice(0,40)||CHANNEL})();start(CHANNEL);
