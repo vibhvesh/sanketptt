@@ -12,7 +12,8 @@ Branch: `sanket-broadcast-v1`
 - Authenticated upload with server-calculated SHA-256.
 - Tenant-scoped object listing and short-lived signed downloads.
 - Backup catalogue registration and restore-download URL.
-- Responsive operator dashboard served at `/`, with tenant-scoped storage metrics, backup history, object inventory and signed download/restore package actions.
+- Responsive operator dashboard served at `/`, with tenant-scoped storage metrics, site/device inventory, backup history, object inventory and signed download/restore package actions.
+- Tenant-scoped `GET /v1/sites` and `GET /v1/devices` inventory endpoints.
 - Docker Compose deployment stack for PostgreSQL, API and Caddy HTTPS reverse proxy.
 - Raspberry Pi backup agent for config-clone/full-migration/scheduled/disaster-recovery package creation.
 - Restore agent verifies the archive hash and extracts into a staging directory only.
