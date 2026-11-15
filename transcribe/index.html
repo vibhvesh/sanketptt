@@ -93,7 +93,7 @@ body{background:var(--gov-bg);color:var(--gov-ink);padding:18px 10px}.body{backg
 </style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../sstv.js"></script></head><body>
 <div class="radio"><div class="ant"></div><div class="knob"></div>
 <div class="body">
-<div class="plate"><div class="brand">SANKET PTT TRANSCRIBE<small>LIVE RADIO TRANSCRIPTION</small></div><div class="tri"></div><span class="demo">DEMO</span><button class="gear" id="gearBtn" title="Settings" aria-label="Settings">⚙</button></div>
+<div class="plate"><div class="brand"><img src="../website/sanket-mark.svg" alt="Sanket logo" width="34" height="34" style="vertical-align:middle;margin-right:8px">SANKET TRANSCRIBE<small>BY CANBERRA VISION AI SYSTEMS</small></div><div class="tri"></div><span class="demo">DEMO</span><button class="gear" id="gearBtn" title="Settings" aria-label="Settings">⚙</button></div>
 <div class="lcd">
  <div class="strip"><canvas id="meter" width="900" height="56"></canvas><div class="prog" id="prog"><div></div></div><div id="status">Idle. Enter your API key in Settings, then press Start.</div></div>
  <div class="lh"><span>◂ RX LOG · NEWEST FIRST</span><span><span id="devLine" style="font-size:10px"></span> <span id="sess">SESSION —</span> <span id="cnt"></span></span></div>
@@ -135,7 +135,7 @@ body{background:var(--gov-bg);color:var(--gov-ink);padding:18px 10px}.body{backg
  <div style="font-size:10px">Sent from your own Gmail (Google sign-in only when you tap Connect). Failed emails are retried once.</div></div>
  <div class="note d"><b>Demo only</b> — not for official or commercial use.</div>
  <div class="note"><b>Data notice:</b> Your data is temporary and stored only in this browser. Download your data yourself; anything older than 7 days is deleted automatically.</div>
- <div class="foot">Audio clips are transcribed on-device (free Whisper) or sent to ElevenLabs if selected, and text to Google Translate (fallback MyMemory) for processing. Sanket PTT Transcribe DEMO · Not an official government website.</div>
+ <div class="foot">Audio clips are transcribed on-device (free Whisper) or sent to ElevenLabs if selected, and text to Google Translate (fallback MyMemory) for processing. Sanket Transcribe · Proprietary product of Canberra Vision AI Systems.</div>
 </div></div></div>
 <div id="gWarn" role="status" style="display:none;position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;max-width:92vw;background:#ffd84a;color:#2a2200;border:2px solid #b38f00;border-radius:8px;padding:8px 34px 8px 12px;font:13px/1.35 system-ui,sans-serif;box-shadow:0 4px 14px #0006"><span id="gWarnT"></span><button id="gWarnX" aria-label="Dismiss" style="position:absolute;right:6px;top:4px;background:none;border:0;font-size:18px;cursor:pointer;color:#2a2200">×</button></div>
 <script>
