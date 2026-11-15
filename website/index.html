@@ -73,6 +73,26 @@ button:disabled{opacity:.55;cursor:not-allowed}
 #liveTranscript{display:block;width:100%;height:100%;border:0;background:#07192d}
 .cockpit-footer{font-size:8px}
 @media(max-width:760px){.cockpit-grid{grid-template-columns:minmax(0,1fr)!important}.c-lines{display:none!important}.c-network .network-stage{max-height:115px}.c-network .network-svg{height:90px!important;max-height:90px!important}.live-transcript-wrap{height:70vh;min-height:480px}}
+
+/* Sanket Command Center live operations layout */
+.command-title{padding:16px 18px;background:#07192d;color:#fff;border-bottom:1px solid #23445e}
+.command-title h2{font-size:clamp(22px,2.5vw,30px);margin:0;letter-spacing:.2px}
+.command-title p{margin:3px 0 0;color:#91afc3;font-size:10px}
+.cockpit-grid{grid-template-columns:minmax(145px,.22fr) minmax(0,1fr)!important;gap:7px!important;padding:8px!important}
+.c-network .network-stage{max-height:88px!important;overflow:hidden;padding:0 6px!important}
+.c-network .network-svg{height:70px!important;max-height:70px!important}
+.c-network .network-caption{padding:2px 4px 5px!important;font-size:7px!important}
+.c-network .ph{padding:6px 8px!important;font-size:9px!important}
+.c-gauges .gauge-row{padding:3px 5px!important;gap:3px!important}
+.c-gauges .gauge-face{width:38px!important;height:38px!important;border-width:2px!important}
+.c-gauges .gauge-face .needle{height:10px!important}
+.cockpit-bottom{grid-template-columns:minmax(0,1.7fr) minmax(180px,.8fr) minmax(170px,.7fr)!important;gap:7px!important;padding:0 8px 8px!important}
+.cockpit-bottom>.pane{display:block!important;min-width:0}
+.cockpit-bottom .stream-list{max-height:350px;overflow:auto}
+.live-transcript-wrap{height:480px;min-height:380px;background:#07192d}
+#liveTranscript{display:block;width:100%;height:100%;border:0;background:#07192d}
+.cockpit-footer{font-size:8px}
+@media(max-width:760px){.cockpit-grid{grid-template-columns:minmax(0,1fr)!important}.c-lines{display:none!important}.c-network .network-stage{max-height:70px!important}.c-network .network-svg{height:55px!important;max-height:55px!important}.cockpit-bottom{grid-template-columns:1fr!important}.live-transcript-wrap{height:65vh;min-height:430px}.cockpit-bottom .stream-list{max-height:180px}}
 </style><style>
 /* Prevent layout breakage from translated strings and long labels */
 html,body{max-width:100%;overflow-x:hidden}
@@ -105,7 +125,7 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 <div class="cstat"><span>ACTIVE TRANSMITTERS</span><b id="kTx">03</b><em>Floor control monitored</em></div>
 <div class="cstat"><span>ALERTS</span><b class="warnnum" id="kAlerts">02</b><em>Operator attention</em></div>
 </div>
-<div class="cockpit-grid">
+<div class="command-title"><h2>SANKET COMMAND CENTER</h2><p>LIVE SYSTEM OVERVIEW · PTT NETWORK · TRANSCRIPTION · DISPATCH</p></div><div class="cockpit-grid">
 <aside class="pane c-lines"><div class="ph">RADIO LINES <small>8 channels · floor status</small></div>
 <div id="cockpitLines">
 <div class="c-line rx"><i></i><b>MASTER</b><span>RX ACTIVE</span><small>06 users</small></div>
@@ -118,7 +138,7 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 <div class="c-line rx"><i></i><b>EMERGENCY</b><span>RX ACTIVE</span><small>01 user</small></div>
 </div><div class="c-legend"><span><i class="g"></i> RX</span><span><i class="o"></i> TX</span><span><i class="d"></i> Standby</span></div></aside>
 <div class="c-network-col">
-<div class="pane c-network"><div class="ph">NETWORK & TOWER INTERCONNECT <small>signal flow visualisation</small></div>
+<div class="pane c-network"><div class="ph">NETWORK HEALTH & CONNECTED DEVICES <small>live presence · shared demo channel</small></div>
 <div class="network-stage">
 <svg class="network-svg" viewBox="0 0 720 260" role="img" aria-label="Illustrative data flow between radio channels, tower gateway and control room">
 <defs><linearGradient id="flowgrad"><stop stop-color="#27b9c9"/><stop offset="1" stop-color="#55edb0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -141,9 +161,9 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 </div>
 </div>
 <div class="cockpit-bottom">
-<div class="pane"><div class="ph">INCOMING TEXT / TRANSCRIPTION <small class="rx-label">● RX FEED</small></div><div class="live-transcript-wrap"><iframe id="liveTranscript" title="Always-on Sanket live PTT transcription" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
-<div class="pane"><div class="ph">OUTGOING MESSAGES / DISPATCH <small class="tx-label">● TX FEED</small></div><div class="stream-list" id="outgoingText"><article><time>16:08:25</time><b>DISPATCH → MASTER</b><p>Message received. Maintain position and report status.</p></article><article><time>16:08:09</time><b>CONTROL → UNIT BRAVO</b><p>Proceed to gate two. Confirm when on site.</p></article><article><time>16:07:42</time><b>ANNOUNCEMENT → ZONE A+B</b><p>Scheduled public information announcement queued.</p></article></div></div>
-<div class="pane"><div class="ph">SYSTEM WARNINGS <small class="warn-label">● OPERATOR QUEUE</small></div><div class="warning-list" id="warningList"><div class="warning-item high"><b>PRIORITY</b><span>Emergency line monitoring enabled</span><time>16:08:28</time></div><div class="warning-item"><b>NOTICE</b><span>Edge node sync check due</span><time>16:07:54</time></div><div class="warning-item"><b>INFO</b><span>Recording archive operational</span><time>16:06:32</time></div></div></div>
+<div class="pane"><div class="ph">INCOMING TRANSMISSIONS / LIVE TRANSCRIPTIONS <small class="rx-label">● LIVE RX</small></div><div class="live-transcript-wrap"><iframe id="liveTranscript" title="Always-on Sanket live PTT transcription" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+<div class="pane"><div class="ph">OUTGOING MESSAGES <small class="tx-label">● TX</small></div><div class="stream-list" id="outgoingText"><article><time>16:08:25</time><b>DISPATCH → MASTER</b><p>Message received. Maintain position and report status.</p></article><article><time>16:08:09</time><b>CONTROL → UNIT BRAVO</b><p>Proceed to gate two. Confirm when on site.</p></article><article><time>16:07:42</time><b>ANNOUNCEMENT → ZONE A+B</b><p>Scheduled public information announcement queued.</p></article></div></div>
+<div class="pane"><div class="ph">PRIORITIES · ALERTS · NOTICES <small class="warn-label">● SYSTEM</small></div><div class="warning-list" id="warningList"><div class="warning-item high"><b>PRIORITY</b><span>Emergency line monitoring enabled</span><time>16:08:28</time></div><div class="warning-item"><b>NOTICE</b><span>Edge node sync check due</span><time>16:07:54</time></div><div class="warning-item"><b>INFO</b><span>Recording archive operational</span><time>16:06:32</time></div></div></div>
 </div>
 <div class="cockpit-footer"><span><i class="live-dot"></i> PTT RELAY · LIVE LISTENER</span><span>CHANNEL <b>sanket-website-demo</b></span><span>TRANSCRIPTION <b>LOCAL WHISPER · BROWSER</b></span><span>PUBLIC DEMO CHANNEL · DO NOT SEND SENSITIVE TRAFFIC</span></div>
 </div><div class="note">Live dispatch preview: the embedded listener joins the shared public demo channel and displays actual received PTT audio transcriptions. Tower illustration is visual only. The public demo is not for sensitive or operational traffic.</div></div></section>
