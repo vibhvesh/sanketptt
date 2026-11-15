@@ -104,7 +104,30 @@ body.embed-mode .clip{background:#102b45!important;border-color:#28506d!importan
 body.embed-mode .clip .tx{color:#f4fbff!important}
 body.embed-mode #kwBar,body.embed-mode #emBanner{display:none!important}
 @media(max-width:700px){body.embed-mode #log{height:65vh!important;min-height:300px!important}}
-</style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../sstv.js"></script></head><body>
+</style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../sstv.js"></script>
+<style id="transcribe-demo-fit-v2">
+body.embed-mode{height:100dvh!important;min-height:0!important;overflow:hidden!important;padding:0!important;margin:0!important;background:#211a17!important}
+body.embed-mode .radio{display:block!important;width:100%!important;max-width:none!important;height:100dvh!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:linear-gradient(145deg,#35261d,#171a1e)!important;overflow:hidden!important}
+body.embed-mode .body{display:flex!important;flex-direction:column!important;width:100%!important;height:100%!important;min-height:0!important;padding:0!important;margin:0!important;background:transparent!important;overflow:hidden!important}
+body.embed-mode .lcd{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;height:auto!important;padding:7px!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101e2a!important}
+body.embed-mode .strip{flex:0 0 auto!important;padding:4px!important}
+body.embed-mode #meter{height:30px!important}
+body.embed-mode #status{font-size:10px!important;color:#bce9dc!important}
+body.embed-mode .lh{flex:0 0 auto!important;padding:5px 2px!important;font-size:9px!important;color:#e8c7a8!important}
+body.embed-mode #emBanner,body.embed-mode #kwBar{display:none!important}
+body.embed-mode #log{flex:1 1 auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:hidden!important;display:block!important}
+body.embed-mode .clip{margin:4px 0!important;padding:8px!important;border-radius:8px!important;background:linear-gradient(110deg,#1b3b4c,#202c35)!important;border-color:#44687a!important;color:#f6f8fa!important}
+body.embed-mode .clip .tx{font-size:clamp(12px,1.5vw,16px)!important;line-height:1.35!important;color:#fff!important}
+body.embed-mode .clip .tr{font-size:clamp(14px,1.8vw,19px)!important;line-height:1.4!important;color:#ffd09e!important}
+body.embed-mode .keys{display:block!important;flex:0 0 auto!important;padding:6px!important;margin:0!important;background:#38291f!important;border:0!important}
+body.embed-mode .keys #inRow,body.embed-mode .keys>.row:not(.ptt),body.embed-mode .keys .sel,body.embed-mode .keys #pttShare,body.embed-mode .keys #pttSt,body.embed-mode .keys #engSt{display:none!important}
+body.embed-mode .keys .ptt{display:flex!important;gap:6px!important;margin:0!important}
+body.embed-mode .keys #startBtn,body.embed-mode .keys #stopBtn{display:block!important;flex:1 1 50%!important;min-height:35px!important;border-radius:7px!important;font-weight:900!important}
+body.embed-mode .keys #startBtn{background:#00a86b!important;color:#fff!important}
+body.embed-mode .keys #stopBtn{background:#a94d39!important;color:#fff!important}
+body.embed-mode .plate,body.embed-mode .grille,body.embed-mode .ant,body.embed-mode .knob,body.embed-mode .one{display:none!important}
+@media(max-width:700px){body.embed-mode .clip .tx{font-size:12px!important}body.embed-mode .clip .tr{font-size:14px!important}}
+</style></head><body>
 <div class="radio"><div class="ant"></div><div class="knob"></div>
 <div class="body">
 <div class="plate"><div class="brand"><img src="../website/sanket-mark.svg" alt="Sanket logo" width="34" height="34" style="vertical-align:middle;margin-right:8px">SANKET TRANSCRIBE<small>BY CANBERRA VISION AI SYSTEMS</small></div><div class="tri"></div><span class="demo">DEMO</span><button class="gear" id="gearBtn" title="Settings" aria-label="Settings">⚙</button></div>
