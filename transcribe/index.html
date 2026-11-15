@@ -471,9 +471,21 @@ $("emOn").addEventListener("change",()=>{emBanner();if($("emOn").checked)gisLoad
 (function w(){if(db){emRequeue().then(emKick).catch(()=>{});}else setTimeout(w,200);})();
 emBanner();
 
-/* Embedded control-room listener: auto-join the shared PTT channel and start browser Whisper. */
-(function(){const q=new URLSearchParams(location.search);if(q.get("compact")!=="1")return;document.body.classList.add("embed-mode");$("engine").value="free";$("inSrc").value="ptt";const ch=(q.get("ch")||"virtual").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";$("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);inUI();syncPttBackLink();$("status").textContent="Starting live PTT listener and loading local Whisper model…";loadAsr().then(()=>pttStart()).catch(e=>{$("status").textContent="Listener could not start: "+e.message;pttStat("model/listener startup failed");});})();
-
-/* Embedded control-room listener: auto-join the shared PTT channel and start browser Whisper. */
-(function(){const q=new URLSearchParams(location.search);if(q.get("compact")!=="1")return;document.body.classList.add("embed-mode");$("engine").value="free";$("inSrc").value="ptt";const ch=(q.get("ch")||"virtual").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";$("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);inUI();syncPttBackLink();$("status").textContent="Starting live PTT listener and loading local Whisper model…";loadAsr().then(()=>pttStart()).catch(e=>{$("status").textContent="Listener could not start: "+e.message;pttStat("model/listener startup failed");});})();
-</script></body></html>
+/* Embedded control-room listener: join immediately; load Whisper only when the first clip arrives. */
+(function(){
+ const q=new URLSearchParams(location.search);
+ if(q.get("compact")!=="1")return;
+ document.body.classList.add("embed-mode");
+ $("engine").value="free";
+ $("inSrc").value="ptt";
+ const ch=(q.get("ch")||"virtual").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";
+ $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
+ inUI();syncPttBackLink();
+ $("status").textContent="Starting live PTT listener… Whisper will load automatically when the first transmission arrives.";
+ pttStart().then(()=>{
+   $("status").textContent="Listening to live PTT channel "+ch+". Incoming clips will be transcribed automatically.";
+ }).catch(e=>{
+   $("status").textContent="Listener could not start: "+e.message;
+   pttStat("listener startup failed");
+ });
+})();</script></body></html>
