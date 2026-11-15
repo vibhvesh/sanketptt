@@ -571,6 +571,26 @@ html,body{max-width:100%;overflow-x:hidden}
 @media(max-width:850px){.sdr-controls{grid-template-columns:repeat(3,minmax(0,1fr))}.sdr-visual-grid{grid-template-columns:1fr}.sdr-side-panel{display:grid;grid-template-columns:1fr 1fr;align-items:start}.sdr-side-panel>.sdr-panel-head,.sdr-side-panel>.sdr-alert,.sdr-side-panel>.sdr-caution{grid-column:1/-1}}
 @media(max-width:600px){.sdr-cockpit{padding:10px;border-radius:11px}.sdr-cockpit .sdrhead{display:block}.sdr-status{display:inline-block;margin-top:10px}.sdr-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.sdr-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sdr-metrics b{font-size:19px}.sdr-side-panel{display:block}.sdr-table-wrap{overflow-x:auto}.sdr-table{min-width:690px}.sdr-panel-head{padding:9px;font-size:9px}.sdr-panel-head span{font-size:7px}.sdr-axis{font-size:7px}.sdr-footer{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.sdr-status i,.water-live-dot{box-shadow:none}}
+</style><style id="classic-radio-leds">
+/* Classic two-way-radio status lamps: bezel, hot core and gentle heartbeat */
+.network-svg .radio-led{stroke:#10283d;stroke-width:2;filter:drop-shadow(0 0 3px currentColor);animation:radio-led-blink 2.4s steps(1,end) infinite}
+.network-svg .led-rx{fill:#43e4a8;color:#43e4a8;animation-duration:2.1s}
+.network-svg .led-edge{fill:#ffb45f;color:#ffb45f;animation-duration:1.35s;animation-delay:.35s}
+.network-svg .led-relay{fill:#52dce8;color:#52dce8;animation-duration:2.8s;animation-delay:.15s}
+.network-svg .led-tx{fill:#ff985c;color:#ff985c;animation-duration:1.05s;animation-delay:.6s}
+.gauge-face{position:relative}
+.radio-gauge-led{position:absolute;z-index:4;right:8px;top:8px;width:7px;height:7px;border-radius:50%;border:1px solid #17374b;box-shadow:0 0 5px currentColor,0 0 10px currentColor;animation:radio-led-blink 2s steps(1,end) infinite}
+.radio-gauge-led.led-relay{background:#53dce8;color:#53dce8}
+.radio-gauge-led.led-tx{background:#ff9b5e;color:#ff9b5e;animation-duration:1.1s;animation-delay:.3s}
+.radio-gauge-led.led-rx{background:#43e4a8;color:#43e4a8;animation-duration:2.2s;animation-delay:.7s}
+.signal-card .sig-led{box-shadow:0 0 5px currentColor,0 0 11px currentColor;animation:radio-led-glow 1.8s ease-in-out infinite}
+.signal-card:nth-child(2) .sig-led{animation-delay:.25s}
+.signal-card:nth-child(3) .sig-led{animation-duration:.85s}
+.signal-card:nth-child(4) .sig-led{animation-delay:.5s}
+.signal-card:nth-child(5) .sig-led{animation-delay:.8s}
+@keyframes radio-led-blink{0%,12%,100%{opacity:1}13%,18%{opacity:.22}19%,62%{opacity:1}63%,69%{opacity:.35}70%,92%{opacity:1}}
+@keyframes radio-led-glow{0%,100%{filter:brightness(1);opacity:1}50%{filter:brightness(1.65);opacity:.72}}
+@media(prefers-reduced-motion:reduce){.network-svg .radio-led,.radio-gauge-led,.signal-card .sig-led{animation:none!important;opacity:1!important}}
 </style></head>
 <body>
 <header class="top"><div class="wrap nav"><a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="38" height="38"><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a><nav class="links" id="links"><a href="#home">Overview</a><a href="demo.html">Live Demo</a><a href="#use-cases">Use Cases</a><a href="#products">Products</a><a href="#control">Control Room</a><a href="#broadcast">आकाशवाणी</a><a href="#edge">Edge</a><a href="#sdr">SDR</a><a href="#cloud">Central Cloud</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav><div class="langWrap"><label for="siteLanguage">LANGUAGE</label><select id="siteLanguage" aria-label="Choose website language"><option value="en">English</option><option value="as">অসমীয়া · Assamese</option><option value="bn">বাংলা · Bengali</option><option value="brx">बड़ो · Bodo</option><option value="doi">डोगरी · Dogri</option><option value="gu">ગુજરાતી · Gujarati</option><option value="hi">हिन्दी · Hindi</option><option value="kn">ಕನ್ನಡ · Kannada</option><option value="ks">کٲشُر · Kashmiri</option><option value="kok">कोंकणी · Konkani</option><option value="mai">मैथिली · Maithili</option><option value="ml">മലയാളം · Malayalam</option><option value="mni">মৈতৈলোন্ · Manipuri</option><option value="mr">मराठी · Marathi</option><option value="ne">नेपाली · Nepali</option><option value="or">ଓଡ଼ିଆ · Odia</option><option value="pa">ਪੰਜਾਬੀ · Punjabi</option><option value="sa">संस्कृतम् · Sanskrit</option><option value="sat">ᱥᱟᱱᱛᱟᱲᱤ · Santali</option><option value="sd">سنڌي · Sindhi</option><option value="ta">தமிழ் · Tamil</option><option value="te">తెలుగు · Telugu</option><option value="ur">اردو · Urdu</option></select></div><div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div><a class="cta" href="#contact">Request a demo ↗</a><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button></div></header>
@@ -595,19 +615,19 @@ html,body{max-width:100%;overflow-x:hidden}
 <defs><linearGradient id="flowgrad"><stop stop-color="#27b9c9"/><stop offset="1" stop-color="#55edb0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
 <path class="route route-a" d="M125 52 C235 52 245 125 355 125"/><path class="route route-b" d="M125 208 C235 208 245 135 355 135"/><path class="route route-c" d="M365 130 C470 130 480 52 595 52"/><path class="route route-d" d="M365 140 C470 140 480 208 595 208"/>
 <path class="route route-faint" d="M125 52 C235 52 245 125 355 125 M365 130 C470 130 480 52 595 52"/>
-<g class="node"><rect x="18" y="25" width="110" height="54" rx="8"/><text x="73" y="47">FIELD PTT</text><text x="73" y="63" class="sub">RX / TX LINES</text></g>
-<g class="node"><rect x="18" y="181" width="110" height="54" rx="8"/><text x="73" y="203">EDGE NODES</text><text x="73" y="219" class="sub">PI · AUDIO · SDR</text></g>
+<g class="node"><rect x="18" y="25" width="110" height="54" rx="8"/><circle class="radio-led led-rx" cx="115" cy="37" r="4"/><text x="73" y="47">FIELD PTT</text><text x="73" y="63" class="sub">RX / TX LINES</text></g>
+<g class="node"><rect x="18" y="181" width="110" height="54" rx="8"/><circle class="radio-led led-edge" cx="115" cy="193" r="4"/><text x="73" y="203">EDGE NODES</text><text x="73" y="219" class="sub">PI · AUDIO · SDR</text></g>
 <g class="tower"><path d="M360 62 L326 197 M360 62 L394 197 M339 145 L381 145 M334 166 L386 166 M345 122 L375 122 M326 197 L394 197 M360 62 L360 35 M350 35 Q360 20 370 35 M344 27 Q360 4 376 27"/><circle cx="360" cy="62" r="6"/><text x="360" y="220">TOWER GATEWAY</text><text x="360" y="236" class="sub">SECURE RELAY / ROUTER</text></g>
-<g class="node"><rect x="592" y="25" width="110" height="54" rx="8"/><text x="647" y="47">CONTROL ROOM</text><text x="647" y="63" class="sub">MONITOR / DISPATCH</text></g>
-<g class="node"><rect x="592" y="181" width="110" height="54" rx="8"/><text x="647" y="203">OUTPUT ZONES</text><text x="647" y="219" class="sub">PA / RECORD / ALERT</text></g>
+<g class="node"><rect x="592" y="25" width="110" height="54" rx="8"/><circle class="radio-led led-relay" cx="689" cy="37" r="4"/><text x="647" y="47">CONTROL ROOM</text><text x="647" y="63" class="sub">MONITOR / DISPATCH</text></g>
+<g class="node"><rect x="592" y="181" width="110" height="54" rx="8"/><circle class="radio-led led-tx" cx="689" cy="193" r="4"/><text x="647" y="203">OUTPUT ZONES</text><text x="647" y="219" class="sub">PA / RECORD / ALERT</text></g>
 <circle class="packet p1" r="5"><animateMotion dur="3.2s" repeatCount="indefinite" path="M125 52 C235 52 245 125 355 125"/></circle><circle class="packet p2" r="4"><animateMotion dur="4s" repeatCount="indefinite" path="M125 208 C235 208 245 135 355 135"/></circle><circle class="packet p3" r="5"><animateMotion dur="3.5s" repeatCount="indefinite" path="M365 130 C470 130 480 52 595 52"/></circle><circle class="packet p4" r="4"><animateMotion dur="4.3s" repeatCount="indefinite" path="M365 140 C470 140 480 208 595 208"/></circle>
 </svg>
 <div class="network-caption"><span><i class="g"></i> INBOUND DATA</span><span><i class="c"></i> RELAY / ROUTING</span><span><i class="o"></i> OUTBOUND DATA</span></div></div></div>
 <div class="c-gauges">
 <div class="pane gauge-pane"><div class="ph">NETWORK HEALTH <small>illustrative gauges · not live measurements</small></div><div class="gauge-row">
-<div class="gauge"><div class="gauge-face"><div class="gauge-arc"></div><i class="needle" id="needleA"></i><b id="gLatency">42<small>ms</small></b></div><label>RELAY LATENCY</label></div>
-<div class="gauge"><div class="gauge-face"><div class="gauge-arc arc-orange"></div><i class="needle needle2" id="needleB"></i><b id="gLoad">68<small>%</small></b></div><label>CHANNEL LOAD</label></div>
-<div class="gauge"><div class="gauge-face"><div class="gauge-arc arc-green"></div><i class="needle needle3" id="needleC"></i><b id="gQuality">98<small>%</small></b></div><label>LINK QUALITY</label></div>
+<div class="gauge"><div class="gauge-face"><span class="radio-gauge-led led-relay" aria-hidden="true"></span><div class="gauge-arc"></div><i class="needle" id="needleA"></i><b id="gLatency">42<small>ms</small></b></div><label>RELAY LATENCY</label></div>
+<div class="gauge"><div class="gauge-face"><span class="radio-gauge-led led-tx" aria-hidden="true"></span><div class="gauge-arc arc-orange"></div><i class="needle needle2" id="needleB"></i><b id="gLoad">68<small>%</small></b></div><label>CHANNEL LOAD</label></div>
+<div class="gauge"><div class="gauge-face"><span class="radio-gauge-led led-rx" aria-hidden="true"></span><div class="gauge-arc arc-green"></div><i class="needle needle3" id="needleC"></i><b id="gQuality">98<small>%</small></b></div><label>LINK QUALITY</label></div>
 </div><div class="signal-meter"><span>RX SIGNAL</span><div><i id="rxMeter"></i></div><b id="rxDb">−62 dBm</b></div><div class="signal-meter"><span>TX POWER</span><div><i id="txMeter"></i></div><b id="txDb">−48 dBm</b></div></div>
 </div>
 </div>
