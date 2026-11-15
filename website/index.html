@@ -741,14 +741,16 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 <div class="public-demo-warning" role="note"><span class="warning-symbol">!</span><div><b>PUBLIC DEMO — NOT A PRIVATE CHANNEL</b><p>This is an open-source demonstration line. Anyone connected to this public channel may hear your transmission. Do not share personal, confidential, sensitive or operational information.</p></div></div>\n<div class="hero-proof"><span>✓ Browser-based PTT</span><span>✓ Live radio streams</span><span>✓ Timestamped transcripts</span></div>
 </div>
 <div class="hero-visual">
-<div class="hero-visual-top"><span class="hero-visual-dot"></span> YOUR COMMUNICATION WORKSPACE</div>
+<div class="hero-visual-top"><span class="hero-visual-dot"></span> HOW SANKET WORKS · ONE CONNECTED WORKSPACE</div>
+<div class="hero-visual-intro"><b>From the first call to a clear record.</b><span>Four tools work together, so field teams and control-room operators stay in sync.</span></div>
 <div class="hero-visual-grid">
-<div class="hero-visual-tile"><span class="hero-visual-icon">◉</span><b>Push to Talk</b><small>Connect teams instantly</small></div>
-<div class="hero-visual-tile"><span class="hero-visual-icon">♫</span><b>Live Radio</b><small>Listen to global streams</small></div>
-<div class="hero-visual-tile"><span class="hero-visual-icon">▤</span><b>Transcription</b><small>Searchable voice records</small></div>
-<div class="hero-visual-tile"><span class="hero-visual-icon">⌁</span><b>Control Room</b><small>Monitor channels together</small></div>
+<div class="hero-visual-tile"><span class="hero-step">01 · COMMUNICATE</span><span class="hero-visual-icon">◉</span><b>Push to Talk</b><small>Press, speak and release. Connect team members over shared channels.</small><span class="hero-mini-flow">TEAM ↔ TEAM</span></div>
+<div class="hero-visual-tile"><span class="hero-step">02 · MONITOR</span><span class="hero-visual-icon">♫</span><b>Live Radio</b><small>Listen to selected online radio stations and supported audio streams.</small><span class="hero-mini-flow">LIVE AUDIO</span></div>
+<div class="hero-visual-tile"><span class="hero-step">03 · UNDERSTAND</span><span class="hero-visual-icon">▤</span><b>Transcription</b><small>Turn received speech into timestamped text for quick review.</small><span class="hero-mini-flow">VOICE → TEXT</span></div>
+<div class="hero-visual-tile"><span class="hero-step">04 · COORDINATE</span><span class="hero-visual-icon">⌁</span><b>Control Room</b><small>Bring channel activity and team status into one operator view.</small><span class="hero-mini-flow">ONE VIEW · MANY LINES</span></div>
 </div>
-<div class="hero-visual-foot"><span>ONE PLATFORM</span><span class="hero-visual-line"></span><span>BUILT FOR THE FIELD & CONTROL ROOM</span></div>
+<div class="hero-process"><span>FIELD TEAM</span><i>VOICE</i><b>→</b><span>SANKET NETWORK</span><b>→</b><i>TEXT + STATUS</i><b>→</b><span>CONTROL ROOM</span></div>
+<div class="hero-visual-foot"><span>COMMUNICATE</span><span class="hero-visual-line"></span><span>MONITOR · UNDERSTAND · COORDINATE</span></div>
 </div>
 </div>
 <div class="console cockpit" id="control">
@@ -1979,5 +1981,39 @@ body>footer{display:flex!important}
  #control .live-pair .join-pane iframe{height:235px!important;min-height:235px!important}
  #control .live-pair .transcript-feed{flex-basis:55px!important;max-height:55px!important}
  #control .live-pair .listener-mini iframe,#control .live-pair iframe#liveTranscript{height:280px!important;min-height:280px!important}
+}
+
+/* Explainer-style hero visual: give each platform capability a clear purpose */
+.hero-visual{padding:22px!important}
+.hero-visual-top{display:flex!important;align-items:center!important;gap:8px!important;font-size:10px!important;letter-spacing:1.1px!important}
+.hero-visual-dot{width:8px;height:8px;border-radius:50%;background:#63e5b0;box-shadow:0 0 12px #63e5b0;display:inline-block}
+.hero-visual-intro{margin:16px 0 14px!important}
+.hero-visual-intro b,.hero-visual-intro span{display:block!important}
+.hero-visual-intro b{font-size:21px!important;line-height:1.2!important;color:#fff!important}
+.hero-visual-intro span{font-size:12px!important;line-height:1.5!important;color:#c8dcec!important;margin-top:5px!important;max-width:440px}
+.hero-visual-grid{gap:10px!important;margin:0 0 14px!important}
+.hero-visual-tile{position:relative!important;min-height:170px!important;padding:13px!important;background:linear-gradient(145deg,#ffffff19,#ffffff0b)!important;border:1px solid #ffffff35!important;border-radius:12px!important}
+.hero-step{display:block!important;font-size:8px!important;letter-spacing:1px!important;font-weight:900!important;color:#8fe4e0!important;margin-bottom:8px!important}
+.hero-visual-icon{font-size:23px!important;margin-bottom:5px!important;color:#9cddff!important}
+.hero-visual-tile b{font-size:15px!important}
+.hero-visual-tile small{font-size:11px!important;line-height:1.45!important;min-height:32px!important}
+.hero-mini-flow{display:inline-flex!important;margin-top:8px!important;padding:4px 7px!important;border-radius:5px!important;background:#ffffff16!important;color:#a9e9ed!important;font-size:8px!important;font-weight:900!important;letter-spacing:.5px!important}
+.hero-process{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:5px!important;padding:10px 11px!important;border:1px solid #ffffff30!important;border-radius:9px!important;background:#061b2d80!important}
+.hero-process span{font-size:8px!important;font-weight:900!important;letter-spacing:.5px!important;color:#fff!important}
+.hero-process i{font-size:8px!important;font-style:normal!important;color:#a8e3ff!important;font-weight:800!important}
+.hero-process b{font-size:13px!important;color:#63e5c4!important}
+.hero-visual-foot{margin-top:13px!important;font-size:8px!important}
+@media(max-width:600px){
+ .hero-visual{padding:14px!important}
+ .hero-visual-intro{margin:10px 0!important}
+ .hero-visual-intro b{font-size:17px!important}
+ .hero-visual-intro span{font-size:10px!important}
+ .hero-visual-grid{gap:7px!important}
+ .hero-visual-tile{min-height:155px!important;padding:10px!important}
+ .hero-visual-tile b{font-size:13px!important}
+ .hero-visual-tile small{font-size:10px!important}
+ .hero-step{font-size:7px!important}
+ .hero-process{flex-wrap:wrap!important;justify-content:center!important}
+ .hero-process span,.hero-process i{font-size:7px!important}
 }
 </style></body></html>
