@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily Sanket Central Cloud backup
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=30m
+Persistent=true
+Unit=sanket-central-backup.service
+
+[Install]
+WantedBy=timers.target
