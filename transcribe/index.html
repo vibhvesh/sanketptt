@@ -90,6 +90,19 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
 body{background:var(--gov-bg);color:var(--gov-ink);padding:18px 10px}.body{background:linear-gradient(160deg,#fff,#eef3f8);color:var(--gov-ink);border:1px solid var(--gov-line);box-shadow:0 14px 38px #102a4318}.brand{color:var(--gov-navy);text-shadow:none}.brand small{color:var(--gov-muted)}.ph{background:var(--gov-navy);color:#fff}.dw input[type=email],.dw input[type=text],.dw textarea{background:#fff;color:var(--gov-ink);border:1px solid var(--gov-line)}.sect>b{color:var(--gov-blue)}.clip{background:#fff;color:var(--gov-ink);border:1px solid var(--gov-line);border-left:3px solid var(--gov-saffron)}.clip .tx{color:var(--gov-ink)}.clip .meta,.clip .tr{color:var(--gov-blue)}@media(min-width:900px){.radio{max-width:1120px}.body{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,.85fr);gap:16px;align-items:start}.plate,.grille{grid-column:1/-1}.lcd{min-height:420px}.dw{min-width:0}}@media(max-width:899px){.radio{max-width:560px}.lcd{min-height:48dvh}}
+
+/* Compact embedded mode for the always-on dispatch display */
+body.embed-mode{padding:0!important;margin:0!important;background:#07192d!important;overflow:hidden}
+body.embed-mode .radio{max-width:none!important;width:100%;margin:0!important;padding:0!important;min-height:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#07192d!important}
+body.embed-mode .ant,body.embed-mode .knob,body.embed-mode .plate,body.embed-mode .grille,body.embed-mode .keys,body.embed-mode .one{display:none!important}
+body.embed-mode .body{display:block!important;padding:0!important;margin:0!important;border:0!important;box-shadow:none!important;background:#07192d!important}
+body.embed-mode .lcd{display:flex!important;min-height:0!important;height:100%!important;border:0!important;border-radius:0!important;padding:8px!important;box-shadow:none!important;background:#0b2035!important}
+body.embed-mode .strip{flex:none!important}
+body.embed-mode #log{height:500px!important;max-height:none!important;min-height:280px!important;overflow-y:auto!important}
+body.embed-mode .clip{background:#102b45!important;border-color:#28506d!important;color:#e8f2f8!important}
+body.embed-mode .clip .tx{color:#f4fbff!important}
+body.embed-mode #kwBar,body.embed-mode #emBanner{display:none!important}
+@media(max-width:700px){body.embed-mode #log{height:65vh!important;min-height:300px!important}}
 </style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../sstv.js"></script></head><body>
 <div class="radio"><div class="ant"></div><div class="knob"></div>
 <div class="body">
@@ -454,4 +467,10 @@ async function emKick0(){emBanner();if(emBusy||!emQ.length)return;
 $("emOn").addEventListener("change",()=>{emBanner();if($("emOn").checked)gisLoad().catch(()=>{});});
 (function w(){if(db){emRequeue().then(emKick).catch(()=>{});}else setTimeout(w,200);})();
 emBanner();
+
+/* Embedded control-room listener: auto-join the shared PTT channel and start browser Whisper. */
+(function(){const q=new URLSearchParams(location.search);if(q.get("compact")!=="1")return;document.body.classList.add("embed-mode");$("engine").value="free";$("inSrc").value="ptt";const ch=(q.get("ch")||"virtual").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";$("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);inUI();syncPttBackLink();$("status").textContent="Starting live PTT listener and loading local Whisper model…";loadAsr().then(()=>pttStart()).catch(e=>{$("status").textContent="Listener could not start: "+e.message;pttStat("model/listener startup failed");});})();
+
+/* Embedded control-room listener: auto-join the shared PTT channel and start browser Whisper. */
+(function(){const q=new URLSearchParams(location.search);if(q.get("compact")!=="1")return;document.body.classList.add("embed-mode");$("engine").value="free";$("inSrc").value="ptt";const ch=(q.get("ch")||"virtual").replace(/[^\\w-]/g,"").slice(0,40)||"virtual";$("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);inUI();syncPttBackLink();$("status").textContent="Starting live PTT listener and loading local Whisper model…";loadAsr().then(()=>pttStart()).catch(e=>{$("status").textContent="Listener could not start: "+e.message;pttStat("model/listener startup failed");});})();
 </script></body></html>
