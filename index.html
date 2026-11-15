@@ -123,6 +123,29 @@ button:disabled{opacity:.55;cursor:not-allowed}
 #sstvP button,#clr{font-size:10px;border-radius:7px;padding:7px 9px}
 #net{font-size:8px;margin-top:6px}
 @media(max-width:760px){body{padding:6px!important}.rig{padding:9px;border-radius:14px}.brand{margin-bottom:6px}.panel{margin-top:6px;padding:7px}#ptt{width:min(38vw,132px);height:min(38vw,132px)}#locp #map{height:110px!important}}
+
+/* Homepage embedded PTT: compact full-width radio with controls in view */
+@media(min-width:701px){
+ body{padding:5px!important;min-height:0!important;background:#07192d!important}
+ .rig{width:100%!important;max-width:none!important;margin:0 auto!important;padding:10px!important;border-radius:14px!important}
+ .brand{margin-bottom:6px!important}
+ .lcd{padding:7px 10px!important}
+ .freq{font-size:clamp(25px,4vw,38px)!important;margin:2px 0!important}
+ .meter{margin-top:4px!important}
+ #ptt{width:104px!important;height:104px!important;margin:7px auto 3px!important;font-size:16px!important}
+ .grille{height:24px!important;margin:6px 12px!important}
+ .keys{gap:6px!important}
+ .k{padding:9px 7px!important;font-size:12px!important}
+ #startBtn{padding:11px!important;font-size:16px!important}
+ #stopBtn{padding:10px!important;font-size:14px!important}
+ input{padding:8px!important;margin:3px 0!important;font-size:14px!important}
+ .modal{padding:8px!important}
+}
+@media(max-width:700px){
+ body{padding:5px!important}
+ .rig{padding:10px!important}
+ #ptt{width:120px!important;height:120px!important;margin:8px auto 4px!important}
+}
 </style></head><body><div class=rig>
 <div class=brand><img src="website/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
