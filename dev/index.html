@@ -670,12 +670,12 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  }
  function setupAudioGraph(){
   if(!window.ac||ac.state==="closed")throw new Error("First power on / join PTT, then enable audio.");
-  if(!mediaSource){
-   mediaSource=meterSource||ac.createMediaElementSource(audio);
-   if(!meterAnalyser){meterAnalyser=ac.createAnalyser();meterAnalyser.fftSize=128;meterData=new Uint8Array(meterAnalyser.frequencyBinCount);mediaSource.connect(meterAnalyser);meterAnalyser.connect(ac.destination)}
+  if(!meterSource){meterSource=ac.createMediaElementSource(audio);mediaSource=meterSource}
+  if(!meterAnalyser){meterAnalyser=ac.createAnalyser();meterAnalyser.fftSize=128;meterData=new Uint8Array(meterAnalyser.frequencyBinCount);meterSource.connect(meterAnalyser);meterAnalyser.connect(ac.destination)}
+  if(!processor){
    processor=ac.createScriptProcessor(4096,1,1);
    mute=ac.createGain();mute.gain.value=0;
-   mediaSource.connect(processor);processor.connect(mute);mute.connect(ac.destination);
+   meterSource.connect(processor);processor.connect(mute);mute.connect(ac.destination);
    processor.onaudioprocess=e=>{
     if(!bridging||!bot||!bot.talking||!bot.c||!bot.c.connected)return;
     const input=e.inputBuffer.getChannelData(0),ratio=ac.sampleRate/(window.RATE||12000);
