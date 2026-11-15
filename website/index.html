@@ -118,8 +118,8 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 .cockpit-bottom{display:block!important;padding:9px!important}
 .live-pair{display:grid!important;grid-template-columns:minmax(270px,.82fr) minmax(0,1.18fr)!important;gap:10px!important;align-items:stretch}
 .live-pair>.pane{min-width:0!important}
-.live-pair .join-pane iframe{display:block!important;width:100%!important;height:390px!important;border:0!important;background:#07192d}
-.live-pair .transcript-pane{display:flex!important;flex-direction:column!important;min-height:390px}
+.live-pair .join-pane iframe{display:block!important;width:100%!important;height:760px!important;border:0!important;background:#07192d}
+.live-pair .transcript-pane{display:flex!important;flex-direction:column!important;min-height:760px}
 .live-pair .transcript-feed{flex:1;min-height:90px;max-height:210px;overflow:auto}
 .live-pair .listener-mini{display:flex!important;flex-direction:column!important;margin-top:8px}
 .live-pair .listener-mini iframe,#liveTranscript{display:block!important;width:100%!important;height:270px!important;min-height:270px!important;border:0!important;background:#07192d}
@@ -129,7 +129,7 @@ td,th{overflow-wrap:anywhere;word-break:break-word}
 .c-gauges .signal-meter{display:none!important}
 .demo-link-strip{padding:12px 0;background:#f4f7fa;border-top:1px solid var(--line)}
 .demo-link-strip p{margin:0;font-size:11px;color:#617184}.demo-link-strip a{font-weight:800;color:var(--orange)}
-@media(max-width:700px){.live-pair{grid-template-columns:1fr!important}.live-pair .join-pane iframe{height:350px!important}.live-pair .listener-mini iframe,#liveTranscript{height:280px!important;min-height:280px!important}.cockpit-support{grid-template-columns:1fr!important}}
+@media(max-width:700px){.live-pair{grid-template-columns:1fr!important}.live-pair .join-pane iframe{height:760px!important}.live-pair .listener-mini iframe,#liveTranscript{height:280px!important;min-height:280px!important}.cockpit-support{grid-template-columns:1fr!important}}
 </style>
 <style id="cockpit-rebuild-v2">
 /* Rebuilt operator cockpit: controls first, diagnostics secondary */
@@ -303,7 +303,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 <div class="cockpit-bottom">
 <div class="live-pair">
-<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=sanket-website-demo&amp;embed=1" allow="microphone; autoplay" loading="eager"></iframe></div>
+<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=sanket-website-demo" allow="microphone; autoplay" loading="eager"></iframe></div>
 <div class="pane transcript-pane"><div class="ph">LIVE TRANSCRIPTION <small class="rx-label">● WORDS APPEAR HERE</small></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>LIVE LISTENER · LOCAL WHISPER</span><iframe id="liveTranscript" title="Sanket live transcription listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" loading="eager" allow="autoplay; microphone" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">No audio recordings received yet.</p></div></div></div>
 </div>
 <div class="cockpit-support">
