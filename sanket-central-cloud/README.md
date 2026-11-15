@@ -28,6 +28,8 @@ Clients cannot submit an arbitrary tenant prefix. The API takes tenant identity 
 
 - `GET /health`
 - `POST /v1/sites` (tenant administrator)
+- `GET /v1/sites` (tenant-scoped)
+- `GET /v1/devices` (tenant-scoped inventory)
 - `POST /v1/sites/{site_id}/devices` (tenant administrator)
 - `POST /v1/objects` (authenticated multipart upload with SHA-256)
 - `GET /v1/objects` (tenant-scoped listing)
@@ -37,7 +39,7 @@ Clients cannot submit an arbitrary tenant prefix. The API takes tenant identity 
 - `GET /v1/backups/{backup_id}/restore`
 - `GET /v1/storage/summary`
 
-The repository now includes a responsive operator dashboard at `/`, served by FastAPI behind Caddy. It displays tenant-scoped storage totals, backup history and object inventory, and can request short-lived restore/download URLs. Device inventory, backup scheduling visibility, quotas, audit events, lifecycle policies, malware scanning, resumable uploads and end-to-end tests remain follow-on work.
+The repository now includes a responsive operator dashboard at `/`, served by FastAPI behind Caddy. It displays tenant-scoped storage totals, backup history and object inventory, and can request short-lived restore/download URLs. Device heartbeat/online status, backup scheduling controls, quotas, audit events, lifecycle policies, malware scanning, resumable uploads and end-to-end tests remain follow-on work.
 
 ## Deployment prerequisites
 
