@@ -1322,4 +1322,67 @@ function googleTranslateElementInit(){
  #control .taf-top-five button b{font-size:5.5px!important}
 }
 </style>
+
+<style id="homepage-mobile-two-column-hotfix">
+/* Only the homepage live demo: force the two actual panels into one row on phones. */
+#control .cockpit-bottom{display:block!important;width:100%!important;min-width:0!important;overflow:visible!important;padding:4px!important}
+#control .cockpit-bottom>.live-pair{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ grid-template-rows:minmax(390px,1fr)!important;
+ grid-auto-flow:column!important;
+ align-items:stretch!important;
+ gap:5px!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ height: min(72svh,560px)!important;min-height:390px!important;max-height:560px!important;
+}
+#control .cockpit-bottom>.live-pair>.join-pane{
+ display:flex!important;grid-column:1!important;grid-row:1!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ height:100%!important;min-height:0!important;overflow:hidden!important;
+}
+#control .cockpit-bottom>.live-pair>.transcript-pane{
+ display:flex!important;flex-direction:column!important;grid-column:2!important;grid-row:1!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ height:100%!important;min-height:0!important;overflow:hidden!important;
+}
+#control .cockpit-bottom>.live-pair>.join-pane iframe{
+ display:block!important;width:100%!important;max-width:100%!important;
+ height:calc(100% - 28px)!important;min-height:0!important;flex:1 1 auto!important;
+}
+#control .cockpit-bottom>.live-pair>.transcript-pane .transcript-feed{
+ flex:0 0 58px!important;min-height:40px!important;max-height:58px!important;overflow:auto!important;
+}
+#control .cockpit-bottom>.live-pair>.transcript-pane .listener-mini{
+ display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+ min-width:0!important;min-height:0!important;height:auto!important;overflow:hidden!important;
+}
+#control .cockpit-bottom>.live-pair>.transcript-pane .listener-mini iframe,
+#control .cockpit-bottom>.live-pair>.transcript-pane iframe#liveTranscript{
+ display:block!important;width:100%!important;max-width:100%!important;
+ height:0!important;min-height:0!important;flex:1 1 auto!important;
+}
+@media(max-width:760px){
+ #control .cockpit-bottom>.live-pair{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(360px,1fr)!important;
+  grid-auto-flow:column!important;
+  gap:4px!important;
+  height: min(68svh,500px)!important;min-height:360px!important;max-height:500px!important;
+ }
+ #control .cockpit-bottom>.live-pair>.join-pane,
+ #control .cockpit-bottom>.live-pair>.transcript-pane{grid-row:1!important;height:100%!important}
+ #control .cockpit-bottom>.live-pair>.join-pane{grid-column:1!important}
+ #control .cockpit-bottom>.live-pair>.transcript-pane{grid-column:2!important}
+ #control .cockpit-bottom>.live-pair>.pane>.ph{
+  flex:0 0 28px!important;height:28px!important;min-height:28px!important;
+  padding:4px 3px!important;font-size:7px!important;line-height:1.15!important;overflow:hidden!important;
+ }
+ #control .cockpit-bottom>.live-pair>.pane>.ph small{font-size:6px!important}
+ #control .cockpit-bottom>.live-pair>.join-pane iframe{height:calc(100% - 28px)!important}
+ #control .cockpit-bottom>.live-pair>.transcript-pane .transcript-feed{
+  flex-basis:48px!important;min-height:36px!important;max-height:48px!important;padding:4px!important;font-size:7px!important;
+ }
+}
+</style>
 </body></html>
