@@ -169,3 +169,37 @@ The first deployment and test target is one Raspberry Pi running both applicatio
 7. Reboot and verify independent startup without port, device-lock or data-directory conflicts.
 
 The same-device pilot is the default deployment target. A second Pi is an optional later scale-out or redundancy option.
+
+
+## 11. Backup, export, migration and restore
+
+Provide a guided **Backup & Migration** workflow so an operator can replace a Raspberry Pi, reinstall the OS, or move the installation to another Pi without manually rebuilding the configuration.
+
+### Export package
+- Export configuration alone, data alone, or a combined backup containing both.
+- Combined export includes Sanket Broadcast settings, channel definitions, routing matrix and named profiles, relay rules, alert automation rules, storage destinations (without exposing credentials), retention settings, UI preferences, and selected recordings/transcripts/metadata.
+- Include a manifest with package format version, application version, creation time, source Pi model/OS/architecture, included components, file sizes and SHA-256 checksums.
+- Allow export to a removable USB drive/pen drive, a configured NAS/network path (SMB/NFS where supported), or cloud storage.
+- Support full backup and incremental data export where practical; show estimated size and destination free space before starting.
+- Encrypt portable backup packages containing recordings or sensitive configuration. Credentials, private keys, tokens and MQTT passwords must never be exported in plaintext; provide an explicit secure credential migration step or require re-entry on the destination.
+
+### Import and restore
+- A new Raspberry Pi installation can import a backup from USB or a configured network location using the touchscreen/web dashboard.
+- Offer restore choices: configuration only, recordings/transcripts only, or complete system migration.
+- Validate package integrity, checksums, compatibility and available destination storage before changing the live installation.
+- Show a preview of what will be imported, including conflicts and estimated duration; require confirmation before applying changes.
+- Restore into a staging area first, then activate atomically where possible. Keep a rollback snapshot of the destination configuration and never overwrite existing recordings/databases without explicit confirmation.
+- Reconcile hardware-specific settings on the new Pi: rescan audio devices, map old logical output labels to newly detected USB devices, and ask the operator to confirm/test each mapping. Never rely on old ALSA/PortAudio numeric indexes or assume identical USB port topology.
+- Reconfigure hostname/network identity and service ports safely; do not clone machine identity, SSH host keys, device certificates or secrets blindly.
+- Re-enter or securely provision MQTT/cloud/NAS credentials on the destination. Validate connectivity after restore.
+- Resume recording, transcription, routing and synchronisation only after the operator sees a restore summary and health checks pass.
+
+### Migration acceptance tests
+1. Export a combined backup to a USB drive and verify its manifest/checksums.
+2. Export the same backup to a NAS/network share and restore from that location.
+3. Install Sanket Broadcast on a replacement Pi 5 and import the USB backup.
+4. Verify channel/routing/alert configuration is restored while hardware is re-detected and remapped.
+5. Verify selected recordings, transcripts and metadata are searchable and playable after restore.
+6. Test an interrupted export/import and confirm safe resume or clean rollback without corrupting the source backup.
+7. Confirm secrets are not exposed in the archive and the operator is prompted to provision credentials securely.
+8. Confirm an existing destination installation is not overwritten without explicit approval.
