@@ -218,12 +218,12 @@ body.embed-mode .modal .panel{background:#0b1c30!important;color:#e5f7ff!importa
 <div class="keys">
  <div class="row" id="inRow" style="gap:6px;margin-bottom:8px;flex-wrap:wrap"><label class="sel">INPUT<select id="inSrc"><option value="mic">🎙 Mic</option><option value="ptt">📻 Web page / PTT radio</option></select></label><label class="sel" id="pttWrap" style="flex:2">PTT LINK<input id="pttUrl" placeholder="radio link"></label><div id="pttShare" style="width:100%;font-size:12px"></div><div id="pttSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
  <div class="row" style="gap:6px;margin-bottom:8px"><label class="sel">TRANSCRIPTION ENGINE<select id="engine"><option value="free">🆓 Free (in-browser Whisper)</option><option value="eleven">ElevenLabs (API key)</option></select></label><div id="engSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
+ <div class="row" id="languageRow" style="gap:6px;margin-bottom:8px"><label class="sel" style="flex:1">SOURCE LANGUAGE<select id="src"></select></label><label class="sel" style="flex:1">DESTINATION LANGUAGE<select id="dst"></select></label></div>
  <div class="ptt"><button id="startBtn">▶ START</button><button id="stopBtn" disabled>■ STOP</button></div>
 </div>
 <div class="one"><a id="pttBackLink" href="../" target="_blank" rel="noopener" style="color:inherit">📻 Open PTT Radio</a> · DEMO · Temporary data, auto-deleted after 7 days · ⚙ Settings for key, languages &amp; alerts</div>
 </div></div>
 <div class="modal" id="setModal"><div class="panel"><div class="ph"><span>⚙ SETTINGS</span><button class="gear" id="setClose" aria-label="Close">✕</button></div><div class="dw">
- <div class="row"><label class="sel">SOURCE<select id="src"></select></label><label class="sel">TRANSLATE<select id="dst"></select></label></div>
  <label>ElevenLabs API key (stored only in this browser)<input id="key" type="password" placeholder="xi-api-key" autocomplete="off"></label>
  <div class="row"><button class="lt" id="saveKey">Save key</button><button class="lt" id="forgetKey">Forget key</button></div>
  <label><span>Hang time (squelch tail): <span id="hangV">1.5</span> s</span><input id="hang" type="range" min="0.8" max="3" step="0.1" value="1.5"></label>
@@ -269,12 +269,23 @@ window.addEventListener("unhandledrejection",function(e){try{var m=e&&e.reason&&
 const $=id=>document.getElementById(id);
 const SRC=[["","Auto detect"],["en","English"],["hi","Hindi"],["gu","Gujarati"],["fr","French"],["te","Telugu"],["mr","Marathi"],["ta","Tamil"],["bn","Bengali"],["ur","Urdu"],["pa","Punjabi"],["kn","Kannada"],["ml","Malayalam"],["es","Spanish"],["ar","Arabic"],["de","German"],["ru","Russian"],["zh","Chinese"],["ja","Japanese"]];
 const DST=[["","None"],["en","English"],["hi","Hindi"],["gu","Gujarati"],["te","Telugu"],["mr","Marathi"],["ta","Tamil"],["bn","Bengali"],["ur","Urdu"],["pa","Punjabi"],["kn","Kannada"],["ml","Malayalam"],["fr","French"],["es","Spanish"],["ar","Arabic"],["de","German"]];
-const FIXED_SOURCE="en",FIXED_TARGET="hi";
-function fill(sel,arr,def,k){arr.forEach(([v,t])=>sel.add(new Option(t,v)));sel.value=def;sel.disabled=true;sel.title="Fixed for this Sanket deployment";}
-fill($("src"),SRC,FIXED_SOURCE,"be_src");fill($("dst"),DST,FIXED_TARGET,"be_dst");
-localStorage.setItem("be_src",FIXED_SOURCE);localStorage.setItem("be_dst",FIXED_TARGET);
-$("src").value=FIXED_SOURCE;$("dst").value=FIXED_TARGET;
-(function pinLanguageInUrl(){const u=new URL(location.href);u.searchParams.set("source","en");u.searchParams.set("target","hi");if(u.href!==location.href)history.replaceState(null,"",u.href);})();
+let FIXED_SOURCE="en",FIXED_TARGET="hi";
+function fill(sel,arr,def,storageKey,param){
+ arr.forEach(([v,t])=>sel.add(new Option(t,v)));
+ const q=new URLSearchParams(location.search),saved=localStorage.getItem(storageKey),requested=q.get(param);
+ const chosen=[...arr].some(x=>x[0]===requested)?requested:([...arr].some(x=>x[0]===saved)?saved:def);
+ sel.value=chosen;sel.disabled=false;sel.title="Choose the language for this demo";
+}
+fill($("src"),SRC,"en","be_src","source");fill($("dst"),DST,"hi","be_dst","target");
+FIXED_SOURCE=$("src").value;FIXED_TARGET=$("dst").value;
+function saveLanguages(){
+ FIXED_SOURCE=$("src").value;FIXED_TARGET=$("dst").value;
+ localStorage.setItem("be_src",FIXED_SOURCE);localStorage.setItem("be_dst",FIXED_TARGET);
+ const u=new URL(location.href);u.searchParams.set("source",FIXED_SOURCE);u.searchParams.set("target",FIXED_TARGET);
+ history.replaceState(null,"",u.href);
+ setStatus("Language settings saved · "+(SRC.find(x=>x[0]===FIXED_SOURCE)?.[1]||"Auto detect")+" → "+(DST.find(x=>x[0]===FIXED_TARGET)?.[1]||"None")+".");
+}
+$("src").addEventListener("change",saveLanguages);$("dst").addEventListener("change",saveLanguages);
 $("key").value=localStorage.getItem("be_key")||"";
 $("saveKey").onclick=()=>{localStorage.setItem("be_key",$("key").value.trim());setStatus("API key saved in this browser.");};
 $("forgetKey").onclick=()=>{localStorage.removeItem("be_key");$("key").value="";setStatus("API key removed.");};
@@ -586,14 +597,14 @@ emBanner();
  const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40);const ch=(stored||q.get("ch")||"virtual").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40)||"virtual";
  $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
  inUI();syncPttBackLink();
- $("status").textContent="Starting live PTT listener… English speech will be transcribed and translated into Hindi automatically.";
+ $("status").textContent="Starting live PTT listener… source and destination languages are configurable below.";
  const launch=()=>{if(pttOn)return;
    /* Download and initialise local Whisper immediately, not after the first transmission. */
    $("engine").value="free";localStorage.setItem("be_engine","free");
    engSt("⏳ Waiting for local Whisper model download…");
    loadAsr().catch(e=>{engSt("❌ Local Whisper download failed: "+e.message);});
    pttStart().then(()=>{
-     $("status").textContent="Listening to PTT channel "+ch+". Local Whisper is loading; English → Hindi transcription will begin when the model is ready.";
+     $("status").textContent="Listening to PTT channel "+ch+". Local Whisper is loading; selected language settings will be used.";
    }).catch(e=>{
      $("status").textContent="Listener could not start: "+e.message;
      pttStat("listener startup failed");
