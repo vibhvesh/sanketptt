@@ -1,0 +1,37 @@
+name: Sanket Central Cloud CI
+on:
+  pull_request:
+    paths:
+      - "sanket-central-cloud/**"
+      - ".github/workflows/sanket-central-cloud.yml"
+  push:
+    branches: [main, sanket-broadcast-v1]
+    paths:
+      - "sanket-central-cloud/**"
+      - ".github/workflows/sanket-central-cloud.yml"
+jobs:
+  python-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile API and Pi agent
+        run: |
+          python -m py_compile sanket-central-cloud/api/app/main.py
+          python -m py_compile sanket-central-cloud/pi-agent/backup_agent.py
+      - name: Validate compose configuration
+        env:
+          POSTGRES_MIGRATOR_PASSWORD: ci-migration-password
+          POSTGRES_APP_PASSWORD: ci-runtime-password
+          PUBLIC_DOMAIN: localhost
+          ACME_EMAIL: ci@example.invalid
+          R2_ACCOUNT_ID: ci-account
+          R2_BUCKET: sanket-ci
+          R2_ACCESS_KEY_ID: ci-key
+          R2_SECRET_ACCESS_KEY: ci-secret
+          JWT_ISSUER: https://identity.example.invalid/
+          JWT_AUDIENCE: sanket-central-cloud
+          JWKS_URL: https://identity.example.invalid/jwks.json
+        run: docker compose -f sanket-central-cloud/docker-compose.yml config --quiet
