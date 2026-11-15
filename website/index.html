@@ -672,7 +672,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 <div class="cockpit-bottom">
 <div class="live-pair">
-<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=virtual&v=9ee6fd9" allow="microphone; autoplay" loading="eager"></iframe></div>
+<div class="pane join-pane"><div class="ph">PUSH TO TALK <small>JOIN · HOLD TO TRANSMIT</small></div><iframe id="pttControl" title="Sanket PTT controls" src="https://vibhvesh.github.io/sanketptt/?ch=virtual&v=bc4938a" allow="microphone; autoplay" loading="eager"></iframe></div>
 <div class="pane transcript-pane"><div class="ph">LIVE TRANSCRIPTION <small class="rx-label">● WORDS APPEAR HERE</small></div><div class="transcript-feed" id="liveMessageFeed"><p class="empty-live">Waiting for a real PTT transmission and its transcription…</p></div><div class="listener-mini"><span>SANKET LISTENER · LIVE TRANSCRIPTION</span><iframe id="liveTranscript" title="Sanket Transcription live PTT listener" src="https://vibhvesh.github.io/sanketptt/transcribe/?compact=1&amp;ch=virtual" loading="eager" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="audio-feed"><div class="audio-feed-title">RECEIVED AUDIO <span id="audioReceivedCount">0</span></div><div id="receivedAudioList"><p class="empty-live">No audio recordings received yet.</p></div></div></div>
 </div>
 <div class="cockpit-support">
@@ -1497,4 +1497,21 @@ function googleTranslateElementInit(){
  margin-bottom:0!important;
 }
 .hero .wrap>.live-signals{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important}
+
+/* Keep the embedded radio fully usable: do not crop its login or PTT controls. */
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane{
+ height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;
+}
+.hero .wrap>.cockpit-bottom>.live-pair>.join-pane iframe,
+#pttControl{
+ display:block!important;width:100%!important;height:780px!important;
+ min-height:780px!important;max-height:none!important;flex:0 0 780px!important;
+ overflow:auto!important;border:0!important;
+}
+@media(max-width:760px){
+ .hero .wrap>.cockpit-bottom>.live-pair>.join-pane iframe,
+ #pttControl{
+  height:780px!important;min-height:780px!important;max-height:none!important;flex-basis:780px!important;
+ }
+}
 </style></body></html>
