@@ -354,6 +354,28 @@ function googleTranslateElementInit(){
 .brand-lockup-name span{color:#209e55}
 .brand-lockup-tagline{font-size:clamp(19px,2.4vw,29px);font-weight:850;letter-spacing:-.7px;line-height:1.15;color:#209e55}
 @media(max-width:760px){.brand-lockup{gap:8px 15px;margin:2px 0 12px}.brand-lockup-name{font-size:27px}.brand-lockup-tagline{font-size:21px}}
+
+/* Compact topology and side-by-side live incoming/alert panels */
+.c-network-col{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:8px;max-width:100%}
+.c-network .network-stage{padding:2px 7px 0}
+.c-network .network-svg{max-height:125px}
+.c-network .network-caption{padding:0 4px 6px;gap:9px;font-size:7px}
+.c-gauges .gauge-row{padding:7px 8px 4px;gap:4px}
+.c-gauges .gauge-face{transform:scale(.78);transform-origin:center bottom;margin-bottom:-9px}
+.c-gauges .signal-meter{padding:4px 9px}
+.cockpit-bottom{grid-template-columns:minmax(170px,.8fr) minmax(190px,.9fr) minmax(0,1.7fr) minmax(0,1.15fr);gap:9px;align-items:stretch}
+.cockpit-bottom>.transcript-pane{grid-column:3;grid-row:1}
+.cockpit-bottom>.transcript-pane+.pane{grid-column:4;grid-row:1}
+.cockpit-bottom>.transcript-pane+.pane+.pane{grid-column:4;grid-row:2}
+.cockpit-bottom>.join-pane{grid-column:1;grid-row:1}
+.cockpit-bottom>.join-pane+.pane{grid-column:2;grid-row:1}
+.cockpit-bottom .transcript-feed{max-height:260px;min-height:130px}
+.cockpit-bottom .audio-feed{max-height:190px;overflow:auto}
+.cockpit-bottom .listener-mini iframe{height:86px}
+.cockpit-bottom .presence-columns{grid-template-columns:1fr;gap:7px}
+.cockpit-bottom .presence-list{max-height:125px}
+@media(max-width:1050px){.cockpit-bottom{grid-template-columns:repeat(2,minmax(0,1fr))}.cockpit-bottom>.transcript-pane{grid-column:1;grid-row:2}.cockpit-bottom>.transcript-pane+.pane{grid-column:2;grid-row:2}.cockpit-bottom>.transcript-pane+.pane+.pane{grid-column:2;grid-row:3}.cockpit-bottom>.join-pane{grid-column:1;grid-row:1}.cockpit-bottom>.join-pane+.pane{grid-column:2;grid-row:1}}
+@media(max-width:650px){.c-network-col{grid-template-columns:1fr}.c-network .network-svg{max-height:140px}.cockpit-bottom{grid-template-columns:1fr}.cockpit-bottom>.join-pane,.cockpit-bottom>.join-pane+.pane,.cockpit-bottom>.transcript-pane,.cockpit-bottom>.transcript-pane+.pane,.cockpit-bottom>.transcript-pane+.pane+.pane{grid-column:1;grid-row:auto}.cockpit-bottom .presence-columns{grid-template-columns:1fr 1fr}.cockpit-bottom .listener-mini iframe{height:105px}}
 </style>
 <script>
 (()=>{const native=document.getElementById('siteLanguage');if(!native||native.dataset.customized)return;native.dataset.customized='1';const wrap=native.parentElement;const host=document.createElement('div');host.className='sanket-language-picker';host.id='sanket-language-picker';const trigger=document.createElement('button');trigger.type='button';trigger.className='sanket-language-trigger';trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');const label=()=>native.options[native.selectedIndex]?.text||'English';trigger.innerHTML='<span></span><span aria-hidden="true">⌄</span>';trigger.firstElementChild.textContent=label();const menu=document.createElement('div');menu.className='sanket-language-menu';menu.setAttribute('role','listbox');const searchWrap=document.createElement('div');searchWrap.className='sanket-language-search';const search=document.createElement('input');search.type='search';search.placeholder='Search languages…';search.setAttribute('aria-label','Search languages');searchWrap.append(search);menu.append(searchWrap);const options=[];[...native.options].forEach(o=>{const b=document.createElement('button');b.type='button';b.className='sanket-language-option';b.textContent=o.text;b.dataset.value=o.value;b.setAttribute('role','option');b.setAttribute('aria-selected',String(o.selected));b.addEventListener('click',()=>{native.value=o.value;native.dispatchEvent(new Event('change',{bubbles:true}));trigger.firstElementChild.textContent=o.text;options.forEach(x=>x.setAttribute('aria-selected',String(x===b)));close();});menu.append(b);options.push(b)});function open(){menu.classList.add('open');trigger.setAttribute('aria-expanded','true');search.value='';options.forEach(x=>x.hidden=false);search.focus()}function close(){menu.classList.remove('open');trigger.setAttribute('aria-expanded','false')}trigger.addEventListener('click',()=>menu.classList.contains('open')?close():open());search.addEventListener('input',()=>{const q=search.value.toLocaleLowerCase();options.forEach(x=>x.hidden=!x.textContent.toLocaleLowerCase().includes(q))});document.addEventListener('click',e=>{if(!host.contains(e.target))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});host.append(trigger,menu);native.insertAdjacentElement('afterend',host);})();
