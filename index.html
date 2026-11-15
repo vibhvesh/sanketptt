@@ -370,19 +370,24 @@ function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,on:func
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end()}render()}
  else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}rxAt=Date.now();rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc)}play(v)}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^\w-]/g,'').slice(0,40)||CHANNEL})();start(CHANNEL);document.getElementById('transcribeLink').href='./transcribe/?ch='+encodeURIComponent(CHANNEL);
-go.onclick=async function(){var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');localStorage.nm=me;
- ac=new (window.AudioContext||window.webkitAudioContext)();unlockAudio();
- try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}catch(e){alert('Mic unavailable: '+e.message+' (you can still listen)')}
- if(stream){var src=ac.createMediaStreamSource(stream);proc=ac.createScriptProcessor(4096,1,1);var mute=ac.createGain();mute.gain.value=0;src.connect(proc);proc.connect(mute);mute.connect(ac.destination);
+go.onclick=async function(){var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');localStorage.nm=me;go.disabled=true;go.textContent='CONNECTING…';
+ /* Join the channel immediately. Microphone permission must never block radio power-on or receive mode. */
+ login.style.display='none';main.style.display='block';hd.textContent='#'+radio.ch+' — '+me;radio.join(me);startLoc();
+ try{ac=new (window.AudioContext||window.webkitAudioContext)();try{await ac.resume()}catch(e){}}
+ catch(e){ac=null}
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}
+ catch(e){stream=null;hd.textContent='#'+radio.ch+' — '+me+' · LISTEN ONLY (microphone permission needed to transmit)';}
+ if(stream&&ac){var src=ac.createMediaStreamSource(stream);proc=ac.createScriptProcessor(4096,1,1);var mute=ac.createGain();mute.gain.value=0;src.connect(proc);proc.connect(mute);mute.connect(ac.destination);
   proc.onaudioprocess=function(e){if(!granted||sstvTx)return;var i=e.inputBuffer.getChannelData(0),r=ac.sampleRate/RATE,n=Math.floor(i.length/r),o=new Int16Array(n);
    for(var k=0;k<n;k++)o[k]=Math.max(-1,Math.min(1,i[Math.floor(k*r)]))*32767;if(radio.sendAudio(o)){txLvl=Math.max(txLvl,lvl(o));rec.feed(radio.id,radio.name,o,true,undefined,radio.loc)}}}
- startLoc();login.style.display='none';main.style.display='block';hd.textContent='#'+radio.ch+' — '+me;radio.join(me);
- setInterval(function(){unlock.style.display=ac.state==='running'?'none':'block'},1000)};
+ go.disabled=false;go.textContent='POWER ON · JOIN';
+ if(ac)setInterval(function(){unlock.style.display=ac&&ac.state==='running'?'none':'block'},1000);
+ render();};
 function unlockAudio(){ac.resume();var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)} // iOS unlock
 unlock.onclick=unlockAudio;
 function play(a){if(!ac)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
  var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+1)playT=now+0.15;s.start(playT);playT+=b.duration}
-function down(e){e&&e.preventDefault();if(holding||sstvTx)return;unlockAudio();holding=true;render();radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})}
+function down(e){e&&e.preventDefault();if(holding||sstvTx)return;if(!radio||!radio.c||!radio.c.connected){st.textContent='CONNECTING TO RADIO…';return}if(!stream||!ac){st.textContent='MICROPHONE PERMISSION REQUIRED TO TRANSMIT';return}unlockAudio();holding=true;render();radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})}
 function up(e){e&&e.preventDefault();if(!holding||sstvTx)return;holding=false;granted=false;radio.release();rec.end();render()}
 ptt.addEventListener('pointerdown',function(e){ptt.setPointerCapture(e.pointerId);down(e)});['pointerup','pointercancel'].forEach(function(t){ptt.addEventListener(t,up)});
 ptt.oncontextmenu=function(e){e.preventDefault()};
