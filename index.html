@@ -124,7 +124,14 @@ html.ptt-embed #main>.panel:first-of-type{margin-top:5px!important}
  html.ptt-embed .freq{font-size:clamp(18px,5.5vw,28px)!important}
  html.ptt-embed #ptt{width:clamp(72px,26vw,108px)!important;height:clamp(72px,26vw,108px)!important}
 }
-</style><style>
+<style>
+html.sanket-listen-only #ptt,html.sanket-listen-only #sstvP,html.sanket-listen-only #locp,
+html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx,
+html.sanket-listen-only .hint{ }
+html.sanket-listen-only #ptt,html.sanket-listen-only #sstvP,html.sanket-listen-only #locp,
+html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx{display:none!important}
+html.sanket-listen-only #main>.hint{display:none!important}
+</style></style><style>
 /* Good Configuration #1 visual refinement — compact handheld transceiver faceplate */
 .rig{width:min(100%,470px);max-width:470px;padding:12px;border-radius:18px;background:linear-gradient(145deg,#4b535d 0%,#252c35 24%,#151a20 78%,#080c11 100%);border:1px solid #78828d;box-shadow:0 16px 38px #000b,inset 0 1px 0 #ffffff55,inset 0 -2px 0 #000}
 .rig:before,.rig:after{width:8px;height:8px;top:8px;background:radial-gradient(circle at 35% 30%,#dce3e8,#65707a 45%,#151a20 75%);box-shadow:0 1px 2px #000}
@@ -211,6 +218,8 @@ html.ptt-embed #ptt{width:clamp(72px,24vw,120px)!important;height:clamp(72px,24v
 <script id=core>
 // ---- protocol core (also used by headless tests) ----
 var PTT_PREFIX='ptt-radio-66ab9178/',CHANNEL='virtual';
+var SANKET_LISTEN_ONLY=new URLSearchParams(location.search).get('listen')==='1';
+var SANKET_DEVICE_NAME=(new URLSearchParams(location.search).get('name')||'').replace(/[^A-Za-z0-9._:-]/g,'').slice(0,40);
 var BROKERS=['wss://public:public@public.cloud.shiftr.io','wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081'];
 var HB_MS=5000,EXPIRE_MS=15000,FLOOR_TIMEOUT_MS=2500,CLAIM_GRACE_MS=700;
 function fmtCS(v){v=(v||'').trim();return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\/]+$/.test(v)?v.toUpperCase():v}
@@ -320,7 +329,13 @@ go.onclick=async function(){
  // Join the radio first. Microphone permission is optional for listening.
  login.style.display='none';main.style.display='block';hd.textContent='#'+radio.ch+' — '+me;
  try{ac=new (window.AudioContext||window.webkitAudioContext)();unlockAudio()}catch(e){ac=null;unlock.style.display='block';}
- radio.join(me);startLoc();
+ radio.join(me);
+ if(SANKET_LISTEN_ONLY){
+  document.documentElement.classList.add('sanket-listen-only');
+  net.textContent='Listen-only receiver · '+radio.ch+' · '+me;
+  return; // Never request a microphone or enter any transmit path.
+ }
+ startLoc();
  if(ac){setInterval(function(){unlock.style.display=ac&&ac.state==='running'?'none':'block'},1000)}
  try{
   stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});
@@ -330,6 +345,12 @@ go.onclick=async function(){
   }
  }catch(e){net.textContent='Listening mode · microphone unavailable: '+e.message}
 };
+if(SANKET_LISTEN_ONLY){
+ nm.value=SANKET_DEVICE_NAME||'SANKET-PI';
+ // Chromium is launched with autoplay enabled; auto-join without user interaction.
+ window.addEventListener('load',function(){setTimeout(function(){go.click()},900)},{once:true});
+}
+
 function unlockAudio(){ac.resume();var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)} // iOS unlock
 unlock.onclick=unlockAudio;
 function play(a){if(!ac)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
