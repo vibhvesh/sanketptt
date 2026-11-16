@@ -24,7 +24,7 @@ Defaults:
 Choose a channel during installation:
 
 ```bash
-SANKET_PTT_CHANNEL=master curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install-lite.sh | bash
+curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install-lite.sh | SANKET_PTT_CHANNEL=master bash
 ```
 
 Or edit `/etc/default/sanket-webptt`:
