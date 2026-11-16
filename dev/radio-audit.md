@@ -1,6 +1,6 @@
 # Sanket PTT Dev — International Radio Stream Audit
 
-Last updated: 2026-11-16 04:17 IST
+Last updated: 2026-11-16 06:00 IST
 
 ## Status key
 
@@ -227,3 +227,64 @@ Test time below is the audit-run timestamp in India Standard Time. All candidate
 - WNYC 820 AM is not present in the Dev station registry; exact name lookup returned no match.
 - Existing Indian stations and PTT priority behavior remain unchanged.
 - No removed-station restore record was needed because no station was removed.
+
+
+## Overnight consolidated re-test — 2026-11-16 06:00 IST
+
+### Cumulative result
+
+- **GREEN (0):** none. No feed has passed decoded audio plus advancing playback-clock verification.
+- **YELLOW (16):** BBC World Service; WNYC 93.9 FM; WFMU Freeform; KCRW Eclectic24; ABC NewsRadio (official player only); RTÉ Radio 1; RTÉ 2FM; RTÉ Raidió na Gaeltachta; WQXR 105.9 FM; WNYC New Sounds; WNYC Operavore; WNYC New Standards; France Inter; franceinfo; Deutsche Welle Radio English; Radio One 91FM (New Zealand).
+- **RED (1):** WNYC 820 AM internet stream — WNYC's own discontinuation notice says the AM internet stream ended on 22 March 2025. This is a service discontinuation classification, not a new HTTP failure in this run.
+- **Removed from Dev selector:** none. WNYC 820 AM is not in the Dev station registry. No selectable station has accumulated three consecutive hourly origin-confirmed RED checks.
+
+### Fresh direct-endpoint test — 06:00:49 IST
+
+Test method:
+- Re-tested 16 direct candidate URLs, including the discontinued WNYC 820 legacy URL, using concurrent curl HTTP byte-range requests for bytes 0–4095, a browser-like User-Agent, 2-second connection timeout and 3-second overall timeout.
+- Followed redirects and recorded HTTP status, received bytes, remote IP and content type.
+- All 16 attempts failed before an HTTP connection. WNYC 93.9 returned curl exit 6 (could not resolve host); the other 15 returned curl exit 28 (DNS resolution timed out at 3 seconds). Every request reported HTTP 000, zero bytes, no remote IP and no content type.
+- This audit runner therefore received no origin response. These results are network-runner DNS failures, not evidence that the stations are down.
+- No HLS manifest body was retrieved, so no HLS media-segment URL could be extracted or fetched. No MP3/AAC frames were received or decoded. No browser media element or playback clock was available.
+- Separately opened six representative direct URLs in the web reader: WNYC 93.9, WFMU, KCRW, BBC World Service and Radio One were not accessible to that reader; RTÉ Radio 1 manifest returned reader-side 403. These are reader/proxy limitations, not origin HTTP results.
+
+### Station-by-station re-test record
+
+| Stream | Country | Language | Official source | Direct stream URL / official player | Test time | Manifest / HTTP evidence | Audio evidence | Status |
+|---|---|---|---|---|---|---|---|---|
+| BBC World Service | UK / international | English | https://help.bbc.com/hc/en-us/articles/42652680528659-Update-on-access-to-BBC-Sounds-outside-the-UK | Candidate CDN: https://stream.live.vc.bbcmedia.co.uk/bbc_world_service; official player: https://www.bbc.com/audio | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; reader could not open audio URL | No bytes, frames or playback-clock test; BBC confirms international live access via BBC.com and app | YELLOW |
+| WNYC 93.9 FM | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://fm939.wnyc.org/wnycfm (MP3); https://fm939.wnyc.org/wnycfm.aac (AAC) | 06:00:49 IST | curl exit 6, HTTP 000, DNS resolution failure; reader could not open URL; official page lists MP3/AAC | No audio bytes or frames decoded | YELLOW |
+| WNYC 820 AM | USA | English | https://wnyc.org/story/wnyc-am-stream-ending-march-22/ | Legacy URL: https://am820.wnyc.org/wnycam | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; WNYC's discontinuation notice is stronger evidence than its stale format listing | No current audio received; service discontinued according to broadcaster | RED — discontinued |
+| WFMU Freeform | USA | English | https://freeform.wfmu.org/mobile.shtml and https://freeform.wfmu.org/audiostream.shtml | http://stream0.wfmu.org/freeform-128k.mp3; alternate: http://stream0.wfmu.org/freeform-32k.mp3 | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; reader could not open audio URL; official pages list direct MP3/AAC options | No MP3/AAC bytes or decoded frames | YELLOW |
+| KCRW Eclectic24 | USA | English | https://www.kcrw.com/shows/eclectic24/latest | Candidate: https://kcrw.streamguys1.com/kcrw_192k_mp3_e24_internet_radio; official player: https://www.kcrw.com/shows/eclectic24/latest | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; reader could not open direct audio. Official page currently shows on air and a live tracklist | Web page activity is not audio decode; no MP3 frames or playback-clock test | YELLOW |
+| ABC NewsRadio | Australia | English | https://www.abc.net.au/listen/live/news and https://help.abc.net.au/hc/en-us/articles/15071793950607-Changes-to-ABC-Radio-Live-Streams-on-Third-Party-Platforms | Official player: https://www.abc.net.au/listen/live/news; direct endpoint not established | 06:00:49 IST | No direct URL to test; ABC directs listeners to ABC listen or formal partners because of third-party distribution changes | No direct audio endpoint decoded | YELLOW |
+| RTÉ Radio 1 | Ireland | English | https://www.rte.ie/radio/support/2026/0728/1585419-rte-listen-support-contact/ | Legacy manifest: https://www.rte.ie/manifests/radio1.m3u8; current official destination: https://www.rte.ie/radio/ | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; reader-side 403 on manifest. RTÉ Radio Player retirement date is 16 Nov 2026 | No manifest body, media segment or decoded audio | YELLOW |
+| RTÉ 2FM | Ireland | English | https://www.rte.ie/radio/support/2026/0728/1585419-rte-listen-support-contact/ | Legacy manifest: https://www.rte.ie/manifests/2fm.m3u8; official destination: https://www.rte.ie/radio/ | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; no origin manifest response | No media segment or decoded audio | YELLOW |
+| RTÉ Raidió na Gaeltachta | Ireland | Irish | https://www.rte.ie/radio/support/2026/0728/1585419-rte-listen-support-contact/ | Legacy manifest: https://www.rte.ie/manifests/rnag.m3u8; official destination: https://www.rte.ie/radio/ | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; no origin manifest response | No media segment or decoded audio | YELLOW |
+| WQXR 105.9 FM | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://stream.wqxr.org/wqxr (MP3); https://stream.wqxr.org/wqxr.aac (AAC) | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; official WNYC formats page lists both formats | No MP3/AAC bytes or frames decoded | YELLOW |
+| WNYC New Sounds | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://q2stream.wqxr.org/q2 (MP3); https://q2stream.wqxr.org/q2.aac (AAC) | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; official WNYC formats page lists both formats | No MP3/AAC bytes or frames decoded | YELLOW |
+| WNYC Operavore | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://opera-stream.wqxr.org/operavore (MP3); https://opera-stream.wqxr.org/operavore.aac (AAC) | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; official WNYC formats page lists both formats | No MP3/AAC bytes or frames decoded | YELLOW |
+| WNYC New Standards | USA | English | https://prod.wnyc.org/audio-other-formats/ | https://tjc.wnyc.org/js-stream (MP3); https://tjc.wnyc.org/js-stream.aac (AAC) | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; official WNYC formats page lists both formats | No MP3/AAC bytes or frames decoded | YELLOW |
+| France Inter | France | French | https://developers.radiofrance.fr/doc/en/tutorial-by-example/list-brands and https://developers.radiofrance.fr/doc/en/faq | https://icecast.radiofrance.fr/franceinter-midfi.mp3?id=openapi | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout | No MP3 frames decoded. Radio France API FAQ says its Open API is not authorised for third-party live stream aggregation; do not integrate without permission | YELLOW — rights/terms gate |
+| franceinfo | France | French | https://developers.radiofrance.fr/doc/en/tutorial-by-example/list-brands and https://developers.radiofrance.fr/doc/en/faq | https://icecast.radiofrance.fr/franceinfo-midfi.mp3?id=openapi | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout | No MP3 frames decoded. Radio France API FAQ says its Open API is not authorised for third-party live stream aggregation; do not integrate without permission | YELLOW — rights/terms gate |
+| Deutsche Welle Radio English | Germany / international | English | https://www.dw.com/downloads/49905237/dw-radio-streaming.pdf | https://dw.audiostream.io/dw/1002/mp3/64/dw-radio-english | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; official schedule PDF is historical, not current endpoint proof | No MP3 frames decoded; no current 24/7 claim | YELLOW |
+| Radio One 91FM | New Zealand | English | https://r1.coredev.nz/streaming | https://play.r1.co.nz/live | 06:00:49 IST | curl exit 28, HTTP 000, DNS timeout; earlier reader returned audio/mpeg unsupported-content response | No audio bytes or decoded MP3 frames | YELLOW |
+
+### Fresh official-source checks — 05:59–06:00 IST
+
+- KCRW's live Eclectic24 page was fetched successfully and showed on air plus a current tracklist. KCRW explicitly describes Eclectic24 as a 24-hour all-music channel. This verifies current programme-page activity and the stated schedule, not the candidate MP3 endpoint itself.
+- WNYC's official formats page still lists direct MP3/AAC endpoints for WNYC 93.9, WNYC 820, WQXR, New Sounds, Operavore and New Standards. The stale WNYC 820 listing is overridden by the station's explicit March 2025 discontinuation notice.
+- WFMU's official mobile and stream pages list direct MP3 and AAC stream options, including 128k and 32k MP3.
+- ABC's July 2026 notice says its third-party stream distribution is changing and directs listeners to ABC listen or selected partners; do not scrape the app's undocumented media URLs.
+- BBC confirms World Service English remains internationally available through BBC.com and the BBC app; the candidate raw CDN URL is not published by the cited BBC help page.
+- RTÉ's current support page says RTÉ Radio Player stops working on 16 November 2026 and is replaced by RTÉ Listen. Treat the three older manifest URLs as legacy candidates until a fresh official endpoint is documented and decoded.
+
+### Dev safety verification
+
+- Re-fetched current dev/index.html before and after this audit: blob SHA remains a93b3278e399fd55941e2e3392c14114d8327497.
+- No code or selectable station entry changed.
+- No station deletion or registry cleanup was performed.
+- Existing Indian stations and PTT priority behavior remain untouched.
+- No removed-station restore record was needed.
+- The Dev browser scanner still requires the page to be open and uses in-memory status; it is not a persistent 24/7 monitor. This automation's network runner currently cannot resolve the stream hosts, so it cannot provide the required decoded-audio GREEN proof.
+
