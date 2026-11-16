@@ -1,45 +1,56 @@
-# Sanket PTT Web Client — Raspberry Pi 3
+# Sanket PTT Web Client — Raspberry Pi
 
-Browser-only, listen-only receiver. It opens the existing Sanket PTT web client in Chromium kiosk mode; it does not install a native radio/relay client.
+Browser-only, listen-only receiver for the existing Sanket PTT website. This is not a native MQTT radio client.
 
-## Install
+## Headless install (Raspberry Pi OS Lite 32-bit)
 
-Use Raspberry Pi OS Desktop (32-bit or 64-bit) with desktop auto-login enabled:
+Run as the normal Pi login user, without `sudo`:
 
 ```bash
-curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install.sh | bash
+curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install-lite.sh | bash
 sudo reboot
 ```
 
-The Pi opens the Sanket PTT page after desktop login, joins the configured channel automatically, and plays received audio through the Pi 3.5 mm analogue jack. The display can be connected to a monitor or HDMI TV.
+The installer adds Xvfb (a virtual display, no desktop required), Chromium, ALSA utilities and a systemd service. It starts automatically at boot, joins the configured channel in listen-only mode, and restarts Chromium if it exits.
 
-## Defaults and configuration
+## Configure
 
-- URL: https://vibhvesh.github.io/sanketptt/
+Defaults:
+- Web app: https://vibhvesh.github.io/sanketptt/
 - Channel: `virtual`
-- Client name: `PI-` followed by the Pi's hardware MAC address (colons removed)
-- Listen-only: enabled; microphone access and transmit UI are disabled.
-- Chromium is relaunched if it exits.
+- Device name: `PI-` plus the detected hardware MAC address
+- Listen-only: `listen=1`; microphone and transmit controls remain disabled
 
-Edit `/etc/default/sanket-webptt`:
+Choose a channel during installation:
+
+```bash
+SANKET_PTT_CHANNEL=master curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install-lite.sh | bash
+```
+
+Or edit `/etc/default/sanket-webptt`:
 
 ```bash
 sudo nano /etc/default/sanket-webptt
+sudo systemctl restart sanket-webptt
 ```
 
-Set `SANKET_PTT_URL` or `SANKET_PTT_CHANNEL`, then reboot or run `/opt/sanket-webptt/start.sh` from the desktop session.
+## Service diagnostics
+
+```bash
+sudo systemctl status sanket-webptt
+sudo journalctl -u sanket-webptt -f
+sudo systemctl restart sanket-webptt
+```
 
 ## Audio
 
-The launcher selects the Raspberry Pi 3.5 mm analogue output using ALSA's legacy output selector. Connect powered speakers or an amplifier to the headphone jack and adjust volume with:
+The launcher attempts to select the Raspberry Pi 3.5 mm analogue output with ALSA. The installer enables `dtparam=audio=on` in the boot config when that file exists. Connect powered speakers or an amplifier to the analogue jack. If needed, check mixer controls with `alsamixer`.
 
-```bash
-alsamixer
-```
+## Notes and limitations
 
-## Important
-
-- Requires a graphical Raspberry Pi OS Desktop session; this is intentionally not a headless native listener.
-- The browser needs internet access to load GitHub Pages, the MQTT JavaScript library, and the configured public WebSocket MQTT relay.
-- Chromium's autoplay policy is relaxed for this dedicated kiosk profile so incoming PTT audio can play without a repeated click.
-- The PTT web app must be deployed with its `listen=1` support. Normal web-client behaviour remains unchanged when that parameter is absent.
+- Intended for Raspberry Pi OS Lite (32-bit) on a Raspberry Pi with Chromium available from the configured OS repositories. It is not an installer for piCorePlayer.
+- No desktop environment or monitor is required. Xvfb supplies an invisible display because Chromium's normal browser audio path is more reliable here than pure headless mode.
+- Chromium still consumes significant RAM. A 512 MB Pi 3 may be memory-constrained; this has not been physically benchmarked on all Pi 3 variants.
+- Internet access is required for GitHub Pages, the MQTT JavaScript library and the public WebSocket MQTT relay.
+- This client uses the same hosted Sanket PTT web app and public relay list as the browser client; it does not install or host a relay server.
+- Browser autoplay is enabled for the dedicated profile. Actual audio output depends on the Pi audio driver, selected output and connected speaker/amplifier.
