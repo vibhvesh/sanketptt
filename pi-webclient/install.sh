@@ -8,7 +8,10 @@ PI_HOME="$(getent passwd "$PI_USER" | cut -d: -f6)"
 BASE_URL="${SANKET_PTT_URL:-https://vibhvesh.github.io/sanketptt/}"
 CHANNEL="${SANKET_PTT_CHANNEL:-virtual}"
 sudo apt-get update
-sudo apt-get install -y chromium-browser alsa-utils curl
+sudo apt-get install -y alsa-utils curl
+if ! command -v chromium-browser >/dev/null 2>&1 && ! command -v chromium >/dev/null 2>&1; then
+  sudo apt-get install -y chromium || sudo apt-get install -y chromium-browser
+fi
 sudo install -d -m 0755 /opt/sanket-webptt
 sudo tee /opt/sanket-webptt/start.sh >/dev/null <<'LAUNCH'
 #!/usr/bin/env bash
@@ -59,7 +62,7 @@ Comment=Open Sanket PTT and play incoming audio
 Exec=/opt/sanket-webptt/start.sh
 X-GNOME-Autostart-enabled=true
 EOF
-sudo chown -R "$PI_USER":"$(id -gn "$PI_USER")" "$PI_HOME/.config"
+sudo chown -R "$PI_USER":"$(id -gn "$PI_USER")" "$PI_HOME/.config/autostart"
 echo
 echo "Installed. Reboot into the Raspberry Pi desktop to start listening."
 echo "PTT URL: $BASE_URL"
