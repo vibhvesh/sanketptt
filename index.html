@@ -347,8 +347,22 @@ go.onclick=async function(){
 };
 if(SANKET_LISTEN_ONLY){
  nm.value=SANKET_DEVICE_NAME||'SANKET-PI';
- // Chromium is launched with autoplay enabled; auto-join without user interaction.
- window.addEventListener('load',function(){setTimeout(function(){go.click()},900)},{once:true});
+ // Chromium kiosk may reach this script after the load event in cached/reloaded sessions.
+ // Run the same Power On / Join handler directly once the page is ready.
+ var autoJoinStarted=false;
+ function autoJoin(){
+  if(autoJoinStarted||!SANKET_LISTEN_ONLY)return;
+  autoJoinStarted=true;
+  nm.value=SANKET_DEVICE_NAME||'SANKET-PI';
+  go.click();
+ }
+ if(document.readyState==='complete'){
+  setTimeout(autoJoin,900);
+ }else{
+  window.addEventListener('load',function(){setTimeout(autoJoin,900)},{once:true});
+  // Fallback in case the load event was missed or delayed by a browser restore.
+  setTimeout(function(){if(document.readyState==='complete')autoJoin()},2500);
+ }
 }
 
 function unlockAudio(){ac.resume();var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)} // iOS unlock
