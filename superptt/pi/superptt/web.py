@@ -144,6 +144,7 @@ def serve(app):
                 self.send_header("Content-Length", str(len(b))); self.end_headers(); return self.wfile.write(b)
             if u.path == "/api/session":
                 return self.js({"auth": bool(self.sess()), "pin_set": bool(cfg["admin_pin"]),
+                                "admin_set": bool(cfg.get("admin_username") and cfg.get("admin_password")),
                                 "setup_allowed": not cfg["admin_pin"] and self.is_lan()})
             if u.path == "/api/directory":
                 self._cors = True
@@ -213,6 +214,19 @@ def serve(app):
                 app.store.audit(ip, "setup", "admin PIN set, tokens issued")
                 return self.js({"ok": 1, "worker_token": cfg["worker_token"], "directory_token": cfg["directory_token"]},
                                cookie=self.new_session())
+            if self.path == "/api/admin/login":
+                username = str(b.get("username") or "").strip().lower()
+                password = str(b.get("password") or "")
+                if not cfg.get("admin_username") or not cfg.get("admin_password"):
+                    return self.js({"error": "Vaani Admin account has not been created. Sign in with the existing administrator PIN first."}, 428)
+                w = guard.blocked(ip)
+                if w > 0: return self.js({"error": "locked", "retry_s": int(w)}, 429)
+                if hmac.compare_digest(username, cfg["admin_username"]) and check_pin(password, cfg["admin_password"]):
+                    guard.ok(ip); app.store.audit(ip, "admin_login", "ok" + (" via tunnel" if self.via_tunnel() else " LAN"))
+                    t = self.new_session()
+                    return self.js({"ok": 1, "token": t} if self.origin_ok() else {"ok": 1}, cookie=t)
+                guard.fail(ip); app.store.audit(ip, "admin_login_failed", "locked" if guard.blocked(ip) > 0 else "bad credentials")
+                time.sleep(0.5); return self.js({"error": "invalid username or password"}, 403)
             if self.path == "/api/login":
                 if not cfg["admin_pin"]: return self.js({"error": "setup"}, 428)
                 w = guard.blocked(ip)
@@ -228,6 +242,18 @@ def serve(app):
             s = self.sess()
             if not s: return self.js({"error": "auth"}, 401)
             if self.headers.get("X-Requested-With") != "superptt": return self.js({"error": "csrf"}, 403)
+            if self.path == "/api/admin/setup":
+                if cfg.get("admin_username") or cfg.get("admin_password"):
+                    return self.js({"error": "Vaani Admin account already exists"}, 409)
+                username = str(b.get("username") or "").strip().lower()
+                password = str(b.get("password") or "")
+                if not __import__("re").fullmatch(r"[a-z][a-z0-9_-]{2,31}", username):
+                    return self.js({"error": "Username must be 3–32 characters, start with a letter, and contain only lowercase letters, numbers, _ or -"}, 400)
+                if len(password) < 12:
+                    return self.js({"error": "Password must be at least 12 characters"}, 400)
+                cfg.update({"admin_username": username, "admin_password": hash_pin(password)})
+                app.store.audit(ip, "admin_account_created", "username=" + username)
+                return self.js({"ok": 1, "username": username})
             if self.path == "/api/tx/start":
                 chs = b.get("channels") or "all"
                 if b.get("cutin"): app.store.audit(ip, "tx_cutin", f"channels={chs if chs == 'all' else ','.join(map(str, chs))[:200]}")
@@ -266,7 +292,7 @@ def serve(app):
                 return self.js(cfg.public()["cloud"])
             if self.path == "/api/output": cfg.update({"output": b}); return self.js(cfg["output"])
             if self.path == "/api/config":
-                for k in ("admin_pin", "worker_token", "directory_token", "tunnel_metrics", "data_dir",
+                for k in ("admin_pin", "admin_username", "admin_password", "worker_token", "directory_token", "tunnel_metrics", "data_dir",
                           "broker_url", "broker_user", "broker_pass", "client_broker_url"): b.pop(k, None)   # broker: use /api/broker
                 app.store.audit(ip, "config", ",".join(sorted(b))[:200])
                 if isinstance(b.get("cloud"), dict) and b["cloud"].get("api_key") == "***": b["cloud"].pop("api_key")
