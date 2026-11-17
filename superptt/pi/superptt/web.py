@@ -131,7 +131,7 @@ def serve(app):
             self.send_response(204); o = self.origin_ok()
             self.send_header("Access-Control-Allow-Origin", o or "*")
             self.send_header("Access-Control-Allow-Methods", "GET, POST" if o else "GET")
-            self.send_header("Access-Control-Allow-Headers", "X-Directory-Token, Authorization, Content-Type" if o else "X-Directory-Token")
+            self.send_header("Access-Control-Allow-Headers", "X-Directory-Token, Authorization, Content-Type, X-Requested-With" if o else "X-Directory-Token")
             if o: self.send_header("Vary", "Origin")
             self.end_headers()
         # ---- GET ----
