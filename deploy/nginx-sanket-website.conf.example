@@ -1,0 +1,15 @@
+# Copy to the VPS (e.g. /etc/nginx/sites-available/sanket-website)
+# Replace example.com and root path, then: sudo nginx -t && sudo systemctl reload nginx
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name example.com www.example.com;
+
+    root /var/www/sanket/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
