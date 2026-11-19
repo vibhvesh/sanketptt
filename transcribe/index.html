@@ -373,10 +373,11 @@ async function translate(text,tl,sl){if(!text||!tl)return"";
  try{const r=await fetchT(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,480))}&langpair=${(sl&&sl.length===2?sl:"en")}|${tl}`,{},15000);const j=await r.json();return j.responseData.translatedText||"";}catch(e){return"(translation failed)";}}
 async function processClip(chunks,rate,t,meta){{const d=toneDet();for(const x of chunks){if(d.feed(x,rate))break;}if(d.sstv){sstvNote(meta&&meta.speaker||"",chunks.reduce((a,c)=>a+c.length,0)/rate,meta&&meta.dev,"sstv");return;}}const audio=toWav(chunks,rate);const dur=chunks.reduce((a,c)=>a+c.length,0)/rate;
  const c={id:t+"_"+Math.random().toString(36).slice(2,6),t,session:sessionId,dur,audio,text:"",trans:"",dst:FIXED_TARGET,dev:meta&&meta.dev||devGet(),src:meta&&meta.src||"mic",speaker:meta&&meta.speaker||"",status:"Transcribing…"};window.__beLast=c;await put(c);renderClip(c);
+ if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip-status",state:"processing",timestamp:t,duration:dur,speaker:c.speaker},"*");}catch(e){}}
  const compareMode=new URLSearchParams(location.search).get("compare")==="1";
- if(compareMode){const started=performance.now();let wr=null,er=null,we=null,ee=null;
-  try{wr=await sttFree(audio);c.text=wr.text||"";c.lang=wr.lang;}catch(e){we=e;}
-  try{er=await sttEleven(audio);}catch(e){ee=e;}
+ if(compareMode){const started=performance.now();let wr=null,er=null,we=null,ee=null;const bounded=(promise,ms,name)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error(name+" timed out after "+Math.round(ms/1000)+" seconds")),ms))]);
+  try{wr=await bounded(sttFree(audio),25000,"Whisper");c.text=wr.text||"";c.lang=wr.lang;}catch(e){we=e;}
+  try{er=await bounded(sttEleven(audio),25000,"ElevenLabs");}catch(e){ee=e;}
   c.whisperText=wr?.text||"";c.elevenText=er?.text||"";c.whisperError=we?.message||"";c.elevenError=ee?.message||"";c.compareMs=Math.round(performance.now()-started);c.text=c.whisperText;c.status=(c.whisperText||c.elevenText)?"":"Neither engine recognised speech";
   if(c.dst){const jobs=[];if(c.whisperText)jobs.push(translate(c.whisperText,FIXED_TARGET,FIXED_SOURCE).then(v=>c.whisperTranslation=v).catch(e=>c.whisperTranslation="Translation failed"));if(c.elevenText)jobs.push(translate(c.elevenText,FIXED_TARGET,FIXED_SOURCE).then(v=>c.elevenTranslation=v).catch(e=>c.elevenTranslation="Translation failed"));await Promise.all(jobs);c.trans=c.whisperTranslation||c.elevenTranslation||"";}
  }else{try{const r=await stt(audio);c.text=r.text||"";c.lang=r.lang;c.status=c.text?"":"(no speech recognised)";
