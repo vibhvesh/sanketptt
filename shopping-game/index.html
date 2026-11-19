@@ -67,14 +67,14 @@ dialog{border:0;border-radius:15px;width:min(92vw,430px);padding:20px;color:var(
 <iframe id="transcriber" title="Sanket transcription listener"></iframe>
 <dialog id="help"><h3>How to play</h3><ol><li>Choose your budget.</li><li>Pick a grocery bay or use PTT to speak your order.</li><li>Say the quantity and pack size: “10 eggs”, “200 gm apple”, “1 coconut”.</li><li>Check the cart and running bill.</li><li>Checkout. If you exceed the budget, the rocket launches and you lose!</li></ol><p class="muted small">“One bread” and “1 bread” mean one loaf. Eggs cost ₹6 per egg in this game.</p><button class="primary" id="closeHelp">Got it</button></dialog>
 <div id="rocketLayer"><div><div id="rocket">🚀</div><h1>OVER BUDGET!</h1><p>Your shopping rocket has launched.</p><button id="rocketAgain">Try again</button></div></div>
-<script>
+<div id="pttFloat"><div id="pttFloatPanel" aria-hidden="true"><div class="pttFloatHead"><span>🎙️ Sanket PTT — Quick access</span><button type="button" id="pttFloatClose" aria-label="Close PTT">✕</button></div><div id="pttFloatSlot"></div><div class="pttFloatHint">Press and hold the green PTT control to speak. The mall stays open behind this panel.</div></div><button type="button" id="pttFloatToggle">🎙️ PTT — Speak order</button></div><script>
 (()=>{
 const savedClips=[];let focusIndex=0;
 const bays=[
 {id:"fruit",name:"🍎 Fruits & vegetables",items:[
 ["apple-1kg","Apple","🍎","1 kg",160,["apple","seb","सेब","સફરજન","सफरचंद","యాపిల్"],["1 kg","1 kilo","एक किलो","એક કિલો","एक किलो","ఒక కిలో"]],
 ["apple-200g","Apple","🍎","200 g",38,["apple","seb","सेब","સફરજન","सफरचंद","యాపిల్"],["200 g","200 gm","200 gram","दो सौ ग्राम","બસો ગ્રામ","200 ग्रॅम","200 గ్రాములు"]],
-["banan<div id="pttFloat"><div id="pttFloatPanel" aria-hidden="true"><div class="pttFloatHead"><span>🎙️ Sanket PTT — Quick access</span><button type="button" id="pttFloatClose" aria-label="Close PTT">✕</button></div><div id="pttFloatSlot"></div><div class="pttFloatHint">Press and hold the green PTT control to speak. The mall stays open behind this panel.</div></div><button type="button" id="pttFloatToggle">🎙️ PTT — Speak order</button></div>a-dozen","Banana","🍌","1 dozen",60,["banana","केला","केळे","કેળા","అరటిపండు"],["dozen","12","एक दर्जन","એક ડઝન"]],
+["banana-dozen","Banana","🍌","1 dozen",60,["banana","केला","केळे","કેળા","అరటిపండు"],["dozen","12","एक दर्जन","એક ડઝન"]],
 ["potato-1kg","Potato","🥔","1 kg",32,["potato","aloo","आलू","બટાકા","बटाटा","బంగాళాదుంప"],["1 kg","1 kilo","एक किलो","એક કિલો"]],
 ["onion-1kg","Onion","🧅","1 kg",40,["onion","pyaz","प्याज","ડુંગળી","कांदा","ఉల్లిపాయ"],["1 kg","1 kilo","एक किलो","એક કિલો"]],
 ["tomato-1kg","Tomato","🍅","1 kg",35,["tomato","tamatar","टमाटर","ટામેટા","टोमॅटो","టమాటా"],["1 kg","1 kilo","एक किलो","એક કિલો"]],
