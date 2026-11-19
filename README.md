@@ -12,7 +12,7 @@ app is a static web page and uses an MQTT relay over secure WebSockets.
 | App | Link |
 |---|---|
 | Sanket PTT (radio) | https://vibhvesh.github.io/sanketptt/ |
-| Sanket Transcribe | https://vibhvesh.github.io/sanketptt/transcribe/ |
+| Sanket Transcribe | https://vibhvesh.github.io/sanketptt/transcribe/ |\n| Animal Speaking Assessment | https://vibhvesh.github.io/sanketptt/assessment/ |
 | User guides | https://vibhvesh.github.io/sanketptt/docs/ |
 
 ### Android APKs
