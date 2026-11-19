@@ -317,7 +317,7 @@ function renderClip(c){let el=document.getElementById("c"+c.id);const isNew=!el;
  el.innerHTML=`<div class="meta"><span>${c.kw&&c.kw.length?'<span class="abadge">⚠ ALERT</span> ':""}${c.speaker?"📻 <b>"+esc(c.speaker)+"</b>"+(mapUrl(c.dev)?" 📍"+esc(c.dev.lbl||c.dev.lat+","+c.dev.lon):"")+" · ":""}🕒 ${esc(fmtT(c.t))} · ${c.dur.toFixed(1)} s${c.lang?" · "+esc(c.lang):""}</span><span><button class="lt" data-a="dl">⬇ Download</button> <button class="lt" data-a="rm">✕</button></span></div>
  <div class="tx">${c.text?hl(c.text):'<i style="color:#888">'+esc(c.status||"Transcribing…")+'</i>'}</div>${c.trans?`<div class="tr">↳ ${hl(c.trans)} <small>(${esc(c.dst)})</small></div>`:""}${c.kw&&c.kw.length?`<div class="em pend">📟 ${esc(c.dev?.id||"—")}${mapUrl(c.dev)?` · 📍 ${esc(c.dev.lat)}, ${esc(c.dev.lon)}${c.dev.lbl?" ("+esc(c.dev.lbl)+")":""} · <a href="${esc(mapUrl(c.dev))}" target="_blank" rel="noopener" style="color:var(--lcdt)">Google Maps</a>`:" · no location"}</div>`:""}<audio controls src="${url}"></audio>`;
  if(c.img){const u=el.dataset.img||URL.createObjectURL(c.img);el.dataset.img=u;const tx=el.querySelector(".tx");if(tx)tx.insertAdjacentHTML("afterend",`<a href="${u}" download="sstv_${stamp(c.t)}.png"><img src="${u}" alt="SSTV image" style="width:100%;max-width:320px;display:block;border-radius:6px;margin-top:6px"></a>`);}
- if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip",speaker:c.speaker||"PTT user",timestamp:c.t,duration:c.dur,audio:c.audio,text:c.text||"",translation:c.trans||"",language:c.lang||""},"*");}catch(e){}} el.querySelector('[data-a=dl]').onclick=()=>dlClip(c);el.querySelector('[data-a=rm]').onclick=async()=>{await del(c.id);URL.revokeObjectURL(url);el.remove();count();};count();}
+ if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip",speaker:c.speaker||"PTT user",timestamp:c.t,duration:c.dur,audio:c.audio,text:c.text||"",whisperText:c.whisperText||"",elevenText:c.elevenText||"",whisperError:c.whisperError||"",elevenError:c.elevenError||"",compareMs:c.compareMs||null,translation:c.trans||"",language:c.lang||""},"*");}catch(e){}} el.querySelector('[data-a=dl]').onclick=()=>dlClip(c);el.querySelector('[data-a=rm]').onclick=async()=>{await del(c.id);URL.revokeObjectURL(url);el.remove();count();};count();}
 async function count(){const n=(await getAll()).length;$("cnt").textContent=n+" clip(s) stored";}
 function saveBlob(b,name){const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);}
 const stamp=t=>new Date(t).toISOString().replace(/[:.]/g,"-").slice(0,19);
@@ -361,19 +361,26 @@ function loadAsr(){if(asrP)return asrP;const t0=performance.now();let seen={};en
 async function sttFree(blob){const asr=await loadAsr();const buf=await blob.arrayBuffer();const pcm=new Int16Array(buf,44,(buf.byteLength-44)>>1);const f=new Float32Array(pcm.length);for(let i=0;i<pcm.length;i++)f[i]=pcm[i]/32768;
  const lc=FIXED_SOURCE;const LN={hi:"hindi",en:"english"};const o={chunk_length_s:30,stride_length_s:5,task:"transcribe"};if(LN[lc]||lc)o.language=LN[lc]||lc;
  let r;try{r=await withTimeout(asr(f,o),120000,"Whisper");}catch(e){if(/timed out/.test(e.message))throw e;r=await withTimeout(asr(f,o),120000,"Whisper");}return{text:(r.text||"").trim(),lang:lc||""};}
-async function stt(blob){if(engine()==="free")return sttFree(blob);const key=localStorage.getItem("be_key")||$("key").value.trim();if(!key)throw new Error("No API key — add it in Settings.");
+async function sttEleven(blob){const key=localStorage.getItem("be_key")||$("key").value.trim();if(!key)throw new Error("No ElevenLabs API key — add it in Transcribe Settings.");
  let last;for(const model of ["scribe_v2","scribe_v1"]){const fd=new FormData();fd.append("file",blob,"clip.wav");fd.append("model_id",model);const lc=FIXED_SOURCE;if(lc)fd.append("language_code",lc);
   try{const r=await fetchT("https://api.elevenlabs.io/v1/speech-to-text",{method:"POST",headers:{"xi-api-key":key},body:fd},60000);
    if(r.ok){const j=await r.json();return{text:(j.text||"").trim(),lang:j.language_code||lc};}
    last=new Error("ElevenLabs "+r.status+": "+(await r.text()).slice(0,160));if(r.status===401)break;}catch(e){last=e;}}
  throw last;}
+async function stt(blob){if(engine()==="free")return sttFree(blob);return sttEleven(blob);}
 async function translate(text,tl,sl){if(!text||!tl)return"";
  try{const r=await fetchT(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl||"auto"}&tl=${tl}&dt=t&q=${encodeURIComponent(text)}`,{},15000);const j=await r.json();const s=j[0].map(x=>x[0]).join("");if(s)return s;}catch(e){}
  try{const r=await fetchT(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,480))}&langpair=${(sl&&sl.length===2?sl:"en")}|${tl}`,{},15000);const j=await r.json();return j.responseData.translatedText||"";}catch(e){return"(translation failed)";}}
 async function processClip(chunks,rate,t,meta){{const d=toneDet();for(const x of chunks){if(d.feed(x,rate))break;}if(d.sstv){sstvNote(meta&&meta.speaker||"",chunks.reduce((a,c)=>a+c.length,0)/rate,meta&&meta.dev,"sstv");return;}}const audio=toWav(chunks,rate);const dur=chunks.reduce((a,c)=>a+c.length,0)/rate;
  const c={id:t+"_"+Math.random().toString(36).slice(2,6),t,session:sessionId,dur,audio,text:"",trans:"",dst:FIXED_TARGET,dev:meta&&meta.dev||devGet(),src:meta&&meta.src||"mic",speaker:meta&&meta.speaker||"",status:"Transcribing…"};window.__beLast=c;await put(c);renderClip(c);
- try{const r=await stt(audio);c.text=r.text||"";c.lang=r.lang;c.status=c.text?"":"(no speech recognised)";
-  if(c.text&&c.dst){c.trans=await translate(c.text,FIXED_TARGET,FIXED_SOURCE);}}catch(e){c.status="⚠ "+e.message;}
+ const compareMode=new URLSearchParams(location.search).get("compare")==="1";
+ if(compareMode){const started=performance.now();let wr=null,er=null,we=null,ee=null;
+  try{wr=await sttFree(audio);c.text=wr.text||"";c.lang=wr.lang;}catch(e){we=e;}
+  try{er=await sttEleven(audio);}catch(e){ee=e;}
+  c.whisperText=wr?.text||"";c.elevenText=er?.text||"";c.whisperError=we?.message||"";c.elevenError=ee?.message||"";c.compareMs=Math.round(performance.now()-started);c.text=c.whisperText;c.status=c.text?"":"Whisper did not recognise speech";
+  if(c.text&&c.dst){try{c.trans=await translate(c.text,FIXED_TARGET,FIXED_SOURCE);}catch(e){}}
+ }else{try{const r=await stt(audio);c.text=r.text||"";c.lang=r.lang;c.status=c.text?"":"(no speech recognised)";
+  if(c.text&&c.dst){c.trans=await translate(c.text,FIXED_TARGET,FIXED_SOURCE);}}catch(e){c.status="⚠ "+e.message;}}
  c.kw=kwMatch((c.text||"")+"\n"+(c.trans||""));if(c.kw.length){try{kwHit(c.kw);}catch(e){}}
  await put(c);renderClip(c);if(c.text&&c.src==="ptt"&&pttC&&pttC.connected){pttC.publish(pttT("transcript"),JSON.stringify({id:c.id,speaker:c.speaker||"PTT user",text:c.text,translation:c.trans||"",language:c.lang||"",channel:pttCh,ts:c.t,source:"Sanket Transcribe"}),{qos:0,retain:false});}}
 function renderSharedTranscript(m){const id="shared_"+String(m.id||"").replace(/[^a-zA-Z0-9_-]/g,"");if(!id||document.getElementById("c"+id))return;const el=document.createElement("div");el.className="clip";el.id="c"+id;el.innerHTML=`<div class="meta"><span>📡 <b>${esc(m.speaker||"PTT user")}</b> · ${esc(m.channel||pttCh)} · ${esc(fmtT(+m.ts||Date.now()))} · SHARED LIVE TRANSCRIPT</span><span class="lt">REMOTE</span></div><div class="tx">${hl(m.text||"")}</div>${m.translation?`<div class="tr">↳ ${hl(m.translation)}</div>`:""}`;$("log").prepend(el);}
