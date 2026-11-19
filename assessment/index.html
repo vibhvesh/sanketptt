@@ -45,7 +45,7 @@ footer{font-size:11px;color:var(--muted);text-align:center;padding:4px 10px 18px
 <header><div class="brand">SANKET <span>ASSESSMENT</span></div><div class="tag">VOICE · CLARITY · RESPONSE</div></header>
 <main>
 <section class="card">
- <div class="topline"><div><b>Animal Name Speaking Test</b><div class="muted small">10 spoken prompts · one PTT transmission per prompt</div></div><div class="small muted" id="testState">Not started</div></div>
+ <div class="topline"><div><b>Animal Name Speaking Test</b><div class="muted small">10 spoken prompts · one bilingual PTT transmission per prompt</div></div><div class="small muted" id="testState">Not started</div></div>
  <div class="progress"><div id="progressBar"></div></div>
  <div class="prompt">
   <div class="number" id="roundNo">READY FOR ROUND 1</div>
@@ -65,7 +65,7 @@ footer{font-size:11px;color:var(--muted);text-align:center;padding:4px 10px 18px
 </section>
 <section class="card">
  <div class="topline"><b>Live Sanket PTT</b><span class="muted small" id="radioState">Connect your radio</span></div>
- <p class="muted small">Join the radio with your name/call sign. Hold the green PTT button while speaking the displayed animal name; release when finished.</p>
+ <p class="muted small">Join the radio with your name/call sign. Hold the green PTT button and say BOTH displayed names (English, then Hindi); release when finished.</p>
  <div class="radioWrap"><iframe id="radio" title="Sanket PTT radio" allow="microphone; autoplay"></iframe></div>
 </section>
 <section class="card" id="report" hidden>
@@ -85,16 +85,16 @@ footer{font-size:11px;color:var(--muted);text-align:center;padding:4px 10px 18px
 <script>
 (function(){
 const animals=[
- {name:"Elephant",hi:"हाथी",emoji:"🐘",wiki:"Elephant",aliases:["elephant","हाथी","hathi","haathi"]},
- {name:"Kangaroo",hi:"कंगारू",emoji:"🦘",wiki:"Kangaroo",aliases:["kangaroo","कंगारू"]},
- {name:"Rhinoceros",hi:"गैंडा",emoji:"🦏",wiki:"Rhinoceros",aliases:["rhinoceros","rhino","गैंडा","gainda"]},
- {name:"Crocodile",hi:"मगरमच्छ",emoji:"🐊",wiki:"Crocodile",aliases:["crocodile","croc","मगरमच्छ","magarmach"]},
- {name:"Butterfly",hi:"तितली",emoji:"🦋",wiki:"Butterfly",aliases:["butterfly","तितली","titli"]},
- {name:"Squirrel",hi:"गिलहरी",emoji:"🐿️",wiki:"Squirrel",aliases:["squirrel","गिलहरी","gilahari"]},
- {name:"Hippopotamus",hi:"दरियाई घोड़ा",emoji:"🦛",wiki:"Hippopotamus",aliases:["hippopotamus","hippo","दरियाई घोड़ा"]},
- {name:"Peacock",hi:"मोर",emoji:"🦚",wiki:"Indian_peafowl",aliases:["peacock","मोर","mor"]},
- {name:"Giraffe",hi:"जिराफ़",emoji:"🦒",wiki:"Giraffe",aliases:["giraffe","जिराफ़","जिराफ"]},
- {name:"Octopus",hi:"ऑक्टोपस",emoji:"🐙",wiki:"Octopus",aliases:["octopus","ऑक्टोपस"]}
+ {name:"Elephant",hi:"हाथी",emoji:"🐘",wiki:"Elephant",en:["elephant"],hiAliases:["हाथी","hathi","haathi"]},
+ {name:"Kangaroo",hi:"कंगारू",emoji:"🦘",wiki:"Kangaroo",en:["kangaroo"],hiAliases:["कंगारू"]},
+ {name:"Rhinoceros",hi:"गैंडा",emoji:"🦏",wiki:"Rhinoceros",en:["rhinoceros","rhino"],hiAliases:["गैंडा","gainda"]},
+ {name:"Crocodile",hi:"मगरमच्छ",emoji:"🐊",wiki:"Crocodile",en:["crocodile","croc"],hiAliases:["मगरमच्छ","magarmach"]},
+ {name:"Butterfly",hi:"तितली",emoji:"🦋",wiki:"Butterfly",en:["butterfly"],hiAliases:["तितली","titli"]},
+ {name:"Squirrel",hi:"गिलहरी",emoji:"🐿️",wiki:"Squirrel",en:["squirrel"],hiAliases:["गिलहरी","gilahari"]},
+ {name:"Hippopotamus",hi:"दरियाई घोड़ा",emoji:"🦛",wiki:"Hippopotamus",en:["hippopotamus","hippo"],hiAliases:["दरियाई घोड़ा","dariyaai ghoda"]},
+ {name:"Peacock",hi:"मोर",emoji:"🦚",wiki:"Indian_peafowl",en:["peacock"],hiAliases:["मोर","mor"]},
+ {name:"Giraffe",hi:"जिराफ़",emoji:"🦒",wiki:"Giraffe",en:["giraffe"],hiAliases:["जिराफ़","जिराफ","jiraf"]},
+ {name:"Octopus",hi:"ऑक्टोपस",emoji:"🐙",wiki:"Octopus",en:["octopus"],hiAliases:["ऑक्टोपस"]}
 ];
 const $=id=>document.getElementById(id);
 const channel="animal-assess-"+Math.random().toString(36).slice(2,9);
@@ -105,7 +105,9 @@ radio.addEventListener("load",()=>{transcriber.src="../transcribe/?ch="+encodeUR
 function shuffle(a){const x=a.slice();for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
 function norm(s){return String(s||"").toLowerCase().normalize("NFKD").replace(/[^a-z\s]/g," ").replace(/\s+/g," ").trim();}
 function similarity(a,b){if(!a||!b)return 0;const x=a,y=b;const d=Array.from({length:y.length+1},(_,i)=>[i]);for(let j=0;j<=x.length;j++)d[0][j]=j;for(let i=1;i<=y.length;i++)for(let j=1;j<=x.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(y[i-1]===x[j-1]?0:1));return Math.max(0,1-d[y.length][x.length]/Math.max(x.length,y.length));}
-function matches(text,item){const t=norm(text),raw=String(text||"").toLowerCase();return item.aliases.some(a=>/[^a-z\s]/i.test(a)?raw.includes(a):t.split(" ").includes(a)||t.includes(a));}
+function hasAlias(text,aliases){const t=norm(text),raw=String(text||"").toLowerCase();return aliases.some(a=>/[\u0900-\u097f]/.test(a)?raw.includes(a):t.split(" ").includes(a)||t.includes(a));}
+function evaluateBilingual(text,item){return {english:hasAlias(text,item.en),hindi:hasAlias(text,item.hiAliases)};}
+function matches(text,item){const v=evaluateBilingual(text,item);return v.english&&v.hindi;}
 const photos=new Map();
 async function showPhoto(item){
  const img=$("animalPhoto");img.hidden=true;img.removeAttribute("src");img.alt="Photograph of "+item.name;
@@ -123,24 +125,24 @@ function speak(lang){
 $("hearEnglish").addEventListener("click",()=>speak("en-IN"));
 $("hearHindi").addEventListener("click",()=>speak("hi-IN"));
 function setStatus(text,kind){$("status").textContent=text;$("status").className="status"+(kind?" "+kind:"");}
-function showRound(){const item=order[index];waiting=false;lastClipId="";roundStarted=Date.now();$("roundNo").textContent="ROUND "+(index+1)+" OF 10";$("target").textContent=item.name;$("hindiName").textContent=item.hi;$("animalEmoji").textContent=item.emoji;$("animalVisual").style.display="flex";$("listenButtons").style.display="flex";$("listenNote").textContent="";showPhoto(item);$("instruction").textContent="Say this name clearly into the PTT microphone, then release."; $("progressBar").style.width=(index/10*100)+"%";$("testState").textContent="In progress";$("nextBtn").disabled=true;$("nextBtn").textContent="Next animal";setStatus("Waiting for your PTT transmission…");}
+function showRound(){const item=order[index];waiting=false;lastClipId="";roundStarted=Date.now();$("roundNo").textContent="ROUND "+(index+1)+" OF 10";$("target").textContent=item.name;$("hindiName").textContent=item.hi;$("animalEmoji").textContent=item.emoji;$("animalVisual").style.display="flex";$("listenButtons").style.display="flex";$("listenNote").textContent="";showPhoto(item);$("instruction").textContent="Speak BOTH names — English first, then Hindi — in the same PTT transmission. Release when finished."; $("progressBar").style.width=(index/10*100)+"%";$("testState").textContent="In progress";$("nextBtn").disabled=true;$("nextBtn").textContent="Next animal";setStatus("Waiting for your PTT transmission…");}
 function start(){order=shuffle(animals);index=0;results=[];startedAt=Date.now();finished=false;$("report").hidden=true;$("startBtn").disabled=true;$("startBtn").textContent="Test running";showRound();}
 function handleTranscript(m){
  if(finished||!startedAt||waiting||index>=order.length||!m||!m.text)return;
  if(m.id&&m.id===lastClipId)return;
  const text=String(m.text).trim();if(!text)return;
  lastClipId=m.id||("clip-"+Date.now());waiting=true;
- const item=order[index],correct=matches(text,item),heard=norm(text);
+ const item=order[index],languageChecks=evaluateBilingual(text,item),correct=languageChecks.english&&languageChecks.hindi,heard=norm(text);
  const best=Math.max(...item.aliases.map(a=>similarity(heard,a)));
  const clarity=Math.round(best*100);
  const duration=Number(m.duration)||0;
  const clipEnd=Number(m.timestamp)||Date.now();
  const responseMs=Math.max(0,clipEnd+duration*1000-roundStarted);
- const row={round:index+1,target:item.name,heard:text,correct,clarity,duration,responseMs,audio:null};
+ const row={round:index+1,target:item.name,hindi:item.hi,heard:text,englishHeard:languageChecks.english,hindiHeard:languageChecks.hindi,correct,clarity,duration,responseMs,audio:null};
  results.push(row);
  $("progressBar").style.width=((index+1)/10*100)+"%";
  $("testState").textContent="Round "+(index+1)+" evaluated";
- $("instruction").textContent=correct?"Recognized the expected name.":"The recognized words did not match the expected name.";
+ $("instruction").textContent=correct?"Both English and Hindi names recognized.":"Not both names recognized — English: "+(languageChecks.english?"yes":"no")+", Hindi: "+(languageChecks.hindi?"yes":"no")+".";
  setStatus((correct?"Correct: ":"Not matched: ")+text+" · transmission "+duration.toFixed(1)+" s",correct?"good":"warn");
  $("nextBtn").disabled=false;
  $("nextBtn").textContent=index===9?"View final report":"Next animal";
