@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12345a"><title>Sanket · Indian Politician Name Assessment</title>
+<style>
+:root{--navy:#12345a;--ink:#18324b;--muted:#65788d;--line:#d9e2ec;--bg:#f3f6fa;--green:#138808;--orange:#f28c28}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{height:54px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.brand{font-weight:850;letter-spacing:1px}.brand span{color:#ffb15c}.tag{font-size:11px;opacity:.8;letter-spacing:1px}
+main{max-width:940px;margin:auto;padding:12px;display:grid;gap:10px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 4px 18px #102a4308}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.muted{color:var(--muted)}.small{font-size:12px}.progress{height:7px;background:#e8eef4;border-radius:10px;overflow:hidden;margin:10px 0}.progress div{height:100%;width:0;background:var(--green)}
+.prompt{text-align:center;padding:5px}.number{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:1.5px}
+.portrait{width:min(100%,240px);height:205px;object-fit:contain;background:#edf2f6;border-radius:12px;margin:8px auto;display:block}.name{font-size:clamp(26px,6vw,40px);font-weight:850;color:var(--navy);margin:6px 0 0}.meta{font-size:12px;color:var(--muted)}
+.status{padding:10px 12px;border-radius:9px;background:#edf3f8;font-size:13px}.status.good{background:#eaf5e9;color:#155e18}.status.warn{background:#fff4e5;color:#86500b}
+button{border:0;border-radius:9px;padding:11px 15px;font-weight:750;font-size:14px;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--navy);color:white}.secondary{background:#eaf0f5;color:var(--navy)}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.radio{height:290px;border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#07192d}.radio iframe{width:100%;height:100%;border:0}
+table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}th{font-size:10px;color:var(--muted);text-transform:uppercase}
+.metric{display:inline-block;background:#f4f7fa;border-radius:9px;padding:10px 14px;margin:5px}.metric b{font-size:22px;color:var(--navy);display:block}
+.panel{margin-top:12px;padding:12px;background:#f7faff;border:1px solid #cbd9e8;border-radius:11px}
+dialog{border:0;border-radius:15px;width:min(92vw,430px);padding:20px;color:var(--ink);box-shadow:0 18px 60px #102a4350}dialog::backdrop{background:#07192dcc}input{width:100%;padding:12px;border:1px solid #cbd9e8;border-radius:9px;margin:9px 0;font:inherit}
+#transcriber{position:absolute;left:-10000px;width:1px;height:1px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:0 12px 16px}
+@media(max-width:620px){header{height:46px;padding:0 10px}.tag{font-size:8px}main{padding:6px;gap:6px}.card{padding:9px}.portrait{height:155px;width:180px;margin:5px auto}.name{font-size:27px;margin:3px}.radio{height:245px}.actions button{padding:10px 12px}}
+</style></head>
+<body>
+<header><div class="brand">SANKET <span>ASSESSMENT</span></div><div class="tag">INDIAN LEADERS · VOICE TEST</div></header>
+<main>
+<section class="card">
+ <div class="top"><div><b>Indian Politician Name Assessment</b><div class="muted small">10 rounds · historical and current public leaders</div></div><span class="small muted" id="state">Not started</span></div>
+ <div class="actions" style="margin-top:7px"><button class="secondary" id="keyTop">ElevenLabs key setup</button><span class="muted small" id="keyState">Key not configured</span></div>
+ <div class="progress"><div id="bar"></div></div>
+ <div class="prompt"><div class="number" id="round">READY FOR ROUND 1</div><img class="portrait" id="photo" alt="Politician portrait will appear here" hidden><div class="name" id="target">Ready?</div><div class="meta" id="era"></div><p class="muted" id="instruction">Press Start. Identify the person shown and speak their name using Sanket PTT.</p></div>
+ <div class="status" id="status" role="status">Start the test, then join the PTT radio using your call sign.</div>
+ <div class="actions" style="margin-top:9px"><button class="primary" id="start">Start 10-round test</button><button class="secondary" id="next" disabled>Skip / Next</button><button class="secondary" id="reset">Reset</button></div>
+ <div class="top" style="margin-top:12px"><b>Live Sanket PTT</b><span class="muted small" id="radioState">Connecting radio…</span></div>
+ <p class="muted small">Hold the green PTT button and say the displayed person's name. The known answer comes from this question bank; this is a speech-recognition test, not facial recognition.</p>
+ <div class="radio"><iframe id="radio" title="Sanket PTT radio" allow="microphone;autoplay"></iframe></div>
+</section>
+<section class="card" id="report" hidden>
+ <div class="top"><b>Assessment report</b><span id="grade" class="small"></span></div>
+ <div><span class="metric"><b id="score">—</b><span class="small muted">Score / 100</span></span><span class="metric"><b id="correct">—</b><span class="small muted">Correct / 10</span></span></div>
+ <p class="muted small">Whisper transcript is the first-stage result. Superboss independently checks each original PTT recording with ElevenLabs Scribe.</p>
+ <div class="panel"><b>Superboss · ElevenLabs second opinion</b><p class="muted small">The API key stays in this browser's local storage. It is not committed to GitHub.</p><div class="actions"><button class="secondary" id="keyReport">Set / change API key</button><button class="primary" id="runBoss" disabled>Run Superboss on all clips</button></div><div id="bossStatus" class="muted small" style="margin-top:8px">Add your ElevenLabs key to enable this step.</div><div style="overflow:auto;margin-top:8px"><table><thead><tr><th>#</th><th>ElevenLabs heard</th><th>Answer check</th><th>Whisper match</th></tr></thead><tbody id="bossRows"></tbody></table></div></div>
+ <div style="overflow:auto;margin-top:12px"><table><thead><tr><th>#</th><th>Expected name</th><th>Whisper heard</th><th>Result</th></tr></thead><tbody id="rows"></tbody></table></div>
+ <div class="actions" style="margin-top:10px"><button class="secondary" id="csv">Download CSV</button><button class="primary" id="again">New test</button></div>
+</section>
+</main>
+<dialog id="keyDialog"><h3 style="margin:0">ElevenLabs API key</h3><p class="muted small">Paste a dedicated API key. It is stored in this browser only. Page scripts can access localStorage, so this is not a secure vault.</p><input id="key" type="password" autocomplete="off" placeholder="ElevenLabs API key"><div class="actions"><button class="primary" id="saveKey">Save key</button><button class="secondary" id="closeKey">Cancel</button></div></dialog>
+<iframe id="transcriber" title="Sanket transcription listener" allow="autoplay"></iframe>
+<footer>Portraits are fetched from Wikipedia article summaries at runtime. Open the source link beside each image to review its origin and reuse terms before redistribution.</footer>
+<script>
+(()=> {
+const people=[
+{name:"Mahatma Gandhi",wiki:"Mahatma_Gandhi",period:"Freedom movement",aliases:["mahatma gandhi","gandhi","mohandas karamchand gandhi","गांधी","महात्मा गांधी"]},
+{name:"Sardar Vallabhbhai Patel",wiki:"Vallabhbhai_Patel",period:"Freedom movement · Independent India",aliases:["sardar vallabhbhai patel","vallabhbhai patel","sardar patel","patel","सरदार पटेल","वल्लभभाई पटेल"]},
+{name:"Jawaharlal Nehru",wiki:"Jawaharlal_Nehru",period:"First Prime Minister",aliases:["jawaharlal nehru","nehru","जवाहरलाल नेहरू","नेहरू"]},
+{name:"Subhas Chandra Bose",wiki:"Subhas_Chandra_Bose",period:"Freedom movement",aliases:["subhas chandra bose","subhash chandra bose","netaji","bose","सुभाष चंद्र बोस","नेताजी"]},
+{name:"Dr. B. R. Ambedkar",wiki:"B._R._Ambedkar",period:"Constitution of India",aliases:["bhimrao ambedkar","b r ambedkar","br ambedkar","ambedkar"," बाबासाहेब आंबेडकर","भीमराव अंबेडकर","आंबेडकर"]},
+{name:"Indira Gandhi",wiki:"Indira_Gandhi",period:"Former Prime Minister",aliases:["indira gandhi","indira","इंदिरा गांधी"]},
+{name:"Atal Bihari Vajpayee",wiki:"Atal_Bihari_Vajpayee",period:"Former Prime Minister",aliases:["atal bihari vajpayee","atal vajpayee","vajpayee","अटल बिहारी वाजपेयी","वाजपेयी"]},
+{name:"A. P. J. Abdul Kalam",wiki:"A._P._J._Abdul_Kalam",period:"Former President of India",aliases:["a p j abdul kalam","apj abdul kalam","abdul kalam","kalam","अब्दुल कलाम","ए पी जे अब्दुल कलाम"]},
+{name:"Narendra Modi",wiki:" नरेंद्र_Modi".trim(),period:"Current Prime Minister",aliases:["narendra modi","modi","नरेंद्र मोदी","मोदी"]},
+{name:"Droupadi Murmu",wiki:"Droupadi_Murmu",period:"President of India",aliases:["droupadi murmu","draupadi murmu","murmu","द्रौपदी मुर्मू","मुर्मू"]}
+];
+const $=id=>document.getElementById(id),channel="politician-assess-"+Math.random().toString(36).slice(2,9);
+const radio=$("radio"),transcriber=$("transcriber");radio.src="../?ch="+encodeURIComponent(channel);
+radio.addEventListener("load",()=>{transcriber.src="../transcribe/?ch="+encodeURIComponent(channel)+"&compact=1&autostart=1";$("radioState").textContent="Radio loaded · enter call sign and join";},{once:true});
+let order=[],i=0,results=[],started=false,done=false,waiting=false,lastId="";
+const norm=s=>String(s||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z\u0900-\u097f ]/g," ").replace(/\s+/g," ").trim();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function check(text,p){const t=norm(text);return p.aliases.some(a=>{const n=norm(a);return n&&t.includes(n);});}
+function setStatus(s,k){$("status").textContent=s;$("status").className="status"+(k?" "+k:"");}
+async function photo(p){const img=$("photo");img.hidden=true;img.removeAttribute("src");try{const res=await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(p.wiki));if(!res.ok)throw Error("No image");const d=await res.json();if(d.thumbnail?.source&&order[i]===p){img.src=d.thumbnail.source;img.hidden=false;img.onclick=()=>window.open(d.content_urls?.desktop?.page||"https://en.wikipedia.org/wiki/"+p.wiki,"_blank","noopener");img.style.cursor="pointer";}}catch(e){$("instruction").textContent="Portrait unavailable for this round. You can still answer from the name prompt.";}}
+function show(){const p=order[i];waiting=false;lastId="";$("round").textContent="ROUND "+(i+1)+" OF 10";$("target").textContent=p.name;$("era").textContent=p.period;$("instruction").textContent="Speak the person's name clearly in one PTT transmission. Tap the portrait to open its source article.";$("bar").style.width=(i/10*100)+"%";$("state").textContent="In progress";$("next").disabled=false;$("next").textContent="Skip / Next";photo(p);setStatus("Waiting for your PTT transmission…");}
+function start(){order=people.slice().sort(()=>Math.random()-.5);i=0;results=[];started=true;done=false;$("report").hidden=true;$("start").disabled=true;$("start").textContent="Test running";show();}
+function onTranscript(m){if(!started||done||waiting||!m?.text||i>=10)return;if(m.id&&m.id===lastId)return;lastId=m.id||String(Date.now());waiting=true;const p=order[i],heard=String(m.text).trim(),correct=check(heard,p);results.push({round:i+1,target:p.name,heard,correct,audio:m.audio||null,superbossText:"",superbossCorrect:null,agreement:null});$("bar").style.width=((i+1)*10)+"%";$("state").textContent="Round "+(i+1)+" evaluated";$("instruction").textContent=correct?"Name recognized.":"Transcript does not match the expected name.";setStatus((correct?"Matched: ":"Needs review: ")+heard,correct?"good":"warn");$("next").textContent=i===9?"View report":"Next round";}
+window.addEventListener("message",e=>{if(e.source===transcriber.contentWindow&&e.data?.type==="sanket-clip")onTranscript(e.data);});
+function next(){if(i<9){if(!waiting)results.push({round:i+1,target:order[i].name,heard:"Skipped",correct:false,audio:null,superbossText:"",superbossCorrect:null,agreement:null});i++;show();}else if(waiting)finish();else setStatus("Record or skip this round first.","warn");}
+function finish(){if(done||results.length!==10)return;done=true;$("bar").style.width="100%";$("state").textContent="Completed";$("target").textContent="Assessment complete";$("photo").hidden=true;$("era").textContent="";$("instruction").textContent="Your results are ready.";const n=results.filter(x=>x.correct).length;$("score").textContent=n*10;$("correct").textContent=n+"/10";$("grade").textContent=n>=8?"Strong":n>=6?"Developing":"Needs practice";$("rows").innerHTML=results.map(r=>"<tr><td>"+r.round+"</td><td>"+esc(r.target)+"</td><td>"+esc(r.heard)+"</td><td>"+(r.correct?"Correct":"Not matched")+"</td></tr>").join("");$("report").hidden=false;loadKey();$("runBoss").disabled=!localStorage.getItem("sanket_elevenlabs_key")||results.some(r=>!r.audio);$("report").scrollIntoView({behavior:"smooth"});$("start").disabled=false;$("start").textContent="Start another test";}
+function reset(){started=false;done=false;waiting=false;results=[];i=0;$("target").textContent="Ready?";$("photo").hidden=true;$("era").textContent="";$("round").textContent="READY FOR ROUND 1";$("bar").style.width="0";$("state").textContent="Not started";$("start").disabled=false;$("start").textContent="Start 10-round test";$("next").disabled=true;$("report").hidden=true;setStatus("Test reset. Radio can remain connected.");}
+function loadKey(){const k=localStorage.getItem("sanket_elevenlabs_key")||"";$("key").value=k;$("keyState").textContent=k?"Key saved in this browser":"Key not configured";$("keyTop").textContent=k?"Change ElevenLabs key":"ElevenLabs key setup";$("runBoss").disabled=!(k&&done&&results.length===10&&results.every(r=>r.audio));}
+function keyDialog(){loadKey();$("keyDialog").showModal();}
+async function superboss(){const key=localStorage.getItem("sanket_elevenlabs_key");if(!key)return;const btn=$("runBoss");btn.disabled=true;$("bossStatus").textContent="Sending original recordings to ElevenLabs Scribe…";for(const r of results){try{if(!r.audio)throw Error("No original audio (skipped round)");const fd=new FormData();fd.append("file",r.audio,"round-"+r.round+".wav");fd.append("model_id","scribe_v2");const res=await fetch("https://api.elevenlabs.io/v1/speech-to-text",{method:"POST",headers:{"xi-api-key":key},body:fd});if(!res.ok)throw Error("HTTP "+res.status);const d=await res.json();r.superbossText=(d.text||"").trim();r.superbossCorrect=check(r.superbossText,people.find(p=>p.name===r.target));r.agreement=norm(r.superbossText)===norm(r.heard);}catch(e){r.superbossText="ERROR: "+e.message;r.superbossCorrect=null;r.agreement=null;}$("bossRows").innerHTML=results.map(x=>"<tr><td>"+x.round+"</td><td>"+esc(x.superbossText||"Pending")+"</td><td>"+(x.superbossCorrect===null?"Review":x.superbossCorrect?"Correct":"Not matched")+"</td><td>"+(x.agreement===null?"—":x.agreement?"Agree":"Different")+"</td></tr>").join("");$("bossStatus").textContent="Processed "+r.round+" of 10 clips.";}const c=results.filter(r=>r.superbossCorrect).length;$("bossStatus").textContent="Superboss finished: "+c+"/10 recognized by ElevenLabs. Compare mismatches in the table.";btn.disabled=false;}
+function csv(){const rows=[["Round","Expected","Whisper","Whisper correct","ElevenLabs","ElevenLabs correct","Agreement"],...results.map(r=>[r.round,r.target,r.heard,r.correct?"Yes":"No",r.superbossText,r.superbossCorrect===null?"":r.superbossCorrect?"Yes":"No",r.agreement===null?"":r.agreement?"Yes":"No"])];const blob=new Blob([rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n")],{type:"text/csv"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="sanket-politician-assessment.csv";a.click();URL.revokeObjectURL(a.href);}
+$("start").onclick=start;$("next").onclick=next;$("reset").onclick=reset;$("again").onclick=()=>{reset();window.scrollTo({top:0,behavior:"smooth"});};$("csv").onclick=csv;$("keyTop").onclick=keyDialog;$("keyReport").onclick=keyDialog;$("closeKey").onclick=()=>$("keyDialog").close();$("saveKey").onclick=()=>{const k=$("key").value.trim();if(!k)return;$("keyDialog").close();localStorage.setItem("sanket_elevenlabs_key",k);loadKey();$("bossStatus").textContent="Key saved in this browser.";};$("runBoss").onclick=superboss;loadKey();if(!localStorage.getItem("sanket_elevenlabs_key"))setTimeout(keyDialog,400);
+})();
+</script></body></html>
