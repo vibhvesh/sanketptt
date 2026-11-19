@@ -133,7 +133,8 @@ function handleTranscript(m){
  const text=String(m.text).trim();if(!text)return;
  lastClipId=m.id||("clip-"+Date.now());waiting=true;
  const item=order[index],languageChecks=evaluateBilingual(text,item),correct=languageChecks.english&&languageChecks.hindi,heard=norm(text);
- const best=Math.max(...item.aliases.map(a=>similarity(heard,a)));
+ const clarityAliases=item.en.concat(item.hiAliases.filter(a=>/^[a-z ]+$/i.test(a)));
+ const best=Math.max(0,...clarityAliases.map(a=>similarity(heard,a)));
  const clarity=Math.round(best*100);
  const duration=Number(m.duration)||0;
  const clipEnd=Number(m.timestamp)||Date.now();
