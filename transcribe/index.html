@@ -245,7 +245,7 @@ body.embed-mode #kwBar,body.embed-mode
 <div class="modal" id="setModal"><div class="panel"><div class="ph"><span>⚙ SETTINGS</span><button class="gear" id="setClose" aria-label="Close">✕</button></div><div class="dw">
  <label>ElevenLabs API key (stored only in this browser)<input id="key" type="password" placeholder="xi-api-key" autocomplete="off"></label>
  <div class="row"><button class="lt" id="saveKey">Save key</button><button class="lt" id="forgetKey">Forget key</button></div>
- <label><span>Hang time (squelch tail): <span id="hangV">1.5</span> s</span><input id="hang" type="range" min="0.8" max="3" step="0.1" value="1.5"></label>
+ <label><span>Hang time (squelch tail): <span id="hangV">1.5</span> s</span><input id="hang" type="range" min="0.8" max="3" step="0.1" value="3"></label>
  <label><span>Threshold margin: <span id="marV">9</span> dB</span><input id="mar" type="range" min="4" max="20" step="1" value="9"></label>
  <button id="recalBtn" class="lt" disabled>⟳ Recalibrate squelch</button>
  <div style="font-size:10px">Meter: voice-band level (300–3400 Hz) · <span style="color:#ffcc00">yellow</span> = noise floor · <span style="color:#ff5252">red</span> = squelch threshold</div>
@@ -376,8 +376,8 @@ async function processClip(chunks,rate,t,meta){{const d=toneDet();for(const x of
  if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip-status",state:"processing",timestamp:t,duration:dur,speaker:c.speaker},"*");}catch(e){}}
  const compareMode=new URLSearchParams(location.search).get("compare")==="1";
  if(compareMode){const started=performance.now();let wr=null,er=null,we=null,ee=null;const bounded=(promise,ms,name)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error(name+" timed out after "+Math.round(ms/1000)+" seconds")),ms))]);
-  try{wr=await bounded(sttFree(audio),25000,"Whisper");c.text=wr.text||"";c.lang=wr.lang;}catch(e){we=e;}
-  try{er=await bounded(sttEleven(audio),25000,"ElevenLabs");}catch(e){ee=e;}
+  try{wr=await bounded(sttFree(audio),60000,"Whisper");c.text=wr.text||"";c.lang=wr.lang;}catch(e){we=e;}
+  try{er=await bounded(sttEleven(audio),60000,"ElevenLabs");}catch(e){ee=e;}
   c.whisperText=wr?.text||"";c.elevenText=er?.text||"";c.whisperError=we?.message||"";c.elevenError=ee?.message||"";c.compareMs=Math.round(performance.now()-started);c.text=c.whisperText;c.status=(c.whisperText||c.elevenText)?"":"Neither engine recognised speech";
   if(c.dst){const jobs=[];if(c.whisperText)jobs.push(translate(c.whisperText,FIXED_TARGET,FIXED_SOURCE).then(v=>c.whisperTranslation=v).catch(e=>c.whisperTranslation="Translation failed"));if(c.elevenText)jobs.push(translate(c.elevenText,FIXED_TARGET,FIXED_SOURCE).then(v=>c.elevenTranslation=v).catch(e=>c.elevenTranslation="Translation failed"));await Promise.all(jobs);c.trans=c.whisperTranslation||c.elevenTranslation||"";}
  }else{try{const r=await stt(audio);c.text=r.text||"";c.lang=r.lang;c.status=c.text?"":"(no speech recognised)";
@@ -409,7 +409,7 @@ function onChunk(x){const rate=ctx.sampleRate,ms=x.length/rate*1000;const bd=ban
   if(db>thr){aboveMs+=ms;if(aboveMs>=150){mode="rec";clip=[...preroll];clipLen=preLen;clipT=Date.now()-Math.round(preLen/rate*1000);micDet=toneDet();preroll=[];preLen=0;silMs=0;setStatus('<span class="rec">● Recording transmission…</span>');}}
   else{aboveMs=0;if(db<thr-2)floorDb=floorDb*0.995+db*0.005;}return;}
  if(mode==="rec"){micDet.feed(x,rate);if(micDet.sstv){clip=[];}else clip.push(x);clipLen+=x.length;if(db>thr-3)silMs=0;else silMs+=ms;
-  if(silMs>=+$("hang").value*1000||clipLen>=(micDet.sstv?300:60)*rate)endClip();}}
+  if(silMs>=+$("hang").value*1000||clipLen>=(micDet.sstv?300:120)*rate)endClip();}}
 function endClip(){const rate=ctx.sampleRate;const dur=clipLen/rate;const c=clip,t=clipT;clip=[];clipLen=0;aboveMs=0;mode="idle";if(micDet.sstv){micDet=toneDet();sstvNote("mic",dur,null,"sstv");return;}
  if(dur<0.7){setStatus("Short burst ignored (&lt;0.7 s). Listening…");return;}
  setStatus(`Clip captured (${dur.toFixed(1)} s) — sending for transcription. Listening…`);processClip(c,rate,t);}
@@ -469,7 +469,7 @@ function pttMsg(t,p){const now=Date.now(),s=t.slice(PTT_PREFIX.length+pttCh.leng
  if(s==="audio"){const b=new Uint8Array(p),n=b[0];let id="";for(let i=1;i<=n;i++)id+=String.fromCharCode(b[i]);if(!pttFloor||pttFloor.id!==id||id===pttId)return;pttFloor.seen=now;
   const pcm=b.slice(1+n),i16=new Int16Array(pcm.buffer,0,pcm.length>>1),f=new Float32Array(i16.length);for(let i=0;i<i16.length;i++)f[i]=i16[i]/32768;
   if(!pttClip)pttClip={id,name:pttFloor.name,t:now,chunks:[],len:0,det:toneDet(),rx:window.SSTV?new SSTV.Rx(PTT_RATE):null};if(pttClip.rx)try{pttClip.rx.push(i16);}catch(e){}pttClip.det.feed(f,PTT_RATE);if(pttClip.len<120*PTT_RATE)pttClip.chunks.push(f);pttClip.len+=f.length;window.__pttStats.chunks++;lastDb=rmsDb(f);
-  if(pttClip.len>=((pttClip.det.sstv||(pttClip.rx&&pttClip.rx.started))?300:60)*PTT_RATE)pttEnd();}}
+  if(pttClip.len>=((pttClip.det.sstv||(pttClip.rx&&pttClip.rx.started))?300:120)*PTT_RATE)pttEnd();}}
 function pttTick(){const now=Date.now();for(const k in pttUsers)if(now-pttUsers[k].seen>15000)delete pttUsers[k];if($("pttSt"))$("pttSt").textContent="📻 "+Object.keys(pttUsers).length+" connected PTT/transcribe users · channel "+pttCh;
  if(pttFloor&&now-pttFloor.seen>2500){pttFloor=null;pttEnd();}if(!pttClip&&!pttFloor)lastDb=-120;}
 async function pttStart(){if(!window.mqtt){alert("MQTT library failed to load — check internet.");return;}
