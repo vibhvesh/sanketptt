@@ -135,7 +135,7 @@ let shelfItems=all(),shelfPage=0,verifiedOrders=[],recognitionRows=[];
 let gameRecords=[];try{gameRecords=JSON.parse(localStorage.getItem("sanket-grocery-game-reports")||"[]");if(!Array.isArray(gameRecords))gameRecords=[];}catch(e){gameRecords=[];}
 let activeGameReportId="";
 let cartFlushAt=Number(localStorage.getItem("sanket-grocery-flush-at")||0);
-const pendingMallClips=new Map(),timedOutMallClips=new Set();const MALL_TRANSCRIPTION_TIMEOUT=60000;
+const pendingMallClips=new Map(),timedOutMallClips=new Set();const MALL_TRANSCRIPTION_TIMEOUT=150000;
 function renderProducts(){const start=shelfPage*6,items=shelfItems.slice(start,start+6);$("products").innerHTML=items.map(x=>'<article class="product '+(x.id===lastMatchedId?'selected':'')+'" data-product="'+x.id+'"><div class="pic">'+x.emoji+'</div><strong>'+x.name+'</strong><div class="pack">'+x.pack+'</div><div class="price">'+fmt(x.price)+'</div><span class="small muted">'+x.bay+'</span></article>').join("")||'<p class="muted">No matching products. Try another category or phrase.</p>';$("shelfCount").textContent=(items.length?start+1:0)+"–"+(start+items.length)+" of "+shelfItems.length;$("prevShelf").disabled=shelfPage===0;$("nextShelf").disabled=start+6>=shelfItems.length;}
 let lastMatchedId="";
 function renderBays(){$("bayDrawer").innerHTML=bays.map(b=>'<details class="bay-drawer"><summary>'+b.name+'</summary><div class="bay-items">'+b.items.map(x=>'<button type="button" data-pick="'+x[0]+'">'+x[2]+' '+x[1]+' · '+x[3]+'</button>').join("")+'</div></details>').join("");document.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{const p=all().find(x=>x.id===b.dataset.pick);shelfItems=[p];shelfPage=0;$("shelfTitle").textContent=p.name+" · selected";renderProducts();});}
