@@ -371,7 +371,7 @@ function play(a){if(!ac)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getCha
  var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+8)playT=now+0.15;s.start(playT);playT+=b.duration}
 function down(e){e&&e.preventDefault();if(SANKET_LISTEN_ONLY||holding||sstvTx)return;unlockAudio();holding=true;render();radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})}
 function up(e){e&&e.preventDefault();if(!holding||sstvTx)return;holding=false;granted=false;radio.release();rec.end();render()}
-ptt.addEventListener('pointerdown',function(e){ptt.setPointerCapture(e.pointerId);down(e)});['pointerup','pointercancel'].forEach(function(t){ptt.addEventListener(t,up)});
+ptt.addEventListener('pointerdown',function(e){ptt.setPointerCapture(e.pointerId);down(e)});['pointerup','pointercancel','lostpointercapture'].forEach(function(t){ptt.addEventListener(t,up)});
 ptt.oncontextmenu=function(e){e.preventDefault()};
 onkeydown=function(e){if(!SANKET_LISTEN_ONLY&&e.code=='Space'&&main.style.display=='block'&&!e.repeat)down(e)};onkeyup=function(e){if(!SANKET_LISTEN_ONLY&&e.code=='Space')up(e)};
 // ---- location sharing (consent via browser prompt; IP fallback) ----
