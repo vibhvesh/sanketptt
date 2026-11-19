@@ -79,7 +79,7 @@ const bays=[
 ]}
 ];
 const $=id=>document.getElementById(id),channel="grocery-"+Math.random().toString(36).slice(2,9),cart=new Map();let activeBay="fruit",budget=1000,gameOver=false;
-const radio=$("radio"),transcriber=$("transcriber");radio.src="../?ch="+encodeURIComponent(channel);transcriber.src="../transcribe/?ch="+encodeURIComponent(channel)+"&compact=1&autostart=1";
+const radio=$("radio"),transcriber=$("transcriber");radio.src="../?ch="+encodeURIComponent(channel)+"&embed=1";transcriber.src="../transcribe/?ch="+encodeURIComponent(channel)+"&compact=1&autostart=1";
 const fmt=n=>"₹"+Number(n).toLocaleString("en-IN");
 const norm=s=>String(s||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z\u0900-\u097f\u0a80-\u0aff\u0c00-\u0c7f ]/g," ").replace(/\s+/g," ").trim();
 function all(){return bays.flatMap(b=>b.items.map(x=>({id:x[0],name:x[1],emoji:x[2],pack:x[3],price:x[4],aliases:x[5],packAliases:x[6],bay:b.name})));}
