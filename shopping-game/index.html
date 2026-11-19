@@ -150,7 +150,39 @@ function browseProducts(query){const q=norm(query);const hits=all().filter(p=>[p
 function requestedPackSize(text){const t=norm(text);let m=t.match(/(\\d+(?:\\.\\d+)?)\\s*(kg|kilo|kilogram|g|gm|gram|grams|ml|millilitre|milliliter|l|litre|liter)\\b/i);if(!m)return null;let n=Number(m[1]),u=m[2].toLowerCase();if(["kg","kilo","kilogram"].includes(u))return{kind:"mass",value:n*1000,label:m[0]};if(["g","gm","gram","grams"].includes(u))return{kind:"mass",value:n,label:m[0]};if(["l","litre","liter"].includes(u))return{kind:"volume",value:n*1000,label:m[0]};return{kind:"volume",value:n,label:m[0]};}
 function packMetric(pack){const t=norm(pack);let m=t.match(/(\\d+(?:\\.\\d+)?)\\s*(kg|g|gm|ml|l|litre|liter)/i);if(m){let n=Number(m[1]),u=m[2];return{kind:["kg","g","gm"].includes(u)?"mass":"volume",value:["kg"].includes(u)?n*1000:["l","litre","liter"].includes(u)?n*1000:n};}if(/dozen|12/.test(t))return{kind:"count",value:12};if(/pc|nos|each|bar|loaf|pack/.test(t))return{kind:"count",value:1};return null;}
 function choosePackage(candidates,requested){const options=candidates.map(p=>({p,m:packMetric(p.pack)})).filter(x=>x.m);if(!options.length)return{product:candidates[0],reason:"Only one catalogue pack option is available."};if(!requested){options.sort((a,b)=>a.m.value-b.m.value);return{product:options[0].p,reason:"No pack size was spoken; selected the smallest available catalogue pack."};}const same=options.filter(x=>x.m.kind===requested.kind);if(!same.length)return{product:options[0].p,reason:"Requested unit is unavailable; selected the only compatible catalogue pack."};same.sort((a,b)=>Math.abs(a.m.value-requested.value)-Math.abs(b.m.value-requested.value));const best=same[0];return{product:best.p,reason:Math.abs(best.m.value-requested.value)<0.001?"Exact requested pack is available.":"Requested "+requested.label+" is unavailable; nearest available pack is "+best.p.pack+"."};}
-function resolveTranscriptItems(text){const raw=String(text||"").trim();if(!raw)return[];const chunks=raw.split(/[,;，、]|\\b(?:and|plus|then)\\b|और|તથા|અને|आणि|మరియు/ig).map(x=>x.trim()).filter(Boolean);const out=[];for(const chunk of chunks){const t=norm(chunk);const candidates=all().filter(p=>p.aliases.some(a=>a&&t.includes(norm(a))));if(!candidates.length)continue;const bestLen=Math.max(...candidates.map(p=>Math.max(...p.aliases.map(a=>norm(a).length))));const named=candidates.filter(p=>Math.max(...p.aliases.map(a=>norm(a).length))===bestLen);const requested=requestedPackSize(chunk);let selected;if(requested){const group=named.length>1?named:named;selected=choosePackage(group,requested);}else{const exact=named.filter(p=>p.packAliases.some(a=>a&&t.includes(norm(a))));selected=exact.length?{product:exact[0],reason:"Spoken pack matches catalogue."}:choosePackage(named,null);}const base=selected.product;const amount=requested?1:parseNumber(chunk);let lineProduct={...base};if(requested){const baseMetric=packMetric(base.pack);if(baseMetric&&baseMetric.kind===requested.kind&&baseMetric.value>0){lineProduct.pack=requested.label;lineProduct.price=Number((base.price*requested.value/baseMetric.value).toFixed(2));lineProduct.priceBasis="fractional";}else{lineProduct.pack=requested.label;lineProduct.priceBasis="fractional-estimate";}}out.push({id:base.id,product:lineProduct,qty:amount,text:chunk,requestedPack:requested?.label||"",suggestionReason:requested?"Requested "+requested.label+" priced proportionally from "+base.pack+" catalogue price ("+fmt(base.price)+").":selected.reason});}return out;}
+function editDistance(a,b){const m=a.length,n=b.length,dp=Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i===0?j:j===0?i:0));for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return dp[m][n];}
+function resolveTranscriptItems(text){
+const raw=String(text||"").trim();if(!raw)return[];
+const chunks=raw.split(/[,;，、。.!?]|\\b(?:and|plus|then|also)\\b|और|તથા|અને|आणि|మరియు/ig).map(x=>x.trim()).filter(Boolean);
+const catalogue=all(),out=[];
+for(const chunk of chunks){
+ const t=norm(chunk);if(!t)continue;
+ let candidates=catalogue.filter(p=>p.aliases.some(a=>a&&t.includes(norm(a))));
+ let fuzzyUsed=false;
+ if(!candidates.length){
+  const words=t.split(" ").filter(x=>x.length>2);let bestScore=Infinity,best=[];
+  for(const p of catalogue){let score=Infinity;
+   for(const alias of p.aliases){const aw=norm(alias);if(!aw||aw.length<4)continue;
+    const at=aw.split(" ");let local=Infinity;
+    for(const target of at){for(const word of words){const d=editDistance(target,word);const limit=target.length>=8?2:target.length>=5?1:0;if(d<=limit)local=Math.min(local,d);}}
+    score=Math.min(score,local);
+   }
+   if(score<bestScore){bestScore=score;best=[p];}else if(score===bestScore&&score<Infinity)best.push(p);
+  }
+  if(bestScore<Infinity){candidates=best;fuzzyUsed=true;}
+ }
+ if(!candidates.length)continue;
+ const bestLen=Math.max(...candidates.map(p=>Math.max(...p.aliases.map(a=>norm(a).length))));
+ const named=candidates.filter(p=>Math.max(...p.aliases.map(a=>norm(a).length))===bestLen);
+ const requested=requestedPackSize(chunk);let selected;
+ if(requested)selected=choosePackage(named,requested);
+ else{const exact=named.filter(p=>p.packAliases.some(a=>a&&t.includes(norm(a))));selected=exact.length?{product:exact[0],reason:"Spoken pack matches catalogue."}:choosePackage(named,null);}
+ const base=selected.product,amount=requested?1:parseNumber(chunk);let lineProduct={...base};
+ if(requested){const baseMetric=packMetric(base.pack);if(baseMetric&&baseMetric.kind===requested.kind&&baseMetric.value>0){lineProduct.pack=requested.label;lineProduct.price=Number((base.price*requested.value/baseMetric.value).toFixed(2));lineProduct.priceBasis="fractional";}else{lineProduct.pack=requested.label;lineProduct.priceBasis="fractional-estimate";}}
+ out.push({id:base.id,product:lineProduct,qty:amount,text:chunk,requestedPack:requested?.label||"",fuzzyMatched:fuzzyUsed,suggestionReason:(fuzzyUsed?"Closest catalogue-name match. ":"")+(requested?"Requested "+requested.label+" priced proportionally from "+base.pack+" catalogue price ("+fmt(base.price)+").":selected.reason)});
+}
+return out;
+}
 function resolveTranscript(text){return resolveTranscriptItems(text)[0]||null;}
 function showEngineReport(w,e,wt,et,wErr,eErr,wr,er,verdict){const lines=arr=>arr.length?arr.map(x=>x.product.name+" · "+x.product.pack+" × "+x.qty+" — "+(x.suggestionReason||"Catalogue match")).join("; "):"No catalogue matches";$("engineReport").innerHTML='<b>Independent engine reports · multi-item</b><div class="engine-line"><b>Whisper transcript</b><span>'+escapeHtml(w||wErr||"No result")+'</span></div><div class="engine-line"><b>Whisper translation</b><span>'+escapeHtml(wt||"—")+'</span></div><div class="engine-line"><b>Whisper items</b><span>'+escapeHtml(lines(wr||[]))+'</span></div><div class="engine-line"><b>ElevenLabs transcript</b><span>'+escapeHtml(e||eErr||"No result")+'</span></div><div class="engine-line"><b>ElevenLabs translation</b><span>'+escapeHtml(et||"—")+'</span></div><div class="engine-line"><b>ElevenLabs items</b><span>'+escapeHtml(lines(er||[]))+'</span></div><div class="engine-line"><b>Cart decision</b><span class="'+(verdict.ok?'match-ok':'match-no')+'">'+escapeHtml(verdict.label)+'</span></div>';}
 function escapeHtml(v){return String(v||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
