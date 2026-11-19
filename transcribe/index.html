@@ -375,11 +375,24 @@ async function processClip(chunks,rate,t,meta){{const d=toneDet();for(const x of
  const c={id:t+"_"+Math.random().toString(36).slice(2,6),t,session:sessionId,dur,audio,text:"",trans:"",dst:FIXED_TARGET,dev:meta&&meta.dev||devGet(),src:meta&&meta.src||"mic",speaker:meta&&meta.speaker||"",status:"Transcribing…"};window.__beLast=c;await put(c);renderClip(c);
  if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip-status",state:"processing",timestamp:t,duration:dur,speaker:c.speaker},"*");}catch(e){}}
  const compareMode=new URLSearchParams(location.search).get("compare")==="1";
- if(compareMode){const started=performance.now();let wr=null,er=null,we=null,ee=null;const bounded=(promise,ms,name)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error(name+" timed out after "+Math.round(ms/1000)+" seconds")),ms))]);
-  try{wr=await bounded(sttFree(audio),60000,"Whisper");c.text=wr.text||"";c.lang=wr.lang;}catch(e){we=e;}
-  try{er=await bounded(sttEleven(audio),60000,"ElevenLabs");}catch(e){ee=e;}
-  c.whisperText=wr?.text||"";c.elevenText=er?.text||"";c.whisperError=we?.message||"";c.elevenError=ee?.message||"";c.compareMs=Math.round(performance.now()-started);c.text=c.whisperText;c.status=(c.whisperText||c.elevenText)?"":"Neither engine recognised speech";
-  if(c.dst){const jobs=[];if(c.whisperText)jobs.push(translate(c.whisperText,FIXED_TARGET,FIXED_SOURCE).then(v=>c.whisperTranslation=v).catch(e=>c.whisperTranslation="Translation failed"));if(c.elevenText)jobs.push(translate(c.elevenText,FIXED_TARGET,FIXED_SOURCE).then(v=>c.elevenTranslation=v).catch(e=>c.elevenTranslation="Translation failed"));await Promise.all(jobs);c.trans=c.whisperTranslation||c.elevenTranslation||"";}
+ if(compareMode){
+  const started=performance.now();let wr=null,er=null,we=null,ee=null;
+  const bounded=(promise,ms,name)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error(name+" timed out after "+Math.round(ms/1000)+" seconds")),ms))]);
+  const publishPartial=(engine)=>{if(new URLSearchParams(location.search).get("compact")==="1"&&window.parent!==window){try{window.parent.postMessage({type:"sanket-clip-update",engine,timestamp:c.t,whisperText:c.whisperText||"",elevenText:c.elevenText||"",whisperTranslation:c.whisperTranslation||"",elevenTranslation:c.elevenTranslation||"",whisperError:c.whisperError||"",elevenError:c.elevenError||"",audio:c.audio,duration:c.dur,speaker:c.speaker},"*");}catch(e){}}};
+  const runEngine=async(engine)=>{
+   try{
+    if(engine==="elevenlabs"){er=await bounded(sttEleven(audio),60000,"ElevenLabs");c.elevenText=er.text||"";}
+    else{wr=await bounded(sttFree(audio),60000,"Whisper");c.whisperText=wr.text||"";c.text=c.whisperText;c.lang=wr.lang;}
+   }catch(e){if(engine==="elevenlabs"){ee=e;c.elevenError=e.message||String(e);}else{we=e;c.whisperError=e.message||String(e);}}
+   publishPartial(engine);
+   const textValue=engine==="elevenlabs"?c.elevenText:c.whisperText;
+   if(textValue&&c.dst){try{const translated=await translate(textValue,FIXED_TARGET,FIXED_SOURCE);if(engine==="elevenlabs")c.elevenTranslation=translated;else c.whisperTranslation=translated;}catch(e){if(engine==="elevenlabs")c.elevenTranslation="Translation failed";else c.whisperTranslation="Translation failed";}publishPartial(engine);}
+  };
+  await Promise.all([runEngine("elevenlabs"),runEngine("whisper")]);
+  c.whisperText=c.whisperText||"";c.elevenText=c.elevenText||"";c.whisperError=c.whisperError||"";c.elevenError=c.elevenError||"";
+  c.compareMs=Math.round(performance.now()-started);c.text=c.whisperText;c.trans=c.whisperTranslation||c.elevenTranslation||"";
+  c.status=(c.whisperText||c.elevenText)?"":"Neither engine recognised speech";
+
  }else{try{const r=await stt(audio);c.text=r.text||"";c.lang=r.lang;c.status=c.text?"":"(no speech recognised)";
   if(c.text&&c.dst){c.trans=await translate(c.text,FIXED_TARGET,FIXED_SOURCE);}}catch(e){c.status="⚠ "+e.message;}}
  c.kw=kwMatch((c.text||"")+"\n"+(c.trans||""));if(c.kw.length){try{kwHit(c.kw);}catch(e){}}
