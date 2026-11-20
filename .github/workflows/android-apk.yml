@@ -1,0 +1,65 @@
+name: Build SanketPTT Android APK
+
+on:
+  push:
+    branches:
+      - feature/tecno-radio-handheld
+  pull_request:
+    paths:
+      - 'android/**'
+      - '.github/workflows/android-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android build tools
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+      - name: Create temporary signing key
+        run: |
+          mkdir -p "$RUNNER_TEMP/signing"
+          keytool -genkeypair -noprompt \
+            -keystore "$RUNNER_TEMP/signing/sanket.jks" \
+            -storepass "$KEY_PASS" -keypass "$KEY_PASS" \
+            -alias sanket -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Sanket PTT CI"
+        env:
+          KEY_PASS: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build APK
+        run: |
+          chmod +x android/build.sh
+          export ANDROID_HOME="$ANDROID_SDK_ROOT"
+          export KEYSTORE="$RUNNER_TEMP/signing/sanket.jks"
+          export KEYSTORE_PASS="$KEY_PASS"
+          export KEY_PASS="$KEY_PASS"
+          export KEY_ALIAS=sanket
+          android/build.sh \
+            in.sanket.ptt \
+            "Sanket PTT" \
+            "https://vibhvesh.github.io/sanketptt/?embed=1" \
+            "#174A78" \
+            Sanket_PTT_Radio.apk
+        env:
+          KEY_PASS: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SanketPTT-Android-APK
+          path: Sanket_PTT_Radio.apk
+          if-no-files-found: error
+          retention-days: 14
