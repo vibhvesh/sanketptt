@@ -1,7 +1,7 @@
-.hero { padding: 56px 0 20px; background: linear-gradient(180deg, #fff 0%, var(--paper) 100%); }
+.hero { padding: 48px 0 12px; }
 .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 36px; align-items: center; }
-.hero h1 { margin: 0; font-size: clamp(42px, 6vw, 68px); color: var(--navy); }
-.hero h1 span { color: #1769aa; }
+.hero h1 { margin: 0; font-size: clamp(42px, 6vw, 68px); color: var(--ink); }
+.hero h1 span { color: var(--cyan); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .hero-note {
   display: flex;

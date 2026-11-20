@@ -6,7 +6,7 @@
   padding: 18px;
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg-2);
 }
 .price-card.featured { border: 2px solid var(--orange); box-shadow: var(--shadow); }
 .price-card .eyebrow { font-size: 11px; }
@@ -15,7 +15,7 @@
 .price small { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 650; letter-spacing: 0; }
 .price-card .meta { min-height: 44px; color: var(--muted); font-size: 14px; }
 .price-card ul { margin: 8px 0 16px; padding: 0; list-style: none; flex: 1; }
-.price-card li { padding: 8px 0; border-top: 1px solid #eef2f6; font-size: 14px; color: #314556; }
+.price-card li { padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink); }
 .price-card .foot { margin-top: 10px; padding: 0; color: #6b7d8e; font-size: 12px; }
 @media (max-width: 1000px) { .prices { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .prices { grid-template-columns: 1fr; } }

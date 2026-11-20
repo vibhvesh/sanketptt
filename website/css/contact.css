@@ -6,7 +6,7 @@ input, textarea {
   padding: 12px 14px;
   border: 1px solid #d3dee8;
   border-radius: 10px;
-  background: #fff;
+  background: var(--bg);
   color: var(--ink);
 }
 textarea { min-height: 120px; resize: vertical; }

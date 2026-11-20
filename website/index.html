@@ -15,7 +15,11 @@
   }
 })();
 </script>
+<script>
+(function(){var s=localStorage.getItem("sanket-theme");document.documentElement.setAttribute("data-theme",s||"dark");})();
+</script>
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/chrome.css">
 <link rel="stylesheet" href="css/hero.css">
 <link rel="stylesheet" href="css/live-demo.css">
 <link rel="stylesheet" href="css/products.css">
@@ -38,22 +42,9 @@ if (document.documentElement.classList.contains("app-mode")) {
   document.getElementById("appFrame").src = "radio/" + location.search + location.hash;
 }
 </script>
-<header class="top">
-  <div class="wrap nav">
-    <a class="logo" href="#home"><img src="sanket-mark.svg" alt="" width="36" height="36"><span>SANKET <b>PTT</b><small>CANBERRA VISION</small></span></a>
-    <nav class="links" id="links">
-      <a href="#demo">Live demo</a>
-      <a href="#products">Products</a>
-      <a href="#use-cases">Use cases</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#contact">Contact</a>
-      <a class="nav-cta" href="?ch=virtual">Open PTT</a>
-    </nav>
-    <button class="menu" id="menu" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
-  </div>
-</header>
+<div id="chrome"></div>
 <main id="home">
-  <section class="hero">
+  <section class="hero reveal">
     <div class="wrap hero-grid rise">
       <div>
         <p class="eyebrow">Canberra Vision AI</p>
@@ -76,7 +67,7 @@ if (document.documentElement.classList.contains("app-mode")) {
     </div>
   </section>
 
-  <section class="section demo" id="demo">
+  <section class="section demo reveal" id="demo">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Live demo</p>
@@ -138,7 +129,7 @@ if (document.documentElement.classList.contains("app-mode")) {
     </div>
   </section>
 
-  <section class="section" id="products">
+  <section class="section reveal" id="products">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">The Sanket suite</p>
@@ -166,7 +157,7 @@ if (document.documentElement.classList.contains("app-mode")) {
     </div>
   </section>
 
-  <section class="section uses" id="use-cases">
+  <section class="section uses reveal" id="use-cases">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Use cases</p>
@@ -181,7 +172,7 @@ if (document.documentElement.classList.contains("app-mode")) {
     </div>
   </section>
 
-  <section class="section" id="pricing">
+  <section class="section reveal" id="pricing">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Pricing</p>
@@ -197,7 +188,7 @@ if (document.documentElement.classList.contains("app-mode")) {
     </div>
   </section>
 
-  <section class="section" id="contact">
+  <section class="section reveal" id="contact">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Contact</p>
@@ -231,14 +222,14 @@ if (document.documentElement.classList.contains("app-mode")) {
     </div>
   </section>
 </main>
-<footer class="wrap foot">
+<footer class="wrap site-footer">
   <span><b>Sanket</b> · Canberra Vision AI Systems</span>
   <span>Akshat Singh · <a href="tel:+919998299023">+91 99982 99023</a></span>
   <span><a href="mailto:akshatsingh@canberravision.com">akshatsingh@canberravision.com</a> · <a href="mailto:akshat@sanketptt.com">akshat@sanketptt.com</a></span>
   <span>713 Samanvay Silver, Akota, Vadodara, Gujarat, India</span>
   <span>© <span id="year"></span> Canberra Vision AI Systems</span>
 </footer>
-<script src="js/nav.js" defer></script>
+<script src="js/chrome.js" defer></script>
 <script src="js/contact-form.js" defer></script>
 <script src="js/live-presence.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>

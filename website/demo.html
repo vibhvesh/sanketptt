@@ -29,7 +29,7 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!im
  .panel .ph span{font-size:8px!important;line-height:1.15!important}
  .panel .ph small{font-size:6px!important}
 }
-</style></head><body>
+</style></head><body data-chrome="auto">
 <header><div class="brand">SANKET <b>PTT</b><span class="sub">LIVE RADIO CONSOLE</span></div><div class="head-actions"><button class="invite" id="inviteBtn" type="button">↗ INVITE / SHARE</button><a class="home" href="./">← Sanket Home</a></div></header>
 <main>
 <section class="panel"><div class="ph"><span>01 · SANKET PTT DEMO</span><small>JOIN · TALK · SSTV</small></div><iframe title="Sanket PTT Demo" src="/radio/?ch=sanket-website-demo&amp;embed=1" allow="microphone; autoplay" loading="eager"></iframe></section>
@@ -44,4 +44,4 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!im
   try{if(navigator.share)await navigator.share(data);else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url.href);alert('Invite link copied. Share it on WhatsApp, Facebook or anywhere.')}else prompt('Copy this invite link',url.href)}catch(e){if(e.name!=='AbortError')prompt('Copy this invite link',url.href)}
  });
 })();
-</script></body></html>
+</script><script src="js/chrome.js" defer></script></body></html>

@@ -1,6 +1,6 @@
-.uses { background: #fff; }
+.uses { background: transparent; }
 .use-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.use-card { min-width: 0; padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--paper); }
+.use-card { min-width: 0; padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--bg-2); }
 .use-card span { color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: 0.08em; }
 .use-card h3 { margin: 8px 0; font-size: 18px; }
 .use-card p { margin: 0; color: var(--muted); font-size: 14px; }
