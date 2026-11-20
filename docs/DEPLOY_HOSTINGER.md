@@ -1,6 +1,13 @@
 # Deploy marketing site to Hostinger (VPS) with GitHub Actions
 
-This repository can publish the **`website/`** folder to your Hostinger VPS on every push to `main` (when `website/` changes). The existing [GitHub Pages workflow](../.github/workflows/deploy.yml) is unchanged and still deploys the full repo to Pages.
+This workflow publishes the marketing site to your Hostinger VPS on every push to `main` when `website/` or `aakashvani/` changes:
+
+- Contents of `website/` → document root (e.g. `index.html` at the site root)
+- Contents of `aakashvani/` → `aakashvani/` under that root (embedded demo + full-screen links)
+
+The existing [GitHub Pages workflow](../.github/workflows/deploy.yml) is unchanged.
+
+**Example deploy path on srv625155:** `/var/www/sanket/html`
 
 ## 1. Prepare the VPS (one-time)
 

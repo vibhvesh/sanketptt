@@ -14,7 +14,7 @@ https://vibhvesh.github.io/sanketptt/website/
 
 ## Hostinger (custom domain)
 
-To deploy **only this folder** to a Hostinger VPS on push to `main`, use the workflow `.github/workflows/deploy-hostinger.yml` and follow [docs/DEPLOY_HOSTINGER.md](../docs/DEPLOY_HOSTINGER.md).
+Hostinger deploy (GitHub Actions) syncs **`website/`** plus **`aakashvani/`** on push to `main`. See [docs/DEPLOY_HOSTINGER.md](../docs/DEPLOY_HOSTINGER.md).
 
 The existing Sanket PTT root app, Transcribe app and Pi service are not modified by this website folder.
 

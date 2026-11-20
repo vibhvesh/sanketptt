@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "website/**"
+      - "aakashvani/**"
       - ".github/workflows/deploy-hostinger.yml"
   workflow_dispatch:
 
@@ -35,7 +36,14 @@ jobs:
           done
           exit "$missing"
 
-      - name: Rsync website to VPS
+      - name: Stage site (website at root + aakashvani/)
+        run: |
+          mkdir -p _site/aakashvani
+          rsync -a website/ _site/
+          rsync -a aakashvani/ _site/aakashvani/
+          ls -la _site/index.html _site/aakashvani/index.html
+
+      - name: Rsync to VPS
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
@@ -50,5 +58,5 @@ jobs:
           ssh-keyscan -p "$PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
           rsync -avzr --delete \
             -e "ssh -i ~/.ssh/deploy_key -p $PORT -o StrictHostKeyChecking=accept-new" \
-            website/ \
+            _site/ \
             "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH%/}/"
