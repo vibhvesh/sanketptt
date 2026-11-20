@@ -6,7 +6,7 @@ fetched this file) it downloads the files listed in files.txt first."""
 import os, sys, urllib.request, time
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_RAW = "https://vibhvesh.github.io/sanketptt/pi"
+REPO_RAW = "https://sanketptt.com/pi"
 sys.path.insert(0, APP_DIR)
 
 

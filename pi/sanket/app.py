@@ -14,7 +14,7 @@ from .sysmon import SysMon
 from .transcribe import Transcriber
 from .util import APP_DIR, RingHandler, log
 
-REPO_RAW = "https://vibhvesh.github.io/sanketptt/pi"
+REPO_RAW = "https://sanketptt.com/pi"
 MAIN_RELAY = "relay"
 
 

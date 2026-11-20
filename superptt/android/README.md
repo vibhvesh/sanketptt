@@ -6,7 +6,7 @@ rooted, and no Android settings change except the battery and autostart permissi
 
 ## One-line install (in Termux)
 ```sh
-curl -fsSL https://vibhvesh.github.io/sanketptt/superptt/android/install-termux.sh | bash
+curl -fsSL https://sanketptt.com/superptt/android/install-termux.sh | bash
 ```
 It takes 5–40 minutes, depending on which speech engine builds. Re-run it to update; config, data and the PIN are kept.
 

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102b46"><title>Vaani Admin · Sanket</title>
+<style>
+:root{color-scheme:light;--navy:#102b46;--blue:#1d5b88;--orange:#f47721;--ink:#18324b;--muted:#66798b;--line:#dce5ed;--bg:#f3f6fa;--green:#16865b;--red:#b54747}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,Segoe UI,Arial,sans-serif}
+header{background:var(--navy);color:white;padding:17px max(20px,calc((100% - 1080px)/2));display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{font-weight:900;letter-spacing:1px}.brand small{display:block;color:#a9c3d8;font-size:10px;letter-spacing:2px}
+main{max-width:1080px;margin:30px auto;padding:0 18px}.intro{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}.intro h1{margin:0;font-size:clamp(26px,4vw,36px);letter-spacing:-1px}.muted{color:var(--muted)}.eyebrow{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:white;border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 5px 18px #18324b08}.card h2{font-size:17px;margin:0 0 5px}.card p{font-size:13px;color:var(--muted);margin:0 0 16px}
+label{display:block;font-size:12px;font-weight:700;margin:12px 0 6px}input{width:100%;padding:12px;border:1px solid #cbd7e2;border-radius:8px;font:inherit;color:var(--ink);background:white}button{border:0;border-radius:8px;background:var(--blue);color:white;padding:11px 16px;font:700 13px inherit;cursor:pointer}button.secondary{background:#eaf1f6;color:var(--navy)}button:disabled{opacity:.55;cursor:wait}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px}.status{font-size:12px;color:var(--muted);min-height:18px;margin-top:10px}.status.error{color:var(--red)}.status.ok{color:var(--green)}
+#app{display:none}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0 12px}.pill{font-size:11px;padding:5px 9px;border-radius:30px;background:#e8f5ef;color:var(--green);font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #edf1f5}th{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}code{font-size:12px;background:#f0f3f6;padding:3px 6px;border-radius:5px}
+.notice{padding:12px;border-radius:9px;background:#fff7ed;border:1px solid #f5d8bd;color:#7c4a22;font-size:12px;margin-top:14px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.intro{align-items:start;flex-direction:column}.toolbar{align-items:start;flex-direction:column}main{margin:20px auto}}
+</style>
+</head>
+<body>
+<header><div class="brand">SANKET <small>VAANI ADMINISTRATION</small></div><span id="headState">Not connected</span></header>
+<main>
+<section class="intro"><div><div class="eyebrow">Private control centre</div><h1>Vaani Admin</h1><div class="muted">Manage the PTT channels served by your SuperPTT control room.</div></div></section>
+<section class="card" id="loginCard">
+<h2>Connect to control room</h2><p>Enter the HTTPS address of the SuperPTT control-room server and your administrator PIN.</p>
+<label for="backend">Control-room URL</label><input id="backend" type="url" placeholder="https://your-control-room.example" autocomplete="url">
+<label for="pin">Existing administrator PIN (first-time account setup / recovery)</label><input id="pin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Your admin PIN">
+<div class="actions"><button id="login">Sign in with PIN</button></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<strong>Already created a Vaani Admin account?</strong>
+<label for="username">Username</label><input id="username" autocomplete="username" value="vaaniadmin" placeholder="vaaniadmin">
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Your Vaani Admin password">
+<div class="actions"><button id="adminLogin">Sign in with username</button></div><div class="status" id="loginMsg" role="status"></div>
+</section>
+<div id="app">
+<section class="card" id="accountSetup" style="display:none;margin-bottom:16px">
+<h2>Create your Vaani Admin account</h2><p>This one-time step is available only after signing in with the existing administrator PIN. The password is sent only to your HTTPS control-room server and stored there as a PBKDF2 hash.</p>
+<label for="newUsername">Username</label><input id="newUsername" autocomplete="username" value="vaaniadmin" maxlength="32">
+<label for="newPassword">New password (minimum 12 characters)</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Create a strong password">
+<label for="confirmPassword">Confirm password</label><input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Enter it again">
+<div class="actions"><button id="createAccount">Create secure account</button></div><div class="status" id="accountMsg" role="status"></div>
+</section>
+<div class="toolbar"><div><strong id="connectedLabel">Connected</strong><div class="muted" style="font-size:12px">Changes are saved to the SuperPTT backend.</div></div><div class="actions"><span class="pill">Authenticated session</span><button class="secondary" id="refresh">Refresh</button><button class="secondary" id="logout">Sign out</button></div></div>
+<div class="grid">
+<section class="card"><h2>Create a PTT line</h2><p>Use lowercase letters, numbers, hyphens or underscores. The line ID is the channel topic used by PTT clients.</p>
+<label for="channel">Channel ID</label><input id="channel" maxlength="40" placeholder="e.g. warehouse-east">
+<label for="priority">Priority</label><input id="priority" type="number" min="0" max="100" value="10">
+<div class="actions"><button id="create">Create line</button></div><div class="status" id="createMsg" role="status"></div>
+</section>
+<section class="card"><h2>Channel directory</h2><p>Configured channels currently monitored by this control room.</p>
+<div id="channels"><span class="muted">Loading…</span></div><div class="status" id="listMsg" role="status"></div>
+</section>
+</div>
+<div class="notice"><strong>Current integration scope:</strong> channel creation and priority updates use the existing authenticated configuration API. Display-name aliases, public visibility controls, channel rename and disable/delete workflows require additional backend support; they are not simulated here.</div>
+</div>
+</main>
+<script>
+(function(){
+const $=id=>document.getElementById(id);let base="",token="";
+function msg(id,text,kind){const el=$(id);el.textContent=text;el.className="status "+(kind||"")}
+function headers(json){const h={"Authorization":"Bearer "+token,"X-Requested-With":"superptt"};if(json)h["Content-Type"]="application/json";return h}
+async function request(path,opts){const r=await fetch(base+path,{...opts,headers:{...(opts&&opts.headers||{})},cache:"no-store"});let data={};try{data=await r.json()}catch(_){}if(!r.ok)throw new Error(data.error||("HTTP "+r.status));return data}
+async function api(path,method,body){const r=await fetch(base+path,{method,headers:headers(!!body),body:body?JSON.stringify(body):undefined,cache:"no-store"});let d={};try{d=await r.json()}catch(_){}if(!r.ok)throw new Error(d.error||("HTTP "+r.status));return d}
+function show(){ $("loginCard").style.display="none";$("app").style.display="block";$("headState").textContent="Connected securely";$("connectedLabel").textContent=base}
+function cleanBase(v){return v.trim().replace(/\/+$/,"")}
+async function load(){msg("listMsg","");const d=await api("/api/status");const cfg=d.config||{};const ss=await fetch(base+"/api/session",{cache:"no-store"}).then(r=>r.json());$("accountSetup").style.display=ss.admin_set?"none":"block";const chans=Array.isArray(cfg.channels)?cfg.channels:[];const priorities=cfg.priority||{};window.currentChannels=chans;window.currentPriority=priorities;$("channels").innerHTML="";
+if(!chans.length){$("channels").textContent="No configured channels.";return}
+const table=document.createElement("table");table.innerHTML="<thead><tr><th>Channel ID</th><th>Priority</th><th>State</th></tr></thead>";const tbody=document.createElement("tbody");
+chans.forEach(ch=>{const tr=document.createElement("tr");const td1=document.createElement("td"),td2=document.createElement("td"),td3=document.createElement("td");const code=document.createElement("code");code.textContent=ch;td1.append(code);td2.textContent=priorities[ch]??"Default";td3.textContent="Configured";tr.append(td1,td2,td3);tbody.append(tr)});table.append(tbody);$("channels").append(table)}
+async function acceptLogin(d){if(!d.token)throw new Error("Backend did not return a cross-origin session token. Check that https://sanketptt.com is in the backend CORS allow-list.");token=d.token;sessionStorage.setItem("vani_backend",base);sessionStorage.setItem("vani_token",token);$("pin").value="";$("password").value="";show();await load();msg("listMsg","Connected. "+(document.getElementById("accountSetup").style.display!=="none"?"Create your Vaani Admin username and password below.":"Admin account authenticated."),"ok")}
+$("adminLogin").onclick=async()=>{base=cleanBase($("backend").value);const username=$("username").value.trim(),password=$("password").value;if(!/^https:\/\//i.test(base)){msg("loginMsg","Use the HTTPS control-room URL.","error");return}if(!username||!password){msg("loginMsg","Enter your username and password.","error");return}$("adminLogin").disabled=true;msg("loginMsg","Signing in…");try{const r=await fetch(base+"/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,password}),cache:"no-store"});const d=await r.json();if(!r.ok)throw new Error(d.error||("HTTP "+r.status));await acceptLogin(d)}catch(e){msg("loginMsg",e.message,"error")}finally{$("adminLogin").disabled=false;$("password").value=""}};
+$("login").onclick=async()=>{base=cleanBase($("backend").value);const pin=$("pin").value.trim();if(!/^https:\/\//i.test(base)){msg("loginMsg","Use the HTTPS control-room URL.","error");return}if(!pin){msg("loginMsg","Enter your administrator PIN.","error");return}$("login").disabled=true;msg("loginMsg","Signing in…");try{const r=await fetch(base+"/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin}),cache:"no-store"});const d=await r.json();if(!r.ok)throw new Error(d.error||("HTTP "+r.status));await acceptLogin(d);msg("listMsg","Channel directory loaded.","ok")}catch(e){msg("loginMsg",e.message,"error")}finally{$("login").disabled=false}};
+$("createAccount").onclick=async()=>{const username=$("newUsername").value.trim().toLowerCase(),password=$("newPassword").value,confirm=$("confirmPassword").value;if(!/^[a-z][a-z0-9_-]{2,31}$/.test(username)){msg("accountMsg","Username must be 3–32 lowercase letters, numbers, _ or -, and start with a letter.","error");return}if(password.length<12){msg("accountMsg","Use a password with at least 12 characters.","error");return}if(password!==confirm){msg("accountMsg","The passwords do not match.","error");return}$("createAccount").disabled=true;try{await api("/api/admin/setup","POST",{username,password});$("newPassword").value="";$("confirmPassword").value="";$("accountSetup").style.display="none";msg("listMsg","Vaani Admin account created. Sign out, then sign in with username "+username+".","ok")}catch(e){msg("accountMsg",e.message,"error")}finally{$("createAccount").disabled=false}};
+$("create").onclick=async()=>{const ch=$("channel").value.trim().toLowerCase(),p=Number($("priority").value);if(!/^[a-z0-9_-]{1,40}$/.test(ch)){msg("createMsg","Channel ID must be 1–40 lowercase letters, numbers, _ or -.","error");return}if(!Number.isFinite(p)||p<0||p>100){msg("createMsg","Priority must be between 0 and 100.","error");return}$("create").disabled=true;try{const channels=[...new Set([...(window.currentChannels||[]),ch])];const priority={...(window.currentPriority||{}),[ch]:p};await api("/api/config","POST",{channels,priority});window.currentChannels=channels;window.currentPriority=priority;msg("createMsg","Channel configuration saved. Refreshing directory…","ok");await load();$("channel").value=""}catch(e){msg("createMsg",e.message,"error")}finally{$("create").disabled=false}};
+$("refresh").onclick=()=>load().catch(e=>msg("listMsg",e.message,"error"));
+$("logout").onclick=async()=>{try{await api("/api/logout","POST",{})}catch(_){}sessionStorage.removeItem("vani_token");sessionStorage.removeItem("vani_backend");token="";base="";$("app").style.display="none";$("loginCard").style.display="block";$("headState").textContent="Signed out"};
+const savedBase=sessionStorage.getItem("vani_backend");if(savedBase){$("backend").value=savedBase;/* PIN login is required again; session token is deliberately not restored across reloads. */}
+})();
+</script>
+</body></html>

@@ -11,21 +11,21 @@ app is a static web page and uses an MQTT relay over secure WebSockets.
 
 | App | Link |
 |---|---|
-| Sanket PTT (radio) | https://vibhvesh.github.io/sanketptt/ |
-| Sanket Transcribe | https://vibhvesh.github.io/sanketptt/transcribe/ |\n| Animal Speaking Assessment | https://vibhvesh.github.io/sanketptt/assessment/ |
-| User guides | https://vibhvesh.github.io/sanketptt/docs/ |
+| Sanket PTT (radio) | https://sanketptt.com/?ch=virtual |
+| Sanket Transcribe | https://sanketptt.com/transcribe/ |\n| Animal Speaking Assessment | https://sanketptt.com/assessment/ |
+| User guides | https://sanketptt.com/docs/ |
 
 ### Android APKs
 
-* [Sanket_PTT.apk](https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_PTT.apk)
-* [Sanket_Transcribe.apk](https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_Transcribe.apk)
+* [Sanket_PTT.apk](https://sanketptt.com/releases/download/v1.0-android/Sanket_PTT.apk)
+* [Sanket_Transcribe.apk](https://sanketptt.com/releases/download/v1.0-android/Sanket_Transcribe.apk)
 
 Allow "install from unknown sources" when prompted. The APKs wrap the web apps and keep audio running in the background.
 
 ### Sanket Edge (Raspberry Pi) – one-touch install
 
 ```bash
-curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | bash
+curl -fsSL https://sanketptt.com/pi/install.sh | bash
 ```
 
 Run the same command again to update. See [pi/README.md](pi/README.md).
@@ -54,7 +54,7 @@ Run the same command again to update. See [pi/README.md](pi/README.md).
 
 ## User guides
 
-Online: https://vibhvesh.github.io/sanketptt/docs/
+Online: https://sanketptt.com/docs/
 
 * [Sanket PTT User Guide (PDF)](docs/Sanket_PTT_User_Guide.pdf)
 * [Sanket Transcribe User Guide (PDF)](docs/Sanket_Transcribe_User_Guide.pdf)

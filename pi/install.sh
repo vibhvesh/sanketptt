@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Sanket PTT - Raspberry Pi listener, one-touch installer / upgrader (safe to run again any time).
-#   curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | bash
+#   curl -fsSL https://sanketptt.com/pi/install.sh | bash
 # Options (environment):  SANKET_KIOSK=0  skip the dashboard-on-display kiosk
 #                         SANKET_KIOSK=1  force it (e.g. Pi 3 on a Lite image)
 #                         SANKET_HW=pi3|pi5  override board detection
 # Re-running upgrades the code and keeps config.json, recordings and voices.
 set -euo pipefail
-BASE="${SANKET_BASE:-https://vibhvesh.github.io/sanketptt/pi}"
+BASE="${SANKET_BASE:-https://sanketptt.com/pi}"
 APP_DIR="$HOME/sanket-pi"
 RUN_USER="$(id -un)"
 say(){ printf '\n\033[1;33m==> %s\033[0m\n' "$*"; }

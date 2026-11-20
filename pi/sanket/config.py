@@ -6,7 +6,7 @@ CFG_PATH = os.environ.get("SANKET_CONFIG", os.path.join(APP_DIR, "config.json"))
 KNOWN_CHANNELS = ["virtual", "master", "city-control", "unit-name"]
 BROKERS = ["wss://public:public@public.cloud.shiftr.io", "wss://broker.emqx.io:8084/mqtt",
            "wss://broker.hivemq.com:8884/mqtt", "wss://test.mosquitto.org:8081"]
-WEB_RADIO = "https://vibhvesh.github.io/sanketptt/"
+WEB_RADIO = "https://sanketptt.com/?ch=virtual"
 
 DEFAULTS = {
     # identity + main relay (unchanged keys from v2)

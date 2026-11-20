@@ -1,0 +1,62 @@
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SuperPTT Transcribe</title><link rel=manifest href=manifest.json><meta name=theme-color content="#0b1015"><link rel=icon href=icon.svg>
+<meta name=apple-mobile-web-app-capable content=yes>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1015;color:#d6f0ff;font:15px system-ui}
+header{display:flex;gap:8px;align-items:center;padding:10px 12px;background:#111b24;position:sticky;top:0;z-index:2}
+header b{font-family:monospace;letter-spacing:2px}#net{margin-left:auto;font-size:12px;color:#789}
+.wrap{padding:10px;max-width:760px;margin:auto}.card{background:#121c26;border-radius:10px;padding:10px;margin-bottom:10px}
+button,input,select{background:#1d2d3c;color:#d6f0ff;border:1px solid #345;border-radius:6px;padding:6px 10px;font:inherit}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.m{font-size:12px;color:#789}.hide{display:none}label{font-size:13px}
+.pill{font-size:11px;padding:2px 6px;border-radius:8px;background:#345}.lock{color:#2ecc71;font-size:12px}.open{color:#f93;font-size:12px}.nokey{color:#f66;font-size:12px}
+.tabs button{border-radius:14px}.tabs button.on{background:#1e5631;border-color:#2ecc71}
+.seg{background:#162330;border-radius:8px;padding:8px;margin-bottom:6px;border-left:3px solid #345}
+.seg .h{display:flex;gap:8px;align-items:center;font-size:12px;color:#9ab;flex-wrap:wrap}.seg .h b{color:#d6f0ff;font-size:13px}
+.seg .tx{margin:6px 0 4px;font-size:15px;white-space:pre-wrap;user-select:text}.seg.wait .tx{color:#789;font-style:italic}
+.seg audio{width:100%;height:32px}.lang{background:#2d4a63}mark{background:#f0a500;color:#000}
+
+/* Sanket Government UI refresh — shared controls and responsive surfaces */
+:root{--gov-navy:#12345a;--gov-blue:#174a78;--gov-blue-2:#21649a;--gov-saffron:#f28c28;--gov-green:#138808;--gov-ink:#18324b;--gov-muted:#65788d;--gov-line:#d9e2ec;--gov-bg:#f3f6fa;--gov-surface:#fff;--gov-focus:rgba(33,100,154,.22);--gov-radius:12px}
+html{color-scheme:light}body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important;background:var(--gov-bg)!important;color:var(--gov-ink)!important}
+header,.top,.topbar,.app-header{background:var(--gov-navy)!important;color:#fff!important;border-color:#244b70!important}
+button,input,select,textarea{font:inherit;max-width:100%}input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea{min-height:42px;padding:10px 12px;border:1px solid #c7d3df;border-radius:9px;background:#fff;color:#18324b;box-shadow:0 1px 2px rgba(16,42,67,.04);transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+select{appearance:none;-webkit-appearance:none;padding-right:38px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2312345a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:0!important;border-color:var(--gov-blue-2)!important;box-shadow:0 0 0 3px var(--gov-focus)!important}
+input::placeholder,textarea::placeholder{color:#8494a5;opacity:1}textarea{min-height:96px;resize:vertical}label{color:var(--gov-ink);font-weight:650;letter-spacing:0!important}
+form{display:grid;gap:14px}form label{display:block;margin:0 0 6px}form input,form select,form textarea{width:100%}
+button,.btn,.cta{border-radius:9px;transition:background .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease}button:not(:disabled):hover,.btn:hover,.cta:hover{filter:brightness(1.04)}button:active,.btn:active,.cta:active{transform:translateY(1px)}button:disabled{opacity:.55;cursor:not-allowed}
+.card,.panel,.box,.section-card{border-radius:14px}
+.badge,.pill{letter-spacing:.01em}
+@media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}form{gap:16px}}
+@media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px} .wrap,.main,.content{padding-left:14px;padding-right:14px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+</style>
+<header><b>SUPER·PTT</b><span class=pill>TRANSCRIBE</span><span id=net>offline</span><button id=gear>⚙</button></header>
+<div class=wrap>
+<div class="card hide" id=setup>
+ <p class=m>Listen-only. Joins the same public MQTT channels as the SuperPTT app and transcribes every clip.</p>
+ <div class=row><label>Channels <input id=chans placeholder="virtual, master" style=width:240px></label><label><input type=checkbox id=disc> discover active channels</label></div>
+ <details style=margin-top:6px><summary class=m>Broker (default: public brokers)</summary>
+ <div class=row style=margin-top:4px><input id=burl placeholder="wss://your-private-broker (empty = public)" style=flex:1></div>
+ <div class=row style=margin-top:4px><input id=buser placeholder=username style=width:120px autocomplete=username><input id=bpass type=password placeholder=password style=width:120px autocomplete=current-password></div></details>
+ <div class=row style=margin-top:8px><input id=invite placeholder="paste invite link / QR text (…#k=ch.kid.secret)" style=flex:1><button id=addkey>Add key</button></div>
+ <p class=m id=keyinfo></p>
+ <hr style="border-color:#234">
+ <b>Transcription</b>
+ <p class=m>Control room set → transcripts come from the Pi (PIN login). Otherwise this browser transcribes.</p>
+ <div class=row><input id=cr placeholder="control-room URL (https://…trycloudflare.com)" style=flex:1><input id=pin type=password inputmode=numeric placeholder=PIN style=width:100px><button id=login>Log in</button></div>
+ <div class=row style=margin-top:6px><label>Engine <select id=eng><option value=whisper>Local Whisper (in browser)</option><option value=eleven>ElevenLabs (your key)</option></select></label>
+  <label>Model <select id=model><option value="onnx-community/whisper-tiny">whisper-tiny (~40 MB)</option><option value="onnx-community/whisper-base">whisper-base (~80 MB)</option></select></label>
+  <label>Language <select id=lang><option value=auto>auto (tiny often defaults to English)</option><option value=en>English</option><option value=hi>Hindi</option><option value=gu>Gujarati</option><option value=mr>Marathi</option><option value=bn>Bengali</option><option value=ta>Tamil</option><option value=te>Telugu</option><option value=pa>Punjabi</option><option value=ur>Urdu</option></select></label></div>
+ <div class=row style=margin-top:6px><input id=xik type=password placeholder="ElevenLabs API key (kept only in this browser)" style=flex:1 autocomplete=off><button id=xiclr>forget key</button></div>
+ <div class=row style=margin-top:8px><button id=go>Start listening</button><span id=serr class=m></span></div>
+</div>
+<div class=card><div class=row style="justify-content:space-between"><span class="row tabs" id=tabs></span><span id=mode class=m></span></div>
+ <div class=row style=margin-top:8px><input id=q placeholder="🔍 search text / sender" style=flex:1><button id=csv>CSV</button><button id=txt>TXT</button></div></div>
+<div id=feed></div>
+<p class=m id=empty style=text-align:center>No clips yet. Talk on a joined channel with the SuperPTT app.</p>
+</div>
+<script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
+<script src="../superptt.js"></script><script src="transcribe.js"></script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){})</script>
+</html>

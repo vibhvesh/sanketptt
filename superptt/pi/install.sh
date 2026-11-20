@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SuperPTT control room installer — Raspberry Pi 5 (Raspberry Pi OS Bookworm 64-bit).
-#   curl -fsSL https://vibhvesh.github.io/sanketptt/superptt/pi/install.sh | bash
+#   curl -fsSL https://sanketptt.com/superptt/pi/install.sh | bash
 # Options (env): SUPERPTT_TUNNEL=quick|named|none  CF_TUNNEL_TOKEN=..  PUBLIC_URL=https://..
 #                SUPERPTT_DIR=/opt/superptt  SUPERPTT_BASE=<download base url>  DRY_RUN=1
 # Flags:  --private-broker   install a private Mosquitto broker on this Pi (WebSockets, per-user logins + ACLs),
@@ -10,7 +10,7 @@
 #   curl -fsSL .../install.sh | bash -s -- --private-broker
 set -euo pipefail
 PRIV=""; for a in "$@"; do case "$a" in --private-broker) PRIV=1;; *) echo "unknown option $a"; exit 2;; esac; done
-BASE=${SUPERPTT_BASE:-https://vibhvesh.github.io/sanketptt/superptt/pi}
+BASE=${SUPERPTT_BASE:-https://sanketptt.com/superptt/pi}
 DIR=${SUPERPTT_DIR:-/opt/superptt}
 TUN=${SUPERPTT_TUNNEL:-quick}
 FILES="requirements.txt worker.py superptt/__init__.py superptt/__main__.py superptt/app.py superptt/config.py

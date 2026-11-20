@@ -7,7 +7,7 @@ Browser-only, listen-only receiver for the existing Sanket PTT website. This is 
 Run as the normal Pi login user, without `sudo`:
 
 ```bash
-curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install-lite.sh | bash
+curl -fsSL https://sanketptt.com/pi-webclient/install-lite.sh | bash
 sudo reboot
 ```
 
@@ -16,7 +16,7 @@ The installer adds Xvfb (a virtual display, no desktop required), Chromium, ALSA
 ## Configure
 
 Defaults:
-- Web app: https://vibhvesh.github.io/sanketptt/
+- Web app: https://sanketptt.com/?ch=virtual
 - Channel: `virtual`
 - Device name: `PI-` plus the detected hardware MAC address
 - Listen-only: `listen=1`; microphone and transmit controls remain disabled
@@ -24,7 +24,7 @@ Defaults:
 Choose a channel during installation:
 
 ```bash
-curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install-lite.sh | SANKET_PTT_CHANNEL=master bash
+curl -fsSL https://sanketptt.com/pi-webclient/install-lite.sh | SANKET_PTT_CHANNEL=master bash
 ```
 
 Or edit `/etc/default/sanket-webptt`:

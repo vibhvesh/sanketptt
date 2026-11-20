@@ -3,11 +3,11 @@
 ## 1. What exists today (Sanket PTT, repo `vibhvesh/sanketptt`, box checkout `/workspace/sanketptt`)
 | Part | Where | Notes |
 |---|---|---|
-| PTT web radio | `index.html` → https://vibhvesh.github.io/sanketptt/ | One channel per tab, mqtt.js over WSS |
+| PTT web radio | `index.html` → https://sanketptt.com/?ch=virtual | One channel per tab, mqtt.js over WSS |
 | Transcribe web app | `transcribe/index.html` → …/sanketptt/transcribe/ | Listen-only; in-browser Whisper (`onnx-community/whisper-base`, transformers.js) or ElevenLabs STT; Google/MyMemory translate; Gmail alert mail |
 | Android APKs | `android/` (WebView + foreground keep-alive) | Releases `v1.0-android` |
-| Pi listener 2.0 | `pi/` (Python, `install.sh` via Pages) | Receive-only, multi-channel/`listen_all`, faster-whisper tiny/base int8, piper/espeak TTS announce, keyword alerts, SSTV decode, web admin :8080 with PIN |
-| Original prototype | `/workspace/ptt-static` → vibhvesh.github.io/ptt-radio | |
+| Pi listener 2.0 | `pi/` (Python, `install.sh` from https://sanketptt.com/pi/install.sh) | Receive-only, multi-channel/`listen_all`, faster-whisper tiny/base int8, piper/espeak TTS announce, keyword alerts, SSTV decode, web admin :8080 with PIN |
+| Original prototype | local `/workspace/ptt-static` (not served from sanketptt.com) | |
 | Hosting | GitHub Pages (Actions `deploy.yml`) | No server of our own |
 
 **Transport/protocol (kept as-is for compatibility):** public MQTT brokers over WSS (shiftr.io primary; emqx, hivemq, mosquitto fallbacks). Topics `ptt-radio-66ab9178/<channel>/{presence/<id>, floor, audio, sstv}`.

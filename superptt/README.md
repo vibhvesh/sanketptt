@@ -14,7 +14,7 @@ It uses the **same public brokers and topics as Sanket PTT** (`ptt-radio-66ab917
 - **PWA**: `manifest.json`, `sw.js` (offline shell, network-first), icons. On Android Chrome: menu → Install app. iOS: Share → Add to Home Screen.
 - **Android wrapper**: load the hosted URL in the existing WebView app (same as `sanketptt/android`); grant mic permission. Hardware PTT keys can call `window.SuperPTTHardware.down()` / `.up()` via `evaluateJavascript`.
 
-- **Backup control room on an Android phone (Termux)**: see [android/README.md](android/README.md) — `curl -fsSL https://vibhvesh.github.io/sanketptt/superptt/android/install-termux.sh | bash`
+- **Backup control room on an Android phone (Termux)**: see [android/README.md](android/README.md) — `curl -fsSL https://sanketptt.com/superptt/android/install-termux.sh | bash`
 
 ## Try it locally
     cd app && python3 -m http.server 8080    # open http://localhost:8080 (mic works on localhost/https only)
@@ -30,5 +30,5 @@ Runs 3 SuperPTT clients plus 1 legacy Sanket PTT client plus the control room (m
 
 ## Encryption (opt-in per channel)
 Channels without a key behave exactly as before (marked ⚠ not encrypted). The control-room admin adds a key under Console → Channel encryption.
-**Invite / QR** shows a QR code and a link `https://vibhvesh.github.io/sanketptt/superptt/#k=…`. Scan it or open it on the phone, then Connect. The channel shows 🔒 E2E.
+**Invite / QR** shows a QR code and a link `https://sanketptt.com/superptt/#k=…`. Scan it or open it on the phone, then Connect. The channel shows 🔒 E2E.
 Custom/private broker: Setup → Broker (URL, username, password). Details: `../SECURITY.md`. Offline crypto test: `node test/crypto.js`.

@@ -2,7 +2,7 @@
 set -euo pipefail
 # Headless Sanket PTT web receiver for Raspberry Pi OS Lite (32-bit).
 # Run as the logged-in Pi user, not with sudo:
-# curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install-lite.sh | bash
+# curl -fsSL https://sanketptt.com/pi-webclient/install-lite.sh | bash
 
 if [ "$(id -u)" -eq 0 ]; then
   echo "Run this installer as your normal Pi user, without sudo."
@@ -10,7 +10,7 @@ if [ "$(id -u)" -eq 0 ]; then
 fi
 PI_USER="$(id -un)"
 PI_HOME="$HOME"
-BASE_URL="${SANKET_PTT_URL:-https://vibhvesh.github.io/sanketptt/}"
+BASE_URL="${SANKET_PTT_URL:-https://sanketptt.com/}"
 CHANNEL="${SANKET_PTT_CHANNEL:-virtual}"
 
 sudo apt-get update
@@ -27,7 +27,7 @@ for cfg in /boot/firmware/config.txt /boot/config.txt; do
 done
 
 sudo install -d -m 0755 /opt/sanket-webptt
-curl -fsSL https://raw.githubusercontent.com/vibhvesh/sanketptt/main/pi-webclient/start-lite.sh -o /tmp/sanket-start-lite.sh
+curl -fsSL https://sanketptt.com/pi-webclient/start-lite.sh -o /tmp/sanket-start-lite.sh
 sudo install -m 0755 /tmp/sanket-start-lite.sh /opt/sanket-webptt/start-lite.sh
 rm -f /tmp/sanket-start-lite.sh
 sudo tee /etc/default/sanket-webptt >/dev/null <<EOF

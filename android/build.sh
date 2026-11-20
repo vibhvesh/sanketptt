@@ -1,7 +1,7 @@
 #!/bin/bash
 # usage: build.sh <package> "<App Name>" <url> <#color> <out.apk>
-#   e.g. build.sh in.sanket.ptt "Sanket PTT" https://vibhvesh.github.io/sanketptt/ "#0D47A1" Sanket_PTT.apk
-#        build.sh in.sanket.transcribe "Sanket Transcribe" https://vibhvesh.github.io/sanketptt/transcribe/ "#1B5E20" Sanket_Transcribe.apk   (needs JDK17 + build-tools 34 + android-34)
+#   e.g. build.sh in.sanket.ptt "Sanket PTT" https://sanketptt.com/?ch=virtual "#0D47A1" Sanket_PTT.apk
+#        build.sh in.sanket.transcribe "Sanket Transcribe" https://sanketptt.com/transcribe/ "#1B5E20" Sanket_Transcribe.apk   (needs JDK17 + build-tools 34 + android-34)
 set -e; SDK=${ANDROID_HOME:-/opt/android}; BT=$SDK/build-tools/34.0.0; JAR=$SDK/platforms/android-34/android.jar
 D=$(dirname "$(readlink -f "$0")"); T=$(mktemp -d); P=$1
 mkdir -p $T/res/drawable $T/java/${P//.//} $T/obj $T/dex

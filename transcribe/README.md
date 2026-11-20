@@ -2,9 +2,9 @@
 
 Live transcription and translation of Sanket PTT radio channels, in the browser.
 
-* Live: https://vibhvesh.github.io/sanketptt/transcribe/
-* Android: [Sanket_Transcribe.apk](https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_Transcribe.apk)
-* Guide: [Sanket Transcribe User Guide (PDF)](../docs/Sanket_Transcribe_User_Guide.pdf) · https://vibhvesh.github.io/sanketptt/docs/
+* Live: https://sanketptt.com/transcribe/
+* Android: [Sanket_Transcribe.apk](https://sanketptt.com/releases/download/v1.0-android/Sanket_Transcribe.apk)
+* Guide: [Sanket Transcribe User Guide (PDF)](../docs/Sanket_Transcribe_User_Guide.pdf) · https://sanketptt.com/docs/
 
 ## What it does
 

@@ -1,0 +1,133 @@
+:root {
+  --ink: #14283b;
+  --muted: #526579;
+  --line: #e1e9f0;
+  --navy: #07192d;
+  --orange: #e86a14;
+  --orange-deep: #c4550c;
+  --cyan: #128a86;
+  --paper: #f4f8fb;
+  --white: #fff;
+  --shadow: 0 16px 40px rgba(16, 42, 67, 0.08);
+  --radius: 16px;
+  --header: 72px;
+  --font: system-ui, "Segoe UI", Roboto, "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header) + 12px); }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font: 16px/1.55 var(--font);
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button, input, textarea { font: inherit; }
+.wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--orange-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+h1, h2, h3 { font-weight: 760; letter-spacing: -0.03em; line-height: 1.12; }
+h2 { margin: 0; font-size: clamp(30px, 4vw, 44px); }
+.lede { margin: 12px 0 0; max-width: 640px; color: var(--muted); font-size: 17px; }
+.section { padding: 72px 0; }
+.section-head { margin-bottom: 28px; }
+
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--header);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+.nav { height: 100%; display: flex; align-items: center; gap: 22px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; letter-spacing: -0.04em; font-size: 20px; }
+.logo img { width: 36px; height: 36px; }
+.logo b { color: var(--orange); }
+.logo small { display: block; margin-top: 1px; color: #7b8794; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; }
+.links { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+.links a { color: #3d5164; font-size: 14px; font-weight: 700; text-decoration: none; }
+.links a:hover { color: var(--orange-deep); }
+.nav-cta, .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: var(--orange);
+  color: #fff !important;
+  font-weight: 800;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(232, 106, 20, 0.22);
+}
+.btn.secondary, .nav-cta.ghost {
+  background: #fff;
+  color: var(--navy) !important;
+  border: 1px solid #c9d7e4;
+  box-shadow: none;
+}
+.menu {
+  display: none;
+  margin-left: 8px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 20px;
+}
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  padding: 28px 0 40px;
+  color: #5d7082;
+  font-size: 13px;
+}
+.foot a { color: #0f4c81; font-weight: 700; }
+
+@media (max-width: 800px) {
+  .menu { display: inline-flex; align-items: center; justify-content: center; }
+  .links {
+    display: none;
+    position: absolute;
+    top: var(--header);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 8px 18px 16px;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+  }
+  .links.open { display: flex; }
+  .links a, .links .nav-cta { padding: 12px 0; border-bottom: 1px solid #eef2f6; }
+  .section { padding: 52px 0; }
+  .wrap { width: min(1160px, calc(100% - 28px)); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise 0.7s ease both; }
+  .card, .price-card, .use-card, .btn, .nav-cta { transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+  .card:hover, .price-card:hover, .use-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, .card, .price-card, .use-card { animation: none; transition: none; }
+}

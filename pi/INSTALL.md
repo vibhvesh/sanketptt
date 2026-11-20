@@ -3,7 +3,7 @@
 ## One-line upgrade on a Pi (keeps config + recordings)
 
 ```bash
-curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | bash
+curl -fsSL https://sanketptt.com/pi/install.sh | bash
 ```
 
 Then open `http://boondock.local:8080` (or your Pi’s `.local` / IP) → **CHANNELS**.

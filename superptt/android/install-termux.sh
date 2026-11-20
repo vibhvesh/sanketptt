@@ -1,13 +1,13 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # SuperPTT control room installer: Android phone in Termux (aarch64), e.g. Vivo X300 as a backup control room.
-#   curl -fsSL https://vibhvesh.github.io/sanketptt/superptt/android/install-termux.sh | bash
+#   curl -fsSL https://sanketptt.com/superptt/android/install-termux.sh | bash
 # Does not touch Android itself (no root, nothing outside Termux's own folders). Re-run to update; config/data/PIN kept.
 # Env options:
 #   SUPERPTT_STT=auto|faster-whisper|whispercpp|cloud   local speech engine (auto: try faster-whisper, then whisper.cpp, then cloud-only)
 #   SUPERPTT_MODELS="tiny base small"                   multilingual Whisper models to fetch (never *.en)
 #   SUPERPTT_TUNNEL=quick|none   SUPERPTT_DIR=~/superptt   SUPERPTT_BASE=<code url>   DRY_RUN=1 (print only)
 set -euo pipefail
-BASE=${SUPERPTT_BASE:-https://vibhvesh.github.io/sanketptt/superptt/pi}     # same Python package as the Pi
+BASE=${SUPERPTT_BASE:-https://sanketptt.com/superptt/pi}     # same Python package as the Pi
 DIR=${SUPERPTT_DIR:-$HOME/superptt}
 TUN=${SUPERPTT_TUNNEL:-quick}
 STT=${SUPERPTT_STT:-auto}

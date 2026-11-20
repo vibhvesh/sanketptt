@@ -1,40 +1,21 @@
-/* Published pricing cards. Loaded after the page styles so the grid can grow past three columns. */
-#pricing .pricing {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  align-items: stretch;
-}
-#pricing .priceCard {
-  height: 100%;
+.prices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.price-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #fff;
 }
-#pricing .price {
-  font-size: clamp(22px, 2vw, 30px);
-  line-height: 1.15;
-  overflow-wrap: anywhere;
-}
-#pricing .price small {
-  display: block;
-  margin-top: 4px;
-  font-size: 12px;
-  line-height: 1.35;
-  letter-spacing: 0;
-}
-#pricing .priceMeta {
-  min-height: 0;
-}
-#pricing .priceList li {
-  overflow-wrap: break-word;
-}
-#pricing h3 {
-  font-family: Inter, "Noto Sans Devanagari", "Nirmala UI", sans-serif;
-  line-height: 1.25;
-}
-@media (max-width: 1100px) {
-  #pricing .pricing { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 760px) {
-  #pricing .pricing { grid-template-columns: 1fr; }
-  #pricing .priceCard { padding: 18px; }
-}
+.price-card.featured { border: 2px solid var(--orange); box-shadow: var(--shadow); }
+.price-card .eyebrow { font-size: 11px; }
+.price-card h3 { margin: 6px 0 8px; font-size: 22px; font-family: var(--font); }
+.price { font-size: clamp(26px, 2vw, 32px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.price small { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 650; letter-spacing: 0; }
+.price-card .meta { min-height: 44px; color: var(--muted); font-size: 14px; }
+.price-card ul { margin: 8px 0 16px; padding: 0; list-style: none; flex: 1; }
+.price-card li { padding: 8px 0; border-top: 1px solid #eef2f6; font-size: 14px; color: #314556; }
+.price-card .foot { margin-top: 10px; padding: 0; color: #6b7d8e; font-size: 12px; }
+@media (max-width: 1000px) { .prices { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .prices { grid-template-columns: 1fr; } }

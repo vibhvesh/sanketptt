@@ -259,7 +259,7 @@ function renderChTable(){var live=chLiveMap(),q=(($('chFilter')||{}).value||'').
   var meta=(r.last?' · last '+ago(r.last):'')+(r.discovered?' · <span class=pill style="background:#333">discovered</span>':'')+(r.monitored&&!r.enabled?' · listen-all':'');
   var tog=r.idx>=0?'<label class=tog title="Listen"><input type=checkbox '+(r.enabled?'checked':'')+' onchange="toggleCh('+r.idx+',this.checked)"><span></span></label>':'<label class=tog title="Add & listen"><input type=checkbox onchange="adoptCh(\''+esc(r.name)+'\',this.checked)"><span></span></label>';
   var rm=r.idx>=0?'<button class=bad onclick="rmCh('+r.idx+')">REMOVE</button>':'';
-  return '<div class="chRow'+(r.talking?' talk':'')+(r.enabled||r.monitored?'':' off')+'">'+tog+'<div class=nm>'+esc(r.name)+'</div><div class=st>'+st+meta+'<div>'+who+'</div></div><div class=acts><a style="color:#9cf;font-size:11px" target=_blank href="https://vibhvesh.github.io/sanketptt/?ch='+encodeURIComponent(r.name)+'">open</a> '+rm+'</div></div>'}).join('')}
+  return '<div class="chRow'+(r.talking?' talk':'')+(r.enabled||r.monitored?'':' off')+'">'+tog+'<div class=nm>'+esc(r.name)+'</div><div class=st>'+st+meta+'<div>'+who+'</div></div><div class=acts><a style="color:#9cf;font-size:11px" target=_blank href="https://sanketptt.com/?ch='+encodeURIComponent(r.name)+'">open</a> '+rm+'</div></div>'}).join('')}
 function toggleCh(i,on){if(!C.channels[i])return;C.channels[i].enabled=on;save({channels:C.channels})}
 function rmCh(i){C.channels.splice(i,1);save({channels:C.channels})}
 function adoptCh(n,on){if(!on)return;if(!C.channels.some(function(c){return c.name==n}))C.channels.push({name:n,enabled:true});else C.channels.forEach(function(c){if(c.name==n)c.enabled=true});save({channels:C.channels})}

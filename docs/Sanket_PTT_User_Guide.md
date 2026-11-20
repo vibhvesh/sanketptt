@@ -2,8 +2,8 @@
 
 *Push-to-talk voice radio for police and emergency departments · Android app and web*
 
-**Web app:** <https://vibhvesh.github.io/sanketptt/>  
-**Android app (APK):** <https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_PTT.apk>
+**Web app:** <https://sanketptt.com/>  
+**Android app (APK):** <https://sanketptt.com/releases/download/v1.0-android/Sanket_PTT.apk>
 
 > Pilot / demonstration service. Do not send sensitive information.
 
@@ -30,7 +30,7 @@
 
 ## 3. Join a channel
 
-1. Open the channel link from your supervisor, for example `https://vibhvesh.github.io/sanketptt/?ch=unit-name`. The channel is the part after `?ch=`. Do not use the default public channel for official work.
+1. Open the channel link from your supervisor, for example `https://sanketptt.com/?ch=unit-name`. The channel is the part after `?ch=`. Do not use the default public channel for official work.
 2. Enter your allotted **name or call sign**.
 3. Tap **POWER ON · JOIN**. If shown, tap **TAP TO ENABLE AUDIO**.
 4. Check that your call sign appears under **ON THE AIR**.

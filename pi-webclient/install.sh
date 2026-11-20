@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # Sanket PTT browser-only receiver for Raspberry Pi 3 (Raspberry Pi OS Desktop).
-# Usage: curl -fsSL https://vibhvesh.github.io/sanketptt/pi-webclient/install.sh | bash
+# Usage: curl -fsSL https://sanketptt.com/pi-webclient/install.sh | bash
 PI_USER="${SUDO_USER:-${USER}}"
 PI_HOME="$(getent passwd "$PI_USER" | cut -d: -f6)"
 [ -n "$PI_HOME" ] || { echo "Cannot determine home for $PI_USER"; exit 1; }
-BASE_URL="${SANKET_PTT_URL:-https://vibhvesh.github.io/sanketptt/}"
+BASE_URL="${SANKET_PTT_URL:-https://sanketptt.com/}"
 CHANNEL="${SANKET_PTT_CHANNEL:-virtual}"
 sudo apt-get update
 sudo apt-get install -y alsa-utils curl
@@ -28,7 +28,7 @@ for f in /sys/class/net/*/address; do
 done
 MAC="${MAC//:/}"
 MAC="PI-${MAC^^}"
-URL="${SANKET_PTT_URL:-https://vibhvesh.github.io/sanketptt/}"
+URL="${SANKET_PTT_URL:-https://sanketptt.com/}"
 CH="${SANKET_PTT_CHANNEL:-virtual}"
 SEP='?'; [[ "$URL" == *\?* ]] && SEP='&'
 TARGET="${URL}${SEP}ch=${CH}&listen=1&name=${MAC}"

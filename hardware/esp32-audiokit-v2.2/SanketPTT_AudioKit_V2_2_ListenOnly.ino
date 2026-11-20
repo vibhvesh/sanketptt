@@ -1,6 +1,6 @@
 /*
   SanketPTT ESP32 Audio Kit V2.2 — LISTEN ONLY
-  Prototype for https://vibhvesh.github.io/sanketptt/?ch=virtual
+  Prototype for https://sanketptt.com/?ch=virtual
   Hardware: AI-Thinker ESP32 Audio Kit V2.2 / A1S / ES8388
   Audio: 12 kHz, signed 16-bit, mono PCM
   Transport: MQTT 3.1.1 over secure WebSocket (WSS), subprotocol mqtt

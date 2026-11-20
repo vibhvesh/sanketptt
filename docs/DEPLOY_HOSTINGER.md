@@ -113,7 +113,7 @@ In Hostinger, attach the domain to the VPS if required and enable SSL once DNS r
 
 ## 5. Notes about links in `website/`
 
-- PTT / Transcribe demo links still point at **GitHub Pages** (`vibhvesh.github.io/sanketptt/...`). That is fine while Pages stays active.
+- Public PTT and Transcribe links use **https://sanketptt.com**. The marketing deploy also publishes those apps (`/radio/`, `/transcribe/`, `/dmr/`, `/docs/`).
 - Links like `../aakashvani/` only work if that app is also hosted on the same domain or you change them to absolute URLs.
 
 After your custom domain is live, you can update nav links in `website/index.html` if you want everything under one hostname.

@@ -1,0 +1,155 @@
+<html><head><meta charset=utf-8><style>@page{size:A4;margin:14mm 15mm}body{font-family:'Helvetica','Arial',sans-serif;font-size:10.5pt;color:#1d2733;line-height:1.45}
+h1{background:#0b3d5c;color:#fff;padding:14px 16px;border-radius:6px;font-size:21pt;margin:0 0 6px}
+h1+p em{color:#55606b}h2{color:#0b3d5c;border-bottom:2px solid #f2a20c;padding-bottom:3px;margin:16px 0 6px;font-size:13.5pt;break-after:avoid}
+img{display:block;margin:8px auto;max-height:var(--ih,95mm);max-width:100%;border:1px solid #ccd;border-radius:6px;break-inside:avoid}
+blockquote{margin:6px 0;padding:6px 10px;background:#fff6e0;border-left:4px solid #f2a20c}
+table{border-collapse:collapse;width:100%;font-size:9.5pt;break-inside:avoid}th{background:#0b3d5c;color:#fff}td,th{border:1px solid #cfd6de;padding:4px 7px;text-align:left}
+code,pre{background:#eef2f6;border-radius:4px;font-size:9pt}pre{padding:8px;white-space:pre-wrap}a{color:#0b5c8a}ol li,ul li{margin:2px 0}</style></head><body style="--ih:none;max-width:820px;margin:20px auto;padding:0 14px"><h1>Sanket Edge — User Guide</h1>
+<p><em>Raspberry Pi listening station for police and emergency control rooms</em></p>
+<p>Sanket Edge turns a Raspberry Pi and a speaker into an always-on listener. It plays every Sanket PTT transmission, transcribes it on the Pi, reads it aloud, and raises alerts. It is <strong>receive-only</strong> unless you turn on forwarding for a local mic.</p>
+<h2>1. One-touch install</h2>
+<ol>
+<li>Use a Raspberry Pi 5 (recommended) or Pi 3 with Raspberry Pi OS (Desktop or Lite), connected to the internet and a speaker.</li>
+<li>
+<p>Open a terminal on the Pi and run:</p>
+<p><code>curl -fsSL https://sanketptt.com/pi/install.sh | bash</code></p>
+</li>
+<li>
+<p>Wait for it to finish. It prints the web page address.</p>
+</li>
+<li>Run the same command any time to <strong>upgrade</strong>. Settings, recordings and voices are kept.</li>
+</ol>
+<p>Options: add <code>SANKET_KIOSK=0</code> to skip the full-screen display, <code>SANKET_KIOSK=1</code> to force it, or <code>SANKET_HW=pi3|pi5</code> to choose the board profile, e.g. <code>curl -fsSL …/install.sh | SANKET_KIOSK=0 bash</code>.</p>
+<h2>2. Dashboard and kiosk</h2>
+<ol>
+<li>On any phone or PC on the same network, open <strong>http://&lt;pi-name&gt;.local:8080</strong> (or <strong>http://&lt;pi-ip&gt;:8080</strong>).</li>
+<li><strong>Home</strong> shows system health (CPU, temperature, RAM, disk, network), message graphs, input levels and the latest messages.</li>
+<li><strong>Live</strong> shows the message feed with transcripts, alerts, SSTV pictures and playback.</li>
+<li>With a display attached, the Pi logs in on boot and opens the dashboard <strong>full screen</strong> (kiosk). If the browser closes, it reopens.</li>
+</ol>
+<p><img alt="Home dashboard" src="img/v2_dashboard.jpg" /></p>
+<p><img alt="Kiosk view on the Pi display" src="img/v2_kiosk.jpg" /></p>
+<h2>3. Inputs</h2>
+<p>Every input is a channel, listed on the <strong>Inputs</strong> tab.</p>
+<ol>
+<li><strong>Relay:</strong> a Sanket PTT channel link (<code>…/?ch=name</code>). Add more with <strong>+ Add input</strong>.</li>
+<li><strong>Pi mic</strong>, <strong>USB mics / sound cards</strong> (one channel each) and <strong>Bluetooth mics</strong>.</li>
+<li>Local inputs use <strong>VOX</strong>: set threshold, hang time and gain with <strong>Edit</strong>. Watch the level meter while someone speaks.</li>
+<li>Forwarding a local input to the relay is <strong>off</strong> by default.</li>
+</ol>
+<p><img alt="Inputs" src="img/v2_inputs.jpg" /></p>
+<p><img alt="Editing an input (VOX threshold)" src="img/v2_input_edit.jpg" /></p>
+<h3>3a. RTL-SDR receiver</h3>
+<p>Plug an RTL2832U/R820T USB dongle into the Pi and add an <strong>RTL-SDR receiver</strong> input (Inputs → + Add input). It runs <code>rtl_fm</code> and feeds the audio through the same VOX → recording → offline transcription → announcement → dashboard path as the mic inputs. Works on Pi 3 and Pi 5.</p>
+<ul>
+<li><strong>Settings per input:</strong> frequency (MHz), mode (NFM, FM, WBFM, AM), squelch (0 = off), tuner gain (<code>auto</code> or dB), sample rate, PPM correction, dongle index. You can also give a comma-separated <strong>scan list</strong> and a <strong>dwell time</strong>. The receiver stays on a frequency while a transmission is in progress.</li>
+<li><strong>Presets:</strong> FM broadcast 88-108 (WBFM), airband 118-137 (AM), 2 m ham 144-146 (NFM), 70 cm ham 430-440 (NFM), marine VHF 156-162 (NFM).</li>
+<li><strong>Detect dongle</strong> runs <code>rtl_test</code> and shows what it finds. The level meter shows the received audio level.</li>
+<li>The installer adds the <code>rtl-sdr</code> package, blacklists the <code>dvb_usb_rtl28xxu</code> TV driver and adds a udev rule. Unplug and replug the dongle (or reboot) after the first install.</li>
+<li><strong>Legal:</strong> this is receive only. Listen only to public bands or bands you are licensed to listen to (broadcast, airband, amateur, marine). Do not monitor police, government or private communications. That is restricted under the Indian Wireless Telegraphy Act.</li>
+</ul>
+<p><strong>Spectrum sweep / activity monitor.</strong> Add an <strong>RTL-SDR spectrum sweep</strong> input to watch whole bands with <code>rtl_power</code>. It does no demodulation and records no audio or content. It only measures power per frequency bin.</p>
+<ul>
+<li><strong>Settings:</strong> bands (<code>start-end</code> in MHz, comma separated, e.g. <code>430-440, 144-146</code>), bin size (kHz), sweep interval, alert threshold (dB above noise floor), allowlist of expected frequencies (MHz) with a tolerance, optional spoken alert, tuner gain, PPM, dongle index.</li>
+<li>A noise floor is learned for each bin. A bin that rises above floor + threshold and is not on the allowlist is logged as <strong>suspicious activity</strong> with time, frequency, peak dB and duration. With spoken alerts on, the Pi says e.g. "Unknown signal at 446.1 megahertz".</li>
+<li>The <strong>Home</strong> dashboard shows the latest sweep as bars with the floor and threshold lines, a short waterfall, and the activity log. <strong>Export CSV</strong> downloads the log (<code>/api/sweep.csv</code>).</li>
+<li><strong>One dongle, one mode.</strong> A receiver and a sweep cannot use the same dongle index at the same time. Saving a second one is refused with a message. Disable the other input first or use a second dongle.</li>
+<li>The monitor logs signal presence only, for reporting to WPC monitoring. It does not intercept content.</li>
+</ul>
+<h2>4. Audio output and Bluetooth</h2>
+<ol>
+<li>Open <strong>Audio</strong> and choose the output: default, 3.5 mm jack, HDMI, USB or Bluetooth speaker.</li>
+<li>Set the <strong>volume</strong> and press <strong>Play &amp; test</strong>.</li>
+<li>For Bluetooth: put the speaker in pairing mode, tap <strong>Scan</strong>, then <strong>Pair</strong> and <strong>Connect</strong>. Use <strong>Disconnect</strong> or <strong>Forget</strong> to remove it.</li>
+</ol>
+<p><img alt="Audio and Bluetooth" src="img/v2_audio.jpg" /></p>
+<h2>5. Announcements and transcription</h2>
+<ol>
+<li>Each message is played, then announced: <em>"New message on &lt;channel&gt; from &lt;name&gt;"</em>, then the transcript is read out.</li>
+<li>On <strong>Audio</strong>, turn announcements on or off, edit the text and choose the voice (Piper or espeak-ng) and speed.</li>
+<li>Transcription runs offline (Whisper). Choose the model and language, or <strong>Auto detect</strong>.</li>
+</ol>
+<h2>6. Alerts and PIN</h2>
+<ol>
+<li>On <strong>Alerts</strong>, enter keywords (e.g. mayday, emergency). A match is announced with <em>"Alert! Alert!"</em> first.</li>
+<li>Optionally turn on alert email, fill in the SMTP details and press <strong>Send test email</strong>.</li>
+<li>On <strong>System</strong>, set a <strong>Settings PIN</strong> right after installing. Anyone can view the dashboard; changes need the PIN.</li>
+</ol>
+<p><img alt="Alerts" src="img/06_alerts.jpg" /></p>
+<p><img alt="System: port, PIN and retention" src="img/09_pin.jpg" /></p>
+<h2>7. Always on</h2>
+<ol>
+<li>Starts on boot and restarts automatically if it stops.</li>
+<li>A hardware watchdog reboots the Pi if it hangs.</li>
+<li>Wi-Fi power-save and screen blanking are turned off; the relay reconnects on its own.</li>
+</ol>
+<h2>8. Pi 5 versus Pi 3</h2>
+<table>
+<thead>
+<tr>
+<th>Board</th>
+<th>Transcription</th>
+<th>Voice</th>
+<th>SSTV decode</th>
+<th>Kiosk browser</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pi 5 / Pi 4</td>
+<td>Whisper base</td>
+<td>Piper</td>
+<td>On</td>
+<td>Chromium</td>
+</tr>
+<tr>
+<td>Pi 3 / Zero 2</td>
+<td>Whisper tiny</td>
+<td>espeak-ng</td>
+<td>Off</td>
+<td>surf (Desktop) / skipped on Lite</td>
+</tr>
+</tbody>
+</table>
+<p>Defaults are set once at first install; your later changes are kept.</p>
+<h2>9. Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Page will not open</td>
+<td>Use the IP: run <code>hostname -I</code> on the Pi, open <code>http://&lt;ip&gt;:8080</code>.</td>
+</tr>
+<tr>
+<td>No sound</td>
+<td>Check speaker power and output device on <strong>Audio</strong>; press <strong>Play &amp; test</strong>.</td>
+</tr>
+<tr>
+<td>Bluetooth speaker silent</td>
+<td><strong>Scan → Pair → Connect</strong> again, then select it as output.</td>
+</tr>
+<tr>
+<td>Mic input never triggers</td>
+<td>Lower the VOX threshold; check the level meter.</td>
+</tr>
+<tr>
+<td>Slow transcripts on Pi 3</td>
+<td>Keep the <strong>tiny</strong> model.</td>
+</tr>
+<tr>
+<td>Check the service</td>
+<td><code>sudo systemctl status sanket-pi</code> · logs: <code>journalctl -u sanket-pi -f</code></td>
+</tr>
+<tr>
+<td>Update</td>
+<td><strong>System → Update app</strong>, or rerun the install command.</td>
+</tr>
+</tbody>
+</table>
+<h2>10. Support</h2>
+<p><strong>Akshat Singh</strong> · <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#107;&#115;&#104;&#97;&#116;&#115;&#105;&#110;&#103;&#104;&#64;&#99;&#97;&#110;&#98;&#101;&#114;&#114;&#97;&#118;&#105;&#115;&#105;&#111;&#110;&#46;&#99;&#111;&#109;">&#97;&#107;&#115;&#104;&#97;&#116;&#115;&#105;&#110;&#103;&#104;&#64;&#99;&#97;&#110;&#98;&#101;&#114;&#114;&#97;&#118;&#105;&#115;&#105;&#111;&#110;&#46;&#99;&#111;&#109;</a></p></body></html>
