@@ -35,7 +35,7 @@ html:not(.app-mode) #appFrame { display: none; }
 <iframe id="appFrame" title="Sanket PTT" allow="microphone; autoplay"></iframe>
 <script>
 if (document.documentElement.classList.contains("app-mode")) {
-  document.getElementById("appFrame").src = "/radio/" + location.search + location.hash;
+  document.getElementById("appFrame").src = "radio/" + location.search + location.hash;
 }
 </script>
 <header class="top">
@@ -47,7 +47,7 @@ if (document.documentElement.classList.contains("app-mode")) {
       <a href="#use-cases">Use cases</a>
       <a href="#pricing">Pricing</a>
       <a href="#contact">Contact</a>
-      <a class="nav-cta" href="https://sanketptt.com/?ch=virtual">Open PTT</a>
+      <a class="nav-cta" href="?ch=virtual">Open PTT</a>
     </nav>
     <button class="menu" id="menu" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
@@ -119,13 +119,13 @@ if (document.documentElement.classList.contains("app-mode")) {
         <div class="pane">
           <div class="ph">PUSH TO TALK</div>
           <div class="try"><a href="#pttControl">Hold to talk</a><span>Allow the microphone, then hold the button.</span></div>
-          <iframe id="pttControl" title="Sanket PTT" src="/radio/?ch=virtual&amp;embed=1" allow="microphone; autoplay"></iframe>
+          <iframe id="pttControl" title="Sanket PTT" src="radio/?ch=virtual&amp;embed=1" allow="microphone; autoplay"></iframe>
         </div>
         <div class="pane">
           <div class="ph">LIVE TRANSCRIPTION</div>
           <div class="guide"><b>Words from the channel</b><span>Speak in the PTT panel. Text shows up here.</span></div>
           <div id="liveMessageFeed" hidden></div>
-          <iframe id="liveTranscript" title="Sanket Transcribe" src="/transcribe/?compact=1&amp;ch=virtual" allow="autoplay"></iframe>
+          <iframe id="liveTranscript" title="Sanket Transcribe" src="transcribe/?compact=1&amp;ch=virtual" allow="autoplay"></iframe>
         </div>
       </div>
       <div class="people">
@@ -154,10 +154,10 @@ if (document.documentElement.classList.contains("app-mode")) {
         <a href="#vaani">SanketVaani</a>
       </nav>
       <div class="cards">
-        <article class="card" id="ptt"><small>01 · COMMUNICATE</small><h3>Sanket PTT</h3><p>Browser and Android push-to-talk with named channels, floor control and presence.</p><a href="https://sanketptt.com/?ch=virtual">Open PTT</a></article>
+        <article class="card" id="ptt"><small>01 · COMMUNICATE</small><h3>Sanket PTT</h3><p>Browser and Android push-to-talk with named channels, floor control and presence.</p><a href="?ch=virtual">Open PTT</a></article>
         <article class="card" id="control"><small>02 · OPERATE</small><h3>Control room</h3><p>Watch lines, users and transcripts from the live demo on this page.</p><a href="#demo">View the live demo</a></article>
-        <article class="card" id="broadcast"><small>03 · DISTRIBUTE</small><h3>Sanket <span lang="hi">आकाशवाणी</span></h3><p>Public announcements across speaker zones for venues, campuses and events.</p><a href="https://sanketptt.com/aakashvani/">Open control room</a></article>
-        <article class="card" id="transcribe"><small>04 · UNDERSTAND</small><h3>Sanket Transcribe</h3><p>Turn channel audio into timestamped text, with translation and keyword watch.</p><a href="https://sanketptt.com/transcribe/">Open Transcribe</a></article>
+        <article class="card" id="broadcast"><small>03 · DISTRIBUTE</small><h3>Sanket <span lang="hi">आकाशवाणी</span></h3><p>Public announcements across speaker zones for venues, campuses and events.</p><a href="aakashvani/">Open control room</a></article>
+        <article class="card" id="transcribe"><small>04 · UNDERSTAND</small><h3>Sanket Transcribe</h3><p>Turn channel audio into timestamped text, with translation and keyword watch.</p><a href="transcribe/">Open Transcribe</a></article>
         <article class="card" id="sdr"><small>05 · DEFENCE</small><h3>Sanket SDR</h3><p>SDR-based surveillance for authorised military and defence use. Request a meeting to discuss a deployment.</p><a href="#contact" data-enquiry-subject="Request a meeting — Sanket SDR">Request a meeting</a></article>
         <article class="card" id="edge"><small>06 · EDGE</small><h3>Sanket Edge</h3><p>An always-on Raspberry Pi listener for channel audio, local transcription and alerts.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Edge">Ask about Edge</a></article>
         <article class="card" id="sasi"><small>07 · SPEECH</small><h3>Adaptive Speech</h3><p>Organisation-specific speech learning from approved recordings and verified corrections.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Adaptive Speech Intelligence">Ask about speech learning</a></article>
@@ -189,10 +189,10 @@ if (document.documentElement.classList.contains("app-mode")) {
         <p class="lede">Start free, run cloud-managed lines, or buy dedicated hardware. Public-address setup has a fixed price.</p>
       </div>
       <div class="prices">
-        <article class="price-card"><p class="eyebrow">Starter</p><h3>Sanket Free</h3><div class="price">₹0 <small>per month</small></div><p class="meta">A small team, in the browser.</p><ul><li>1 line, up to 3 users</li><li>30 minutes of transmission a day, shared by the line</li><li>Resets every day</li></ul><a class="btn" href="https://sanketptt.com/?ch=virtual">Start free</a></article>
+        <article class="price-card"><p class="eyebrow">Starter</p><h3>Sanket Free</h3><div class="price">₹0 <small>per month</small></div><p class="meta">A small team, in the browser.</p><ul><li>1 line, up to 3 users</li><li>30 minutes of transmission a day, shared by the line</li><li>Resets every day</li></ul><a class="btn" href="?ch=virtual">Start free</a></article>
         <article class="price-card featured"><p class="eyebrow">Cloud managed</p><h3>Cloud Managed</h3><div class="price">₹450 <small>per user, per line, per month</small></div><p class="meta">Starting price. Cloud-managed lines only.</p><ul><li>Base price for cloud-managed lines</li><li>Charged per user, per line, per month</li><li>Dedicated hardware is a separate plan</li></ul><a class="btn" href="#contact" data-enquiry-subject="Cloud Managed — starting at ₹450 per user, per line, per month">Ask about Cloud Managed</a><p class="foot">Starting at ₹450 per user, per line, per month.</p></article>
         <article class="price-card"><p class="eyebrow">Dedicated</p><h3>Dedicated Server</h3><div class="price">₹5.66 lakh <small>one-time</small></div><p class="meta">Hardware and software for 100 active concurrent lines.</p><ul><li>No licence charges afterwards</li><li>Support is ₹100 per line, per user, per month</li><li>That monthly figure is for support only</li></ul><a class="btn" href="#contact" data-enquiry-subject="Dedicated Server — ₹5.66 lakh one-time">Enquire about Dedicated Server</a></article>
-        <article class="price-card"><p class="eyebrow">Public address</p><h3>Sanket <span lang="hi">आकाशवाणी</span></h3><div class="price">₹35,000 <small>one-time</small></div><p class="meta">Raspberry Pi software setup with 4 AUX audio outputs.</p><ul><li>Software included</li><li>Remote support included</li><li>4 AUX outputs</li></ul><a class="btn" href="https://sanketptt.com/aakashvani/">Open control room</a></article>
+        <article class="price-card"><p class="eyebrow">Public address</p><h3>Sanket <span lang="hi">आकाशवाणी</span></h3><div class="price">₹35,000 <small>one-time</small></div><p class="meta">Raspberry Pi software setup with 4 AUX audio outputs.</p><ul><li>Software included</li><li>Remote support included</li><li>4 AUX outputs</li></ul><a class="btn" href="aakashvani/">Open control room</a></article>
       </div>
     </div>
   </section>
