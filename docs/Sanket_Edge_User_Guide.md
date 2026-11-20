@@ -10,7 +10,7 @@ Sanket Edge turns a Raspberry Pi and a speaker into an always-on listener. It pl
 2. Open a terminal on the Pi and run:
 
     ```
-    curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | bash
+    curl -fsSL https://sanketptt.com/pi/install.sh | bash
     ```
 
 3. Wait for it to finish. It prints the web page address.

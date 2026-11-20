@@ -2,7 +2,7 @@
 set -euo pipefail
 [ -r /etc/default/sanket-webptt ] && . /etc/default/sanket-webptt
 
-URL="${SANKET_PTT_URL:-https://vibhvesh.github.io/sanketptt/}"
+URL="${SANKET_PTT_URL:-https://sanketptt.com/}"
 CHANNEL="${SANKET_PTT_CHANNEL:-virtual}"
 MAC=""
 for iface in wlan0 eth0; do

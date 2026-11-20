@@ -1,6 +1,6 @@
 # Sanket New Look — Design and QA Notes
 
-Preview: https://vibhvesh.github.io/sanketptt/newlook/
+Preview: https://sanketptt.com/newlook/
 
 ## Scope preserved
 - The redesign is a separate copy under `/newlook/`.

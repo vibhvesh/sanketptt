@@ -203,7 +203,7 @@ html.ptt-embed #ptt{width:clamp(72px,24vw,120px)!important;height:clamp(72px,24v
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
-<div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button></div>
+<div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="/transcribe/">Sanket Transcribe</a></div>
 <div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -212,7 +212,7 @@ html.ptt-embed #ptt{width:clamp(72px,24vw,120px)!important;height:clamp(72px,24v
 <input type=file id=sstvFile accept="image/*" style="display:none"><button id=sstvBtn style="width:100%;margin-bottom:6px">📷 SSTV · send a picture</button>
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
 <div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
-<div id=net>connecting…</div><div class=hint style="text-align:center;margin-top:8px"><a id="transcribeLink" href="./transcribe/" target=_blank rel="noopener" style="color:inherit">🎙 Open Sanket PTT Transcribe (transcribe this channel)</a></div></div>
+<div id=net>connecting…</div></div>
 <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
 <script src="sstv.js"></script>
 <script id=core>
@@ -322,7 +322,7 @@ function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.tex
 function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end()}render()}
  else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);play(v)}}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
-(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^\w-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}start(CHANNEL);document.getElementById('transcribeLink').href='./transcribe/?ch='+encodeURIComponent(CHANNEL);
+(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^\w-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}start(CHANNEL);document.getElementById('transcribeLink').href='/transcribe/?ch='+encodeURIComponent(CHANNEL);
 go.onclick=async function(){
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
  try{localStorage.nm=me}catch(e){}

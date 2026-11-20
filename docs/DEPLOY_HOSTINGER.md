@@ -113,12 +113,20 @@ In Hostinger, attach the domain to the VPS if required and enable SSL once DNS r
 
 ## 5. Notes about links in `website/`
 
-- PTT / Transcribe demo links still point at **GitHub Pages** (`vibhvesh.github.io/sanketptt/...`). That is fine while Pages stays active.
+- Public PTT and Transcribe links use **https://sanketptt.com**. The marketing deploy also publishes those apps (`/radio/`, `/transcribe/`, `/dmr/`, `/docs/`).
 - Links like `../aakashvani/` only work if that app is also hosted on the same domain or you change them to absolute URLs.
 
 After your custom domain is live, you can update nav links in `website/index.html` if you want everything under one hostname.
 
-## 6. Troubleshooting
+## 6. Dev preview (`https://sanketptt.com/preview/`)
+
+`.github/workflows/deploy-hostinger-dev.yml` runs only on the `dev` branch. It rsyncs `website/` to **`${DEPLOY_PATH}/preview/`** and nowhere else. The production workflow excludes that directory from its `--delete` sync, so a production deploy does not remove it.
+
+`/dev/` on the domain is the radio app, not this preview. No new Hostinger secret or subdomain is required. Nginx already serves paths under the production document root.
+
+The dev job rewrites same-site links in the uploaded copy so they stay under `/preview/`, and it adds `noindex` plus a `Disallow: /` robots.txt only in that copy.
+
+## 7. Troubleshooting
 
 | Symptom | Check |
 |---------|--------|

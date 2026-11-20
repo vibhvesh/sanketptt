@@ -2,8 +2,8 @@
 
 *Live radio transcription for police and emergency departments · Android app and web*
 
-**Web app:** <https://vibhvesh.github.io/sanketptt/transcribe/>  
-**Android app (APK):** <https://github.com/vibhvesh/sanketptt/releases/download/v1.0-android/Sanket_Transcribe.apk>
+**Web app:** <https://sanketptt.com/transcribe/>  
+**Android app (APK):** <https://sanketptt.com/releases/download/v1.0-android/Sanket_Transcribe.apk>
 
 > Pilot / demonstration service. Do not send sensitive information.
 
@@ -27,7 +27,7 @@ Sanket Transcribe listens to a Sanket PTT channel, or the phone's microphone, an
 ## 3. Start transcribing
 
 1. Under **INPUT** choose **Web page / PTT radio** to monitor a channel, or **Mic** for the local microphone.
-2. For a channel, paste the channel link in **PTT LINK**, for example `https://vibhvesh.github.io/sanketptt/?ch=unit-name`.
+2. For a channel, paste the channel link in **PTT LINK**, for example `https://sanketptt.com/?ch=unit-name`.
 3. Under **TRANSCRIPTION ENGINE** choose **Free (in-browser Whisper)**. No key is needed. The model (about 79 MB) downloads on first use, so start it once on good Wi-Fi. ElevenLabs is optional and needs an API key.
 4. Tap **▶ START**. Tap **■ STOP** to finish.
 

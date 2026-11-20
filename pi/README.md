@@ -8,7 +8,7 @@ forwarding for a local mic; otherwise the only thing it publishes is its online 
 ## Install / upgrade (one command)
 
 ```bash
-curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | bash
+curl -fsSL https://sanketptt.com/pi/install.sh | bash
 ```
 
 Run it again at any time to upgrade: code is replaced, `config.json`, recordings and voices are kept.
@@ -20,7 +20,7 @@ The installer detects the board and picks defaults on a new install:
 | Pi 3 / Zero 2 | tiny | espeak-ng | off | surf (Desktop) / skipped on Lite |
 
 Options: `SANKET_KIOSK=0` (no dashboard on the display), `SANKET_KIOSK=1` (force it, e.g. Pi 3 Lite), `SANKET_HW=pi3|pi5`.
-Example: `curl -fsSL https://vibhvesh.github.io/sanketptt/pi/install.sh | SANKET_KIOSK=0 bash`
+Example: `curl -fsSL https://sanketptt.com/pi/install.sh | SANKET_KIOSK=0 bash`
 
 ### Always on
 * `sanket-pi` systemd service: starts on boot, `Restart=always`, no start limit, software watchdog (`WatchdogSec=120`).
@@ -101,7 +101,7 @@ tests/test_box.py     off-Pi tests
 Settings are in `~/sanket-pi/config.json`, recordings in `~/sanket_clips`. The Pi uses the same relay and topics as the web app:
 `ptt-radio-66ab9178/<channel>/{presence/<id>,floor,audio,sstv}` with 12 kHz Int16 PCM audio.
 
-User guide: [Sanket Edge User Guide (PDF)](../docs/Sanket_Edge_User_Guide.pdf) · https://vibhvesh.github.io/sanketptt/docs/
+User guide: [Sanket Edge User Guide (PDF)](../docs/Sanket_Edge_User_Guide.pdf) · https://sanketptt.com/docs/
 
 ## Support
 

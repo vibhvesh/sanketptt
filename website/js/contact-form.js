@@ -52,5 +52,6 @@
     if (note) {
       note.textContent = "Your email app should open a draft to Akshat Singh at " + TO + " and " + CC + ". Nothing is submitted to a website server.";
     }
+    if (window.sanketToast) window.sanketToast("Opening your email draft");
   });
 })();
