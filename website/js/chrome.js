@@ -1,4 +1,7 @@
 (function () {
+  var paletteMap = { a: "daylight", b: "nightwatch", c: "northline" };
+  var themeCode = new URLSearchParams(location.search).get("theme");
+  if (paletteMap[themeCode]) document.documentElement.setAttribute("data-palette", paletteMap[themeCode]);
   var saved = localStorage.getItem("sanket-theme");
   document.documentElement.setAttribute("data-theme", saved || "dark");
 
@@ -38,6 +41,23 @@
       '<button class="theme-btn" id="themeToggle" type="button" aria-label="Toggle color theme"><span class="switch" aria-hidden="true"><i></i></span></button>' +
       '</nav></div></header><div class="nav-backdrop" id="navBackdrop" hidden></div>';
   }
+  function studyBar() {
+    var current = new URLSearchParams(location.search).get("theme");
+    function hrefFor(code) {
+      var url = new URL(location.href);
+      if (code) url.searchParams.set("theme", code);
+      else url.searchParams.delete("theme");
+      return url.pathname + url.search + url.hash;
+    }
+    var links = [
+      ["a", "Daylight"],
+      ["b", "Nightwatch"],
+      ["c", "Northline"]
+    ].map(function (item) {
+      return '<a href="' + hrefFor(item[0]) + '"' + (current === item[0] ? ' aria-current="true"' : "") + ">" + item[1] + "</a>";
+    }).join("");
+    return '<div class="study-bar" role="navigation" aria-label="Color studies"><b>Color studies</b>' + links + '<a href="' + hrefFor("") + '"' + (current ? "" : ' aria-current="true"') + ">Current site</a></div>";
+  }
   function drop(label, items) {
     var links = items.map(function (item) {
       return '<a role="menuitem" href="' + item[1] + '">' + item[0] + "</a>";
@@ -56,9 +76,10 @@
     });
   }
   var mount = document.getElementById("chrome");
-  if (mount) mount.outerHTML = headerHtml();
+  var chromeHtml = headerHtml() + studyBar();
+  if (mount) mount.outerHTML = chromeHtml;
   else if (document.body && document.body.dataset.chrome === "auto") {
-    document.body.insertAdjacentHTML("afterbegin", headerHtml());
+    document.body.insertAdjacentHTML("afterbegin", chromeHtml);
     if (!document.querySelector(".site-footer")) {
       document.body.insertAdjacentHTML("beforeend", '<footer class="wrap site-footer"><span>Sanket · Canberra Vision</span><a href="' + root + '#home">Back to home</a></footer>');
     }
@@ -119,6 +140,12 @@
   }
   paintTheme();
   if (themeBtn) themeBtn.addEventListener("click", function () {
+    if (document.documentElement.hasAttribute("data-palette")) {
+      var url = new URL(location.href);
+      url.searchParams.delete("theme");
+      location.href = url.pathname + url.search + url.hash;
+      return;
+    }
     var next = (document.documentElement.getAttribute("data-theme") === "dark") ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("sanket-theme", next);

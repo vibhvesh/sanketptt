@@ -10,12 +10,12 @@
   margin-top: 22px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: #fff8e8;
-  border: 1px solid #efd3a0;
-  color: #6d5424;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
   font-size: 13px;
 }
-.hero-note b { display: block; color: #6a4308; letter-spacing: 0.04em; font-size: 12px; }
+.hero-note b { display: block; color: var(--orange); letter-spacing: 0.04em; font-size: 12px; }
 .hero-note p { margin: 4px 0 0; }
 .mark {
   width: 22px;
