@@ -1,0 +1,40 @@
+/* Published pricing cards. Loaded after the page styles so the grid can grow past three columns. */
+#pricing .pricing {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+#pricing .priceCard {
+  height: 100%;
+  min-width: 0;
+}
+#pricing .price {
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+#pricing .price small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+#pricing .priceMeta {
+  min-height: 0;
+}
+#pricing .priceList li {
+  overflow-wrap: break-word;
+}
+#pricing h3 {
+  font-family: Inter, "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+  line-height: 1.25;
+}
+@media (max-width: 1100px) {
+  #pricing .pricing { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+  #pricing .pricing { grid-template-columns: 1fr; }
+  #pricing .priceCard { padding: 18px; }
+}

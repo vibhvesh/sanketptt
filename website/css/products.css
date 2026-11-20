@@ -1,0 +1,42 @@
+/* Product index and the two enquiry cards (Sanket SDR, SanketVaani). */
+.product-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+.product-index a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--line, #e5eaf0);
+  border-radius: 999px;
+  background: #fff;
+  color: #24364a;
+  font-size: 12px;
+  font-weight: 750;
+  font-family: Inter, "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+  line-height: 1.3;
+}
+.product-index a:hover { border-color: #f47721; color: #f47721; }
+#products .card {
+  height: 100%;
+}
+#products .card h3,
+#products .card p {
+  overflow-wrap: break-word;
+  font-family: Inter, "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+}
+#products .card p { margin-top: 0; }
+#products .card .card-cta {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--orange, #f47721);
+}
+@media (max-width: 760px) {
+  #products .cards { grid-template-columns: 1fr; }
+  .product-index a { font-size: 13px; }
+}
