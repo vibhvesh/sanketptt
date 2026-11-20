@@ -54,6 +54,9 @@ def on_message(client, userdata, msg):
                     FLOOR[ch] = {"id": item.get("id"), "name": item.get("name", "Unknown"), "seen": time.monotonic()}
                 elif item.get("t") == "release" and FLOOR.get(ch, {}).get("id") == item.get("id"):
                     FLOOR.pop(ch, None)
+                    if ch in CFG.get("emergency_channels", []) and STATE["selected"] == ch:
+                        STATE["emergency"] = False
+                        STATE["last"] = "Emergency transmission ended; scanner may resume"
             return
         if suffix != "audio" or not msg.payload:
             return
@@ -172,6 +175,12 @@ def scanner_worker():
     dwell = time.monotonic()
     while not STOP.is_set():
         time.sleep(.1)
+        for channel, active in list(FLOOR.items()):
+            if time.monotonic() - active.get("seen", 0) > 3.0:
+                FLOOR.pop(channel, None)
+                if channel in CFG.get("emergency_channels", []) and STATE["selected"] == channel:
+                    STATE["emergency"] = False
+                    STATE["last"] = "Emergency floor timed out; scanner may resume"
         if not STATE["scan"] or STATE["emergency"]:
             dwell = time.monotonic()
             continue
