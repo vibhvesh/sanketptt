@@ -24,7 +24,7 @@ The page references existing guide screenshots from `docs/img/` in this reposito
 
 ## Notes
 
-- Dashboard activity, messages, signal graphs and counts are illustrative sample data, not live system telemetry.
-- Contact form opens a prefilled email draft; it does not submit to a backend.
-- Update the public contact email/address details after confirming the preferred business contact information.
-- SDR content describes receive-only spectrum monitoring; use only lawful public or authorised frequencies.
+- Dashboard signal graphs in the product previews are illustrative. The homepage relay, presence and radio directory are live and fall back to an explicit offline or built-in-station state when a service is unavailable.
+- Contact form opens a prefilled email draft to Akshat Singh; it does not submit to a backend.
+- Public contact: Akshat Singh, akshatsingh@canberravision.com, akshat@sanketptt.com, +91 99982 99023, Canberra Vision, 713 Samanvay Silver, Akota, Vadodara, Gujarat, India.
+- The Sanket SDR product card is the defence surveillance offering and does not publish a price. Technical SDR previews on the page describe receive-only spectrum monitoring; use only lawful public or authorised frequencies.

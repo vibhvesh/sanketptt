@@ -1,0 +1,36 @@
+/* Public contact block and footer contact line. */
+#contact .contact-card h3 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  color: #17283b !important;
+}
+.contact-role {
+  margin: 0 0 14px;
+  color: #657386;
+  font-size: 13px;
+}
+.contact-line {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.contact-line span:first-child {
+  color: #7b8794;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+.contact-line a { color: #1769aa; font-weight: 700; overflow-wrap: anywhere; }
+#contactForm { min-width: 0; }
+#contact .note { font-size: 12px; color: #657386; }
+body > footer.foot a { color: #1769aa; font-weight: 700; }
+body > footer.foot { align-items: flex-start; }
+@media (max-width: 760px) {
+  .contact-line { grid-template-columns: 1fr; gap: 2px; }
+  body > footer.foot { flex-direction: column; gap: 8px; }
+}
