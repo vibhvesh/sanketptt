@@ -1,7 +1,7 @@
 .hero { padding: 48px 0 12px; }
 .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 36px; align-items: center; }
 .hero h1 { margin: 0; font-size: clamp(42px, 6vw, 68px); color: var(--ink); }
-.hero h1 span { color: var(--cyan); }
+.hero h1 span { color: var(--green-ink); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .hero-note {
   display: flex;
@@ -10,36 +10,46 @@
   margin-top: 22px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  color: var(--ink);
+  background: var(--yellow);
+  border: 0;
+  color: var(--on-yellow);
   font-size: 13px;
 }
-.hero-note b { display: block; color: var(--orange); letter-spacing: 0.04em; font-size: 12px; }
+.hero-note b { display: block; color: var(--on-yellow); letter-spacing: 0.04em; font-size: 12px; }
 .hero-note p { margin: 4px 0 0; }
 .mark {
   width: 22px;
   height: 22px;
   flex: 0 0 22px;
   border-radius: 50%;
-  background: var(--orange);
-  color: var(--on-accent);
+  background: var(--on-yellow);
+  color: var(--yellow);
   font-weight: 800;
   display: grid;
   place-items: center;
 }
 .hero-panel {
   padding: 22px;
-  border-radius: 22px;
-  background: var(--panel);
-  color: var(--panel-ink);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-8);
 }
-.hero-panel span { color: var(--panel-muted); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; }
+.hero-panel span {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: var(--radius-btn);
+  background: var(--yellow);
+  color: var(--on-yellow);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
 .hero-panel ul { margin: 16px 0 0; padding: 0; list-style: none; }
-.hero-panel li { padding: 12px 0; border-top: 1px solid color-mix(in srgb, var(--panel-ink) 22%, transparent); }
+.hero-panel li { padding: 12px 0; border-top: 1px solid var(--line); }
 .hero-panel strong { display: block; font-size: 16px; }
-.hero-panel em { display: block; margin-top: 3px; color: var(--panel-muted); font-style: normal; font-size: 13px; }
+.hero-panel em { display: block; margin-top: 3px; color: var(--muted); font-style: normal; font-size: 13px; }
 @media (max-width: 860px) {
   .hero { padding-top: 32px; }
   .hero-grid { grid-template-columns: 1fr; }

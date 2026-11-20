@@ -46,7 +46,7 @@
   }
 
   if (document.body && document.body.dataset.chrome === "auto") {
-    ["css/base.css", "css/chrome.css"].forEach(function (file) {
+    ["css/tokens.css", "css/base.css", "css/chrome.css"].forEach(function (file) {
       var href = root + file;
       if ([].some.call(document.styleSheets, function (sheet) { return (sheet.href || "").indexOf(file) !== -1; })) return;
       var link = document.createElement("link");

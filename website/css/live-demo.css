@@ -23,7 +23,7 @@
   color: var(--ink);
   padding: 0 12px;
 }
-.play, .stop { background: var(--orange); color: var(--on-accent); border-color: var(--orange); font-weight: 800; cursor: pointer; }
+.play, .stop { background: var(--green); color: var(--on-green); border-color: var(--green); border-radius: var(--radius-btn); font-weight: 700; cursor: pointer; }
 .play:disabled, .stop:disabled { background: var(--bg); color: var(--muted); border-color: var(--line); cursor: default; }
 #tafDirectoryStatus, #tafLastChecked { color: var(--muted); font-size: 12px; }
 .stations { display: flex; gap: 8px; overflow-x: auto; margin: 12px 0 8px; padding-bottom: 4px; }
@@ -37,7 +37,7 @@
   font-weight: 750;
   cursor: pointer;
 }
-.stations button.active { background: color-mix(in srgb, var(--cyan) 18%, var(--bg-2)); border-color: var(--cyan); }
+.stations button.active { background: var(--yellow); color: var(--on-yellow); border-color: var(--yellow); }
 .stations b { font-size: 13px; white-space: nowrap; }
 .stations small { display: none; }
 .radio-foot { justify-content: space-between; color: var(--muted); font-size: 12px; }
@@ -56,7 +56,7 @@
 .signals { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 12px; padding: 10px; }
 .signal-card { display: flex; gap: 10px; align-items: center; min-width: 0; padding: 12px; border-radius: 12px; background: var(--bg); color: var(--ink); }
 .signal-card b { display: block; font-size: 11px; letter-spacing: 0.06em; }
-.signal-card small { color: var(--cyan); font-weight: 800; }
+.signal-card small { color: var(--green-ink); font-weight: 800; }
 .sig-led { width: 10px; height: 10px; border-radius: 50%; background: #c5d0da; flex: 0 0 10px; }
 .signal-card.good .sig-led { background: #1aa36a; box-shadow: 0 0 0 4px #e5f6ee; }
 .signal-card.bad .sig-led { background: #d4552b; }
@@ -78,13 +78,13 @@
 .try a { color: #fff; font-weight: 800; text-decoration: none; }
 .try span, .guide span { display: block; color: #b7cde0; font-weight: 500; }
 .guide { padding: 8px 12px 0; font-size: 13px; }
-.people { margin-top: 12px; padding: 4px 4px 12px; background: var(--panel); color: var(--panel-ink); }
+.people { margin-top: 12px; padding: 4px 4px 12px; background: var(--bg-2); color: var(--ink); }
 .presence-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 10px; }
-.presence-columns h5 { margin: 0 0 8px; color: var(--panel-muted); font-size: 11px; letter-spacing: 0.08em; }
+.presence-columns h5 { margin: 0 0 8px; color: var(--muted); font-size: 11px; letter-spacing: 0.08em; }
 .presence-list { max-height: 220px; overflow: auto; }
-.presence-user, .presence-event { margin: 0 0 6px; padding: 8px 10px; border-radius: 8px; background: color-mix(in srgb, var(--panel-ink) 8%, var(--panel)); font-size: 13px; }
-.presence-user small, .presence-event small { display: block; color: var(--panel-muted); }
-.empty-live { color: var(--panel-muted); font-size: 13px; }
+.presence-user, .presence-event { margin: 0 0 6px; padding: 8px 10px; border-radius: 12px; background: var(--bg); color: var(--ink); font-size: 13px; }
+.presence-user small, .presence-event small { display: block; color: var(--muted); }
+.empty-live { color: var(--muted); font-size: 13px; }
 @media (max-width: 900px) {
   .signals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stage {

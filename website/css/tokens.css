@@ -1,0 +1,47 @@
+/* Fluent surfaces, Blinkit yellow/green, Amazon rounding. */
+:root, html[data-theme="light"] {
+  --bg: #faf9f8;
+  --bg-2: #ffffff;
+  --bg-muted: #f5f5f5;
+  --ink: #201f1e;
+  --muted: #5c5856;
+  --line: #e3e6e6;
+  --blue: #0078d4;
+  --link: #0067b8;
+  --yellow: #f8cb46;
+  --on-yellow: #201f1e;
+  --green: #0c831f;
+  --green-hover: #0a6e1a;
+  --green-ink: #0c831f;
+  --on-green: #ffffff;
+  --shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.13), 0 0.3px 0.9px rgba(0, 0, 0, 0.11);
+  --shadow-8: 0 4px 8px rgba(0, 0, 0, 0.14), 0 0 2px rgba(0, 0, 0, 0.12);
+  --glass: color-mix(in srgb, #ffffff 88%, transparent);
+  --radius: 16px;
+  --radius-btn: 999px;
+  --header: 64px;
+  --font: "Segoe UI Variable", "Segoe UI", Inter, system-ui, "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+  --ease: cubic-bezier(0.33, 0, 0.1, 1);
+  --fast: 160ms;
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --bg: #1b1a19;
+  --bg-2: #292827;
+  --bg-muted: #201f1e;
+  --ink: #f3f2f1;
+  --muted: #d2d0ce;
+  --line: #484644;
+  --blue: #4cc2ff;
+  --link: #4cc2ff;
+  --yellow: #f8cb46;
+  --on-yellow: #1b1a19;
+  --green: #0c831f;
+  --green-hover: #0a6e1a;
+  --green-ink: #5dce73;
+  --on-green: #ffffff;
+  --shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.36), 0 0.3px 0.9px rgba(0, 0, 0, 0.28);
+  --shadow-8: 0 8px 16px rgba(0, 0, 0, 0.36), 0 0 2px rgba(0, 0, 0, 0.24);
+  --glass: color-mix(in srgb, #292827 88%, transparent);
+  color-scheme: dark;
+}
