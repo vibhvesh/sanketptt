@@ -6,11 +6,11 @@
     "master",
     "city-control",
     "kolkata-control",
-    "unit-one"
+    "unit-one",
+    "emergency"
   ],
   "emergency_channels": [
-    "emergency",
-    "master"
+    "emergency"
   ],
   "scan_interval_seconds": 5,
   "volume": 0.8,
