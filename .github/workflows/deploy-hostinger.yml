@@ -56,7 +56,12 @@ jobs:
           printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p "$PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          # protect /preview — only the dev-branch workflow may write there.
+          # Excluded paths are also kept from --delete (do not pass --delete-excluded).
           rsync -avzr --delete \
+            --filter='P /preview/***' \
+            --filter='P /preview' \
+            --exclude '/preview/' \
             -e "ssh -i ~/.ssh/deploy_key -p $PORT -o StrictHostKeyChecking=accept-new" \
             _site/ \
             "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH%/}/"
