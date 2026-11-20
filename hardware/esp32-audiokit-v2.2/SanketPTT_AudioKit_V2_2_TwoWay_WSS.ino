@@ -63,7 +63,9 @@ bool audioReady = false, wsConnected = false, mqttConnected = false;
 bool joined = false, pttDown = false, floorGranted = false;
 bool claimPending = false, portalMode = false;
 uint32_t claimTime = 0, lastHeartbeat = 0, lastPresence = 0;
+uint64_t floorTimestamp = 0;
 uint32_t lastPing = 0, lastStatusLog = 0;
+bool clockReady = false;
 uint16_t mqttPacketId = 1;
 uint8_t mqttRx[4096];
 size_t mqttRxLen = 0;
@@ -156,11 +158,18 @@ void saveSettings() {
   prefs.putString("ssid2", wifiSSID2); prefs.putString("pass2", wifiPASS2);
   prefs.putString("name", deviceName); prefs.putString("to", addressee);
 }
+uint64_t nowMs() { return (uint64_t)time(nullptr) * 1000ULL + (millis() % 1000); }
+void syncClock() {
+  configTime(0, 0, "pool.ntp.org", "time.google.com");
+  for (uint8_t i = 0; i < 20 && time(nullptr) < 1700000000; ++i) delay(500);
+  clockReady = time(nullptr) >= 1700000000;
+  Serial.println(clockReady ? "[TIME] Clock synchronized" : "[TIME] NTP unavailable");
+}
 void sendPresence() {
   if (!mqttConnected) return;
   StaticJsonDocument<256> doc;
   doc["id"] = deviceID; doc["name"] = deviceName;
-  doc["ts"] = (uint64_t)time(nullptr) * 1000ULL;
+  doc["ts"] = nowMs();
   doc["to"] = addressee;
   char out[256]; size_t n = serializeJson(doc, out, sizeof(out));
   mqttPublish(tPresenceSelf, (const uint8_t*)out, n, true);
@@ -240,7 +249,7 @@ void startSetupAP() {
 
 // ---------------- FLOOR / AUDIO ----------------
 void requestPTT() {
-  if (!mqttConnected || !joined || pttDown) return;
+  if (!mqttConnected || !joined || !clockReady || pttDown) return;
   if (floorID.length() && floorID != deviceID) {
     Serial.println("[PTT] CHANNEL BUSY"); return;
   }
@@ -260,7 +269,7 @@ void handleFloor(const uint8_t* payload, size_t len) {
   String type = doc["t"] | "", id = doc["id"] | "", name = doc["name"] | "";
   if (!id.length()) return;
   if (type == "release") {
-    if (floorID == id) { floorID = ""; floorName = ""; }
+    if (floorID == id) { floorID = ""; floorName = ""; floorTimestamp = 0; }
     if (id == deviceID) { floorGranted = false; claimPending = false; }
     return;
   }
@@ -355,7 +364,7 @@ void websocketEvent(WStype_t type, uint8_t* payload, size_t len) {
       Serial.println("[WSS] WebSocket connected"); mqttConnectPacket(); break;
     case WStype_DISCONNECTED:
       wsConnected = false; mqttConnected = false; joined = false;
-      floorID = ""; floorName = ""; releasePTT();
+      floorID = ""; floorName = ""; floorTimestamp = 0; releasePTT();
       mqttRxLen = 0; Serial.println("[WSS] Disconnected; reconnecting"); break;
     case WStype_BIN: consumeMqtt(payload, len); break;
     case WStype_ERROR: Serial.println("[WSS] WebSocket error"); break;
@@ -463,7 +472,7 @@ void loop() {
     Serial.println("[WIFI] Lost Wi-Fi; trying saved networks");
     ws.disconnect();
     if (connectWiFi(wifiSSID1, wifiPASS1) || connectWiFi(wifiSSID2, wifiPASS2)) {
-      Serial.println("[WIFI] Restored"); startWSS();
+      Serial.println("[WIFI] Restored"); syncClock(); startWSS();
     } else { startSetupAP(); return; }
   }
 
