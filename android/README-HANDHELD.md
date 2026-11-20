@@ -15,9 +15,24 @@ android/build.sh in.sanket.ptt "Sanket PTT" \
   "#174A78" Sanket_PTT_Radio.apk
 ```
 
-The build script reads `$ANDROID_HOME` (or `/opt/android`). Use a private signing keystore
-via `KEYSTORE=/secure/path/release.keystore`; keep it and its passwords out of Git.
-A different signing key cannot update an already-installed APK signed with another key.
+The build script reads `$ANDROID_HOME` (or `/opt/android`). For a first build, create a private
+keystore and supply its password through the environment (never commit the keystore):
+
+```bash
+keytool -genkeypair -keystore "$HOME/.android/sanket-release.jks" \
+  -storepass 'CHOOSE_A_LONG_PASSWORD' -keypass 'CHOOSE_A_LONG_PASSWORD' \
+  -alias sanket -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Sanket PTT"
+export KEYSTORE="$HOME/.android/sanket-release.jks"
+export KEYSTORE_PASS='CHOOSE_A_LONG_PASSWORD'
+export KEY_ALIAS=sanket
+export KEY_PASS="$KEYSTORE_PASS"
+android/build.sh in.sanket.ptt "Sanket PTT" \
+  "https://vibhvesh.github.io/sanketptt/?embed=1" \
+  "#174A78" Sanket_PTT_Radio.apk
+```
+
+Keep the keystore and passwords out of Git. A different signing key cannot update an
+already-installed APK signed with another key.
 
 ## Install on Tecno Spark Go 1
 
