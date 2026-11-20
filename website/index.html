@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f4f8fb">
+<meta name="theme-color" content="#fbf8f1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,560;7..72,650&family=Source+Sans+3:wght@400;600;700&display=swap">
 <title>Sanket — Talk, listen, and read every transmission</title>
 <meta name="description" content="Sanket is push-to-talk, live radio and transcription from Canberra Vision. Cloud lines from ₹450, a dedicated server, and Sanket आकाशवाणी.">
 <link rel="icon" type="image/svg+xml" href="sanket-mark.svg">
@@ -18,7 +21,7 @@
 <script>
 (function(){
   var s=localStorage.getItem("sanket-color");
-  document.documentElement.setAttribute("data-theme", s==="dark" ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", s==="sepia"||s==="dark" ? s : "light");
 })();
 </script>
 <link rel="stylesheet" href="css/tokens.css">
@@ -27,6 +30,7 @@
 <link rel="stylesheet" href="css/hero.css">
 <link rel="stylesheet" href="css/live-demo.css">
 <link rel="stylesheet" href="css/products.css">
+<link rel="stylesheet" href="css/dashboards.css">
 <link rel="stylesheet" href="css/use-cases.css">
 <link rel="stylesheet" href="css/pricing.css">
 <link rel="stylesheet" href="css/contact.css">
@@ -157,6 +161,66 @@ if (document.documentElement.classList.contains("app-mode")) {
         <article class="card" id="edge"><small>06 · EDGE</small><h3>Sanket Edge</h3><p>An always-on Raspberry Pi listener for channel audio, local transcription and alerts.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Edge">Ask about Edge</a></article>
         <article class="card" id="sasi"><small>07 · SPEECH</small><h3>Adaptive Speech</h3><p>Organisation-specific speech learning from approved recordings and verified corrections.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Adaptive Speech Intelligence">Ask about speech learning</a></article>
         <article class="card" id="vaani"><small>08 · LEARNING AGENT</small><h3>SanketVaani</h3><p>A learning agent that runs beside a leading model, compares outputs, and learns where the local model fell short — the way a person becomes fluent in a new language.</p><a href="#contact" data-enquiry-subject="Ask for price — SanketVaani">Ask for price</a></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="dashboards">
+    <div class="wrap">
+      <div class="section-head gallery-head">
+        <div>
+          <p class="eyebrow">Dashboards</p>
+          <h2>The screens your team uses.</h2>
+          <p class="lede">Captured from the apps in this site. No sample mockups.</p>
+        </div>
+        <div class="gal-nav">
+          <button id="galPrev" type="button" aria-label="Previous dashboard">‹</button>
+          <button id="galNext" type="button" aria-label="Next dashboard">›</button>
+        </div>
+      </div>
+      <div class="gal-track" id="galTrack" tabindex="0" aria-label="Product dashboards">
+        <figure>
+          <img src="img/dashboards/ptt.jpg" width="1280" height="800" alt="Sanket PTT radio on channel virtual, with the call-sign field and Power on button." loading="lazy" decoding="async">
+          <figcaption><b>Sanket PTT</b> The browser radio on channel virtual.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/dashboards/transcribe.jpg" width="1280" height="800" alt="Sanket Transcribe listening to PTT channel virtual, waiting for the first words." loading="lazy" decoding="async">
+          <figcaption><b>Sanket Transcribe</b> Live text from the same channel.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/dashboards/radio-hub.jpg" width="1280" height="800" alt="Sanket Radio Hub listing PTT channels and station tools." loading="lazy" decoding="async">
+          <figcaption><b>Radio hub</b> Channels and the station directory.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/dashboards/aakashvani.jpg" width="1280" height="800" alt="Sanket आकाशवाणी announcement control room with talk lines and four speaker zones." loading="lazy" decoding="async">
+          <figcaption><b>Sanket आकाशवाणी</b> Lines, zones and announcements.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/dashboards/dmr.jpg" width="1280" height="800" alt="Sanket DMR monitor, a receive-only directory of talkgroups." loading="lazy" decoding="async">
+          <figcaption><b>DMR monitor</b> Receive-only talkgroup directory.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/dashboards/edge.jpg" width="1280" height="800" alt="Sanket Edge Pi listener console showing the radio is offline until a device connects." loading="lazy" decoding="async">
+          <figcaption><b>Sanket Edge</b> The Pi listener. It reads offline until a device is connected.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/dashboards/vaani-admin.jpg" width="1280" height="800" alt="Vaani Admin sign-in, asking for the control-room address and administrator PIN." loading="lazy" decoding="async">
+          <figcaption><b>Vaani Admin</b> Sign-in for the control room.</figcaption>
+        </figure>
+      </div>
+      <div class="quiet-cards">
+        <article class="quiet-card">
+          <span aria-hidden="true">SDR</span>
+          <h3>Sanket SDR</h3>
+          <p>There is no public dashboard. Surveillance for authorised military and defence use is discussed in a meeting.</p>
+          <a class="btn" href="#contact" data-enquiry-subject="Request a meeting — Sanket SDR">Request a meeting</a>
+        </article>
+        <article class="quiet-card">
+          <span aria-hidden="true">Vaani</span>
+          <h3>SanketVaani</h3>
+          <p>There is no public screen yet. The learning agent is priced in a conversation.</p>
+          <a class="btn" href="#contact" data-enquiry-subject="Ask for price — SanketVaani">Ask for price</a>
+        </article>
       </div>
     </div>
   </section>
@@ -304,6 +368,7 @@ if (document.documentElement.classList.contains("app-mode")) {
   <span>© <span id="year"></span> Canberra Vision AI Systems</span>
 </footer>
 <script src="js/chrome.js" defer></script>
+<script src="js/gallery.js" defer></script>
 <script src="js/contact-form.js" defer></script>
 <script src="js/live-presence.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>

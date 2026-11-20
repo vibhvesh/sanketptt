@@ -1,6 +1,6 @@
 (function () {
   var saved = localStorage.getItem("sanket-color");
-  document.documentElement.setAttribute("data-theme", saved === "dark" ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", saved === "sepia" || saved === "dark" ? saved : "light");
 
   function inSub() {
     return /\/(docs|transcribe|dmr|radio|aakashvani|pi|newlook|dev)\//.test(location.pathname);
@@ -35,7 +35,10 @@
       ]) +
       '<a class="nav-link" href="' + root + '#pricing">Pricing</a>' +
       '<a class="nav-link" href="' + root + '#contact">Contact</a>' +
-      '<button class="theme-btn" id="themeToggle" type="button" aria-label="Toggle color theme"><span class="switch" aria-hidden="true"><i></i></span></button>' +
+      '<div class="read-mode" role="group" aria-label="Reading theme">' +
+      '<button type="button" data-mode="light">Light</button>' +
+      '<button type="button" data-mode="sepia">Sepia</button>' +
+      '<button type="button" data-mode="dark">Dark</button></div>' +
       '</nav></div></header><div class="nav-backdrop" id="navBackdrop" hidden></div>';
   }
   function drop(label, items) {
@@ -112,18 +115,23 @@
   });
   if (nav) nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
 
-  var themeBtn = document.getElementById("themeToggle");
+  var modeNames = { light: "Light", sepia: "Sepia", dark: "Dark" };
   function paintTheme() {
-    var mode = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-    if (themeBtn) themeBtn.setAttribute("aria-label", mode === "dark" ? "Switch to light theme" : "Switch to dark theme");
+    var mode = document.documentElement.getAttribute("data-theme") || "light";
+    document.querySelectorAll(".read-mode button").forEach(function (btn) {
+      var on = btn.getAttribute("data-mode") === mode;
+      btn.setAttribute("aria-pressed", String(on));
+    });
   }
   paintTheme();
-  if (themeBtn) themeBtn.addEventListener("click", function () {
-    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("sanket-color", next);
-    paintTheme();
-    window.sanketToast(next === "dark" ? "Dark theme" : "Light theme");
+  document.querySelectorAll(".read-mode button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var next = btn.getAttribute("data-mode");
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("sanket-color", next);
+      paintTheme();
+      window.sanketToast(modeNames[next] + " reading theme");
+    });
   });
 
   var stack = document.createElement("div");

@@ -10,20 +10,20 @@
   margin-top: 22px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: var(--yellow);
-  border: 0;
-  color: var(--on-yellow);
+  background: var(--note);
+  border: 1px solid var(--line);
+  color: var(--on-note);
   font-size: 13px;
 }
-.hero-note b { display: block; color: var(--on-yellow); letter-spacing: 0.04em; font-size: 12px; }
+.hero-note b { display: block; color: var(--on-note); letter-spacing: 0.04em; font-size: 12px; }
 .hero-note p { margin: 4px 0 0; }
 .mark {
   width: 22px;
   height: 22px;
   flex: 0 0 22px;
   border-radius: 50%;
-  background: var(--on-yellow);
-  color: var(--yellow);
+  background: var(--link);
+  color: var(--bg-2);
   font-weight: 800;
   display: grid;
   place-items: center;
