@@ -1,24 +1,28 @@
 package PKG;
-import android.app.Activity;import android.app.DownloadManager;import android.content.*;import android.content.pm.PackageManager;import android.net.Uri;import android.os.*;import android.view.WindowManager;import android.webkit.*;
+import android.app.Activity;import android.app.DownloadManager;import android.content.*;import android.content.pm.PackageManager;import android.media.AudioDeviceInfo;import android.media.AudioManager;import android.net.Uri;import android.os.*;import android.view.View;import android.view.WindowManager;import android.webkit.*;import java.util.ArrayList;
+/** Full-screen Android shell for the existing Sanket PTT web radio. */
 public class MainActivity extends Activity {
-  static final String URL="APPURL"; WebView w; ValueCallback<Uri[]> fc;
-  @Override protected void onCreate(Bundle b){super.onCreate(b);
-    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    if(Build.VERSION.SDK_INT>=23) requestPermissions(new String[]{"android.permission.RECORD_AUDIO","android.permission.ACCESS_FINE_LOCATION","android.permission.ACCESS_COARSE_LOCATION","android.permission.POST_NOTIFICATIONS"},1);
-    startKeepAlive();
-    w=new WebView(this);setContentView(w);WebSettings s=w.getSettings();
-    s.setJavaScriptEnabled(true);s.setDomStorageEnabled(true);s.setDatabaseEnabled(true);s.setMediaPlaybackRequiresUserGesture(false);s.setGeolocationEnabled(true);s.setAllowFileAccess(true);
-    w.setWebViewClient(new WebViewClient(){public boolean shouldOverrideUrlLoading(WebView v,WebResourceRequest r){String u=r.getUrl().toString();if(u.startsWith("http"))return false;try{startActivity(new Intent(Intent.ACTION_VIEW,r.getUrl()));}catch(Exception e){}return true;}});
-    w.setWebChromeClient(new WebChromeClient(){
-      public void onPermissionRequest(PermissionRequest r){r.grant(r.getResources());}
-      public void onGeolocationPermissionsShowPrompt(String o,GeolocationPermissions.Callback c){c.invoke(o,true,false);}
-      public boolean onShowFileChooser(WebView v,ValueCallback<Uri[]> cb,FileChooserParams p){if(fc!=null)fc.onReceiveValue(null);fc=cb;try{startActivityForResult(p.createIntent(),2);}catch(Exception e){fc=null;return false;}return true;}});
-    w.setDownloadListener((u,ua,cd,mt,len)->{try{if(u.startsWith("blob:")||u.startsWith("data:")){startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(u)));return;}DownloadManager.Request q=new DownloadManager.Request(Uri.parse(u));q.setMimeType(mt);q.addRequestHeader("User-Agent",ua);q.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);q.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,URLUtil.guessFileName(u,cd,mt));((DownloadManager)getSystemService(DOWNLOAD_SERVICE)).enqueue(q);}catch(Exception e){}});
-    if(b!=null)w.restoreState(b);else w.loadUrl(URL);}
-  void startKeepAlive(){try{Intent i=new Intent(this,KeepAliveService.class);if(Build.VERSION.SDK_INT>=26)startForegroundService(i);else startService(i);}catch(Exception e){}}
-  @Override public void onRequestPermissionsResult(int rq,String[] p,int[] g){stopService(new Intent(this,KeepAliveService.class));startKeepAlive();} // restart so mic FGS type applies once granted
-  @Override protected void onDestroy(){if(isFinishing())stopService(new Intent(this,KeepAliveService.class));super.onDestroy();}
-  @Override protected void onActivityResult(int rq,int rc,Intent d){if(rq==2&&fc!=null){fc.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(rc,d));fc=null;}}
-  @Override protected void onSaveInstanceState(Bundle b){super.onSaveInstanceState(b);w.saveState(b);}
-  @Override public void onBackPressed(){if(w.canGoBack())w.goBack();else super.onBackPressed();}
+ static final String URL="APPURL"; private WebView w; private ValueCallback<Uri[]> fc; private AudioManager audio;
+ @Override protected void onCreate(Bundle b){super.onCreate(b);getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);audio=(AudioManager)getSystemService(AUDIO_SERVICE);immersive();
+  ArrayList<String> ps=new ArrayList<>();ps.add("android.permission.RECORD_AUDIO");ps.add("android.permission.ACCESS_FINE_LOCATION");ps.add("android.permission.ACCESS_COARSE_LOCATION");if(Build.VERSION.SDK_INT>=33)ps.add("android.permission.POST_NOTIFICATIONS");if(Build.VERSION.SDK_INT>=31)ps.add("android.permission.BLUETOOTH_CONNECT");
+  if(Build.VERSION.SDK_INT>=23){ArrayList<String> missing=new ArrayList<>();for(String p:ps)if(checkSelfPermission(p)!=PackageManager.PERMISSION_GRANTED)missing.add(p);if(!missing.isEmpty())requestPermissions(missing.toArray(new String[0]),1);}
+  startKeepAlive();w=new WebView(this);setContentView(w);WebSettings s=w.getSettings();s.setJavaScriptEnabled(true);s.setDomStorageEnabled(true);s.setDatabaseEnabled(true);s.setMediaPlaybackRequiresUserGesture(false);s.setGeolocationEnabled(true);s.setAllowFileAccess(false);w.addJavascriptInterface(new RadioBridge(),"AndroidRadio");
+  w.setWebViewClient(new WebViewClient(){@Override public boolean shouldOverrideUrlLoading(WebView v,WebResourceRequest r){String u=r.getUrl().toString();if(u.startsWith("https://vibhvesh.github.io/"))return false;try{startActivity(new Intent(Intent.ACTION_VIEW,r.getUrl()));}catch(Exception ignored){}return true;}@Override public void onPageFinished(WebView v,String u){installAudioControl();}});
+  w.setWebChromeClient(new WebChromeClient(){@Override public void onPermissionRequest(PermissionRequest r){ArrayList<String>a=new ArrayList<>();for(String x:r.getResources())if(PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(x))a.add(x);if(a.isEmpty())r.deny();else r.grant(a.toArray(new String[0]));}
+   @Override public void onGeolocationPermissionsShowPrompt(String o,GeolocationPermissions.Callback c){c.invoke(o,true,false);}
+   @Override public boolean onShowFileChooser(WebView v,ValueCallback<Uri[]> cb,FileChooserParams p){if(fc!=null)fc.onReceiveValue(null);fc=cb;try{startActivityForResult(p.createIntent(),2);}catch(Exception e){fc=null;return false;}return true;}});
+  w.setDownloadListener((u,ua,cd,mt,len)->{try{DownloadManager.Request q=new DownloadManager.Request(Uri.parse(u));q.setMimeType(mt);q.addRequestHeader("User-Agent",ua);q.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);q.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,URLUtil.guessFileName(u,cd,mt));((DownloadManager)getSystemService(DOWNLOAD_SERVICE)).enqueue(q);}catch(Exception ignored){}});
+  if(b!=null)w.restoreState(b);else w.loadUrl(URL);
+ }
+ private void immersive(){int f=View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY|View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_FULLSCREEN;getWindow().getDecorView().setSystemUiVisibility(f);}
+ @Override public void onWindowFocusChanged(boolean f){super.onWindowFocusChanged(f);if(f)immersive();}
+ private void startKeepAlive(){try{Intent i=new Intent(this,KeepAliveService.class);if(Build.VERSION.SDK_INT>=26)startForegroundService(i);else startService(i);}catch(Exception ignored){}}
+ private boolean route(boolean speaker){if(audio==null)return false;audio.setMode(AudioManager.MODE_IN_COMMUNICATION);if(Build.VERSION.SDK_INT>=31){AudioDeviceInfo wanted=null;for(AudioDeviceInfo d:audio.getAvailableCommunicationDevices()){if(speaker&&d.getType()==AudioDeviceInfo.TYPE_BUILTIN_SPEAKER){wanted=d;break;}if(!speaker&&(d.getType()==AudioDeviceInfo.TYPE_BLUETOOTH_SCO||d.getType()==AudioDeviceInfo.TYPE_BLE_HEADSET)){wanted=d;break;}}if(wanted==null)return false;return audio.setCommunicationDevice(wanted);}audio.setSpeakerphoneOn(speaker);return true;}
+ private void installAudioControl(){if(w==null)return;String js="(function(){if(document.getElementById('sanket-audio-route'))return;var sp=true,b=document.createElement('button');b.id='sanket-audio-route';b.textContent='🔊 SPEAKER';b.style.cssText='position:fixed;z-index:2147483647;right:12px;top:12px;padding:10px 13px;border:1px solid #ffffff66;border-radius:12px;background:#12345a;color:white;font:700 12px system-ui;box-shadow:0 3px 12px #0008';b.onclick=function(){var ok=AndroidRadio.setSpeaker(!sp);if(ok){sp=!sp;b.textContent=sp?'🔊 SPEAKER':'🎧 BLUETOOTH';}else{b.textContent='⚠ PAIR HEADSET';setTimeout(function(){b.textContent=sp?'🔊 SPEAKER':'🎧 BLUETOOTH'},1800)}};document.body.appendChild(b);AndroidRadio.setSpeaker(true);})();";w.evaluateJavascript(js,null);}
+ private class RadioBridge{@JavascriptInterface public boolean setSpeaker(boolean speaker){return route(speaker);}}
+ @Override public void onRequestPermissionsResult(int r,String[] p,int[] g){super.onRequestPermissionsResult(r,p,g);if(r==1){stopService(new Intent(this,KeepAliveService.class));startKeepAlive();}}
+ @Override protected void onDestroy(){if(isFinishing())stopService(new Intent(this,KeepAliveService.class));if(audio!=null){if(Build.VERSION.SDK_INT>=31)audio.clearCommunicationDevice();audio.setMode(AudioManager.MODE_NORMAL);}super.onDestroy();}
+ @Override protected void onActivityResult(int r,int c,Intent d){super.onActivityResult(r,c,d);if(r==2&&fc!=null){fc.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(c,d));fc=null;}}
+ @Override protected void onSaveInstanceState(Bundle b){super.onSaveInstanceState(b);if(w!=null)w.saveState(b);}
+ @Override public void onBackPressed(){if(w!=null&&w.canGoBack())w.goBack();else super.onBackPressed();}
 }
