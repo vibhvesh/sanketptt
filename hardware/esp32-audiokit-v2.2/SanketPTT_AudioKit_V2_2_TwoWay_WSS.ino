@@ -109,7 +109,7 @@ void mqttConnectPacket() {
   std::vector<uint8_t> b;
   appendMqttString(b, "MQTT");
   b.push_back(4);              // MQTT 3.1.1
-  b.push_back(0xC2);           // clean session + username + password
+  b.push_back(USE_EMQX_RELAY ? 0x02 : 0xC2); // clean session; Shiftr also uses credentials
   b.push_back(0); b.push_back(30);
   appendMqttString(b, "sanket_" + deviceID);
   appendMqttString(b, USE_EMQX_RELAY ? "" : SHIFTR_USER);
