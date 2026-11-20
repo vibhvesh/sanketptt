@@ -1,0 +1,21 @@
+{
+  "broker_url": "wss://public:public@public.cloud.shiftr.io",
+  "prefix": "ptt-radio-66ab9178",
+  "channels": [
+    "virtual",
+    "master",
+    "city-control",
+    "kolkata-control",
+    "unit-one",
+    "emergency"
+  ],
+  "emergency_channels": [
+    "emergency"
+  ],
+  "scan_interval_seconds": 5,
+  "volume": 0.8,
+  "wake_phrase": "alpha romeo",
+  "vosk_model_path": "models/vosk-model-small-en-us-0.15",
+  "audio_input_device": null,
+  "audio_output_device": null
+}
