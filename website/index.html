@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#fbf8f1">
+<meta name="theme-color" content="#06245c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,560;7..72,650&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
 <title>Sanket — Talk, listen, and read every transmission</title>
 <meta name="description" content="Sanket is push-to-talk, live radio and transcription from Canberra Vision. Cloud lines from ₹450, a dedicated server, and Sanket आकाशवाणी.">
 <link rel="icon" type="image/svg+xml" href="sanket-mark.svg">
@@ -21,7 +21,7 @@
 <script>
 (function(){
   var s=localStorage.getItem("sanket-color");
-  document.documentElement.setAttribute("data-theme", s==="sepia"||s==="dark" ? s : "light");
+  document.documentElement.setAttribute("data-theme", s==="dark" ? "dark" : "light");
 })();
 </script>
 <link rel="stylesheet" href="css/tokens.css">
@@ -54,24 +54,30 @@ if (document.documentElement.classList.contains("app-mode")) {
 <main id="home">
   <section class="hero reveal">
     <div class="wrap hero-grid rise">
-      <div>
+      <div class="hero-copy">
         <p class="eyebrow">Canberra Vision AI</p>
         <h1>Talk, listen, and read every transmission.</h1>
         <p class="lede">Sanket is push-to-talk, live radio and transcription in one workspace. Start in the browser, or run it on your own server.</p>
         <div class="hero-actions">
-          <a class="btn" href="#demo">Try the live demo</a>
+          <a class="btn hot" href="#demo">Try the live demo</a>
           <a class="btn secondary" href="#contact">Talk to Akshat</a>
         </div>
         <div class="hero-note" role="note"><span class="mark">!</span><div><b>PUBLIC DEMO</b><p>The channel below is open. Anyone on it can hear you. Do not send private or operational traffic.</p></div></div>
       </div>
-      <aside class="hero-panel" aria-label="What Sanket includes">
-        <span>ONE WORKSPACE</span>
-        <ul>
-          <li><strong>Push to talk</strong><em>Phones, tablets and PCs on named channels.</em></li>
-          <li><strong>Live radio</strong><em>Quick stations, plus a checked directory.</em></li>
-          <li><strong>Transcription</strong><em>Words from the channel, with the speaker and time.</em></li>
-        </ul>
+      <aside class="hero-shot" aria-label="Sanket PTT dashboard">
+        <div class="browser">
+          <div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/?ch=virtual</span></div>
+          <img src="img/dashboards/ptt.jpg" width="1280" height="800" alt="Sanket PTT radio on channel virtual, with the call-sign field and Power on button.">
+        </div>
       </aside>
+    </div>
+  </section>
+  <section class="stats" aria-label="Published figures">
+    <div class="wrap stats-row">
+      <p><b>₹450</b><span>per user, per line, per month</span></p>
+      <p><b>₹15</b><span>a day on Cloud Managed</span></p>
+      <p><b>100</b><span>concurrent lines on a dedicated server</span></p>
+      <p><b>₹35,000</b><span>आकाशवाणी setup, 4 AUX outputs</span></p>
     </div>
   </section>
 
@@ -153,60 +159,65 @@ if (document.documentElement.classList.contains("app-mode")) {
         <a href="#vaani">SanketVaani</a>
       </nav>
       <div class="cards">
-        <article class="card" id="ptt"><small>01 · COMMUNICATE</small><h3>Sanket PTT</h3><p>Browser and Android push-to-talk with named channels, floor control and presence.</p><a href="?ch=virtual">Open PTT</a></article>
-        <article class="card" id="control"><small>02 · OPERATE</small><h3>Control room</h3><p>Watch lines, users and transcripts from the live demo on this page.</p><a href="#demo">View the live demo</a></article>
-        <article class="card" id="broadcast"><small>03 · DISTRIBUTE</small><h3>Sanket <span lang="hi">आकाशवाणी</span></h3><p>Public announcements across speaker zones for venues, campuses and events.</p><a href="aakashvani/">Open control room</a></article>
-        <article class="card" id="transcribe"><small>04 · UNDERSTAND</small><h3>Sanket Transcribe</h3><p>Turn channel audio into timestamped text, with translation and keyword watch.</p><a href="transcribe/">Open Transcribe</a></article>
-        <article class="card" id="sdr"><small>05 · DEFENCE</small><h3>Sanket SDR</h3><p>SDR-based surveillance for authorised military and defence use. Request a meeting to discuss a deployment.</p><a href="#contact" data-enquiry-subject="Request a meeting — Sanket SDR">Request a meeting</a></article>
-        <article class="card" id="edge"><small>06 · EDGE</small><h3>Sanket Edge</h3><p>An always-on Raspberry Pi listener for channel audio, local transcription and alerts.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Edge">Ask about Edge</a></article>
-        <article class="card" id="sasi"><small>07 · SPEECH</small><h3>Adaptive Speech</h3><p>Organisation-specific speech learning from approved recordings and verified corrections.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Adaptive Speech Intelligence">Ask about speech learning</a></article>
-        <article class="card" id="vaani"><small>08 · LEARNING AGENT</small><h3>SanketVaani</h3><p>A learning agent that runs beside a leading model, compares outputs, and learns where the local model fell short — the way a person becomes fluent in a new language.</p><a href="#contact" data-enquiry-subject="Ask for price — SanketVaani">Ask for price</a></article>
+        <article class="card tone-blue" id="ptt"><small>01 · COMMUNICATE</small><h3>Sanket PTT</h3><p>Browser and Android push-to-talk with named channels, floor control and presence.</p><a href="?ch=virtual">Open PTT</a></article>
+        <article class="card tone-orange" id="control"><small>02 · OPERATE</small><h3>Control room</h3><p>Watch lines, users and transcripts from the live demo on this page.</p><a href="#demo">View the live demo</a></article>
+        <article class="card tone-teal" id="broadcast"><small>03 · DISTRIBUTE</small><h3>Sanket <span lang="hi">आकाशवाणी</span></h3><p>Public announcements across speaker zones for venues, campuses and events.</p><a href="aakashvani/">Open control room</a></article>
+        <article class="card tone-purple" id="transcribe"><small>04 · UNDERSTAND</small><h3>Sanket Transcribe</h3><p>Turn channel audio into timestamped text, with translation and keyword watch.</p><a href="transcribe/">Open Transcribe</a></article>
+        <article class="card tone-green" id="sdr"><small>05 · DEFENCE</small><h3>Sanket SDR</h3><p>SDR-based surveillance for authorised military and defence use. Request a meeting to discuss a deployment.</p><a href="#contact" data-enquiry-subject="Request a meeting — Sanket SDR">Request a meeting</a></article>
+        <article class="card tone-pink" id="edge"><small>06 · EDGE</small><h3>Sanket Edge</h3><p>An always-on Raspberry Pi listener for channel audio, local transcription and alerts.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Edge">Ask about Edge</a></article>
+        <article class="card tone-blue" id="sasi"><small>07 · SPEECH</small><h3>Adaptive Speech</h3><p>Organisation-specific speech learning from approved recordings and verified corrections.</p><a href="#contact" data-enquiry-subject="Ask about Sanket Adaptive Speech Intelligence">Ask about speech learning</a></article>
+        <article class="card tone-purple" id="vaani"><small>08 · LEARNING AGENT</small><h3>SanketVaani</h3><p>A learning agent that runs beside a leading model, compares outputs, and learns where the local model fell short — the way a person becomes fluent in a new language.</p><a href="#contact" data-enquiry-subject="Ask for price — SanketVaani">Ask for price</a></article>
       </div>
     </div>
   </section>
 
   <section class="section reveal" id="dashboards">
     <div class="wrap">
-      <div class="section-head gallery-head">
-        <div>
-          <p class="eyebrow">Dashboards</p>
-          <h2>The screens your team uses.</h2>
-          <p class="lede">Captured from the apps in this site. No sample mockups.</p>
-        </div>
-        <div class="gal-nav">
-          <button id="galPrev" type="button" aria-label="Previous dashboard">‹</button>
-          <button id="galNext" type="button" aria-label="Next dashboard">›</button>
-        </div>
+      <div class="section-head">
+        <p class="eyebrow">Dashboards</p>
+        <h2>The screens your team uses.</h2>
+        <p class="lede">Captured from the apps in this site. No sample mockups.</p>
       </div>
-      <div class="gal-track" id="galTrack" tabindex="0" aria-label="Product dashboards">
-        <figure>
-          <img src="img/dashboards/ptt.jpg" width="1280" height="800" alt="Sanket PTT radio on channel virtual, with the call-sign field and Power on button." loading="lazy" decoding="async">
-          <figcaption><b>Sanket PTT</b> The browser radio on channel virtual.</figcaption>
-        </figure>
-        <figure>
-          <img src="img/dashboards/transcribe.jpg" width="1280" height="800" alt="Sanket Transcribe listening to PTT channel virtual, waiting for the first words." loading="lazy" decoding="async">
-          <figcaption><b>Sanket Transcribe</b> Live text from the same channel.</figcaption>
-        </figure>
-        <figure>
-          <img src="img/dashboards/radio-hub.jpg" width="1280" height="800" alt="Sanket Radio Hub listing PTT channels and station tools." loading="lazy" decoding="async">
-          <figcaption><b>Radio hub</b> Channels and the station directory.</figcaption>
-        </figure>
-        <figure>
-          <img src="img/dashboards/aakashvani.jpg" width="1280" height="800" alt="Sanket आकाशवाणी announcement control room with talk lines and four speaker zones." loading="lazy" decoding="async">
-          <figcaption><b>Sanket आकाशवाणी</b> Lines, zones and announcements.</figcaption>
-        </figure>
-        <figure>
-          <img src="img/dashboards/dmr.jpg" width="1280" height="800" alt="Sanket DMR monitor, a receive-only directory of talkgroups." loading="lazy" decoding="async">
-          <figcaption><b>DMR monitor</b> Receive-only talkgroup directory.</figcaption>
-        </figure>
-        <figure>
-          <img src="img/dashboards/edge.jpg" width="1280" height="800" alt="Sanket Edge Pi listener console showing the radio is offline until a device connects." loading="lazy" decoding="async">
-          <figcaption><b>Sanket Edge</b> The Pi listener. It reads offline until a device is connected.</figcaption>
-        </figure>
-        <figure>
-          <img src="img/dashboards/vaani-admin.jpg" width="1280" height="800" alt="Vaani Admin sign-in, asking for the control-room address and administrator PIN." loading="lazy" decoding="async">
-          <figcaption><b>Vaani Admin</b> Sign-in for the control room.</figcaption>
-        </figure>
+      <div class="explorer" id="explorer">
+        <div class="explorer-tabs" role="tablist" aria-label="Product dashboards">
+          <button type="button" role="tab" id="tab-ptt" aria-controls="panel-ptt" aria-selected="true">PTT</button>
+          <button type="button" role="tab" id="tab-transcribe" aria-controls="panel-transcribe" aria-selected="false">Transcribe</button>
+          <button type="button" role="tab" id="tab-hub" aria-controls="panel-hub" aria-selected="false">Radio hub</button>
+          <button type="button" role="tab" id="tab-aakash" aria-controls="panel-aakash" aria-selected="false">आकाशवाणी</button>
+          <button type="button" role="tab" id="tab-dmr" aria-controls="panel-dmr" aria-selected="false">DMR</button>
+          <button type="button" role="tab" id="tab-edge" aria-controls="panel-edge" aria-selected="false">Edge</button>
+          <button type="button" role="tab" id="tab-admin" aria-controls="panel-admin" aria-selected="false">Admin</button>
+        </div>
+        <div class="explorer-stage">
+          <div class="explorer-panel" id="panel-ptt" role="tabpanel" aria-labelledby="tab-ptt">
+            <div class="browser"><div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/?ch=virtual</span></div><img src="img/dashboards/ptt.jpg" width="1280" height="800" alt="Sanket PTT radio on channel virtual, with the call-sign field and Power on button."></div>
+            <p><b>Sanket PTT</b> The browser radio on channel virtual.</p>
+          </div>
+          <div class="explorer-panel" id="panel-transcribe" role="tabpanel" aria-labelledby="tab-transcribe" hidden>
+            <div class="browser"><div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/transcribe/</span></div><img src="img/dashboards/transcribe.jpg" width="1280" height="800" alt="Sanket Transcribe listening to PTT channel virtual, waiting for the first words." loading="lazy" decoding="async"></div>
+            <p><b>Sanket Transcribe</b> Live text from the same channel.</p>
+          </div>
+          <div class="explorer-panel" id="panel-hub" role="tabpanel" aria-labelledby="tab-hub" hidden>
+            <div class="browser"><div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/radio-hub.html</span></div><img src="img/dashboards/radio-hub.jpg" width="1280" height="800" alt="Sanket Radio Hub listing PTT channels and station tools." loading="lazy" decoding="async"></div>
+            <p><b>Radio hub</b> Channels and the station directory.</p>
+          </div>
+          <div class="explorer-panel" id="panel-aakash" role="tabpanel" aria-labelledby="tab-aakash" hidden>
+            <div class="browser"><div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/aakashvani/</span></div><img src="img/dashboards/aakashvani.jpg" width="1280" height="800" alt="Sanket आकाशवाणी announcement control room with talk lines and four speaker zones." loading="lazy" decoding="async"></div>
+            <p><b>Sanket आकाशवाणी</b> Lines, zones and announcements.</p>
+          </div>
+          <div class="explorer-panel" id="panel-dmr" role="tabpanel" aria-labelledby="tab-dmr" hidden>
+            <div class="browser"><div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/dmr/</span></div><img src="img/dashboards/dmr.jpg" width="1280" height="800" alt="Sanket DMR monitor, a receive-only directory of talkgroups." loading="lazy" decoding="async"></div>
+            <p><b>DMR monitor</b> Receive-only talkgroup directory.</p>
+          </div>
+          <div class="explorer-panel" id="panel-edge" role="tabpanel" aria-labelledby="tab-edge" hidden>
+            <div class="browser"><div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/pi/web/</span></div><img src="img/dashboards/edge.jpg" width="1280" height="800" alt="Sanket Edge Pi listener console showing the radio is offline until a device connects." loading="lazy" decoding="async"></div>
+            <p><b>Sanket Edge</b> The Pi listener. It reads offline until a device is connected.</p>
+          </div>
+          <div class="explorer-panel" id="panel-admin" role="tabpanel" aria-labelledby="tab-admin" hidden>
+            <div class="browser"><div class="browser-top"><i></i><i></i><i></i><span>sanketptt.com/vani-admin/</span></div><img src="img/dashboards/vaani-admin.jpg" width="1280" height="800" alt="Vaani Admin sign-in, asking for the control-room address and administrator PIN." loading="lazy" decoding="async"></div>
+            <p><b>Vaani Admin</b> Sign-in for the control room.</p>
+          </div>
+        </div>
       </div>
       <div class="quiet-cards">
         <article class="quiet-card">

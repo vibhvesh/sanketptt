@@ -1,5 +1,13 @@
-.uses { background: transparent; }
+.uses { background: transparent; padding: 0; }
 .use-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.use-card:nth-child(1) { background: #e8f3ff; }
+.use-card:nth-child(2) { background: #fff4e5; }
+.use-card:nth-child(3) { background: #e7f8f4; }
+.use-card:nth-child(4) { background: #f4e9ff; }
+html[data-theme="dark"] .use-card:nth-child(1) { background: #152844; }
+html[data-theme="dark"] .use-card:nth-child(2) { background: #2a2418; }
+html[data-theme="dark"] .use-card:nth-child(3) { background: #132e2c; }
+html[data-theme="dark"] .use-card:nth-child(4) { background: #241838; }
 .use-card { min-width: 0; padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--bg-2); }
 .use-card span { color: var(--green-ink); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
 .use-card h3 { margin: 8px 0; font-size: 18px; }

@@ -1,57 +1,92 @@
-.hero { padding: 48px 0 12px; }
-.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 36px; align-items: center; }
-.hero h1 { margin: 0; font-size: clamp(42px, 6vw, 68px); color: var(--ink); }
-.hero h1 span { color: var(--green-ink); }
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 64px 0 56px;
+  background: var(--hero);
+  color: #fff;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 38%;
+  background: linear-gradient(120deg, #0b3d91, #6a46c8 48%, #1493c8);
+  background-size: 180% 180%;
+  animation: heroShift 16s ease-in-out infinite;
+  pointer-events: none;
+}
+.hero .wrap { position: relative; z-index: 1; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 36px; align-items: center; }
+.hero .eyebrow { color: #9fd4ff; }
+.hero h1 { margin: 0; font-size: clamp(40px, 5vw, 64px); color: #fff; letter-spacing: -0.03em; }
+.hero .lede { color: #e7f1ff; max-width: 560px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.btn.hot { background: var(--orange); color: var(--on-orange) !important; }
+.btn.hot:hover { background: #ffb020; }
+.hero .btn.secondary { border-color: #fff; color: #fff !important; background: transparent; }
+.hero .btn.secondary:hover { background: #fff; color: var(--hero) !important; }
 .hero-note {
   display: flex;
   gap: 12px;
-  max-width: 640px;
+  max-width: 560px;
   margin-top: 22px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: var(--note);
-  border: 1px solid var(--line);
-  color: var(--on-note);
-  font-size: 13px;
+  background: #fff;
+  color: #0f1b2d;
+  font-size: 14px;
 }
-.hero-note b { display: block; color: var(--on-note); letter-spacing: 0.04em; font-size: 12px; }
+.hero-note b, .hero-note p { color: #0f1b2d; }
+.hero-note b { display: block; letter-spacing: 0.04em; font-size: 12px; }
 .hero-note p { margin: 4px 0 0; }
 .mark {
   width: 22px;
   height: 22px;
   flex: 0 0 22px;
   border-radius: 50%;
-  background: var(--link);
-  color: var(--bg-2);
+  background: var(--orange);
+  color: var(--on-orange);
   font-weight: 800;
   display: grid;
   place-items: center;
 }
-.hero-panel {
-  padding: 22px;
-  border-radius: var(--radius);
-  background: var(--bg-2);
-  color: var(--ink);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-8);
+.browser {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
 }
-.hero-panel span {
-  display: inline-flex;
-  padding: 4px 10px;
-  border-radius: var(--radius-btn);
-  background: var(--yellow);
-  color: var(--on-yellow);
+.browser-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #eef3f9;
+  color: #3e4c63;
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
 }
-.hero-panel ul { margin: 16px 0 0; padding: 0; list-style: none; }
-.hero-panel li { padding: 12px 0; border-top: 1px solid var(--line); }
-.hero-panel strong { display: block; font-size: 16px; }
-.hero-panel em { display: block; margin-top: 3px; color: var(--muted); font-style: normal; font-size: 13px; }
+.browser-top i { width: 8px; height: 8px; border-radius: 50%; background: #c5d0e0; }
+.browser-top span { margin-left: 8px; }
+.browser img, .hero-shot img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; display: block; }
+.stats { background: #fff; border-bottom: 1px solid var(--line); color: #0f1b2d; }
+html[data-theme="dark"] .stats { background: #111a2e; color: #f4f7fb; }
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 18px 0; }
+.stats-row p { margin: 0; }
+.stats-row b { display: block; font-size: 28px; letter-spacing: -0.03em; color: inherit; }
+.stats-row span { color: var(--muted); font-size: 14px; }
+@keyframes heroShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
 @media (max-width: 860px) {
-  .hero { padding-top: 32px; }
+  .hero { padding: 36px 0 28px; }
   .hero-grid { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 40px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .hero h1 { font-size: 36px; }
+  .hero::after { inset: auto 0 0 0; height: 42%; }
+}
+@media (max-width: 560px) {
+  .stats-row { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero::after { animation: none; }
 }

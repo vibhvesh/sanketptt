@@ -1,6 +1,6 @@
 (function () {
   var saved = localStorage.getItem("sanket-color");
-  document.documentElement.setAttribute("data-theme", saved === "sepia" || saved === "dark" ? saved : "light");
+  document.documentElement.setAttribute("data-theme", saved === "dark" ? "dark" : "light");
 
   function inSub() {
     return /\/(docs|transcribe|dmr|radio|aakashvani|pi|newlook|dev)\//.test(location.pathname);
@@ -14,38 +14,40 @@
       '<button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav">Menu</button>' +
       '<nav class="site-nav" id="siteNav" aria-label="Primary">' +
       drop("Products", [
-        ["Sanket PTT", root + "?ch=virtual"],
-        ["Control room", root + "#demo"],
-        ["आकाशवाणी", root + "aakashvani/"],
-        ["Transcribe", root + "transcribe/"],
-        ["Sanket SDR", root + "#sdr"],
-        ["Sanket Edge", root + "#edge"],
-        ["SanketVaani", root + "#vaani"]
+        ["Sanket PTT", root + "?ch=virtual", "Named channels and push to talk", "#0078d4"],
+        ["Control room", root + "#demo", "Live lines, users and text", "#ff9900"],
+        ["आकाशवाणी", root + "aakashvani/", "Speaker zones and announcements", "#0d9488"],
+        ["Transcribe", root + "transcribe/", "Timestamped channel text", "#7c3aed"],
+        ["Sanket SDR", root + "#sdr", "Authorised defence surveillance", "#12805c"],
+        ["Sanket Edge", root + "#edge", "On-site Raspberry Pi listener", "#db2777"],
+        ["SanketVaani", root + "#vaani", "A learning agent beside a leading model", "#5b3cc4"]
       ]) +
       drop("Solutions", [
-        ["Live demo", root + "#demo"],
-        ["Use cases", root + "#use-cases"],
-        ["Radio hub", root + "radio-hub.html"]
+        ["Live demo", root + "#demo", "Talk and transcription together", "#0078d4"],
+        ["Use cases", root + "#use-cases", "Field, events, control rooms", "#0d9488"],
+        ["Radio hub", root + "radio-hub.html", "Channels and station tools", "#ff9900"]
       ]) +
       drop("Resources", [
-        ["PTT guide", root + "docs/Sanket_PTT_User_Guide.html"],
-        ["Transcribe guide", root + "docs/Sanket_Transcribe_User_Guide.html"],
-        ["Edge guide", root + "docs/Sanket_Edge_User_Guide.html"],
-        ["Android app", root + "releases/download/v1.0-android/Sanket_PTT.apk"]
+        ["PTT guide", root + "docs/Sanket_PTT_User_Guide.html", "How to join and talk", "#0078d4"],
+        ["Transcribe guide", root + "docs/Sanket_Transcribe_User_Guide.html", "Start a live transcript", "#7c3aed"],
+        ["Edge guide", root + "docs/Sanket_Edge_User_Guide.html", "Set up the Pi listener", "#db2777"],
+        ["Android app", root + "releases/download/v1.0-android/Sanket_PTT.apk", "Download the PTT app", "#12805c"]
       ]) +
       '<a class="nav-link" href="' + root + '#pricing">Pricing</a>' +
       '<a class="nav-link" href="' + root + '#contact">Contact</a>' +
-      '<div class="read-mode" role="group" aria-label="Reading theme">' +
+      '<div class="read-mode" role="group" aria-label="Color theme">' +
       '<button type="button" data-mode="light">Light</button>' +
-      '<button type="button" data-mode="sepia">Sepia</button>' +
       '<button type="button" data-mode="dark">Dark</button></div>' +
       '</nav></div></header><div class="nav-backdrop" id="navBackdrop" hidden></div>';
   }
   function drop(label, items) {
     var links = items.map(function (item) {
-      return '<a role="menuitem" href="' + item[1] + '">' + item[0] + "</a>";
+      var dot = item[3] ? ' style="--dot:' + item[3] + '"' : "";
+      var blurb = item[2] ? "<small>" + item[2] + "</small>" : "";
+      return '<a role="menuitem" href="' + item[1] + '"' + dot + "><b>" + item[0] + "</b>" + blurb + "</a>";
     }).join("");
-    return '<div class="drop"><button class="drop-btn" type="button" aria-expanded="false" aria-haspopup="true">' + label + '</button><div class="drop-panel" role="menu">' + links + "</div></div>";
+    var wide = items.length > 3 ? " mega" : "";
+    return '<div class="drop"><button class="drop-btn" type="button" aria-expanded="false" aria-haspopup="true">' + label + '</button><div class="drop-panel' + wide + '" role="menu">' + links + "</div></div>";
   }
 
   if (document.body && document.body.dataset.chrome === "auto") {
@@ -115,7 +117,7 @@
   });
   if (nav) nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
 
-  var modeNames = { light: "Light", sepia: "Sepia", dark: "Dark" };
+  var modeNames = { light: "Light", dark: "Dark" };
   function paintTheme() {
     var mode = document.documentElement.getAttribute("data-theme") || "light";
     document.querySelectorAll(".read-mode button").forEach(function (btn) {

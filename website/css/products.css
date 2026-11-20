@@ -22,10 +22,19 @@
   min-width: 0;
   min-height: 100%;
   padding: 18px;
-  border-radius: 16px;
+  border-radius: var(--radius);
   border: 1px solid var(--line);
+  border-top: 4px solid var(--tone, var(--blue));
   background: var(--bg-2);
+  box-shadow: var(--shadow);
 }
+.card:hover { transform: translateY(-4px); }
+.tone-blue { --tone: #0078d4; }
+.tone-orange { --tone: #ff9900; }
+.tone-teal { --tone: #0d9488; }
+.tone-purple { --tone: #7c3aed; }
+.tone-green { --tone: #12805c; }
+.tone-pink { --tone: #db2777; }
 .card small { color: var(--green-ink); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
 .card h3 { margin: 8px 0; font-size: 20px; font-family: var(--font); }
 .card p { margin: 0; color: var(--muted); font-size: 14px; flex: 1; }

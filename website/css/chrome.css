@@ -43,15 +43,17 @@
 .nav-link:focus-visible, .drop-btn:focus-visible { background: var(--bg-muted); }
 .nav-link:hover::after, .nav-link:focus-visible::after, .drop-btn:hover::after, .drop-btn[aria-expanded="true"]::after { transform: scaleX(1); }
 .drop { position: relative; }
+.drop-panel.mega { width: min(560px, calc(100vw - 32px)); display: grid; grid-template-columns: 1fr 1fr; left: auto; right: 0; }
 .drop-panel {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
-  min-width: 230px;
+  min-width: 260px;
   padding: 8px;
   border-radius: 12px;
   border: 1px solid var(--line);
-  background: var(--bg-2);
+  background: #fff;
+  color: #0f1b2d;
   box-shadow: var(--shadow-8);
   display: block;
   opacity: 0;
@@ -60,14 +62,28 @@
   pointer-events: none;
   transition: opacity var(--fast) var(--ease), transform var(--fast) var(--ease), visibility var(--fast);
 }
+html[data-theme="dark"] .drop-panel { background: #111a2e; color: #f4f7fb; }
+html[data-theme="dark"] .drop-panel a { color: #f4f7fb; }
 .drop-panel a {
-  display: block;
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  gap: 4px 10px;
   padding: 10px 12px;
   border-radius: 10px;
   color: var(--ink);
   text-decoration: none;
   font-weight: 650;
 }
+.drop-panel a::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--dot, var(--blue));
+  grid-row: 1 / span 2;
+}
+.drop-panel a small { display: block; color: var(--muted); font-size: 12px; font-weight: 500; }
 .drop-panel a:hover, .drop-panel a:focus-visible { background: var(--bg-muted); color: var(--link); outline: none; }
 .drop:hover .drop-panel, .drop:focus-within .drop-panel, .drop.open .drop-panel {
   opacity: 1;
@@ -140,12 +156,12 @@
     right: auto;
   }
   body.nav-open .site-nav { transform: none; }
-  .drop-panel { position: static; display: none; min-width: 0; box-shadow: none; padding: 0 0 8px 8px; opacity: 1; visibility: visible; transform: none; backdrop-filter: none; background: transparent; }
-  .drop.open .drop-panel { display: block; }
+  .drop-panel, .drop-panel.mega { position: static; display: none; min-width: 0; width: auto; box-shadow: none; padding: 0 0 8px 8px; opacity: 1; visibility: visible; transform: none; background: transparent; grid-template-columns: 1fr; }
+  .drop.open .drop-panel, .drop.open .drop-panel.mega { display: grid; }
   .drop:hover .drop-panel { display: none; }
   .drop.open:hover .drop-panel { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .site-nav, .toast, .drop-panel, .read-mode button, .site-header, .card, .price-card { transition: none !important; animation: none !important; }
+  .reveal, .site-nav, .toast, .drop-panel, .read-mode button, .site-header, .card, .price-card, .hero::after { transition: none !important; animation: none !important; }
   .reveal { opacity: 1; transform: none; }
 }

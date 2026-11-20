@@ -1,13 +1,16 @@
 (function () {
-  var track = document.getElementById("galTrack");
-  if (!track) return;
-  function step(dir) {
-    var card = track.querySelector("figure");
-    var amount = card ? card.getBoundingClientRect().width + 16 : track.clientWidth * 0.8;
-    track.scrollBy({ left: dir * amount, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  var root = document.getElementById("explorer");
+  if (!root) return;
+  var tabs = root.querySelectorAll('[role="tab"]');
+  var panels = root.querySelectorAll('[role="tabpanel"]');
+  function select(id) {
+    tabs.forEach(function (tab) {
+      var on = tab.getAttribute("aria-controls") === id;
+      tab.setAttribute("aria-selected", String(on));
+    });
+    panels.forEach(function (panel) { panel.hidden = panel.id !== id; });
   }
-  var prev = document.getElementById("galPrev");
-  var next = document.getElementById("galNext");
-  if (prev) prev.addEventListener("click", function () { step(-1); });
-  if (next) next.addEventListener("click", function () { step(1); });
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () { select(tab.getAttribute("aria-controls")); });
+  });
 })();
