@@ -22,8 +22,8 @@
   height: 22px;
   flex: 0 0 22px;
   border-radius: 50%;
-  background: #d28a17;
-  color: #fff;
+  background: var(--orange);
+  color: var(--on-accent);
   font-weight: 800;
   display: grid;
   place-items: center;
@@ -31,15 +31,15 @@
 .hero-panel {
   padding: 22px;
   border-radius: 22px;
-  background: linear-gradient(160deg, #10283f, #07192d);
-  color: #e7f3fb;
-  box-shadow: 0 24px 50px rgba(7, 25, 45, 0.22);
+  background: var(--panel);
+  color: var(--panel-ink);
+  box-shadow: var(--shadow);
 }
-.hero-panel span { color: #8ec9ee; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; }
+.hero-panel span { color: var(--panel-muted); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; }
 .hero-panel ul { margin: 16px 0 0; padding: 0; list-style: none; }
-.hero-panel li { padding: 12px 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.hero-panel li { padding: 12px 0; border-top: 1px solid color-mix(in srgb, var(--panel-ink) 22%, transparent); }
 .hero-panel strong { display: block; font-size: 16px; }
-.hero-panel em { display: block; margin-top: 3px; color: #b7cde0; font-style: normal; font-size: 13px; }
+.hero-panel em { display: block; margin-top: 3px; color: var(--panel-muted); font-style: normal; font-size: 13px; }
 @media (max-width: 860px) {
   .hero { padding-top: 32px; }
   .hero-grid { grid-template-columns: 1fr; }

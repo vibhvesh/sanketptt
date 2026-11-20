@@ -4,18 +4,20 @@ label { font-size: 13px; font-weight: 750; }
 input, textarea {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid #d3dee8;
+  border: 1px solid var(--line);
   border-radius: 10px;
-  background: var(--bg);
+  background: var(--bg-2);
   color: var(--ink);
 }
+input:hover, textarea:hover { border-color: var(--ink); }
 textarea { min-height: 120px; resize: vertical; }
 .note { color: var(--muted); font-size: 13px; }
-.contact-card h3 { margin: 0 0 4px; font-size: 28px; color: var(--navy); }
+.contact-card h3 { margin: 0 0 4px; font-size: 28px; color: var(--ink); }
 .contact-card .role { margin: 0 0 16px; color: var(--muted); }
 .contact-line { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; margin: 0 0 10px; font-size: 15px; }
-.contact-line span { color: #7b8794; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
-.contact-card a { color: #0f4c81; font-weight: 750; overflow-wrap: anywhere; }
+.contact-line span { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.contact-card a { color: var(--cyan); font-weight: 750; overflow-wrap: anywhere; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.contact-card a:hover { text-decoration: underline; }
 @media (max-width: 800px) {
   .contact-grid, .contact-line { grid-template-columns: 1fr; }
   .contact-line span { padding-top: 0; }

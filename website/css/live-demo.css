@@ -24,7 +24,7 @@
   padding: 0 12px;
 }
 .play, .stop { background: var(--orange); color: var(--on-accent); border-color: var(--orange); font-weight: 800; cursor: pointer; }
-.play:disabled, .stop:disabled { opacity: 0.45; cursor: default; }
+.play:disabled, .stop:disabled { background: var(--bg); color: var(--muted); border-color: var(--line); cursor: default; }
 #tafDirectoryStatus, #tafLastChecked { color: var(--muted); font-size: 12px; }
 .stations { display: flex; gap: 8px; overflow-x: auto; margin: 12px 0 8px; padding-bottom: 4px; }
 .stations button {
@@ -43,9 +43,9 @@
 .radio-foot { justify-content: space-between; color: var(--muted); font-size: 12px; }
 .live-retry {
   margin-left: 8px;
-  border: 1px solid #8fb4d4;
-  background: #fff;
-  color: #0f4c81;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--ink);
   border-radius: 8px;
   padding: 4px 10px;
   font-weight: 800;
@@ -78,13 +78,13 @@
 .try a { color: #fff; font-weight: 800; text-decoration: none; }
 .try span, .guide span { display: block; color: #b7cde0; font-weight: 500; }
 .guide { padding: 8px 12px 0; font-size: 13px; }
-.people { margin-top: 12px; padding: 4px 4px 12px; background: var(--navy); color: #e7f3fb; }
+.people { margin-top: 12px; padding: 4px 4px 12px; background: var(--panel); color: var(--panel-ink); }
 .presence-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 10px; }
-.presence-columns h5 { margin: 0 0 8px; color: #8eb0c7; font-size: 11px; letter-spacing: 0.08em; }
+.presence-columns h5 { margin: 0 0 8px; color: var(--panel-muted); font-size: 11px; letter-spacing: 0.08em; }
 .presence-list { max-height: 220px; overflow: auto; }
-.presence-user, .presence-event { margin: 0 0 6px; padding: 8px 10px; border-radius: 8px; background: #123049; font-size: 13px; }
-.presence-user small, .presence-event small { display: block; color: #8eb0c7; }
-.empty-live { color: #9eb6c9; font-size: 13px; }
+.presence-user, .presence-event { margin: 0 0 6px; padding: 8px 10px; border-radius: 8px; background: color-mix(in srgb, var(--panel-ink) 8%, var(--panel)); font-size: 13px; }
+.presence-user small, .presence-event small { display: block; color: var(--panel-muted); }
+.empty-live { color: var(--panel-muted); font-size: 13px; }
 @media (max-width: 900px) {
   .signals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stage {

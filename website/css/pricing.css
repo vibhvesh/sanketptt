@@ -8,14 +8,13 @@
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background: var(--bg-2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow);
 }
 .price-card.featured {
   position: relative;
   border-color: transparent;
-  background:
-    linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
-    linear-gradient(160deg, var(--orange), var(--cyan)) border-box;
+  background: var(--bg-2);
+  border: 2px solid var(--orange);
   box-shadow: var(--shadow);
 }
 .price-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }

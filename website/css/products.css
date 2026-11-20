@@ -14,7 +14,7 @@
   font-family: var(--font);
 }
 .product-index a { color: var(--ink); background: var(--bg-2); }
-.product-index a:hover { border-color: var(--orange); color: var(--orange); }
+.product-index a:hover, .product-index a:focus-visible { border-color: var(--orange); color: var(--orange-deep); }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .card {
   display: flex;
@@ -30,5 +30,6 @@
 .card h3 { margin: 8px 0; font-size: 20px; font-family: var(--font); }
 .card p { margin: 0; color: var(--muted); font-size: 14px; flex: 1; }
 .card a { margin-top: 14px; color: var(--orange-deep); font-weight: 800; font-size: 14px; text-decoration: none; }
+.card a:hover, .card a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 1000px) { .cards { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }

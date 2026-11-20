@@ -17,11 +17,8 @@
 </script>
 <script>
 (function(){
-  var s=localStorage.getItem("sanket-theme");
-  document.documentElement.setAttribute("data-theme",s||"dark");
-  var code=new URLSearchParams(location.search).get("theme");
-  var map={a:"daylight",b:"nightwatch",c:"northline"};
-  if(map[code]) document.documentElement.setAttribute("data-palette",map[code]);
+  var s=localStorage.getItem("sanket-color");
+  document.documentElement.setAttribute("data-theme", s==="dark" ? "dark" : "light");
 })();
 </script>
 <link rel="stylesheet" href="css/base.css">
