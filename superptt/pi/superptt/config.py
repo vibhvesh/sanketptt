@@ -40,7 +40,9 @@ DEFAULTS = {
     "vosk_model_path": "",
     "output": {"mode": "all", "channels": [], "volume": 1.0, "duck_db": -12, "device": None},   # mode "off" = no local speaker (Android: play in the browser)
     "http_port": 8090,
-    "admin_pin": "",               # empty = must be set on first run via console
+    "admin_pin": "",               # existing first-run PIN login (legacy / recovery)
+    "admin_username": "",          # optional Vaani Admin username, set after PIN login
+    "admin_password": "",          # PBKDF2 hash only; never store plaintext
     "out_rate": 48000,
     "directory_token": "",          # read-only token for SuperPTT clients: /api/directory?t=...
     "session_hours": 12,
@@ -72,5 +74,5 @@ class Config:
     def __getitem__(self, k): return self.d[k]
     def get(self, k, d=None): return self.d.get(k, d)
     def public(self):
-        x = copy.deepcopy(self.d); x.pop("admin_pin", None); x.pop("worker_token", None); x.pop("directory_token", None); x["broker_pass"] = "***" if x.get("broker_pass") else ""
+        x = copy.deepcopy(self.d); x.pop("admin_pin", None); x.pop("admin_username", None); x.pop("admin_password", None); x.pop("worker_token", None); x.pop("directory_token", None); x["broker_pass"] = "***" if x.get("broker_pass") else ""
         x["cloud"]["api_key"] = "***" if x["cloud"].get("api_key") else ""; from .cloud import api_key; x["cloud"]["key_set"] = bool(api_key(self.d["cloud"])); x["cloud"]["key_source"] = "config" if self.d["cloud"].get("api_key") else ("env" if x["cloud"]["key_set"] else ""); x["pin_set"] = bool(self.d["admin_pin"]); return x

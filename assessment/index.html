@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12345a">
+<title>Sanket · Animal Speaking Assessment</title>
+<style>
+:root{--navy:#12345a;--blue:#21649a;--ink:#18324b;--muted:#65788d;--line:#d9e2ec;--bg:#f3f6fa;--green:#138808;--orange:#f28c28}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{height:58px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.brand{font-weight:850;letter-spacing:1.2px}.brand span{color:#ffb15c}.tag{font-size:11px;opacity:.8;letter-spacing:1px}
+main{max-width:980px;margin:0 auto;padding:18px;display:grid;gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 4px 18px #102a4308}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted)}.small{font-size:12px}
+.progress{height:7px;background:#e8eef4;border-radius:10px;overflow:hidden;margin:12px 0}.progress>div{height:100%;width:0;background:var(--green);transition:width .2s}
+.prompt{text-align:center;padding:14px 8px 18px}.prompt .number{font-size:12px;color:var(--muted);letter-spacing:1.5px;font-weight:750}
+.prompt h1{font-size:clamp(30px,7vw,52px);margin:8px 0;color:var(--navy);line-height:1.1}
+.prompt p{margin:0;color:var(--muted)}
+.animalVisual{width:min(100%,300px);height:170px;margin:12px auto 8px;border-radius:14px;overflow:hidden;background:#eaf3ed;position:relative;display:none;align-items:center;justify-content:center}
+.animalVisual img{width:100%;height:100%;object-fit:contain;position:absolute;inset:0;background:#f4f8f4}
+.animalVisual .emoji{font-size:100px;line-height:1}
+.hindiName{font-size:clamp(22px,5vw,32px);font-weight:750;color:#17613a;margin:3px 0 9px}
+.listenButtons{display:none;justify-content:center;gap:9px;flex-wrap:wrap;margin:12px auto}
+.listenButtons button{background:#e9f4eb;color:#12512c;border:1px solid #c6e4cf}
+.listenNote{font-size:12px;color:var(--muted);margin:0 0 8px}
+
+.status{padding:10px 12px;border-radius:9px;background:#edf3f8;color:var(--ink);font-size:13px}
+.status.good{background:#eaf5e9;color:#155e18}.status.warn{background:#fff4e5;color:#86500b}
+button{border:0;border-radius:9px;padding:12px 16px;font-weight:750;font-size:14px;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--navy);color:#fff}.secondary{background:#eaf0f5;color:var(--navy)}.success{background:var(--green);color:white}
+.actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.radioWrap{height:330px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#07192d}
+.radioWrap iframe{width:100%;height:100%;border:0;display:block}
+.resultGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.metric{background:#f4f7fa;border-radius:10px;padding:12px}.metric b{display:block;font-size:21px;color:var(--navy)}.metric span{font-size:11px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px 7px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.superbossPanel{margin:14px 0;padding:14px;border:1px solid #cbd9e8;border-radius:12px;background:#f7faff}.superbossPanel .hint{font-size:12px;color:var(--muted)}dialog{border:0;border-radius:16px;width:min(92vw,440px);padding:22px;color:var(--ink);box-shadow:0 18px 60px #102a4350}dialog::backdrop{background:#07192dcc}dialog input{width:100%;padding:13px;border:1px solid #cbd9e8;border-radius:9px;font:inherit;margin:10px 0}.dialogActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.pill{display:inline-block;border-radius:99px;padding:3px 8px;font-size:11px;font-weight:750}.ok{background:#e6f4e5;color:#17651b}.bad{background:#fff0ed;color:#a52b1d}
+#transcriber{position:absolute;left:-10000px;top:0;width:1px;height:1px;border:0}
+footer{font-size:11px;color:var(--muted);text-align:center;padding:4px 10px 18px}
+@media(max-width:620px){header{height:48px;padding:0 10px}.tag{font-size:8px}main{padding:7px;gap:7px}.card{padding:10px}.prompt{padding:5px 4px 8px}.animalVisual{height:105px;width:145px;margin:5px auto}.animalVisual .emoji{font-size:64px}.prompt h1{font-size:28px;margin:4px 0}.hindiName{font-size:21px;margin:0 0 4px}.listenButtons{margin:5px auto}.listenButtons button{padding:8px 10px}.radioWrap{height:255px}.resultGrid{grid-template-columns:1fr 1fr}.resultGrid{grid-template-columns:1fr 1fr}.resultGrid .metric:last-child{grid-column:1/-1}table{font-size:12px}th,td{padding:8px 4px}}
+</style>
+</head>
+<body>
+<header><div class="brand">SANKET <span>ASSESSMENT</span></div><div class="tag">VOICE · CLARITY · RESPONSE</div></header>
+<main>
+<section class="card">
+ <div class="topline"><div><b>Animal Name Speaking Test</b><div class="muted small">10 English-name PTT rounds</div></div><div class="small muted" id="testState">Not started</div></div><div class="actions" style="margin-top:7px"><button class="secondary" id="openKeyDialogTop">ElevenLabs key setup</button><span class="muted small" id="keyState">Key not configured</span></div>
+ <div class="progress"><div id="progressBar"></div></div>
+ <div class="prompt">
+  <div class="number" id="roundNo">READY FOR ROUND 1</div>
+  <div class="animalVisual" id="animalVisual"><span class="emoji" id="animalEmoji" aria-hidden="true">🐘</span><img id="animalPhoto" alt="" loading="lazy" hidden></div>
+  <h1 id="target">Ready?</h1>
+  <div class="hindiName" id="hindiName" lang="hi"></div>
+  <div class="listenButtons" id="listenButtons"><button type="button" id="hearEnglish">🔊 Hear English</button><button type="button" id="hearHindi">🔊 हिंदी में सुनें</button></div>
+  <div class="listenNote" id="listenNote"></div>
+  <p id="instruction">Press Start. Read the displayed animal name aloud using the radio PTT.</p>
+ </div>
+ <div class="status" id="status" role="status">Start the test, then enter your radio call sign in the PTT panel below.</div>
+ <div class="actions" style="margin-top:9px">
+  <button class="primary" id="startBtn">Start 10-round test</button>
+  <button class="secondary" id="nextBtn" disabled>Next animal</button>
+  <button class="secondary" id="resetBtn">Reset</button>
+ </div>
+ <div class="topline" style="margin-top:12px"><b>Live Sanket PTT</b><span class="muted small" id="radioState">Connect your radio</span></div>
+ <p class="muted small">Join with your call sign. Hold the green PTT button and say the English animal name.</p>
+ <div class="radioWrap"><iframe id="radio" title="Sanket PTT radio" allow="microphone; autoplay"></iframe></div>
+</section>
+
+<section class="card" id="report" hidden>
+ <div class="topline"><b>Assessment report</b><span class="pill ok" id="finalGrade">Complete</span></div>
+ <div class="resultGrid">
+  <div class="metric"><b id="score">—</b><span>Recognition score / 100</span></div>
+  <div class="metric"><b id="correct">—</b><span>Correct names / 10</span></div>
+  <div class="metric"><b id="elapsed">—</b><span>Total elapsed time</span></div>
+ </div>
+ <p class="muted small" id="scoreNote">Recognition-based result from Sanket Transcribe Whisper. Superboss is a separate second opinion.</p><div class="superbossPanel"><b>Superboss Assessment · ElevenLabs second opinion</b><p class="hint">Run an independent check of the original PTT recordings, then compare its transcript with Whisper.</p><div class="actions"><button class="secondary" id="openKeyDialog">Set ElevenLabs key</button><button class="primary" id="superbossBtn" disabled>Send all 10 audio clips to ElevenLabs</button></div><div class="hint" id="superbossStatus">Your browser key is required before Superboss can run.</div><div style="overflow-x:auto;margin-top:10px"><table><thead><tr><th>#</th><th>ElevenLabs heard</th><th>Superboss result</th><th>Compared with Whisper</th></tr></thead><tbody id="superbossRows"></tbody></table></div></div>
+ <div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Prompt</th><th>Heard</th><th>Result</th><th>Time</th><th>Audio</th></tr></thead><tbody id="rows"></tbody></table></div>
+ <div class="actions" style="margin-top:12px"><button class="primary" id="csvBtn">Download report CSV</button><button class="secondary" id="againBtn">New test</button></div>
+</section>
+<dialog id="keyDialog"><h3 style="margin:0 0 6px">Superboss · ElevenLabs setup</h3><p class="muted small">Enter your ElevenLabs API key. It will be saved in this browser only and will not be added to GitHub.</p><input id="elevenKey" type="password" autocomplete="off" placeholder="Paste ElevenLabs API key (xi-...)"><div class="dialogActions"><button class="primary" id="saveKeyBtn">Save key</button><button class="secondary" id="closeKeyDialog" type="button">Cancel</button></div><p class="hint small">The key is accessible to scripts running on this website. Use a dedicated key and revoke it if exposed.</p></dialog></main>
+<footer>Whisper runs through the Sanket Transcribe listener. Superboss independently sends the captured original audio to ElevenLabs using the key saved in this browser.</footer>
+<iframe id="transcriber" title="Sanket transcription listener" allow="autoplay"></iframe>
+<script>
+(function(){
+const animals=[
+ {name:"Elephant",hi:"हाथी",emoji:"🐘",wiki:"Elephant",en:["elephant"],hiAliases:["हाथी","hathi","haathi"]},
+ {name:"Kangaroo",hi:"कंगारू",emoji:"🦘",wiki:"Kangaroo",en:["kangaroo"],hiAliases:["कंगारू","kangaroo"]},
+ {name:"Rhinoceros",hi:"गैंडा",emoji:"🦏",wiki:"Rhinoceros",en:["rhinoceros","rhino"],hiAliases:["गैंडा","gainda"]},
+ {name:"Crocodile",hi:"मगरमच्छ",emoji:"🐊",wiki:"Crocodile",en:["crocodile","croc"],hiAliases:["मगरमच्छ","magarmach"]},
+ {name:"Butterfly",hi:"तितली",emoji:"🦋",wiki:"Butterfly",en:["butterfly"],hiAliases:["तितली","titli"]},
+ {name:"Squirrel",hi:"गिलहरी",emoji:"🐿️",wiki:"Squirrel",en:["squirrel"],hiAliases:["गिलहरी","gilahari"]},
+ {name:"Hippopotamus",hi:"दरियाई घोड़ा",emoji:"🦛",wiki:"Hippopotamus",en:["hippopotamus","hippo"],hiAliases:["दरियाई घोड़ा","dariyaai ghoda"]},
+ {name:"Peacock",hi:"मोर",emoji:"🦚",wiki:"Indian_peafowl",en:["peacock"],hiAliases:["मोर","mor"]},
+ {name:"Giraffe",hi:"जिराफ़",emoji:"🦒",wiki:"Giraffe",en:["giraffe"],hiAliases:["जिराफ़","जिराफ","jiraf"]},
+ {name:"Octopus",hi:"ऑक्टोपस",emoji:"🐙",wiki:"Octopus",en:["octopus"],hiAliases:["ऑक्टोपस","octopus"]}
+];
+const $=id=>document.getElementById(id);
+const channel="animal-assess-"+Math.random().toString(36).slice(2,9);
+let order=[],index=0,startedAt=0,roundStarted=0,results=[],waiting=false,finished=false,lastClipId="";
+const radio=$("radio"),transcriber=$("transcriber");
+radio.src="../?ch="+encodeURIComponent(channel);
+radio.addEventListener("load",()=>{transcriber.src="../transcribe/?ch="+encodeURIComponent(channel)+"&compact=1&autostart=1";$("radioState").textContent="Radio loaded · enter your call sign and join";},{once:true});
+function shuffle(a){const x=a.slice();for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
+function norm(s){return String(s||"").toLowerCase().normalize("NFKD").replace(/[^a-z\s]/g," ").replace(/\s+/g," ").trim();}
+function similarity(a,b){if(!a||!b)return 0;const x=a,y=b;const d=Array.from({length:y.length+1},(_,i)=>[i]);for(let j=0;j<=x.length;j++)d[0][j]=j;for(let i=1;i<=y.length;i++)for(let j=1;j<=x.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(y[i-1]===x[j-1]?0:1));return Math.max(0,1-d[y.length][x.length]/Math.max(x.length,y.length));}
+function hasAlias(text,aliases){const t=norm(text),raw=String(text||"").toLowerCase();return aliases.some(a=>/[\u0900-\u097f]/.test(a)?raw.includes(a):t.split(" ").includes(a)||t.includes(a));}
+function evaluateBilingual(text,item){return {english:hasAlias(text,item.en),hindi:hasAlias(text,item.hiAliases)};}
+function matches(text,item){return evaluateBilingual(text,item).english;}
+const photos=new Map();
+async function showPhoto(item){
+ const img=$("animalPhoto");img.hidden=true;img.removeAttribute("src");img.alt="Photograph of "+item.name;
+ if(photos.has(item.wiki)){const url=photos.get(item.wiki);if(url){img.src=url;img.hidden=false;}return;}
+ try{const r=await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(item.wiki));if(!r.ok)throw Error("photo unavailable");const data=await r.json();const url=data.thumbnail&&data.thumbnail.source||"";photos.set(item.wiki,url);if(order[index]===item&&url){img.src=url;img.hidden=false;}}catch(e){photos.set(item.wiki,"");}
+}
+function speak(lang){
+ if(!startedAt||finished||!order[index])return;
+ if(!("speechSynthesis" in window)){ $("listenNote").textContent="Speech playback is unavailable in this browser.";return;}
+ const item=order[index],hi=lang==="hi-IN",u=new SpeechSynthesisUtterance(hi?item.hi:item.name);
+ u.lang=lang;u.rate=.82;const voices=speechSynthesis.getVoices();const voice=voices.find(v=>v.lang.toLowerCase()===lang.toLowerCase())||voices.find(v=>v.lang.toLowerCase().startsWith(hi?"hi":"en"));if(voice)u.voice=voice;
+ if(hi&&!voice)$("listenNote").textContent="Hindi voice may require a Hindi text-to-speech voice installed on your device.";else $("listenNote").textContent="";
+ speechSynthesis.cancel();speechSynthesis.speak(u);
+}
+$("hearEnglish").addEventListener("click",()=>speak("en-IN"));
+$("hearHindi").addEventListener("click",()=>speak("hi-IN"));
+function setStatus(text,kind){$("status").textContent=text;$("status").className="status"+(kind?" "+kind:"");}
+function showRound(){const item=order[index];waiting=false;lastClipId="";roundStarted=Date.now();$("roundNo").textContent="ROUND "+(index+1)+" OF 10";$("target").textContent=item.name;$("hindiName").textContent="";$("hearHindi").style.display="none";$("animalEmoji").textContent=item.emoji;$("animalVisual").style.display="flex";$("listenButtons").style.display="flex";$("listenNote").textContent="";showPhoto(item);$("instruction").textContent="Speak the English animal name clearly in one PTT transmission. Release when finished."; $("progressBar").style.width=(index/10*100)+"%";$("testState").textContent="In progress";$("nextBtn").disabled=false;$("nextBtn").textContent="Skip / Next animal";setStatus("Waiting for your PTT transmission…");}
+function start(){order=shuffle(animals);index=0;results=[];startedAt=Date.now();finished=false;$("report").hidden=true;$("startBtn").disabled=true;$("startBtn").textContent="Test running";showRound();}
+function handleTranscript(m){
+ if(finished||!startedAt||waiting||index>=order.length||!m||!m.text)return;
+ if(m.id&&m.id===lastClipId)return;
+ const text=String(m.text).trim();if(!text)return;
+ lastClipId=m.id||("clip-"+Date.now());waiting=true;
+ const item=order[index],languageChecks=evaluateBilingual(text,item),correct=languageChecks.english,heard=norm(text);
+ const clarityAliases=item.en.concat(item.hiAliases.filter(a=>/^[a-z ]+$/i.test(a)));
+ const best=Math.max(0,...clarityAliases.map(a=>similarity(heard,a)));
+ const clarity=Math.round(best*100);
+ const duration=Number(m.duration)||0;
+ const clipEnd=Number(m.timestamp)||Date.now();
+ const responseMs=Math.max(0,clipEnd+duration*1000-roundStarted);
+ const row={round:index+1,target:item.name,hindi:item.hi,heard:text,englishHeard:languageChecks.english,hindiHeard:languageChecks.hindi,correct,clarity,duration,responseMs,audio:m.audio||null,superbossText:"",superbossCorrect:null,whisperAgreement:null};
+ results.push(row);
+ $("progressBar").style.width=((index+1)/10*100)+"%";
+ $("testState").textContent="Round "+(index+1)+" evaluated";
+ $("instruction").textContent=correct?"Both English and Hindi names recognized.":"Not both names recognized — English: "+(languageChecks.english?"yes":"no")+", Hindi: "+(languageChecks.hindi?"yes":"no")+".";
+ setStatus((correct?"Correct: ":"Not matched: ")+text+" · transmission "+duration.toFixed(1)+" s",correct?"good":"warn");
+ $("nextBtn").disabled=false;
+ $("nextBtn").textContent=index===9?"View final report":"Next animal";
+ if(index===9)$("nextBtn").onclick=finish;
+}
+window.addEventListener("message",e=>{
+ if(e.source!==transcriber.contentWindow||!e.data||e.data.type!=="sanket-clip")return;
+ handleTranscript(e.data);
+});
+function next(){if(index<9){if(!waiting){results.push({round:index+1,target:order[index].name,hindi:"",heard:"Skipped",englishHeard:false,hindiHeard:false,correct:false,clarity:0,duration:0,responseMs:0,audio:null,superbossText:"",superbossCorrect:null,whisperAgreement:null});}index++;showRound();}else if(waiting)finish();else setStatus("Please record this animal before viewing the report.","warn");}
+function finish(){if("speechSynthesis" in window)speechSynthesis.cancel();if(finished||results.length!==10){setStatus("Complete or skip all 10 rounds before viewing the report.","warn");return;}finished=true;$("progressBar").style.width="100%";$("testState").textContent="Completed";$("target").textContent="Assessment complete";$("animalVisual").style.display="none";$("listenButtons").style.display="none";$("hindiName").textContent="";$("roundNo").textContent="10 OF 10 ROUNDS";$("instruction").textContent="Your results are ready.";setStatus("All ten transmissions have been evaluated.","good");$("report").hidden=false;
+ const correct=results.filter(r=>r.correct).length,score=Math.round(correct/10*100),elapsed=Math.round((Date.now()-startedAt)/1000);
+ $("score").textContent=score;$("correct").textContent=correct+"/10";$("elapsed").textContent=elapsed+" s";$("finalGrade").textContent=score>=80?"Strong":score>=60?"Developing":"Needs practice";$("finalGrade").className="pill "+(score>=70?"ok":"bad");
+ $("rows").innerHTML=results.map(r=>"<tr><td>"+r.round+"</td><td>"+r.target+"</td><td>"+escapeHtml(r.heard)+"</td><td><span class='pill "+(r.correct?"ok":"bad")+"'>"+(r.correct?"Correct":"Not matched")+"</span></td><td>"+(r.responseMs/1000).toFixed(1)+" s</td><td>"+r.duration.toFixed(1)+" s</td></tr>").join("");
+ $("report").scrollIntoView({behavior:"smooth",block:"start"});loadElevenKey();if(!localStorage.getItem("sanket_elevenlabs_key"))$("keyDialog").showModal();$("startBtn").disabled=false;$("startBtn").textContent="Start another test";
+}
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function csv(){const head=["Round","Prompt","Whisper transcript","Whisper correct","ElevenLabs transcript","ElevenLabs correct","Whisper and ElevenLabs agree","Response time seconds","Transmission duration seconds"];const lines=[head,...results.map(r=>[r.round,r.target,r.heard,r.correct?"Yes":"No",r.superbossText,r.superbossCorrect===null?"":r.superbossCorrect?"Yes":"No",r.whisperAgreement===null?"":r.whisperAgreement?"Yes":"No",(r.responseMs/1000).toFixed(2),r.duration.toFixed(2)])];const data=lines.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");const a=document.createElement("a");const u=URL.createObjectURL(new Blob([data],{type:"text/csv"}));a.href=u;a.download="sanket-animal-assessment.csv";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+$("startBtn").addEventListener("click",start);$("nextBtn").addEventListener("click",next);$("resetBtn").addEventListener("click",()=>{startedAt=0;finished=false;waiting=false;results=[];index=0;$("target").textContent="Ready?";$("animalVisual").style.display="none";$("listenButtons").style.display="none";$("hindiName").textContent="";if("speechSynthesis" in window)speechSynthesis.cancel();$("roundNo").textContent="READY FOR ROUND 1";$("instruction").textContent="Press Start. Read the displayed animal name aloud using the radio PTT.";$("progressBar").style.width="0";$("startBtn").disabled=false;$("startBtn").textContent="Start 10-round test";$("testState").textContent="Not started";$("nextBtn").disabled=true;$("report").hidden=true;setStatus("Test reset. The radio connection can remain open.");});
+function loadElevenKey(){const k=localStorage.getItem("sanket_elevenlabs_key")||"";$("elevenKey").value=k;$("superbossBtn").disabled=!(k&&finished&&results.length===10);$("openKeyDialog").textContent=k?"Change ElevenLabs key":"Add ElevenLabs key";$("openKeyDialogTop").textContent=k?"Change ElevenLabs key":"Add ElevenLabs key";$("keyState").textContent=k?"Key saved in this browser":"Key not configured";}
+async function runSuperboss(){const key=localStorage.getItem("sanket_elevenlabs_key")||$("elevenKey").value.trim();if(!key){$("superbossStatus").textContent="Save your ElevenLabs key first.";return;}if(results.length!==10||results.some(r=>!r.audio)){ $("superbossStatus").textContent="Original audio is missing for one or more rounds. Skipped rounds cannot be sent. Please record all 10 rounds for Superboss.";return;}const btn=$("superbossBtn");btn.disabled=true;let done=0;$("superbossStatus").textContent="Sending original audio clips to ElevenLabs…";
+for(const r of results){try{const fd=new FormData();fd.append("file",r.audio,"round-"+r.round+".wav");fd.append("model_id","scribe_v2");const resp=await fetch("https://api.elevenlabs.io/v1/speech-to-text",{method:"POST",headers:{"xi-api-key":key},body:fd});if(!resp.ok)throw new Error("ElevenLabs HTTP "+resp.status+" — "+(await resp.text()).slice(0,140));const data=await resp.json();r.superbossText=(data.text||"").trim();const item=animals.find(a=>a.name===r.target);const checks=evaluateBilingual(r.superbossText,item);r.superbossCorrect=checks.english;r.whisperAgreement=norm(r.superbossText)===norm(r.heard);}catch(e){r.superbossText="ERROR: "+e.message;r.superbossCorrect=false;r.whisperAgreement=false;}done++;$("superbossRows").innerHTML=results.map(x=>"<tr><td>"+x.round+"</td><td>"+escapeHtml(x.superbossText||"—")+"</td><td>"+(x.superbossCorrect===null?"Pending":x.superbossCorrect?"<span class='pill ok'>Correct</span>":"<span class='pill bad'>Not matched</span>")+"</td><td>"+(x.whisperAgreement===null?"Pending":x.whisperAgreement?"Agree":"Different")+"</td></tr>").join("");$("superbossStatus").textContent="ElevenLabs processed "+done+"/10 clips…";}
+const n=results.filter(r=>r.superbossCorrect).length;$("superbossStatus").textContent="Superboss complete: "+n+"/10 correct. Whisper agreement: "+results.filter(r=>r.whisperAgreement).length+"/10.";btn.disabled=false;}
+$("openKeyDialog").addEventListener("click",()=>{loadElevenKey();$("keyDialog").showModal();});$("openKeyDialogTop").addEventListener("click",()=>{loadElevenKey();$("keyDialog").showModal();});$("closeKeyDialog").addEventListener("click",()=>$("keyDialog").close());$("saveKeyBtn").addEventListener("click",()=>{const k=$("elevenKey").value.trim();if(!k){$("superbossStatus").textContent="Paste your ElevenLabs API key first.";return;}localStorage.setItem("sanket_elevenlabs_key",k);$("superbossStatus").textContent="ElevenLabs key saved in this browser.";loadElevenKey();$("keyDialog").close();});
+$("superbossBtn").addEventListener("click",runSuperboss);
+$("csvBtn").addEventListener("click",csv);loadElevenKey();if(!localStorage.getItem("sanket_elevenlabs_key"))setTimeout(()=>$("keyDialog").showModal(),500);$("againBtn").addEventListener("click",()=>{ $("resetBtn").click();window.scrollTo({top:0,behavior:"smooth"});});
+})();
+</script>
+</body></html>
