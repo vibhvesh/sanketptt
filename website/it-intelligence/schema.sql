@@ -27,3 +27,19 @@ create policy "Users update own assets" on public.assets for update to authentic
 create policy "Users delete own assets" on public.assets for delete to authenticated using (owner_id = auth.uid());
 create index if not exists assets_owner_id_idx on public.assets(owner_id);
 create index if not exists assets_status_idx on public.assets(status);
+
+-- PUBLIC ANONYMOUS TEST MODE (intentionally open)
+-- Grants the Supabase anon role full CRUD access to the shared test inventory.
+-- Anyone who can reach the public dashboard can read, insert, edit and delete rows.
+drop policy if exists "Public test read assets" on public.assets;
+drop policy if exists "Public test insert assets" on public.assets;
+drop policy if exists "Public test update assets" on public.assets;
+drop policy if exists "Public test delete assets" on public.assets;
+create policy "Public test read assets" on public.assets
+for select to anon using (true);
+create policy "Public test insert assets" on public.assets
+for insert to anon with check (true);
+create policy "Public test update assets" on public.assets
+for update to anon using (true) with check (true);
+create policy "Public test delete assets" on public.assets
+for delete to anon using (true);
