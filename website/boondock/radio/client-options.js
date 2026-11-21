@@ -1,0 +1,1 @@
+// The compact handheld interface is implemented in simple-client.js.\n

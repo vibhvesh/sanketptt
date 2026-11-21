@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07192d">
+<title>Sanket DMR Gateway · Phase 1</title>
+<style>
+:root{color-scheme:dark;--bg:#07192d;--panel:#102a43;--line:#29465e;--ink:#edf5fb;--muted:#9bb1c3;--orange:#f47721;--green:#42d99a}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#07192d,#102c45);color:var(--ink);font:14px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+main{width:min(1100px,calc(100% - 28px));margin:24px auto 50px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.brand{font-weight:900;letter-spacing:1px;font-size:20px}.brand span{color:var(--orange)}.sub{color:var(--muted);font-size:12px}
+.pill{border:1px solid #367b62;color:#8ef0bf;border-radius:30px;padding:5px 10px;font-size:11px;font-weight:800}
+.hero,.card{background:#102a43;border:1px solid var(--line);border-radius:14px;padding:18px;margin:12px 0}
+h1{font-size:clamp(24px,4vw,38px);line-height:1.1;margin:8px 0}h2{font-size:16px;margin:0 0 12px}.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+a,button{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:0;border-radius:8px;padding:11px 14px;background:var(--orange);color:white;font-weight:800;font-size:12px;cursor:pointer}
+a.secondary,button.secondary{background:#29465e;color:#edf5fb}
+label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}input,select{width:100%;min-width:0;background:#07192d;color:white;border:1px solid #41617a;border-radius:8px;padding:11px;font:inherit}
+.row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.notice{border-left:3px solid var(--orange);padding:10px 12px;background:#192f43;color:#d4e1eb;border-radius:5px;font-size:12px}
+.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.item{padding:11px;border:1px solid var(--line);border-radius:9px;background:#0b2238}.item b{display:block}.item small{color:var(--muted)}
+footer{margin-top:20px;color:var(--muted);font-size:11px}
+@media(max-width:640px){main{width:calc(100% - 20px);margin-top:14px}.grid,.list{grid-template-columns:1fr}.row{grid-template-columns:1fr}.hero,.card{padding:14px}}
+</style></head>
+<body><main>
+<header class="top"><div><div class="brand">SANKET <span>DMR</span> GATEWAY</div><div class="sub">Phase 1 · BrandMeister receive-only monitor</div></div><span class="pill">RX ONLY · TX DISABLED</span></header>
+<section class="hero">
+ <div class="sub">INDIA FIRST · DEVELOPMENT</div><h1>Monitor BrandMeister DMR activity</h1>
+ <p class="muted">A safe Phase 1 control panel for discovering Indian talkgroups, checking live activity and opening BrandMeister's official listening tools. No DMR transmission, hotspot control or audio rebroadcast is enabled.</p>
+ <div class="actions"><a data-link="brandmeister" href="https://brandmeister.network/" target="_blank" rel="noopener">Open BrandMeister Dashboard ↗</a><a class="secondary" data-link="hoseline" href="https://hose.brandmeister.network/" target="_blank" rel="noopener">Open Hoseline ↗</a></div>
+</section>
+<div class="grid">
+<section class="card">
+ <h2>Talkgroup quick access</h2>
+ <label for="tg">Enter an India talkgroup ID confirmed by its group/master administrator</label>
+ <div class="row"><input id="tg" inputmode="numeric" pattern="[0-9]*" placeholder="Enter verified TG ID"><button id="openTg">Open listening tools</button></div>
+ <p class="muted" id="tgmsg">Talkgroup IDs are intentionally not guessed. Confirm the ID and its access/monitoring rules before use.</p>
+</section>
+<section class="card">
+ <h2>Live network tools</h2>
+ <div class="actions"><a class="secondary" data-link="brandmeister" href="https://brandmeister.network/" target="_blank" rel="noopener">Last Heard / Dashboard ↗</a><a class="secondary" data-link="hoseline" href="https://hose.brandmeister.network/" target="_blank" rel="noopener">Hoseline Player ↗</a></div>
+ <p class="muted">BrandMeister's own pages provide live Last Heard and audio listening. Use the talkgroup audio icon in Last Heard to open the corresponding Hoseline stream.</p>
+</section>
+</div>
+<section class="card">
+ <h2>India talkgroup discovery checklist</h2>
+ <div class="list">
+  <div class="item"><b>India national / regional</b><small>Find current TG ID and master-admin rules in BrandMeister</small></div>
+  <div class="item"><b>State / city groups</b><small>Confirm group ownership and whether public monitoring is allowed</small></div>
+  <div class="item"><b>Local repeaters</b><small>Check coverage, timeslot and static/dynamic TG configuration</small></div>
+  <div class="item"><b>Operator groups</b><small>Respect group-specific access, etiquette and privacy expectations</small></div>
+ </div>
+</section>
+<section class="card">
+ <h2>Gateway status</h2>
+ <div class="list">
+  <div class="item"><b>BrandMeister dashboard</b><small>External official service · open separately</small></div>
+  <div class="item"><b>Hoseline audio</b><small>External official player · user initiated</small></div>
+  <div class="item"><b>Sanket MQTT bridge</b><small>Disabled in Phase 1</small></div>
+  <div class="item"><b>DMR transmission</b><small>Disabled · no credentials / authorization supplied</small></div>
+ </div>
+</section>
+<div class="notice"><b>Why no embedded live audio yet?</b> BrandMeister documents Hoseline as a browser listening service, but does not document a public general-purpose audio API for third-party rebroadcast. Phase 1 therefore links to the official player rather than scraping private endpoints or rebroadcasting traffic without approval. We can add an approved connector after confirming the permitted interface and talkgroup permissions.</div>
+<footer>Phase 1 is a read-only discovery interface. It does not connect to a DMR repeater or transmit RF. No BrandMeister API key is requested or stored here.</footer>
+</main>
+<script>
+document.getElementById('openTg').addEventListener('click',()=>{
+ const v=document.getElementById('tg').value.trim();
+ const m=document.getElementById('tgmsg');
+ if(!/^\\d{1,7}$/.test(v)){m.textContent='Enter a numeric talkgroup ID first.';return}
+ m.textContent='Opening official Hoseline. If it does not select TG '+v automatically, add it using Hoseline Player → talkgroup selector.';
+ window.open((window.SanketLinks&&window.SanketLinks.links.hoseline)||document.querySelector('[data-link="hoseline"]').href,'_blank','noopener');
+});
+</script><script type="module" src="../../ptt/apply.js"></script></body></html>

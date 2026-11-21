@@ -52,7 +52,7 @@ def main():
                 good.append(station)
     good.sort(key=lambda x: (x["region"], x["name"]))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    payload = {"generated_at": datetime.now(timezone.utc).isoformat(), "source": SOURCE,
+    payload = {"generated_at": datetime.now(timezone.utc).isoformat(), "source": "vendored-akashvani-station-list",
                "checked": len(unique), "available": len(good), "stations": good}
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)

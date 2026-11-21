@@ -1,6 +1,6 @@
 # Sanket IT Intelligence — setup
 This module is part of the existing SanketPTT website and is published at:
-https://vibhvesh.github.io/sanketptt/website/it-intelligence/
+https://sanketptt.com/it-intelligence/
 
 1. Open the Supabase SQL editor: https://supabase.com/dashboard/project/djpkcubjnbpueyrqtcch/sql/new
 2. Run the SQL in schema.sql.

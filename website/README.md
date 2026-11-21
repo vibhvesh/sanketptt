@@ -6,17 +6,15 @@ Standalone public-facing website for the Sanket product family.
 
 Open `index.html` in a browser. It is a self-contained static page (HTML, CSS and JavaScript) and has no build dependencies.
 
-## GitHub Pages
+## Live site
 
-The site is published at:
+The public site is https://sanketptt.com. App URLs are listed in `ptt/links.js`.
 
-https://vibhvesh.github.io/sanketptt/website/
-
-The existing Sanket PTT root app, Transcribe app and Pi service are not modified by this website folder.
+The PTT app, Transcribe, DMR, आकाशवाणी, the development radio, and Boondock Echo are served from this `website/` folder.
 
 ## Product guide screenshots
 
-The page references existing guide screenshots from `docs/img/` in this repository using raw GitHub URLs.
+Guide screenshots live in `docs/img/` and are referenced with site-relative paths.
 
 ## Internal lead finder
 
