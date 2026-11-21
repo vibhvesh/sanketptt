@@ -141,6 +141,7 @@ html.sanket-listen-only #main>.hint{display:none!important}
 #ptt2RelayStatus.down{color:#ffb4a8}
 .ptt2-hint{margin:6px 0 0;color:#9fb4c6;font-size:11px}
 .ptt2-line{display:block;margin-top:4px;color:#d5e6f2;font:12px/1.35 system-ui}
+.ptt2-note{display:block;margin-top:2px;color:#ffb4a8;font-size:11px}
 .ptt2-badge{display:inline-block;margin-right:6px;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase}
 .ptt2-badge.local{background:#164a43;color:#8de8c5}
 .ptt2-badge.server{background:#1d3f68;color:#9fd0ff}
@@ -244,7 +245,8 @@ function fmtCS(v){v=(v||'').trim();return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\/]+
 function Radio(mqttLib,opts){var R=this;R.mqtt=mqttLib;R.ch=opts.ch||CHANNEL;
  R.id=Math.random().toString(36).slice(2,10);R.name=null;R.users={};R.floor=null;R.cb=opts.on||function(){};R.bi=0;R.brokers=opts.brokers||BROKERS;R.username=opts.username||'';R.password=opts.password||'';R.exclusive=!!opts.exclusive;R.relayId=opts.relayId||'public';R.connect();}
 Radio.prototype.T=function(s){return PTT_PREFIX+this.ch+'/'+s};
-Radio.prototype.connect=function(){var R=this,url=R.brokers[R.bi%R.brokers.length],ok=false;
+Radio.prototype.connect=function(){var R=this;if(!R.brokers.length){R.cb('net','unreachable');return;}
+ var url=R.brokers[R.bi%R.brokers.length],ok=false;
  var link={clientId:'ptt_'+R.id+'_'+Date.now()%1e6,clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000,
   will:{topic:R.T('presence/'+R.id),payload:'',retain:true,qos:0}};
  if(R.username){link.username=R.username;link.password=R.password;}
@@ -255,14 +257,14 @@ Radio.prototype.connect=function(){var R=this,url=R.brokers[R.bi%R.brokers.lengt
  c.on('close',function(){if(R.closed)return;R.cb('net',R.exclusive?'unreachable':'disconnected');if(!ok&&!R.exclusive)R.bi++;setTimeout(function(){c.end(true);R.connect()},ok?1500:300)});
  if(!R.timer)R.timer=setInterval(function(){R.tick()},1000);};
 Radio.prototype.join=function(name){this.name=String(name).slice(0,40);this.beat();};
-Radio.prototype.beat=function(){var R=this;if(!R.name||!R.c.connected)return;R.lastBeat=Date.now();
+Radio.prototype.beat=function(){var R=this;if(!R.name||!R.c||!R.c.connected)return;R.lastBeat=Date.now();
  var m={id:R.id,name:R.name,ts:Date.now()};if(R.loc)m.loc=R.loc;R.c.publish(R.T('presence/'+R.id),JSON.stringify(m),{retain:true});};
 // location: {lat,lon,acc(m),src:'gps'|'ip',city}; null = not sharing
 function cleanLoc(l){if(!l||typeof l!=='object')return null;var la=+l.lat,lo=+l.lon;if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return null;
  return {lat:Math.round(la*1e5)/1e5,lon:Math.round(lo*1e5)/1e5,acc:isFinite(+l.acc)?Math.round(+l.acc):null,src:l.src==='gps'?'gps':'ip',city:l.city?String(l.city).slice(0,60):null}}
 function distKm(a,b){if(!a||!b)return null;var R=6371,d=Math.PI/180,x=(b.lat-a.lat)*d,y=(b.lon-a.lon)*d,h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a.lat*d)*Math.cos(b.lat*d)*Math.sin(y/2)*Math.sin(y/2);return 2*R*Math.asin(Math.sqrt(h))}
 Radio.prototype.setLoc=function(l){this.loc=cleanLoc(l);if(this.users[this.id])this.users[this.id].loc=this.loc;this.beat();this.emit()};
-Radio.prototype.leave=function(){var R=this;R.release();if(R.c.connected)R.c.publish(R.T('presence/'+R.id),'',{retain:true});R.closed=true;clearInterval(R.timer);var c=R.c;setTimeout(function(){c.end()},200)};
+Radio.prototype.leave=function(){var R=this;R.release();if(R.c&&R.c.connected)R.c.publish(R.T('presence/'+R.id),'',{retain:true});R.closed=true;clearInterval(R.timer);var c=R.c;if(c)setTimeout(function(){c.end()},200)};
 Radio.prototype.tick=function(){var R=this,now=Date.now(),ch=false;
  if(R.name&&(!R.lastBeat||now-R.lastBeat>=HB_MS))R.beat();
  for(var k in R.users)if(now-R.users[k].seen>EXPIRE_MS){delete R.users[k];ch=true}
@@ -287,7 +289,7 @@ Radio.prototype.onMsg=function(t,p){var R=this,now=Date.now(),s=t.slice(PTT_PREF
  if(s==='audio'){var b=p instanceof Uint8Array?p:new Uint8Array(p),n=b[0],id='';for(var i=1;i<=n;i++)id+=String.fromCharCode(b[i]);
   if(R.floor&&R.floor.id===id&&id!==R.id){R.floor.seen=now;var pcm=Uint8Array.prototype.slice.call(b,1+n);R.cb('audio',new Int16Array(pcm.buffer,pcm.byteOffset,pcm.length>>1))}}};
 // claim floor; resolves true if we hold it after the race grace period
-Radio.prototype.claim=function(done){var R=this;if(R.floor&&R.floor.id!==R.id)return done(false);R.talking=true;var ts=Date.now();
+Radio.prototype.claim=function(done){var R=this;if(!R.c||!R.c.connected||(R.floor&&R.floor.id!==R.id))return done(false);R.talking=true;var ts=Date.now();
  R.floor={id:R.id,name:R.name,ts:ts,seen:Date.now(),got:Date.now()};R.c.publish(R.T('floor'),JSON.stringify({t:'claim',id:R.id,name:R.name,ts:ts}));R.emit();
  setTimeout(function(){var ok=R.talking&&R.floor&&R.floor.id===R.id;if(!ok)R.talking=false;done(ok)},CLAIM_GRACE_MS)};
 Radio.prototype.sendSstv=function(m){m.id=this.id;m.name=this.name;m.ts=Date.now();if(this.c.connected)this.c.publish(this.T('sstv'),JSON.stringify(m));};

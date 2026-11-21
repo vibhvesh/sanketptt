@@ -12,7 +12,8 @@ function lineHtml(note) {
   if (!note || note.pending) return '<span class="ptt2-badge wait">…</span> transcribing';
   const label = note.source === "server" ? "server" : "local";
   const text = note.text ? escapeText(note.text) : "(empty result)";
-  return `<span class="ptt2-badge ${label}">${label}</span> ${text}`;
+  const extra = note.note ? `<span class="ptt2-note">${escapeText(note.note)}</span>` : "";
+  return `<span class="ptt2-badge ${label}">${label}</span> ${text}${extra}`;
 }
 
 export function decorateLog(entries) {
@@ -41,8 +42,12 @@ export function watchRecorder(recorder, renderLog) {
       notes.set(entry.key, { pending: true });
       decorateLog(recorder.entries);
       transcribeTransmission(entry.wav).then((result) => {
-        notes.set(entry.key, { pending: false, source: result.source, text: result.text });
+        notes.set(entry.key, { pending: false, source: result.source, text: result.text, note: result.note || "" });
         decorateLog(recorder.entries);
+        if (result.note) {
+          const status = document.getElementById("ptt2Status");
+          if (status) status.textContent = result.note;
+        }
       }).catch((error) => {
         notes.set(entry.key, { pending: false, source: "local", text: "Local transcription failed: " + (error && error.message ? error.message : String(error)) });
         decorateLog(recorder.entries);
@@ -94,8 +99,8 @@ export function mountSettings(root) {
     let serverText = "Server not set.";
     if (current.rejectedServer) serverText = "That server is not a Sanket Transcribe host.";
     else if (current.serverUrl) {
-      const up = await serverHealthy(current.serverUrl);
-      serverText = up ? "Sanket Transcribe server responded." : "Sanket Transcribe server did not respond. Local will be used.";
+      const health = await serverHealthy(current.serverUrl);
+      serverText = health.ok ? "Sanket Transcribe server responded." : health.reason;
     }
     status.textContent = serverText + (device.ok ? " Local Whisper can run here" + (device.webgpu ? " (WebGPU)." : " (WASM).") : " This browser cannot run local Whisper.");
   }

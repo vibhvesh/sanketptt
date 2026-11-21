@@ -14,7 +14,7 @@ export function mountRelay(root, onChoose) {
       <option value="${RELAY_PUBLIC}">Public relays</option>
       <option value="${RELAY_SANKET}">Sanket PTT relay</option>
     </select>
-    <p class="ptt2-hint">Public relays are the ones this radio uses today. Sanket PTT relay is stlu-001.sanketptt.com.</p>
+    <p class="ptt2-hint">Public relays are the ones this radio uses today. The Sanket PTT relay address isn't confirmed yet.</p>
     <p id="ptt2RelayStatus"></p>
   `;
   const choice = root.querySelector("#ptt2RelayChoice");

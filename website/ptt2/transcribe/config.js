@@ -2,8 +2,12 @@
 
 export const STORAGE_KEY = "sanket.ptt2.transcribe";
 
-/** Placeholder for the Sanket Transcribe server. Empty until that box is ready. */
-export const SANKET_TRANSCRIBE_SERVER = "";
+/** Sanket Transcribe. HTTPS on sanketptt.com only. */
+export const SANKET_TRANSCRIBE_SERVER = "https://stlu-001.sanketptt.com";
+
+/** Demo operator account published for this server. */
+export const SANKET_DEMO_USERNAME = "operator@relay.local";
+export const SANKET_DEMO_PASSWORD = "Radio123!";
 
 /** Extra internal host, if one is assigned later. Empty means it is not allowed yet. */
 export const INTERNAL_TRANSCRIBE_HOST = "";
@@ -49,7 +53,8 @@ export function loadConfig() {
   const stored = readStored();
   const query = new URLSearchParams(location.search);
   const mode = cleanMode(query.get("mode") || stored.mode);
-  const serverUrl = String(query.has("serverUrl") ? query.get("serverUrl") : (stored.serverUrl || "")).trim();
+  const storedUrl = String(stored.serverUrl || "").trim();
+  const serverUrl = String(query.has("serverUrl") ? query.get("serverUrl") : (storedUrl || DEFAULTS.serverUrl)).trim();
   const language = String(query.get("language") || stored.language || DEFAULTS.language).slice(0, 12);
   const translateRaw = query.has("translate") ? query.get("translate") : stored.translate;
   const translate = translateRaw === true || translateRaw === "1" || translateRaw === "true";

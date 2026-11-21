@@ -13,19 +13,16 @@ export const PUBLIC_BROKERS = Object.freeze([
   "wss://test.mosquitto.org:8081",
 ]);
 
-/** Sanket PTT relay. Port and path are the knobs for this socket. */
-export const SANKET_RELAY_HOST = "stlu-001.sanketptt.com";
+/**
+ * Sanket PTT relay address. Empty until a relay host is confirmed.
+ * stlu-001.sanketptt.com is the transcribe service, not this socket.
+ */
+export const SANKET_RELAY_HOST = "";
 export const SANKET_RELAY_PORT = 443;
 export const SANKET_RELAY_PATH = "/mqtt";
 
-/**
- * Demo basic-auth logins published at relay.canberravision.com.
- * The radio connects as the operator account.
- */
-export const SANKET_RELAY_USERNAME = "operator@relay.local";
-export const SANKET_RELAY_PASSWORD = "Radio123!";
-
 export function sanketBrokerUrl() {
+  if (!SANKET_RELAY_HOST) return "";
   const port = SANKET_RELAY_PORT ? ":" + SANKET_RELAY_PORT : "";
   const path = SANKET_RELAY_PATH.charAt(0) === "/" ? SANKET_RELAY_PATH : "/" + SANKET_RELAY_PATH;
   return "wss://" + SANKET_RELAY_HOST + port + path;
@@ -61,11 +58,12 @@ export function saveRelay(id) {
 export function relaySpec(id) {
   const relay = cleanRelay(id);
   if (relay === RELAY_SANKET) {
+    const url = sanketBrokerUrl();
     return {
       id: RELAY_SANKET,
-      brokers: [sanketBrokerUrl()],
-      username: SANKET_RELAY_USERNAME,
-      password: SANKET_RELAY_PASSWORD,
+      brokers: url ? [url] : [],
+      username: "",
+      password: "",
       exclusive: true,
     };
   }
