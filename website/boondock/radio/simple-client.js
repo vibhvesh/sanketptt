@@ -43,18 +43,19 @@ $("sstvBrowse").onclick=()=>{sstvFile.removeAttribute("capture");sstvFile.click(
 $("sstvTake").onclick=()=>{sstvFile.setAttribute("capture","environment");sstvFile.click()};
 $("sstvSend").textContent="OK · SEND";$("sstvCancel").textContent="CANCEL";window.addEventListener("boondock:sstv-start",()=>{sstvModal.classList.remove("open");$("sstvTx").style.display="none";$("sstvProgress").textContent="SENDING…"});const sstvStatusObserver=new MutationObserver(()=>{$("sstvProgress").textContent=$("sstvSt")?.textContent||""});if($("sstvSt"))sstvStatusObserver.observe($("sstvSt"),{childList:true,subtree:true,characterData:true});
 if(sstvFile)document.body.appendChild(sstvFile);
+const sstvListEl=$("sstvList");
 if(sstvBtn)sstvBtn.remove();if(sstv)sstv.remove();
 const fm=$("radioLinesDev"),audio=$("radioLineAudio");fm.classList.remove("open");
 const fmBtn=document.createElement("button");fmBtn.id="simpleFM";fmBtn.type="button";fmBtn.textContent="FM RADIO";fmBtn.setAttribute("aria-expanded","false");rig.appendChild(fmBtn);
 if(pttHint)pttHint.style.display="none";
-const fmHead=fm.querySelector("h3"),fmClose=document.createElement("button");fmClose.id="fmPanelClose";fmClose.type="button";fmClose.textContent="×";fmClose.setAttribute("aria-label","Close FM radio panel");fmHead.appendChild(fmClose);
+const fmHead=fm.querySelector("h3"),fmClose=document.createElement("button");fmClose.id="fmPanelClose";fmClose.type="button";fmClose.textContent="×";fmClose.setAttribute("aria-label","Close FM radio panel");if(fmHead)fmHead.appendChild(fmClose);
 function closeFmPanel(){fm.classList.remove("open");fmBtn.textContent="FM RADIO";fmBtn.setAttribute("aria-expanded","false");}
 fmBtn.onclick=()=>{drawer.classList.remove("open");const open=!fm.classList.contains("open");fm.classList.toggle("open",open);fmBtn.textContent=open?"CLOSE FM":"FM RADIO";fmBtn.setAttribute("aria-expanded",String(open))};
 fmClose.onclick=closeFmPanel;
 $("radioStationSelect").addEventListener("change",()=>{if($("radioStationSelect").value)closeFmPanel()});$("radioStationButtons").addEventListener("click",e=>{if(e.target.closest("button"))closeFmPanel()});
 
 document.querySelector(".panel:has(#us)")?.remove();$("locp")?.remove();const logPanel=$("log")?.closest(".panel");if(logPanel)logPanel.style.display="none";
-const messages=document.createElement("section");messages.id="simpleMessages";messages.innerHTML='<div class="ribbon-head">LAST FIVE AUDIO MESSAGES</div><div id="recentAudioRibbons"><small>Waiting for radio traffic</small></div><div class="transcript-head"><b>MESSAGE HISTORY · NEWEST AT BOTTOM</b><span id="whisperState">WHISPER · AUTO</span></div><div id="simpleTranscriptList"><small>Your sent and received messages will appear here</small></div><div id="simpleSstvGallery"><div class="transcript-head"><b>SSTV PICTURES</b><span>LOCAL & RECEIVED</span></div></div>';main.after(messages);$("simpleSstvGallery").appendChild($("sstvList"));
+const messages=document.createElement("section");messages.id="simpleMessages";messages.innerHTML='<div class="ribbon-head">LAST FIVE AUDIO MESSAGES</div><div id="recentAudioRibbons"><small>Waiting for radio traffic</small></div><div class="transcript-head"><b>MESSAGE HISTORY · NEWEST AT BOTTOM</b><span id="whisperState">WHISPER · AUTO</span></div><div id="simpleTranscriptList"><small>Your sent and received messages will appear here</small></div><div id="simpleSstvGallery"><div class="transcript-head"><b>SSTV PICTURES</b><span>LOCAL & RECEIVED</span></div></div>';main.after(messages);if(sstvListEl)$("simpleSstvGallery").appendChild(sstvListEl);
 const css=[
 "body{padding:0!important;background:#8f210f!important;overflow:hidden!important;height:100dvh!important}",
 ".rig{width:100%!important;max-width:520px!important;height:100dvh!important;min-height:0!important;overflow:hidden!important;padding:6px 9px!important;display:flex!important;flex-direction:column!important;gap:4px!important;border-radius:0!important}",

@@ -1,0 +1,40 @@
+:root{--ink:#17283b;--muted:#687789;--line:#e5eaf0;--orange:#f47721;--navy:#07192d;--bg:#f7f8fa}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,calc(100% - 32px));margin:auto}
+.top{position:sticky;top:0;z-index:5;background:#ffffffed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:900;letter-spacing:-.4px;font-size:20px}
+.brand b{color:var(--orange)}
+.brand small{display:block;color:#7b8794;font-size:9px;letter-spacing:1.6px}
+.back{font-size:12px;font-weight:800;color:#174a78}
+.hero{padding:28px 0 8px}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:1.8px;color:var(--orange)}
+h1{font-size:clamp(32px,5vw,48px);letter-spacing:-1.6px;line-height:1.05;margin:8px 0 10px}
+.lead{max-width:720px;color:var(--muted);margin:0}
+.warning{margin:16px 0 8px;padding:12px 14px;background:#fff7ec;border:1px solid #f1d8b9;border-radius:10px;color:#80501f;font-size:12px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.tabs button{border:1px solid var(--line);background:#fff;color:#526174;border-radius:8px;padding:8px 12px;font:800 12px inherit;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 18px;box-shadow:0 10px 28px #122a4210}
+.card h2{margin:0 0 4px;font-size:22px;letter-spacing:-.4px}
+.meta{color:var(--muted);font-size:12px;margin:0 0 8px}
+.how{margin:0 0 12px;font-size:13px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.actions a{display:inline-flex;align-items:center;border-radius:7px;padding:8px 11px;font-size:11px;font-weight:800;background:#f4f7fb;border:1px solid #d5e0ea}
+.actions a.primary{background:var(--orange);border-color:var(--orange);color:#fff}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.pane{min-width:0;border:1px solid #d7e1ea;border-radius:12px;overflow:hidden;background:#07192d}
+.pane h3{margin:0;padding:10px 12px;background:#0c2238;color:#e8f4ff;font-size:12px;letter-spacing:.4px}
+.pane iframe{display:block;width:100%;height:620px;border:0;background:#07192d}
+.soon{margin:0;padding:22px 16px 28px;color:#d5e4f0;font-size:14px;background:#10283f}
+.topic{margin:10px 0 0;color:#7d8b99;font-size:11px;word-break:break-all}
+@media(max-width:760px){
+ .wrap{width:calc(100% - 20px)}
+ .pair{grid-template-columns:1fr}
+ .pane iframe{height:520px}
+ h1{font-size:34px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

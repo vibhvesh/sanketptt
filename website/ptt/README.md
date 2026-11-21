@@ -46,6 +46,7 @@ Preview deploys rewrite the site origin inside this module to `/preview`. Pass p
 | `aakashvani` | `/aakashvani/` | app | Pricing card, homepage iframe, radio hub |
 | `demo` | `/demo.html` | app | Radio hub demo card |
 | `radioHub` | `/radio-hub.html` | app | Reserved for hub links |
+| `try` | `/try/` | app | Try it page and the homepage Try it link |
 | `dev` | `/dev/` | app | Radio hub development card. The repo `dev/` app is copied to `website/dev/` and the deploy publishes that folder. |
 | `boondock` | `/boondock/radio/` | app | Radio hub Boondock card. The radio and its transcribe page are copied under `website/boondock/`. |
 | `brandmeister` | BrandMeister | external | DMR page |
@@ -67,6 +68,24 @@ Preview deploys rewrite the site origin inside this module to `/preview`. Pass p
 | `sourceHyderabadAudit` | hyderabad audit branch | source | Radio hub |
 | `sourceAkashvaniStations` | codito/akashvani | source | Station list provenance. The playable list itself is `website/data/radio-directory.json`. |
 
-Channel ids: `virtual`, `master`, `city-control`, `kolkata-control`, `sanket-website-demo`.
+## PTT to transcribe
+
+All of these radios publish on MQTT prefix `ptt-radio-66ab9178/` plus the channel id, then `audio`, `floor`, and `presence`. Sanket Transcribe subscribes to that same prefix when opened with `?ch=` and `compact=1`. An explicit `ch` on the transcribe URL wins over a channel saved in the browser.
+
+| PTT | Channel | Topic | Transcribe | Status |
+|---|---|---|---|---|
+| `/radio/` | `virtual` | `ptt-radio-66ab9178/virtual/audio` | `/transcribe/?compact=1&ch=virtual` | existing |
+| `/radio/` | `master` | `ptt-radio-66ab9178/master/audio` | `/transcribe/?compact=1&ch=master` | existing |
+| `/radio/` | `city-control` | `ptt-radio-66ab9178/city-control/audio` | `/transcribe/?compact=1&ch=city-control` | existing |
+| `/radio/` | `kolkata-control` | `ptt-radio-66ab9178/kolkata-control/audio` | `/transcribe/?compact=1&ch=kolkata-control` | existing |
+| `/radio/` | `sanket-website-demo` | `ptt-radio-66ab9178/sanket-website-demo/audio` | `/transcribe/?compact=1&ch=sanket-website-demo` | existing |
+| `/dev/` | `dev` on the Try page (default with no `ch` is `virtual`) | `ptt-radio-66ab9178/dev/audio` | `/transcribe/?compact=1&ch=dev` | built |
+| `/boondock/radio/` | `boondock` on the Try page (default with no `ch` is `virtual`) | `ptt-radio-66ab9178/boondock/audio` | `/transcribe/?compact=1&ch=boondock` | built |
+| `/dmr/` | BrandMeister talkgroups, not a Sanket channel | none | none | no transcriber |
+| `/aakashvani/` | venue preview, no relay | none | none | no transcriber |
+
+`pairEmbed`, `pairListen`, and `pairOpen` in `links.js` build the Try page URLs. Do not paste those URLs into the page.
+
+Channel ids: `virtual`, `master`, `city-control`, `kolkata-control`, `sanket-website-demo`, `dev`, `boondock`.
 
 `sanitizeChannel()` keeps letters, numbers, and hyphens, and stops at 40 characters. Build a channel with `channelUrl(id)` or `embedUrl(id)`. Do not write a character class in a page.
