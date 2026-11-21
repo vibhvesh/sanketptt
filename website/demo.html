@@ -29,19 +29,19 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!im
  .panel .ph span{font-size:8px!important;line-height:1.15!important}
  .panel .ph small{font-size:6px!important}
 }
-</style></head><body data-chrome="auto">
+</style></head><body>
 <header><div class="brand">SANKET <b>PTT</b><span class="sub">LIVE RADIO CONSOLE</span></div><div class="head-actions"><button class="invite" id="inviteBtn" type="button">↗ INVITE / SHARE</button><a class="home" href="./">← Sanket Home</a></div></header>
 <main>
-<section class="panel"><div class="ph"><span>01 · SANKET PTT DEMO</span><small>JOIN · TALK · SSTV</small></div><iframe title="Sanket PTT Demo" src="/radio/?ch=sanket-website-demo&amp;embed=1" allow="microphone; autoplay" loading="eager"></iframe></section>
-<section class="panel"><div class="ph"><span>02 · SANKET TRANSCRIBE DEMO</span><small>ENGLISH → HINDI · AUTO POWER</small></div><iframe title="Sanket Transcribe Demo" src="/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" allow="microphone; autoplay" loading="eager"></iframe></section>
+<section class="panel"><div class="ph"><span>01 · SANKET PTT DEMO</span><small>JOIN · TALK · SSTV</small></div><iframe title="Sanket PTT Demo" src="https://vibhvesh.github.io/sanketptt/?ch=sanket-website-demo&amp;embed=1" allow="microphone; autoplay" loading="eager"></iframe></section>
+<section class="panel"><div class="ph"><span>02 · SANKET TRANSCRIBE DEMO</span><small>ENGLISH → HINDI · AUTO POWER</small></div><iframe title="Sanket Transcribe Demo" src="https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&amp;ch=sanket-website-demo&amp;autostart=1&amp;compact=1" allow="microphone; autoplay" loading="eager"></iframe></section>
 </main>
 <script>
 (()=>{const q=new URLSearchParams(location.search),channel=(q.get('ch')||'sanket-website-demo').replace(/[^\\w-]/g,'').slice(0,40)||'sanket-website-demo';
  const p=document.querySelector('iframe[title="Sanket PTT Demo"]'),t=document.querySelector('iframe[title="Sanket Transcribe Demo"]');
- if(p)p.src='/radio/?ch='+encodeURIComponent(channel)+'&embed=1';
- if(t)t.src='/transcribe/?demo=1&ch='+encodeURIComponent(channel)+'&autostart=1&compact=1';
+ if(p)p.src='https://vibhvesh.github.io/sanketptt/?ch='+encodeURIComponent(channel)+'&embed=1';
+ if(t)t.src='https://vibhvesh.github.io/sanketptt/transcribe/?demo=1&ch='+encodeURIComponent(channel)+'&autostart=1&compact=1';
  document.getElementById('inviteBtn').addEventListener('click',async()=>{const url=new URL(location.href);url.searchParams.set('ch',channel);const data={title:'Join my Sanket PTT channel',text:'Join me on Sanket PTT. Open this link to talk on the same channel:',url:url.href};
   try{if(navigator.share)await navigator.share(data);else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url.href);alert('Invite link copied. Share it on WhatsApp, Facebook or anywhere.')}else prompt('Copy this invite link',url.href)}catch(e){if(e.name!=='AbortError')prompt('Copy this invite link',url.href)}
  });
 })();
-</script><script src="js/chrome.js" defer></script></body></html>
+</script></body></html>
