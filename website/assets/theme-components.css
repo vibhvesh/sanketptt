@@ -5,12 +5,58 @@ html.sanket-site header.top {
   position: sticky;
   top: 0;
   z-index: 20;
-  height: var(--nav-h) !important;
+  height: auto !important;
+  min-height: var(--nav-h);
   background: color-mix(in srgb, var(--surface) 78%, transparent) !important;
   border-bottom: 1px solid var(--line) !important;
   box-shadow: none !important;
   backdrop-filter: saturate(1.4) blur(18px);
   -webkit-backdrop-filter: saturate(1.4) blur(18px);
+}
+
+html.sanket-site .top .wrap.nav {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px;
+  width: min(1320px, calc(100% - 48px)) !important;
+  margin-inline: auto !important;
+  min-height: var(--nav-h);
+  box-sizing: border-box;
+}
+
+html.sanket-site .landing-nav-actions {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto !important;
+  min-width: 0;
+}
+
+html.sanket-site .landing-nav-actions a {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  html.sanket-site .top .wrap.nav {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    padding: 10px 16px 12px !important;
+    row-gap: 8px;
+  }
+
+  html.sanket-site .landing-nav-actions {
+    flex: 1 1 100%;
+    margin-left: 0 !important;
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  html.sanket-site .landing-nav-actions::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 html.sanket-site .logo,
@@ -240,6 +286,65 @@ html.sanket-site #tafRadioHub .taf-radio-actions select {
   border-color: var(--line) !important;
 }
 
+html.sanket-site #control > #tafRadioHub,
+html.sanket-site #tafRadioHub {
+  height: auto !important;
+  min-height: 64px !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-items: center !important;
+}
+
+html.sanket-site #control #tafRadioHub .taf-top-five,
+html.sanket-site #tafRadioHub .taf-top-five,
+html.sanket-site #control .taf-top-five {
+  display: flex !important;
+  align-items: center !important;
+  height: auto !important;
+  min-height: 56px !important;
+  overflow: visible !important;
+}
+
+html.sanket-site #control .taf-top-five button,
+html.sanket-site #control #tafRadioHub .taf-top-five button,
+html.sanket-site #tafRadioHub .taf-top-five button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 56px !important;
+  min-width: 56px !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  max-height: 56px !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  text-align: center !important;
+}
+
+html.sanket-site #control .taf-top-five button:before,
+html.sanket-site #control #tafRadioHub .taf-top-five button:before {
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  line-height: 1 !important;
+  font-size: 15px !important;
+  flex: none !important;
+}
+
+html.sanket-site #control .taf-top-five button[data-station="fm-gold-delhi"]:before,
+html.sanket-site #control .taf-top-five button[data-station="air-news"]:before {
+  font-size: 12px !important;
+}
+
+html.sanket-site #control .taf-top-five button b,
+html.sanket-site #control .taf-top-five button small,
+html.sanket-site #tafRadioHub .taf-top-five button b,
+html.sanket-site #tafRadioHub .taf-top-five button small {
+  display: none !important;
+}
+
 html.sanket-site #tafRadioHub .taf-radio-heading h3,
 html.sanket-site #tafRadioHub .taf-now b {
   color: var(--ink) !important;
@@ -247,10 +352,21 @@ html.sanket-site #tafRadioHub .taf-now b {
 
 html.sanket-site #tafRadioHub .taf-player-row button,
 html.sanket-site #control #tafRadioHub .taf-player-row button,
+html.sanket-site #control .taf-player-row button,
+html.sanket-site #control .taf-player-row button:disabled,
 html.sanket-site .custom button {
   background: var(--accent) !important;
   color: var(--accent-contrast) !important;
+  border: 0 !important;
   border-radius: var(--radius-pill) !important;
+  opacity: 1 !important;
+  filter: none !important;
+  box-shadow: none !important;
+  font-weight: 800 !important;
+  min-height: 32px !important;
+  height: auto !important;
+  padding: 6px 12px !important;
+  font-size: 11px !important;
 }
 
 html.sanket-site #tafRadioHub .taf-top-five button,
