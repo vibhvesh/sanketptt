@@ -231,7 +231,9 @@ html.sanket-site footer b {
 }
 
 html.sanket-site #tafRadioHub,
+html.sanket-site #control > #tafRadioHub,
 html.sanket-site #tafRadioHub .taf-player-row,
+html.sanket-site #control #tafRadioHub .taf-player-row,
 html.sanket-site #tafRadioHub .taf-radio-actions select {
   background: var(--surface) !important;
   color: var(--ink) !important;
@@ -244,15 +246,17 @@ html.sanket-site #tafRadioHub .taf-now b {
 }
 
 html.sanket-site #tafRadioHub .taf-player-row button,
+html.sanket-site #control #tafRadioHub .taf-player-row button,
 html.sanket-site .custom button {
   background: var(--accent) !important;
   color: var(--accent-contrast) !important;
   border-radius: var(--radius-pill) !important;
 }
 
-html.sanket-site #tafRadioHub .taf-top-five button {
+html.sanket-site #tafRadioHub .taf-top-five button,
+html.sanket-site #control #tafRadioHub .taf-top-five button {
   background: var(--accent-soft) !important;
-  color: var(--accent-hover) !important;
+  color: var(--accent) !important;
   border-color: var(--line) !important;
   border-radius: var(--radius-pill) !important;
 }
