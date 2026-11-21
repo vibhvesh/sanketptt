@@ -143,12 +143,12 @@ html:not(.ptt-embed) .theme-toggle {
   cursor: pointer;
 }
 
-html:not(.ptt-embed) .theme-toggle.is-fixed {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 60;
-  margin: 0;
+html.ptt-embed .theme-toggle,
+html.ptt-embed [data-theme-toggle],
+.rig .theme-toggle,
+.radio .theme-toggle,
+.theme-toggle.is-fixed {
+  display: none !important;
 }
 
 html:not(.ptt-embed):has(.radio) body {

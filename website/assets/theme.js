@@ -40,19 +40,29 @@
     apply(order[(order.indexOf(current) + 1) % order.length]);
   }
 
+  function framed() {
+    try { return window.self !== window.top; } catch (error) { return true; }
+  }
+
+  function radioDevice() {
+    return framed() || document.documentElement.classList.contains("ptt-embed") || !!document.querySelector(".rig, .radio");
+  }
+
   function ensureButton() {
+    if (radioDevice()) {
+      document.querySelectorAll(".rig [data-theme-toggle], .radio [data-theme-toggle], .theme-toggle.is-fixed").forEach(function (button) {
+        button.remove();
+      });
+      return;
+    }
     if (document.querySelector("[data-theme-toggle]")) return;
-    var host = document.querySelector(".rig .brand, header .head-actions, header .nav-end, header .landing-nav-actions, header .bar, header .wrap");
+    var host = document.querySelector("header .head-actions, header .nav-end, header .landing-nav-actions, header .bar");
+    if (!host) return;
     var button = document.createElement("button");
     button.type = "button";
     button.className = "theme-toggle";
     button.setAttribute("data-theme-toggle", "");
-    if (!host) {
-      button.classList.add("is-fixed");
-      document.body.appendChild(button);
-    } else {
-      host.appendChild(button);
-    }
+    host.appendChild(button);
   }
 
   ensureButton();

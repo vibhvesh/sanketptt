@@ -634,7 +634,6 @@ html.home footer {
   html.home .menu { display: inline-flex; }
   html.home .nav-end .btn { display: none; }
   html.home .brand { max-width: calc(100% - 150px); }
-  html.home .brand small { overflow: hidden; text-overflow: ellipsis; max-width: 42vw; }
   html.home .navlinks a[href="#contact"] { display: block; }
   html.home .navlinks {
     display: none;
@@ -663,6 +662,10 @@ html.home footer {
   html.home .hero { padding: 28px 0 12px; }
   html.home h1 { font-size: 40px; }
   html.home .demo-panel iframe { height: 360px; }
+}
+
+@media (max-width: 520px) {
+  html.home .brand small { display: none !important; }
 }
 
 @media (max-width: 560px) {
