@@ -104,7 +104,7 @@ body.embed-mode .clip{background:#102b45!important;border-color:#28506d!importan
 body.embed-mode .clip .tx{color:#f4fbff!important}
 body.embed-mode #kwBar,body.embed-mode 
 @media(max-width:700px){body.embed-mode #log{height:65vh!important;min-height:300px!important}}
-</style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../radio/sstv.js"></script>
+</style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../ptt/sanket-transcribe.js"></script><script src="../radio/sstv.js"></script>
 <style id="transcribe-demo-fit-v2">
 body.embed-mode{height:100%!important;min-height:0!important;overflow:hidden!important;padding:0!important;margin:0!important;background:#211a17!important}
 body.embed-mode .radio{display:block!important;width:100%!important;max-width:none!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:linear-gradient(145deg,#35261d,#171a1e)!important;overflow:hidden!important}
@@ -236,7 +236,7 @@ body.embed-mode #kwBar,body.embed-mode
 <div class="grille"></div>
 <div class="keys">
  <div class="row" id="inRow" style="gap:6px;margin-bottom:8px;flex-wrap:wrap"><label class="sel">INPUT<select id="inSrc"><option value="mic">🎙 Mic</option><option value="ptt">📻 Web page / PTT radio</option></select></label><label class="sel" id="pttWrap" style="flex:2">PTT LINK<input id="pttUrl" placeholder="radio link"></label><div id="pttShare" style="width:100%;font-size:12px"></div><div id="pttSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
- <div class="row" style="gap:6px;margin-bottom:8px"><label class="sel">TRANSCRIPTION ENGINE<select id="engine"><option value="free">🆓 Free (in-browser Whisper)</option><option value="eleven">ElevenLabs (API key)</option></select></label><div id="engSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
+ <div class="row" style="gap:6px;margin-bottom:8px"><label class="sel">TRANSCRIPTION ENGINE<select id="engine"><option value="sanket">Sanket Transcribe</option><option value="free">🆓 Free (in-browser Whisper)</option><option value="eleven">ElevenLabs (API key)</option></select></label><div id="engSt" style="width:100%;font-size:12px;opacity:.8"></div></div>
  <div class="row" id="languageRow" style="gap:6px;margin-bottom:8px"><label class="sel" style="flex:1">SOURCE LANGUAGE<select id="src"></select></label><label class="sel" style="flex:1">DESTINATION LANGUAGE<select id="dst"></select></label></div>
  <div class="ptt"><button id="startBtn">▶ START</button><button id="stopBtn" disabled>■ STOP</button></div>
 </div>
@@ -368,7 +368,8 @@ async function sttEleven(blob){const key=localStorage.getItem("be_key")||$("key"
    if(r.ok){const j=await r.json();return{text:(j.text||"").trim(),lang:j.language_code||lc};}
    last=new Error("ElevenLabs "+r.status+": "+(await r.text()).slice(0,160));if(r.status===401)break;}catch(e){last=e;}}
  throw last;}
-async function stt(blob){if(engine()==="free")return sttFree(blob);return sttEleven(blob);}
+async function sttSanket(blob){const out=await SanketTranscribe.postWav(blob,{language:FIXED_SOURCE});return{text:out.text||"",lang:out.language||FIXED_SOURCE||""};}
+async function stt(blob){if(engine()==="eleven")return sttEleven(blob);if(engine()==="free")return sttFree(blob);try{const r=await sttSanket(blob);engSt("Sanket Transcribe");return r;}catch(e){engSt("Sanket Transcribe unavailable — using on-device Whisper. "+(e&&e.message||""));return sttFree(blob);}}
 async function translate(text,tl,sl){if(!text||!tl)return"";
  try{const r=await fetchT(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl||"auto"}&tl=${tl}&dt=t&q=${encodeURIComponent(text)}`,{},15000);const j=await r.json();const s=j[0].map(x=>x[0]).join("");if(s)return s;}catch(e){}
  try{const r=await fetchT(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,480))}&langpair=${(sl&&sl.length===2?sl:"en")}|${tl}`,{},15000);const j=await r.json();return j.responseData.translatedText||"";}catch(e){return"(translation failed)";}}
@@ -441,7 +442,7 @@ async function start(){if(engine()==="eleven"&&!(localStorage.getItem("be_key")|
  src.connect(node);node.connect(mute);running=true;$("startBtn").disabled=true;$("stopBtn").disabled=false;$("recalBtn").disabled=false;startCal();draw();}
 function stop(){if(mode==="rec")endClip();running=false;mode="idle";try{node.disconnect();src.disconnect();}catch(e){}stream&&stream.getTracks().forEach(t=>t.stop());ctx&&ctx.close();
  $("startBtn").disabled=false;$("stopBtn").disabled=true;$("recalBtn").disabled=true;$("prog").style.display="none";setStatus("Stopped.");}
-$("engine").value=localStorage.getItem("be_engine")||"free";$("engine").onchange=()=>{localStorage.setItem("be_engine",engine());if(engine()==="free")loadAsr().catch(()=>{});else engSt("ElevenLabs cloud STT — needs API key in Settings.");};engSt(engine()==="free"?"Free Whisper loads on START (cached after first use).":"ElevenLabs cloud STT — needs API key in Settings.");
+$("engine").value=(localStorage.getItem("be_engine")==="eleven"||localStorage.getItem("be_engine")==="free")?localStorage.getItem("be_engine"):"sanket";$("engine").onchange=()=>{localStorage.setItem("be_engine",engine());if(engine()==="free")loadAsr().catch(()=>{});else if(engine()==="eleven")engSt("ElevenLabs cloud STT — needs API key in Settings.");else engSt("Sanket Transcribe. On-device Whisper is used only if that server does not answer.");};engSt(engine()==="free"?"Free Whisper loads on START (cached after first use).":engine()==="eleven"?"ElevenLabs cloud STT — needs API key in Settings.":"Sanket Transcribe. On-device Whisper is used only if that server does not answer.");
 $("startBtn").addEventListener("click",()=>{if(engine()==="free")loadAsr().catch(()=>{});});$("startBtn").onclick=()=>$("inSrc").value==="ptt"?pttStart():start();$("stopBtn").onclick=()=>pttOn?pttStop():stop();if(0)$("stopBtn").onclick=stop;$("recalBtn").onclick=()=>{if(mode==="rec")endClip();startCal();};
 /* ---------- PTT Radio link input (listen-only monitor) ---------- */
 const PTT_PREFIX="ptt-radio-66ab9178/",PTT_BROKERS=["wss://public:public@public.cloud.shiftr.io","wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt","wss://test.mosquitto.org:8081"],PTT_RATE=12000;
@@ -553,19 +554,17 @@ kwLoad();
  if(q.get("autostart")==="0")return;
  const compact=q.get("compact")==="1";
  if(compact)document.body.classList.add("embed-mode");
- $("engine").value="free";
+ $("engine").value="sanket";
  $("inSrc").value="ptt";
  const fromQuery=(q.get("ch")||"").replace(/[^A-Za-z0-9-]/g,"").slice(0,40);const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^A-Za-z0-9-]/g,"").slice(0,40);const ch=fromQuery||stored||"virtual";
  $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
  inUI();syncPttBackLink();
  $("status").textContent="Starting live PTT listener… source and destination languages are configurable below.";
  const launch=()=>{if(pttOn)return;
-   /* Download and initialise local Whisper immediately, not after the first transmission. */
-   $("engine").value="free";localStorage.setItem("be_engine","free");
-   engSt("⏳ Waiting for local Whisper model download…");
-   loadAsr().catch(e=>{engSt("❌ Local Whisper download failed: "+e.message);});
+   $("engine").value="sanket";localStorage.setItem("be_engine","sanket");
+   engSt("Sanket Transcribe. On-device Whisper is used only if that server does not answer.");
    pttStart().then(()=>{
-     $("status").textContent="Listening to PTT channel "+ch+". Local Whisper is loading; selected language settings will be used.";
+     $("status").textContent="Listening to PTT channel "+ch+". Sanket Transcribe is the transcriber; selected language settings will be used.";
    }).catch(e=>{
      $("status").textContent="Listener could not start: "+e.message;
      pttStat("listener startup failed");
