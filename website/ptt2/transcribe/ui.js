@@ -1,6 +1,7 @@
 import { loadConfig, saveConfig, isAllowedServer } from "./config.js";
 import { localCapability, serverHealthy } from "./detect.js";
 import { transcribeTransmission } from "./router.js";
+import { lineFromRadio } from "./line.js";
 
 const notes = new Map();
 
@@ -62,7 +63,7 @@ function applyResult(recorder, key, result) {
   }
 }
 
-function startJob(recorder, key, wav) {
+function startJob(recorder, key, wav, line) {
   notes.set(key, { pending: true });
   decorateLog(recorder.entries);
   let settled = false;
@@ -72,7 +73,7 @@ function startJob(recorder, key, wav) {
     applyResult(recorder, key, result);
   };
   const watchdog = setTimeout(() => finish({ failed: true, text: "transcription failed", note: "timed out" }), SAFETY_MS);
-  transcribeTransmission(wav).then((result) => {
+  transcribeTransmission(wav, line).then((result) => {
     clearTimeout(watchdog);
     finish(result || { failed: true, text: "transcription failed" });
   }).catch((error) => {
@@ -93,7 +94,7 @@ export function watchRecorder(recorder, renderLog) {
       const key = Number(button.getAttribute("data-retry"));
       const wav = clips.get(key);
       if (!wav) return;
-      startJob(recorder, key, wav);
+      startJob(recorder, key, wav, lineFromRadio(globalThis.radio, { mine: true, name: globalThis.radio && globalThis.radio.name, id: globalThis.radio && globalThis.radio.id }));
     }, true);
   }
   const originalEnd = recorder.end.bind(recorder);
@@ -101,7 +102,7 @@ export function watchRecorder(recorder, renderLog) {
     const entry = originalEnd();
     if (entry && entry.wav) {
       remember(entry.key, entry.wav);
-      startJob(recorder, entry.key, entry.wav);
+      startJob(recorder, entry.key, entry.wav, lineFromRadio(globalThis.radio, entry));
     }
     return entry;
   };
@@ -121,14 +122,15 @@ export function mountSettings(root) {
       <option value="local">Local</option>
       <option value="server">Server</option>
     </select>
-    <p class="ptt2-hint">Auto and Server use Sanket Transcribe when it answers. Otherwise the clip stays on this device.</p>
+    <p class="ptt2-hint">Auto uses Sanket Transcribe when it answers. Line default keeps that channel's language and model.</p>
     <label for="ptt2Server">Sanket Transcribe server URL</label>
     <input id="ptt2Server" type="url" placeholder="https://….sanketptt.com" autocomplete="off">
     <label for="ptt2Language">Language</label>
     <select id="ptt2Language">
-      <option value="en">English</option>
+      <option value="auto">Line default</option>
+      <option value="gu">Gujarati</option>
       <option value="hi">Hindi</option>
-      <option value="auto">Auto</option>
+      <option value="en">English</option>
     </select>
     <div class="row"><label><input id="ptt2Translate" type="checkbox"> Translate to English</label></div>
     <p id="ptt2Status"></p>
@@ -140,7 +142,7 @@ export function mountSettings(root) {
   const status = root.querySelector("#ptt2Status");
   mode.value = config.mode;
   server.value = config.serverUrl;
-  language.value = ["en", "hi", "auto"].includes(config.language) ? config.language : "en";
+  language.value = ["en", "hi", "gu", "auto"].includes(config.language) ? config.language : "auto";
   translate.checked = config.translate;
 
   async function refreshStatus() {

@@ -69,6 +69,10 @@ class SanketRelay {
     this.socket = null;
     this.closed = false;
     this.rooms = [];
+    this.relayHost = "relay.canberravision.com";
+    this.speakerEmail = "";
+    this.username = "";
+    this.roomName = "";
     this.audio = new PeerAudio((to, kind, data) => this.signal(to, kind, data), (userId, pcm) => this.hear(userId, pcm));
     this.fail = (reason) => this.cb("net", reason ? "unreachable:" + reason : "unreachable");
     this.start();
@@ -83,6 +87,8 @@ class SanketRelay {
       });
       if (this.closed) return;
       this.token = login.token;
+      this.speakerEmail = account.email;
+      this.username = login.user && login.user.username || "";
       this.id = login.user && login.user.userId || "";
       const me = await api("/api/auth/me", { token: this.token });
       if (me.user && me.user.userId) this.id = me.user.userId;
@@ -100,6 +106,7 @@ class SanketRelay {
   async enterRoom(roomId) {
     const data = await api("/api/rooms/" + encodeURIComponent(roomId), { token: this.token });
     const room = data.room || {};
+    this.roomName = room.roomName || room.name || roomId;
     if (room.roomStatus && room.roomStatus !== "active") throw new Error("This channel has been disabled.");
     if (!room.memberRole) {
       await api("/api/rooms/" + encodeURIComponent(roomId) + "/join", {

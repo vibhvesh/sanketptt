@@ -30,7 +30,7 @@ async function runLocal(wavBuffer, config) {
   };
 }
 
-async function transcribeOne(wavBuffer) {
+async function transcribeOne(wavBuffer, line) {
   const clip = inspectWav(wavBuffer);
   if (!clip.ok) {
     return { source: "skip", text: "too short", skipped: true, note: clip.reason || "too short" };
@@ -41,7 +41,7 @@ async function transcribeOne(wavBuffer) {
     const health = await serverHealthy(config.serverUrl);
     if (health.ok) {
       try {
-        const remote = await transcribeRemote(config.serverUrl, wavBuffer, config);
+        const remote = await transcribeRemote(config.serverUrl, wavBuffer, config, line);
         return { ...remote, source: "server" };
       } catch (e) {
         try {
@@ -68,8 +68,8 @@ async function transcribeOne(wavBuffer) {
 }
 
 /** One clip at a time, so two rows cannot take each other's result. */
-export function transcribeTransmission(wavBuffer) {
-  const job = queue.then(() => transcribeOne(wavBuffer), () => transcribeOne(wavBuffer));
+export function transcribeTransmission(wavBuffer, line) {
+  const job = queue.then(() => transcribeOne(wavBuffer, line), () => transcribeOne(wavBuffer, line));
   queue = job.then(() => {}, () => {});
   return job;
 }

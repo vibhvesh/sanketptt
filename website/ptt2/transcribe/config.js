@@ -15,7 +15,7 @@ export const INTERNAL_TRANSCRIBE_HOST = "";
 const DEFAULTS = Object.freeze({
   mode: "auto",
   serverUrl: SANKET_TRANSCRIBE_SERVER,
-  language: "en",
+  language: "auto",
   translate: false,
 });
 
