@@ -11,7 +11,7 @@ npx create-db@latest --json
 
 Copy the printed `connectionString` into `DATABASE_URL` in this service's private `.env`. The database expires after 24 hours unless claimed with the supplied `claimUrl`. Do not commit either URL or credentials. Choose region ap-southeast-1 if creating interactively and nearest region is desired.
 
-## Configure and start
+## Populate the learning database\nOpen Prisma Studio or use `psql` with the temporary connection string, then run `seed-learning-db.sql` from this folder. It creates four related tables (assets, incidents, changes, vulnerabilities), 1,000 synthetic assets and linked operational records. The copilot then introspects the actual schema and foreign-key relationships. These are synthetic training records, not live infrastructure.\n\n## Configure and start
 1. Copy `.env.example` to `.env`.
 2. Set `DATABASE_URL` to the temporary database connection string.
 3. Set `OPENAI_API_KEY` to a server-side API key. Never put it in GitHub Pages/browser JavaScript.
