@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en" class="sanket-site"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f7f8fa"><link rel="icon" type="image/svg+xml" href="sanket-mark.svg"><title>Sanket — Communication. Control. Clarity.</title>
 <meta name="description" content="Try Sanket PTT live: internet push-to-talk radio, multi-user talk groups, live radio transcription, voice logging, SSTV, Raspberry Pi radio monitoring and RTL-SDR tools."><meta name="keywords" content="Sanket PTT, push to talk, PTT over IP, PoC radio, internet radio, radio over IP, MQTT radio, radio dispatch, talk group, two way radio app, live radio transcription, voice logging, radio recording, SSTV, amateur radio, ham radio, RTL-SDR, SDR spectrum monitoring, VOX squelch, airband receiver, marine VHF, Raspberry Pi radio, public address system, PA system, multi-line audio routing">
@@ -1189,8 +1189,8 @@ html,body{background:#f7f9f6!important;color:#24352d!important}
 <script>
 const menu=document.getElementById('menu'),links=document.getElementById('links');menu.addEventListener('click',()=>{let open=links.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'✕':'☰'});links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.textContent='☰'}));
 document.querySelectorAll('.demoTab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.demoTab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.demoScreen').forEach(p=>p.classList.toggle('active',p.id==='demo-'+btn.dataset.demo))}));
-const pw=document.getElementById('pttWave');for(let i=0;i<65;i++){const n=document.createElement('i');n.style.setProperty('--v',(7+Math.random()*42)+'px');pw.appendChild(n)}
-const wave=document.getElementById('wave');for(let i=0;i<92;i++){let b=document.createElement('i');b.style.setProperty('--h',(10+Math.random()*37)+'px');b.style.setProperty('--d',(Math.random()*-1.5)+'s');wave.appendChild(b)}
+const pw=document.getElementById('pttWave');if(pw)for(let i=0;i<65;i++){const n=document.createElement('i');n.style.setProperty('--v',(7+Math.random()*42)+'px');pw.appendChild(n)}
+const wave=document.getElementById('wave');if(wave)for(let i=0;i<92;i++){let b=document.createElement('i');b.style.setProperty('--h',(10+Math.random()*37)+'px');b.style.setProperty('--d',(Math.random()*-1.5)+'s');wave.appendChild(b)}
 
 /* Removed fabricated live telemetry and sample dispatch messages. */
 document.getElementById('year').textContent=new Date().getFullYear();
@@ -2441,4 +2441,5 @@ main#home .split>.shot .cap{width:100%!important;text-align:center!important}
 #tafRadioHub .taf-top-five button{height:auto!important;min-height:32px!important;max-height:none!important;padding:6px 10px!important}
 #tafRadioHub .taf-top-five button b{font-size:12px!important;line-height:1.2!important;display:inline!important}
 </style>
+<link rel="stylesheet" href="assets/theme.css">
 <script type="module" src="ptt/apply.js"></script></body></html>
