@@ -3,7 +3,19 @@
 export const RELAY_PUBLIC = "public";
 export const RELAY_SANKET = "sanket";
 export const STORAGE_KEY = "sanket.ptt2.relay";
-export const SANKET_UNREACHABLE = "Sanket relay unreachable";
+export const SANKET_UNREACHABLE = "Sanket is unreachable";
+export const PUBLIC_CHANNEL_KEY = "sanket.ptt2.publicChannel";
+
+/** Live public channels already used by the web radios. */
+export const PUBLIC_CHANNELS = Object.freeze([
+  { id: "virtual", name: "Virtual" },
+  { id: "master", name: "Master" },
+  { id: "city-control", name: "City Control" },
+  { id: "kolkata-control", name: "Kolkata Control" },
+  { id: "sanket-website-demo", name: "Website demo" },
+  { id: "dev", name: "Development" },
+  { id: "boondock", name: "Boondock Echo" },
+]);
 
 /** Same public relays the web PTT uses today, in the same order. */
 export const PUBLIC_BROKERS = Object.freeze([
@@ -30,6 +42,28 @@ export function accountFor(name) {
 export function loadAccount() {
   const query = new URLSearchParams(location.search).get("relayAccount");
   return query === "admin" ? "admin" : "operator";
+}
+
+export function loadPublicChannel() {
+  let stored = "";
+  try {
+    stored = localStorage.getItem(PUBLIC_CHANNEL_KEY) || "";
+  } catch (e) {
+    stored = "";
+  }
+  const query = new URLSearchParams(location.search).get("ch");
+  const id = String(query || stored || "virtual").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 40);
+  return id || "virtual";
+}
+
+export function savePublicChannel(id) {
+  const channel = String(id || "").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 40) || "virtual";
+  try {
+    localStorage.setItem(PUBLIC_CHANNEL_KEY, channel);
+  } catch (e) {
+    /* ignore */
+  }
+  return channel;
 }
 
 export function loadRoom() {
@@ -97,6 +131,7 @@ export function relaySpec(id) {
   return {
     id: RELAY_PUBLIC,
     brokers: PUBLIC_BROKERS.slice(),
+    channel: loadPublicChannel(),
     username: "",
     password: "",
     exclusive: false,
@@ -107,10 +142,9 @@ export function formatRelayNet(event, relayId, channel) {
   if (cleanRelay(relayId) === RELAY_SANKET && (event === "unreachable" || event === "disconnected" || String(event || "").indexOf("unreachable") === 0)) {
     return SANKET_UNREACHABLE;
   }
-  if (cleanRelay(relayId) === RELAY_SANKET && event === SANKET_RELAY_ORIGIN) {
-    return "Sanket relay connected · " + (channel || "");
-  }
-  const prefix = globalThis.PTT_PREFIX || "";
-  const topic = prefix + (channel || "");
-  return "relay: " + event + (topic ? " · topic " + topic : "");
+  const known = PUBLIC_CHANNELS.find((item) => item.id === channel);
+  const label = known ? known.name : (channel || "channel");
+  if (cleanRelay(relayId) === RELAY_SANKET && event === SANKET_RELAY_ORIGIN) return "Joined " + label;
+  if (event === "disconnected") return "Reconnecting.";
+  return "Joined " + label;
 }

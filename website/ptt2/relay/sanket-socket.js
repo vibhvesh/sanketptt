@@ -41,6 +41,17 @@ export function openSanketRelay(options) {
   return new SanketRelay(options || {});
 }
 
+/** Channels assigned to the signed-in demo account. */
+export async function assignedRooms(accountName) {
+  const account = accountFor(accountName || "operator");
+  const login = await api("/api/auth/login", {
+    method: "POST",
+    body: { email: account.email, password: account.password },
+  });
+  const listed = await api("/api/rooms", { token: login.token });
+  return (listed.rooms || []).filter((room) => room.memberRole && room.roomId);
+}
+
 class SanketRelay {
   constructor(options) {
     this.cb = options.on || function () {};
