@@ -1,31 +1,52 @@
--- Sanket IT Intelligence demo inventory
--- Run this AFTER schema.sql in Supabase SQL Editor.
--- Uses illustrative sample infrastructure only; no real hosts or credentials.
-insert into public.assets
-  (name, hostname, asset_type, platform, environment, owner, status, notes)
-select v.name, v.hostname, v.asset_type, v.platform, v.environment, v.owner, v.status, v.notes
-from (values
- ('Citrix Delivery Controller 01','ctx-ddc-01.demo','Server','Windows Server 2022 / Citrix CVAD','Production','EU​​C Infrastructure','Healthy','Demo primary delivery controller'),
- ('Citrix Delivery Controller 02','ctx-ddc-02.demo','Server','Windows Server 2022 / Citrix CVAD','Production','EU​​C Infrastructure','Healthy','Demo secondary delivery controller'),
- ('Citrix StoreFront 01','ctx-sf-01.demo','Server','Windows Server 2022 / StoreFront','Production','EU​​C Infrastructure','Healthy','Demo StoreFront node'),
- ('Citrix Virtual Apps Worker 01','ctx-vda-01.demo','Server','Windows Server 2019 / VDA','Production','EU​​C Infrastructure','Warning','Demo patch compliance review'),
- ('Citrix Virtual Apps Worker 02','ctx-vda-02.demo','Server','Windows Server 2019 / VDA','Production','EU​​C Infrastructure','Healthy','Demo session host'),
- ('NetScaler ADC Primary','nsadc-pri.demo','Network','Citrix NetScaler ADC','Production','Network Operations','Healthy','Demo load balancing appliance'),
- ('NetScaler ADC Secondary','nsadc-sec.demo','Network','Citrix NetScaler ADC','DR','Network Operations','Maintenance','Demo scheduled firmware maintenance'),
- ('VMware vCenter','vcsa-01.demo','Application','VMware vSphere 8','Production','Virtualisation','Healthy','Demo virtualisation management'),
- ('VMware ESXi Host 01','esx-01.demo','Server','VMware ESXi 8','Production','Virtualisation','Healthy','Demo hypervisor host'),
- ('VMware ESXi Host 02','esx-02.demo','Server','VMware ESXi 8','Production','Virtualisation','Warning','Demo datastore capacity warning'),
- ('Active Directory Domain Controller 01','ad-dc-01.demo','Server','Windows Server 2022 / AD DS','Production','Identity Team','Healthy','Demo domain controller'),
- ('DNS / DHCP Server','infra-dns-01.demo','Server','Windows Server 2022 / DNS DHCP','Production','Infrastructure','Healthy','Demo core network services'),
- ('Backup Repository','bkp-repo-01.demo','Storage','Linux / Backup Repository','DR','Backup Team','Critical','Demo backup job failure alert'),
- ('PostgreSQL Database','db-pg-01.demo','Application','PostgreSQL 16','Production','Database Team','Healthy','Demo application database'),
- ('Linux Monitoring Node','mon-linux-01.demo','Server','Ubuntu Server 24.04','Development','SRE','Healthy','Demo monitoring and metrics node'),
- ('Wireless Controller','wlc-01.demo','Network','Cisco Wireless LAN Controller','UAT','Network Operations','Maintenance','Demo planned maintenance'),
- ('File Services Cluster','fs-cluster-01.demo','Storage','Windows Server 2022 / SOFS','Production','Storage Team','Warning','Demo storage threshold approaching'),
- ('Public Web Frontend','web-frontend-01.demo','Application','Nginx / Linux','Production','Web Operations','Healthy','Demo public website frontend'),
- ('Endpoint Management','uem-01.demo','Application','Microsoft Intune','Production','Endpoint Team','Healthy','Demo endpoint management service'),
- ('Test API Service','api-test-01.demo','Application','FastAPI / Python','Development','Application Team','Critical','Demo failed health check')
-) as v(name,hostname,asset_type,platform,environment,owner,status,notes)
+-- Sanket IT Intelligence: generate 1,000 realistic synthetic infrastructure assets.
+-- Run in Supabase SQL Editor after schema.sql and the public-test RLS policies.
+-- Safe to re-run: hostnames are deterministic and duplicates are skipped.
+-- All records are fictional demo data; no real devices are discovered.
+
+with generated as (
+  select
+    n,
+    (array['Server','Network','Storage','Application','Endpoint','Cloud service','Other'])[((n-1)%7)+1] as asset_type,
+    (array['Production','UAT','Development','DR','Lab'])[((n-1)%5)+1] as environment,
+    (array['Healthy','Healthy','Healthy','Warning','Critical','Maintenance'])[((n-1)%6)+1] as status,
+    (array['EU​​C Infrastructure','Virtualisation','Network Operations','Database Team','Storage Team','SRE','Security Operations','Endpoint Team','Application Support','Cloud Platform'])[((n-1)%10)+1] as owner,
+    (array[
+      'Windows Server 2022','Windows Server 2019','Ubuntu Server 24.04','Red Hat Enterprise Linux 9',
+      'VMware ESXi 8','Citrix NetScaler ADC','PostgreSQL 16','Microsoft SQL Server 2022',
+      'Nginx / Linux','Cisco IOS-XE','Microsoft Active Directory','Kubernetes','VMware vCenter 8',
+      'Microsoft Intune','Redis 7','Rocky Linux 9','Proxmox VE','Pure Storage','Veeam Backup',
+      'Microsoft Exchange Server'
+    ])[((n-1)%20)+1] as platform
+  from generate_series(1,1000) as s(n)
+),
+rows_to_insert as (
+  select
+    case asset_type
+      when 'Server' then (array['Compute Node','Domain Controller','Citrix Delivery Controller','Session Host','Web Server','Monitoring Node','File Server','Application Server'])[((n-1)%8)+1]
+      when 'Network' then (array['Core Switch','Edge Router','Load Balancer','Firewall','Wireless Controller','VPN Gateway'])[((n-1)%6)+1]
+      when 'Storage' then (array['Backup Repository','SAN Array','NAS Cluster','Object Storage Node','Storage Gateway'])[((n-1)%5)+1]
+      when 'Application' then (array['API Service','Database Service','Web Portal','Message Broker','Identity Service','Monitoring Platform'])[((n-1)%6)+1]
+      when 'Endpoint' then (array['Managed Workstation','VDI Endpoint','Kiosk Terminal','Engineering Workstation'])[((n-1)%4)+1]
+      when 'Cloud service' then (array['Cloud VM','Object Bucket','Managed Database','Container Cluster'])[((n-1)%4)+1]
+      else (array['Test Appliance','Lab Device','Utility Service'])[((n-1)%3)+1]
+    end || ' ' || lpad(n::text,4,'0') as name,
+    'sanket-demo-' || lpad(n::text,4,'0') || '.demo' as hostname,
+    asset_type,
+    platform,
+    environment,
+    owner,
+    status,
+    'Synthetic test record #' || n || '. Generated for Sanket IT Intelligence dashboard testing; not a real discovered asset.' as notes
+  from generated
+)
+insert into public.assets (name,hostname,asset_type,platform,environment,owner,status,notes)
+select name,hostname,asset_type,platform,environment,owner,status,notes
+from rows_to_insert
 where not exists (
-  select 1 from public.assets a where a.hostname = v.hostname
+  select 1 from public.assets existing where existing.hostname=rows_to_insert.hostname
 );
+
+-- Verify count of generated demo assets:
+select count(*) as generated_demo_assets
+from public.assets
+where hostname like 'sanket-demo-%.demo';
