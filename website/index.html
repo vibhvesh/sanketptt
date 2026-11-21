@@ -27,6 +27,7 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 @media(max-width:460px){.wrap{width:calc(100% - 24px)}.feature-grid,.product-grid,.pricing-grid{grid-template-columns:1fr}.demo-head{align-items:flex-start;flex-direction:column}.demo-panel iframe,.demo-panel.transcript iframe{height:330px}.topology{padding:12px}.topology-grid{grid-template-columns:1fr 1fr}.price-card{padding:16px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
+<link rel="stylesheet" href="assets/yatra.css">
 </head>
 <body>
 <header><div class="wrap nav">
@@ -36,8 +37,36 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 <a class="login" href="https://sanketptt.com/radio/" data-link="ptt" target="_blank" rel="noopener">CHANNEL LOGIN ↗</a>
 <a class="login demo-link" href="#live-demo">LIVE TRANSCRIPTION DEMO ↓</a>
 </nav><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+<div class="yatra-tools" aria-label="Shortcuts"><a href="#pricing" aria-label="Offers"><svg viewBox="0 0 24 24"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2 7h20v5H2zM12 7v14M12 7c-1.5-3-5-3-5 0s3.5 0 5 0c1.5-3 5-3 5 0s-3.5 0-5 0"/></svg></a><a href="#contact" aria-label="Wallet"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm14 6h3"/></svg></a><a href="#contact" aria-label="Alerts"><svg viewBox="0 0 24 24"><path d="M6 16V10a6 6 0 1 1 12 0v6l1.5 2H4.5zM10 19a2 2 0 0 0 4 0"/></svg><i>1</i></a></div>
 </div></header>
 <main id="top">
+<section class="yatra-launch"><div class="wrap">
+<div class="yatra-card">
+<div class="yatra-tiles" id="yatraTiles">
+<a href="sanket-radios/"><em>Free</em><span>◉</span><b>Radios</b></a>
+<a href="ptt2/"><em>New</em><span>▣</span><b>PTT 2</b></a>
+<a href="transcribe/"><span>▤</span><b>Transcribe</b></a>
+<a href="#sdr"><em>Meet</em><span>◎</span><b>SDR</b></a>
+<a href="#pricing"><span>₹</span><b>Pricing</b></a>
+<a class="yatra-more" href="radio-hub.html"><span>⌘</span><b>Radio hub</b></a>
+<a class="yatra-more" href="try/"><span>▶</span><b>Try it</b></a>
+<a class="yatra-more" href="demo.html"><span>✦</span><b>Live demo</b></a>
+<a class="yatra-more" href="aakashvani/"><span>📢</span><b>Vaani PA</b></a>
+</div>
+<button class="yatra-chevron" type="button" id="yatraMore" aria-expanded="false" aria-label="More services">⌄</button>
+</div>
+<div class="yatra-ctas">
+<a class="yatra-cta fill" href="demo.html"><span>✦</span> Try Sanket live</a>
+<a class="yatra-cta line" href="#contact"><span>✉</span> Talk to us</a>
+</div>
+<div class="yatra-section-head"><h2><span>✦</span> Offers for teams</h2><a href="#pricing">View all</a></div>
+<div class="yatra-offers">
+<article><div class="art">PTT</div><div><b>Free public radios</b><small>Share one link and talk</small><a href="sanket-radios/">OPEN</a></div></article>
+<article><div class="art">1 HR</div><div><b>Cloud recordings</b><small>Latest hour, then it rolls off</small><a href="#pricing">CLOUD</a></div></article>
+<article><div class="art">25+</div><div><b>Volume on lines</b><small>10% off 25, 15% off 100</small><a href="#pricing">LINES</a></div></article>
+</div>
+<div class="yatra-promo"><div><b>Talk on a free channel today</b><small>Public radios. No email or password. Hold PTT, release to listen.</small></div><a href="sanket-radios/">Open radios</a></div>
+</div></section>
 <section class="hero" style="border:0">
 <div class="wrap">
 <div class="hero-grid">
@@ -67,7 +96,7 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 <div class="feature-grid">
 <article class="feature"><div class="num">01 / COMMUNICATE</div><h3>Channel-based PTT</h3><p>Secure, authenticated talk groups for teams, sites and control rooms.</p><ul><li>Five concurrent users on each cloud channel</li><li>Channel presence and transmission activity</li><li>Managed bandwidth and audio quality</li></ul></article>
 <article class="feature"><div class="num">02 / UNDERSTAND</div><h3>Transcription built in</h3><p>Audio is routed through the Sanket transcription service, with optional local Whisper processing.</p><ul><li>Live speech-to-text</li><li>Multilingual transcription options</li><li>Local fallback when server connectivity is unavailable</li></ul></article>
-<article class="feature"><div class="num">03 / REVIEW</div><h3>Channel dashboard & history</h3><p>Each channel has its own operational dashboard and communication history.</p><ul><li>See messages and transmission activity</li><li>Review recordings and transcripts</li><li>Cloud plan includes five hours of recording history</li></ul></article>
+<article class="feature"><div class="num">03 / REVIEW</div><h3>Channel dashboard & history</h3><p>Each channel has its own operational dashboard and communication history.</p><ul><li>See messages and transmission activity</li><li>Review recordings and transcripts</li><li>Cloud plan keeps the latest 1 hour of recordings</li></ul></article>
 </div></div></section>
 <section id="topology"><div class="wrap">
 <div class="section-head"><div class="eyebrow">NETWORK TOPOLOGY</div><h2>One communication layer. Cloud or local intelligence.</h2><p>Sanket routes channel audio through the communication and transcription services. Local deployments can keep recordings, storage and speech processing at the customer's site.</p></div>
@@ -86,18 +115,26 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 <rect x="20" y="235" width="235" height="58" rx="9" fill="#332a24" stroke="#b97643"/><text x="137" y="258" fill="#ffe0c3" font-size="12" font-weight="800">OPTIONAL LOCAL WHISPER</text><text x="137" y="276" fill="#d4b59b" font-size="10">Client-side fallback / offline</text>
 <rect x="770" y="235" width="285" height="58" rx="9" fill="#18352f" stroke="#3e9e7a"/><text x="912" y="258" fill="#c6f8e4" font-size="12" font-weight="800">LOCAL STORAGE / GPU SERVER</text><text x="912" y="276" fill="#9bcab7" font-size="10">Self-hosted recording & processing</text>
 </g></svg>
-<div class="topology-grid"><div class="topo-card"><b>Cloud channel</b><span>Managed relay, bandwidth and audio quality</span></div><div class="topo-card"><b>Transcription</b><span>Central Sanket service; optional local Whisper</span></div><div class="topo-card"><b>Cloud history</b><span>Five-hour rolling recording window on cloud plan</span></div><div class="topo-card"><b>Local enterprise</b><span>Customer-controlled storage and offline processing</span></div></div>
+<div class="topology-grid"><div class="topo-card"><b>Cloud channel</b><span>Managed relay, bandwidth and audio quality</span></div><div class="topo-card"><b>Transcription</b><span>Central Sanket service; optional local Whisper</span></div><div class="topo-card"><b>Cloud history</b><span>Latest 1 hour of recordings, then older audio rolls off</span></div><div class="topo-card"><b>Local enterprise</b><span>Customer-controlled storage and offline processing</span></div></div>
 <div class="topology-note">Local Whisper is an optional fallback and must be installed/configured on a compatible client device. The demo above uses a shared demonstration channel, not a private customer channel.</div>
 </div></div></section>
 <section id="pricing"><div class="wrap">
-<div class="section-head"><div class="eyebrow">CLEAR DEPLOYMENT OPTIONS</div><h2>Start in the cloud. Scale into your own infrastructure.</h2><p>Choose per-channel cloud service or a local installation with customer-controlled hardware and storage.</p></div>
+<div class="yatra-section-head"><h2><span>₹</span> Choose how you want to run Sanket</h2><a href="#contact">View all</a></div>
+<div class="yatra-filters" role="tablist" aria-label="Pricing filters"><button type="button" class="is-on" data-filter="all">All</button><button type="button" data-filter="cloud">Cloud</button><button type="button" data-filter="dedicated">Dedicated</button><button type="button" data-filter="addon">Add-ons</button></div>
 <div class="pricing-grid">
-<article class="price-card featured"><div class="plan-tag">CLOUD · MANAGED</div><h3>Sanket Cloud</h3><div class="price">₹450 <small>/ channel / month</small></div><div class="price-sub">One channel with up to five concurrent users.</div><ul><li>Hosted cloud channel; no customer hardware</li><li>Five concurrent users share the channel</li><li>Managed bandwidth and audio quality</li><li>Dedicated dashboard for each channel</li><li>Message and transmission history</li><li>Five hours of cloud recording history</li><li>Older recordings auto-flushed unless retained</li></ul><a class="btn" href="#contact">Choose cloud channels ↗</a></article>
+<article class="price-card featured" data-plan="cloud"><div class="plan-tag">CLOUD LINE</div><h3>Cloud</h3><div class="price">₹450 <small>per line / month</small></div><div class="price-sub">Unlimited live push-to-talk. The latest 1 hour of recordings is kept.</div><ul><li>Unlimited live push-to-talk</li><li>Latest 1 hour of recordings kept</li><li>Rolling: older audio rolls off automatically</li><li>Hosted line, no server to buy</li></ul><a class="btn" href="#contact">Choose Cloud ↗</a></article>
 <article class="price-card"><div class="plan-tag">LOCAL · 20 CHANNELS</div><h3>Sanket Local 20</h3><div class="price">₹35,000 <small>/ year</small></div><div class="price-sub">Local hardware configuration for 20 channels / 20 concurrent users.</div><ul><li>Customer-side hardware deployment</li><li>20 channels and 20 concurrent capacity</li><li>Local channel management</li><li>Annual hardware / service configuration</li><li>Final storage and support scope confirmed in quote</li></ul><a class="btn secondary" href="#contact">Request Local 20 ↗</a></article>
 <article class="price-card"><div class="plan-tag">LOCAL · 50 CHANNELS</div><h3>Sanket Local 50</h3><div class="price">₹55,000 <small>one-time</small></div><div class="price-sub">Local hardware configuration for 50 channels.</div><ul><li>Local PTT channel server</li><li>Local Whisper transcription</li><li>Transcription engine updates</li><li>Controlled model improvements</li><li>No recurring licence fee</li></ul><a class="btn secondary" href="#contact">Request Local 50 ↗</a></article>
 <article class="price-card"><div class="plan-tag">ENTERPRISE · GPU</div><h3>Sanket Enterprise 200</h3><div class="price">₹5,50,000 <small>one-time · from</small></div><div class="price-sub">Initial configuration for 200 channels; expandable up to 500.</div><ul><li>Self-hosted GPU transcription server</li><li>Local Whisper and multilingual processing</li><li>Dedicated local storage, expandable</li><li>Offline transcription at your location</li><li>Local cockpit and traffic management</li><li>Optional additional drives or Sanket cloud storage</li><li>No recurring licence fee</li></ul><a class="btn" href="#contact">Configure enterprise ↗</a></article>
+<article class="price-card" data-plan="dedicated"><div class="plan-tag">YOUR HARDWARE</div><h3>Dedicated Server</h3><div class="price">₹5.66 lakh <small>one-time</small></div><div class="price-sub">Hardware and software for 100 lines.</div><ul><li>100 lines</li><li>No recurring licence fee</li><li>Priority support and updates: ₹100 per user / month</li></ul><a class="btn secondary" href="#contact">Talk about a dedicated server ↗</a></article>
+<article class="price-card" data-plan="dedicated"><div class="plan-tag">PUBLIC ADDRESS</div><h3>Sanket आकाशवाणी</h3><div class="price">₹35,000 <small>one-time</small></div><div class="price-sub">Raspberry Pi software setup with 4 AUX audio outputs.</div><ul><li>Software included</li><li>Remote support included</li></ul><a class="btn secondary" data-link="aakashvani" href="https://sanketptt.com/aakashvani/">Open control room ↗</a></article>
+<article class="price-card" data-plan="addon"><div class="plan-tag">ADD-ON</div><h3>Extra retention</h3><div class="price">₹100 <small>/ month</small></div><div class="price-sub">Per extra 10 hours of recordings.</div><ul><li>+10 hours kept beyond the cloud hour</li></ul><a class="btn secondary" href="#contact">Add retention ↗</a></article>
+<article class="price-card" data-plan="addon"><div class="plan-tag">ADD-ON</div><h3>Retention Pro</h3><div class="price">₹150 <small>/ line / month</small></div><div class="price-sub">30 days of recordings.</div><ul><li>30 days kept on that line</li></ul><a class="btn secondary" href="#contact">Add Retention Pro ↗</a></article>
+<article class="price-card" data-plan="addon"><div class="plan-tag">ADD-ON</div><h3>Transcription + translation</h3><div class="price">₹199 <small>per 300 minutes</small></div><div class="price-sub">Gujarati, Hindi and English.</div><ul><li>Transcription and translation</li></ul><a class="btn secondary" href="#contact">Add transcription ↗</a></article>
+<article class="price-card" data-plan="addon"><div class="plan-tag">ADD-ON</div><h3>Dispatcher console seat</h3><div class="price">₹999 <small>/ month</small></div><div class="price-sub">One dispatcher seat.</div><ul><li>Console seat for a dispatcher</li></ul><a class="btn secondary" href="#contact">Add a seat ↗</a></article>
+<article class="price-card" data-plan="addon"><div class="plan-tag">ADD-ON</div><h3>SDR / radio gateway bridge</h3><div class="price">Ask <small>for price</small></div><div class="price-sub">Price on request.</div><ul><li>Bridge a radio or SDR gateway</li></ul><a class="btn secondary" href="#contact">Ask for price</a></article>
 </div>
-<div class="price-note"><b>Enterprise capacity pricing:</b> ₹5,50,000 is the starting one-time configuration for 200 channels. Expansion toward 500 channels changes the required GPU, storage and network capacity; the final price is quoted against the configured channel count and workload. Additional cloud storage is purchased separately. Local storage can be expanded with compatible drives. Cloud recording retention is a rolling five-hour window; older recordings are automatically flushed unless retained under the configured policy.</div>
+<div class="price-note"><b>Volume.</b> 10% off 25+ lines. 15% off 100+ lines. 2 months free on annual billing. Cloud is ₹450 per line per month with unlimited live push-to-talk and the latest 1 hour of recordings; older audio rolls off automatically. Dedicated Server is ₹5.66 lakh one-time for 100 lines. Priority support and updates are ₹100 per user per month. Sanket आकाशवाणी is ₹35,000 one-time. Enterprise capacity still starts at ₹5,50,000 for 200 channels and is quoted as the channel count grows.</div>
 </div></section>
 <section id="products"><div class="wrap">
 <div class="section-head"><div class="eyebrow">THE SANKET PRODUCT FAMILY</div><h2>One platform. More ways to connect.</h2><p>Purpose-built products that extend the same communication and transcription foundation.</p></div>
@@ -105,7 +142,9 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 <article class="product"><div class="icon">◉</div><h3>Sanket PTT</h3><p>Browser and mobile push-to-talk with authenticated channels, user presence, floor control and communication history.</p><a data-link="ptt" href="https://sanketptt.com/radio/">Open PTT ↗</a></article>
 <article class="product"><div class="icon">▤</div><h3>Sanket Transcribe</h3><p>Live multilingual transcription, recording review, searchable text and speech intelligence through the Sanket service.</p><a data-link="transcribe" href="https://sanketptt.com/transcribe/">Open Transcribe ↗</a></article>
 <article class="product"><div class="icon">▣</div><h3>Sanket Control Room</h3><p>A central cockpit for channel activity, operators, recordings, transcripts and multi-location operations.</p><a href="#topology">View architecture ↑</a></article>
-<article class="product"><div class="icon">▤</div><h3>Sanket आकाशवाणी</h3><p>A public announcement system that receives PTT or announcement streams and distributes audio to connected speakers.</p><p><b>₹65,000 + taxes · one-time installation</b><br>Four PTT input channels and four speaker outputs. PTT channel charges apply separately; free channels may also be used.</p><a data-link="aakashvani" href="https://sanketptt.com/aakashvani/">Explore आकाशवाणी ↗</a></article>
+<article class="product"><div class="icon">▤</div><h3>Sanket आकाशवाणी</h3><p>A public announcement system that receives PTT or announcement streams and distributes audio to connected speakers.</p><p><b>₹35,000 one-time</b><br>Four PTT input channels and four speaker outputs. PTT channel charges apply separately; free channels may also be used.</p><a data-link="aakashvani" href="https://sanketptt.com/aakashvani/">Explore आकाशवाणी ↗</a></article>
+<article class="product" id="sdr"><div class="icon">◎</div><h3>Sanket SDR</h3><p>SDR-based surveillance for authorised military and defence use. Request a meeting to discuss a deployment.</p><a href="#contact">Request a meeting</a></article>
+<article class="product" id="vaani"><div class="icon">✦</div><h3>SanketVaani</h3><p>A learning agent that runs beside a leading model, compares outputs, and learns where the local model fell short.</p><a href="#contact">Ask for price</a></article>
 <article class="product"><div class="icon">⌘</div><h3>Custom Solutions</h3><p>Scalable deployments based on your requirements, including integration with existing communication, networking, infrastructure and software systems.</p><a href="#contact">Discuss a custom deployment ↗</a></article>
 <article class="product"><div class="icon">✳</div><h3>Adaptive Speech Intelligence</h3><p>Controlled learning from approved recordings and verified corrections to improve recognition of local languages, accents and domain vocabulary.</p><a href="#contact">Discuss speech intelligence ↗</a></article>
 </div>
@@ -124,7 +163,7 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 <section class="contact" id="contact"><div class="wrap">
 <div class="section-head"><div class="eyebrow">LET'S PLAN YOUR DEPLOYMENT</div><h2>Tell us how many channels you need.</h2><p>We'll size the channel capacity, concurrent users, transcription workload, storage and deployment hardware together.</p></div>
 <div class="contact-grid"><form id="contactForm"><label for="name">Name</label><input id="name" name="name" required placeholder="Your name"><label for="email">Work email</label><input id="email" name="email" type="email" required placeholder="you@organisation.com"><label for="org">Organisation</label><input id="org" name="org" placeholder="Organisation"><label for="channels">Estimated channel count</label><input id="channels" name="channels" placeholder="e.g. 20, 50, 200 or 500"><label for="message">What do you need?</label><textarea id="message" name="message" rows="4" required placeholder="Cloud or local deployment, languages, storage, sites and integrations…"></textarea><button class="btn" type="submit">Prepare enquiry ↗</button><p class="note" id="formNote">This form prepares an email draft; it does not submit information to a website server.</p></form>
-<div class="contact-info"><h3>Canberra Vision AI Systems</h3><p>Sanket is designed for teams that need dependable communication, clear records and practical speech intelligence.</p><p><b>Email</b><br><a href="mailto:akshatsingh@canberravision.com">akshatsingh@canberravision.com</a><br><a href="mailto:akshat@sanketptt.com">akshat@sanketptt.com</a></p><p><b>Phone</b><br><a href="tel:+919998299023">+91 99982 99023</a></p><p><a class="btn secondary" href="https://sanketptt.com/radio/" data-link="ptt" target="_blank" rel="noopener">Sign in to Sanket channels ↗</a></p><p style="font-size:10px;color:#8291a0">Production channel access requires authentication. The embedded homepage demo is a shared public demonstration channel only.</p></div></div>
+<div class="contact-info"><h3>Akshat Singh</h3><p>Canberra Vision AI Systems. Sanket is designed for teams that need dependable communication, clear records and practical speech intelligence.</p><p>713 Samanvay Silver, Akota, Vadodara, Gujarat, India</p><p><b>Email</b><br><a href="mailto:akshatsingh@canberravision.com">akshatsingh@canberravision.com</a><br><a href="mailto:akshat@sanketptt.com">akshat@sanketptt.com</a></p><p><b>Phone</b><br><a href="tel:+919998299023">+91 99982 99023</a></p><p><a class="btn secondary" href="https://sanketptt.com/radio/" data-link="ptt" target="_blank" rel="noopener">Sign in to Sanket channels ↗</a></p><p style="font-size:10px;color:#8291a0">Production channel access requires authentication. The embedded homepage demo is a shared public demonstration channel only.</p></div></div>
 </div></section>
 </main>
 <footer class="wrap"><span><b>SANKET</b> · Canberra Vision AI Systems</span><span>Cloud, local and enterprise deployments · © <span id="year"></span></span><span>Verify critical transcripts and alerts before operational use.</span></footer>
@@ -136,4 +175,5 @@ document.getElementById('year').textContent=new Date().getFullYear();
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.target);const subject=encodeURIComponent('Sanket deployment enquiry — '+d.get('name'));const body=encodeURIComponent('Name: '+d.get('name')+'\nEmail: '+d.get('email')+'\nOrganisation: '+d.get('org')+'\nEstimated channels: '+d.get('channels')+'\n\n'+d.get('message'));location.href='mailto:akshatsingh@canberravision.com?cc=akshat@sanketptt.com&subject='+subject+'&body='+body;document.getElementById('formNote').textContent='Your email app should open with the enquiry draft. Nothing is submitted to a website server.'});
 </script>
 <script type="module" src="ptt/apply.js"></script>
+<script src="assets/yatra.js" data-root=""></script>
 </body></html>\n<!-- Sanket website preview revision: 2026-11-21 -->\n
