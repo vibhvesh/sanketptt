@@ -18,6 +18,10 @@ The existing Sanket PTT root app, Transcribe app and Pi service are not modified
 
 The page references existing guide screenshots from `docs/img/` in this repository using raw GitHub URLs.
 
+## Internal lead finder
+
+`/leads/` is an unlisted sales page (noindex, not in the site menu). It calls the Render API at https://sanket-leads.onrender.com. Setup is in [`../leads/README.md`](../leads/README.md).
+
 ## Notes
 
 - Dashboard activity, messages, signal graphs and counts are illustrative sample data, not live system telemetry.

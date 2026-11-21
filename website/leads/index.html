@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#12345a">
+<title>Sanket lead finder</title>
+<link rel="icon" type="image/svg+xml" href="../sanket-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leads.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="../"><img src="../sanket-mark.svg" alt="" width="36" height="36"><span>SANKET <b>PTT</b><small>CANBERRA VISION</small></span></a>
+    <p class="private">Internal · not linked in the site menu</p>
+  </div>
+</header>
+<main class="wrap">
+  <section id="gate" class="card">
+    <p class="eyebrow">Sales desk</p>
+    <h1>Find leads</h1>
+    <p class="lede">Search public places and company pages for Sanket PTT prospects. Nothing is invented: a missing phone, email or address stays blank.</p>
+    <form id="gate-form">
+      <label for="token">Shared password</label>
+      <input id="token" type="password" autocomplete="current-password" required>
+      <label for="service">Lead service address</label>
+      <input id="service" type="url" inputmode="url" placeholder="Leave blank when this page is served by the lead service" autocomplete="off">
+      <button class="btn" type="submit">Open the desk</button>
+      <p id="gate-error" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <section id="desk" hidden>
+    <div class="layout">
+      <form id="search-form" class="card">
+        <p class="eyebrow">New search</p>
+        <h2>Where should we look?</h2>
+        <div class="grid">
+          <div class="field">
+            <label for="country-input">Country</label>
+            <div class="combo" id="country-combo">
+              <input id="country-input" class="combo-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="country-list" autocomplete="off" required>
+              <ul id="country-list" class="combo-list" role="listbox" hidden></ul>
+            </div>
+          </div>
+          <div class="field">
+            <label for="state-input">State / region</label>
+            <div class="combo" id="state-combo">
+              <input id="state-input" class="combo-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="state-list" autocomplete="off">
+              <ul id="state-list" class="combo-list" role="listbox" hidden></ul>
+            </div>
+          </div>
+          <div class="field">
+            <label for="city-input">City / spot</label>
+            <div class="combo" id="city-combo">
+              <input id="city-input" class="combo-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="city-list" autocomplete="off">
+              <ul id="city-list" class="combo-list" role="listbox" hidden></ul>
+            </div>
+          </div>
+          <div class="field">
+            <label for="radius">Radius</label>
+            <select id="radius"></select>
+          </div>
+          <div class="field wide">
+            <label for="industry">Industry</label>
+            <select id="industry"></select>
+          </div>
+          <div class="field">
+            <label for="query-type">Query type</label>
+            <select id="query-type">
+              <option value="meet">Meet in person</option>
+              <option value="contacts">Email / phone contacts</option>
+              <option value="sweep">Industry sweep</option>
+              <option value="person">Contact person</option>
+            </select>
+          </div>
+          <div class="field wide">
+            <label for="cache-mode">Saved results</label>
+            <select id="cache-mode">
+              <option value="reuse" selected>Reuse matches from the last 24 hours</option>
+              <option value="fresh">Search public sources again</option>
+            </select>
+          </div>
+        </div>
+        <p id="query-help" class="note"></p>
+        <button class="btn" id="search-btn" type="submit">Search public sources</button>
+        <p id="status" class="note" role="status"></p>
+      </form>
+      <aside class="card history">
+        <h2>Saved searches</h2>
+        <ul id="history"><li class="empty">None yet.</li></ul>
+      </aside>
+    </div>
+
+    <section id="warnings" class="warnings" hidden></section>
+    <section class="card results" id="results" hidden>
+      <div class="results-head">
+        <div>
+          <p class="eyebrow">Results</p>
+          <h2 id="results-title">Leads</h2>
+          <p id="results-meta" class="note"></p>
+        </div>
+        <div class="actions">
+          <button class="btn secondary" id="export-csv" type="button">Export CSV</button>
+          <button class="btn secondary" id="export-xlsx" type="button">Export Excel</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Distance</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Website</th>
+              <th>Contact</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <details>
+        <summary>Search log</summary>
+        <ol id="log"></ol>
+      </details>
+    </section>
+  </section>
+</main>
+<footer class="wrap foot">
+  <span>Sanket · Canberra Vision · internal use</span>
+  <span>Places © OpenStreetMap contributors</span>
+</footer>
+<script src="config.js"></script>
+<script src="leads.js"></script>
+</body>
+</html>
