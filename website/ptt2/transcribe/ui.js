@@ -8,10 +8,14 @@ function escapeText(value) {
   return String(value).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
 }
 
-function lineHtml(note) {
+function lineHtml(note, key) {
   if (!note || note.pending) return '<span class="ptt2-badge wait">…</span> transcribing';
+  if (note.skipped) return '<span class="ptt2-badge wait">too short</span> too short';
+  if (note.failed) {
+    return '<span class="ptt2-badge local">failed</span> transcription failed <button type="button" class="ptt2-retry" data-retry="' + key + '">Retry</button>';
+  }
   const label = note.source === "server" ? "server" : "local";
-  const text = note.text ? escapeText(note.text) : "(empty result)";
+  const text = note.text ? escapeText(note.text) : "(no speech)";
   const extra = note.note ? `<span class="ptt2-note">${escapeText(note.note)}</span>` : "";
   return `<span class="ptt2-badge ${label}">${label}</span> ${text}${extra}`;
 }
@@ -30,28 +34,74 @@ export function decorateLog(entries) {
       line.className = "ptt2-line";
       item.append(line);
     }
-    line.innerHTML = lineHtml(notes.get(entry.key));
+    line.innerHTML = lineHtml(notes.get(entry.key), entry.key);
+  });
+}
+
+const clips = new Map();
+const SAFETY_MS = 50000;
+
+function remember(key, wav) {
+  clips.set(key, wav);
+  if (clips.size > 30) clips.delete(clips.keys().next().value);
+}
+
+function applyResult(recorder, key, result) {
+  notes.set(key, {
+    pending: false,
+    skipped: !!result.skipped,
+    failed: !!result.failed,
+    source: result.source,
+    text: result.text || "",
+    note: result.note || "",
+  });
+  decorateLog(recorder.entries);
+  if (result.note && !result.skipped) {
+    const status = document.getElementById("ptt2Status");
+    if (status) status.textContent = result.note;
+  }
+}
+
+function startJob(recorder, key, wav) {
+  notes.set(key, { pending: true });
+  decorateLog(recorder.entries);
+  let settled = false;
+  const finish = (result) => {
+    if (settled) return;
+    settled = true;
+    applyResult(recorder, key, result);
+  };
+  const watchdog = setTimeout(() => finish({ failed: true, text: "transcription failed", note: "timed out" }), SAFETY_MS);
+  transcribeTransmission(wav).then((result) => {
+    clearTimeout(watchdog);
+    finish(result || { failed: true, text: "transcription failed" });
+  }).catch((error) => {
+    clearTimeout(watchdog);
+    finish({ failed: true, text: "transcription failed", note: error && error.message ? error.message : "" });
   });
 }
 
 export function watchRecorder(recorder, renderLog) {
+  const log = document.getElementById("log");
+  if (log && !log.dataset.ptt2Retry) {
+    log.dataset.ptt2Retry = "1";
+    log.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-retry]");
+      if (!button) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const key = Number(button.getAttribute("data-retry"));
+      const wav = clips.get(key);
+      if (!wav) return;
+      startJob(recorder, key, wav);
+    }, true);
+  }
   const originalEnd = recorder.end.bind(recorder);
   recorder.end = function () {
     const entry = originalEnd();
     if (entry && entry.wav) {
-      notes.set(entry.key, { pending: true });
-      decorateLog(recorder.entries);
-      transcribeTransmission(entry.wav).then((result) => {
-        notes.set(entry.key, { pending: false, source: result.source, text: result.text, note: result.note || "" });
-        decorateLog(recorder.entries);
-        if (result.note) {
-          const status = document.getElementById("ptt2Status");
-          if (status) status.textContent = result.note;
-        }
-      }).catch((error) => {
-        notes.set(entry.key, { pending: false, source: "local", text: "Local transcription failed: " + (error && error.message ? error.message : String(error)) });
-        decorateLog(recorder.entries);
-      });
+      remember(entry.key, entry.wav);
+      startJob(recorder, entry.key, entry.wav);
     }
     return entry;
   };
