@@ -234,6 +234,8 @@ html.ptt-embed .tx-jump{display:flex!important;align-items:center;justify-conten
 html.ptt-embed #main .hint{display:none!important}
 @media(max-width:760px){html.ptt-embed .rig{padding:6px!important}html.ptt-embed .brand{margin-bottom:5px!important}html.ptt-embed .lcd{padding:5px!important}}
 </style>
+<link rel="stylesheet" href="../assets/instrument.css">
+<script src="../assets/theme-boot.js"></script>
 </head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT 2</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -500,4 +502,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot.js"></script></body></html>
+</script><script type="module" src="boot.js"></script><script src="../assets/theme.js"></script></body></html>

@@ -1,66 +1,132 @@
 /**
- * Sanket site tokens. One accent, shared by light and dark.
- * Dark follows the visitor's system setting.
+ * Sanket design tokens.
+ * Light and dark are explicit. theme-boot.js sets data-theme from the
+ * saved choice or the system preference before the page paints.
  */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-html.sanket-site {
+html.sanket-site,
+html.sanket-site[data-theme="light"] {
   color-scheme: light;
   --font: Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --bg: #f4f5f7;
+  --mono: "SFMono-Regular", ui-monospace, "Segoe UI Mono", Menlo, Consolas, monospace;
+  --bg: #f6f6f7;
   --bg-elevated: #ffffff;
   --surface: #ffffff;
-  --surface-muted: #eef1f5;
-  --ink: #12161c;
-  --ink-soft: #3c4654;
-  --muted: #5c6774;
-  --line: #e3e6ec;
-  --line-strong: #cfd5de;
+  --surface-muted: #f0f0f2;
+  --ink: #121417;
+  --ink-soft: #2a2e34;
+  --muted: #4e5560;
+  --line: #e6e6ea;
+  --line-strong: #d4d4d8;
+  --primary: #171717;
+  --primary-contrast: #ffffff;
+  --secondary: #ffffff;
   --accent: #c2410c;
   --accent-hover: #9a3412;
+  --accent-ink: #9a3412;
   --accent-contrast: #ffffff;
-  --accent-soft: #fff4ed;
-  --accent-ring: rgba(194, 65, 12, 0.22);
+  --accent-soft: #fff1e8;
+  --accent-ring: rgba(194, 65, 12, 0.28);
   --ok: #047857;
-  --warning-bg: #fff7e8;
-  --warning-ink: #6b4a12;
-  --warning-line: #efd3a2;
-  --shadow: 0 1px 2px rgba(16, 18, 24, 0.04), 0 12px 32px rgba(16, 18, 24, 0.06);
-  --shadow-soft: 0 8px 24px rgba(16, 18, 24, 0.05);
-  --radius: 16px;
-  --radius-sm: 12px;
+  --ok-bg: #ecfdf5;
+  --warning: #92400e;
+  --warning-bg: #fff7ed;
+  --warning-ink: #7c2d12;
+  --warning-line: #fdba74;
+  --error: #b91c1c;
+  --error-bg: #fef2f2;
+  --info: #1d4ed8;
+  --info-bg: #eff6ff;
+  --shadow: 0 1px 1px rgba(16, 16, 20, 0.04), 0 12px 32px rgba(16, 16, 20, 0.06);
+  --shadow-soft: 0 1px 2px rgba(16, 16, 20, 0.04);
+  --radius: 12px;
+  --radius-sm: 8px;
   --radius-pill: 999px;
   --space: 8px;
-  --nav-h: 72px;
+  --nav-h: 64px;
+  --content: 1120px;
   --focus: 0 0 0 3px var(--accent-ring);
-  --hero-glow: radial-gradient(900px 420px at 12% -10%, rgba(194, 65, 12, 0.12), transparent 60%),
-    radial-gradient(700px 380px at 100% 0%, rgba(15, 23, 42, 0.05), transparent 55%);
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 15px;
+  --text-lg: 18px;
+  --leading-body: 1.6;
+  --leading-tight: 1.08;
+  --tracking-tight: -0.042em;
+  --tracking-label: 0.08em;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --hero-glow: radial-gradient(720px 280px at 0% 0%, rgba(194, 65, 12, 0.08), transparent 60%);
+}
+
+html.sanket-site[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #090909;
+  --bg-elevated: #111113;
+  --surface: #141416;
+  --surface-muted: #1c1c1f;
+  --ink: #f4f4f5;
+  --ink-soft: #e4e4e7;
+  --muted: #a1a1aa;
+  --line: #2a2a2e;
+  --line-strong: #3f3f46;
+  --primary: #f4f4f5;
+  --primary-contrast: #111113;
+  --secondary: #141416;
+  --accent: #fb923c;
+  --accent-hover: #fdba74;
+  --accent-ink: #fdba74;
+  --accent-contrast: #1c1008;
+  --accent-soft: rgba(251, 146, 60, 0.14);
+  --accent-ring: rgba(251, 146, 60, 0.4);
+  --ok: #34d399;
+  --ok-bg: rgba(16, 185, 129, 0.12);
+  --warning: #fdba74;
+  --warning-bg: rgba(251, 146, 60, 0.12);
+  --warning-ink: #ffedd5;
+  --warning-line: rgba(251, 146, 60, 0.4);
+  --error: #fca5a5;
+  --error-bg: rgba(248, 113, 113, 0.12);
+  --info: #93c5fd;
+  --info-bg: rgba(59, 130, 246, 0.14);
+  --shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --hero-glow: radial-gradient(720px 280px at 0% 0%, rgba(251, 146, 60, 0.14), transparent 62%);
 }
 
 @media (prefers-color-scheme: dark) {
-  html.sanket-site {
+  html.sanket-site:not([data-theme]) {
     color-scheme: dark;
-    --bg: #090b10;
-    --bg-elevated: #12151c;
-    --surface: #151922;
-    --surface-muted: #1c212c;
-    --ink: #f4f6f8;
-    --ink-soft: #d5dbe3;
-    --muted: #a8b1bd;
-    --line: #2a3140;
-    --line-strong: #3a4354;
-    --accent: #ff8a3d;
-    --accent-hover: #ffb07a;
+    --bg: #090909;
+    --bg-elevated: #111113;
+    --surface: #141416;
+    --surface-muted: #1c1c1f;
+    --ink: #f4f4f5;
+    --ink-soft: #e4e4e7;
+    --muted: #a1a1aa;
+    --line: #2a2a2e;
+    --line-strong: #3f3f46;
+    --primary: #f4f4f5;
+    --primary-contrast: #111113;
+    --secondary: #141416;
+    --accent: #fb923c;
+    --accent-hover: #fdba74;
+    --accent-ink: #fdba74;
     --accent-contrast: #1c1008;
-    --accent-soft: rgba(255, 138, 61, 0.14);
-    --accent-ring: rgba(255, 138, 61, 0.35);
+    --accent-soft: rgba(251, 146, 60, 0.14);
+    --accent-ring: rgba(251, 146, 60, 0.4);
     --ok: #34d399;
-    --warning-bg: #2a2116;
-    --warning-ink: #f6ddb4;
-    --warning-line: #6b5430;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.35);
-    --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.28);
-    --hero-glow: radial-gradient(900px 420px at 10% -10%, rgba(255, 138, 61, 0.16), transparent 58%),
-      radial-gradient(640px 320px at 100% 0%, rgba(255, 255, 255, 0.04), transparent 50%);
+    --ok-bg: rgba(16, 185, 129, 0.12);
+    --warning: #fdba74;
+    --warning-bg: rgba(251, 146, 60, 0.12);
+    --warning-ink: #ffedd5;
+    --warning-line: rgba(251, 146, 60, 0.4);
+    --error: #fca5a5;
+    --error-bg: rgba(248, 113, 113, 0.12);
+    --info: #93c5fd;
+    --info-bg: rgba(59, 130, 246, 0.14);
+    --shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.35);
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --hero-glow: radial-gradient(720px 280px at 0% 0%, rgba(251, 146, 60, 0.14), transparent 62%);
   }
 }

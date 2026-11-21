@@ -1,0 +1,118 @@
+/**
+ * Shared dashboard skin for operations pages.
+ * Light and dark follow data-theme. Control colours stay on status pills.
+ */
+html[data-theme="light"] body,
+html:not([data-theme="dark"]) body {
+  background: #f6f6f7 !important;
+  color: #171717 !important;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+
+html[data-theme="dark"] body {
+  background: #090909 !important;
+  color: #f4f4f5 !important;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+
+.top,
+header.top,
+header,
+aside,
+.card,
+.hero,
+.panel,
+.stat,
+.formbox,
+.tg,
+.nav button,
+.brand,
+.brand small {
+  border-color: #e6e6ea !important;
+  background: #ffffff !important;
+  color: #171717 !important;
+}
+
+html[data-theme="dark"] .top,
+html[data-theme="dark"] header.top,
+html[data-theme="dark"] header,
+html[data-theme="dark"] aside,
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .hero,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .stat,
+html[data-theme="dark"] .formbox,
+html[data-theme="dark"] .tg,
+html[data-theme="dark"] .nav button,
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .brand small {
+  border-color: #2a2a2e !important;
+  background: #141416 !important;
+  color: #f4f4f5 !important;
+}
+
+.nav button.active,
+html[data-theme="dark"] .nav button.active {
+  box-shadow: inset 3px 0 #c2410c !important;
+}
+
+h1, h2, h3, p, td, th, label, .muted, .brand, .sub, small, .tg, .tg strong, .tg small, .tg code {
+  letter-spacing: -0.02em;
+  color: #171717 !important;
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] p,
+html[data-theme="dark"] td,
+html[data-theme="dark"] th,
+html[data-theme="dark"] label,
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .sub,
+html[data-theme="dark"] small,
+html[data-theme="dark"] .tg,
+html[data-theme="dark"] .tg strong,
+html[data-theme="dark"] .tg small,
+html[data-theme="dark"] .tg code {
+  color: #f4f4f5 !important;
+}
+
+.btn,
+button,
+a.primary,
+.primary {
+  border-radius: 8px !important;
+}
+
+.pill,
+.status,
+.healthy,
+.warning,
+.critical {
+  letter-spacing: 0.02em;
+}
+
+input,
+select,
+textarea {
+  border-radius: 8px !important;
+}
+
+.theme-toggle {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #171717;
+  font: 600 12px/1 Inter, system-ui, sans-serif;
+  cursor: pointer;
+}
+
+html[data-theme="dark"] .theme-toggle {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #f4f4f5;
+}

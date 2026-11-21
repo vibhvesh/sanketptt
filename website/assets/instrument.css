@@ -1,0 +1,169 @@
+/**
+ * Premium shell for the PTT instrument pages.
+ * Embeds keep the compact demo face. Controls, ids and behaviour stay put.
+ */
+html:not(.ptt-embed) {
+  --font: Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --bg: #f4f4f5;
+  --ink: #141416;
+  --panel: #16181d;
+  --panel-2: #101216;
+  --line: #2c3038;
+  --lcd: #12352a;
+  --lcd-ink: #b6ffd8;
+  --accent: #fb923c;
+}
+
+html:not(.ptt-embed)[data-theme="dark"] {
+  --bg: #09090b;
+  --ink: #f4f4f5;
+}
+
+html:not(.ptt-embed) body {
+  background: var(--bg) !important;
+  color: var(--ink);
+  font-family: var(--font) !important;
+}
+
+html:not(.ptt-embed) .rig {
+  width: min(100%, 440px);
+  max-width: 440px;
+  padding: 14px;
+  border: 1px solid #2a2e36;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #1c1f26, #101216) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28) !important;
+  color: #ececf1;
+}
+
+html:not(.ptt-embed) .rig:before,
+html:not(.ptt-embed) .rig:after {
+  display: none;
+}
+
+html:not(.ptt-embed) .brand {
+  align-items: center;
+}
+
+html:not(.ptt-embed) .brand h1,
+html:not(.ptt-embed) .freq {
+  font-family: var(--font) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor;
+  color: #f5f5f7 !important;
+  letter-spacing: -0.04em !important;
+}
+
+html:not(.ptt-embed) .brand small,
+html:not(.ptt-embed) .hint,
+html:not(.ptt-embed) #net {
+  color: #a1a1aa !important;
+  letter-spacing: 0.04em;
+  font-family: var(--font) !important;
+}
+
+html:not(.ptt-embed) .lcd {
+  border: 1px solid #0b1f18 !important;
+  border-radius: 12px !important;
+  background: linear-gradient(180deg, #143528, #0c1c16) !important;
+  color: var(--lcd-ink) !important;
+  box-shadow: inset 0 0 0 1px rgba(182, 255, 216, 0.08) !important;
+}
+
+html:not(.ptt-embed) .panel,
+html:not(.ptt-embed) #ptt2ChannelBar,
+html:not(.ptt-embed) #ptt2Settings {
+  border: 1px solid #2c313b !important;
+  border-radius: 12px !important;
+  background: #12151b !important;
+  color: #ececf1 !important;
+}
+
+html:not(.ptt-embed) .panel h3,
+html:not(.ptt-embed) #ptt2ChannelBar h3,
+html:not(.ptt-embed) #ptt2Settings h3 {
+  font-family: var(--font) !important;
+  letter-spacing: 0.04em !important;
+  color: #d4d4d8 !important;
+}
+
+html:not(.ptt-embed) .rig input:not([type="checkbox"]):not([type="radio"]),
+html:not(.ptt-embed) .rig select {
+  border: 1px solid #3a404c !important;
+  border-radius: 8px !important;
+  background: #0c0e13 !important;
+  color: #f4f4f5 !important;
+  font-family: var(--font) !important;
+}
+
+html:not(.ptt-embed) .tx-jump {
+  display: inline-flex !important;
+  margin-top: 8px !important;
+  color: #d4d4d8 !important;
+  font: 600 12px/1 var(--font) !important;
+  text-decoration: none !important;
+}
+
+html:not(.ptt-embed) #go,
+html:not(.ptt-embed) #ptt2SignIn {
+  border-radius: 10px !important;
+  background: #f4f4f5 !important;
+  color: #111113 !important;
+  font-family: var(--font) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.02em !important;
+  box-shadow: none !important;
+}
+
+html:not(.ptt-embed) #ptt {
+  border: 8px solid #0c0e12 !important;
+  background: radial-gradient(circle at 35% 30%, #d9ffe9, #14b86a 46%, #0a5a38) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35) !important;
+  font-family: var(--font) !important;
+  letter-spacing: 0.08em !important;
+}
+
+html:not(.ptt-embed) .ptt2-chip,
+html:not(.ptt-embed) #ptt2PassToggle,
+html:not(.ptt-embed) #ptt2Demo,
+html:not(.ptt-embed) #ptt2SignOut {
+  border-radius: 8px !important;
+  font-family: var(--font) !important;
+}
+
+html:not(.ptt-embed) .theme-toggle {
+  height: 28px;
+  margin-left: auto;
+  padding: 0 8px;
+  border: 1px solid #3a404c;
+  border-radius: 8px;
+  background: #0c0e13;
+  color: #f4f4f5;
+  font: 600 11px/1 var(--font);
+  cursor: pointer;
+}
+
+html:not(.ptt-embed) .theme-toggle.is-fixed {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 60;
+  margin: 0;
+}
+
+html:not(.ptt-embed):has(.radio) body {
+  background: var(--bg) !important;
+  font-family: var(--font) !important;
+}
+
+html:not(.ptt-embed) .radio .body {
+  border-radius: 28px !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not(.ptt-embed) .rig * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

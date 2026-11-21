@@ -26,6 +26,8 @@ footer{margin-top:20px;color:var(--muted);font-size:11px}
 @media(max-width:760px){.tgs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){main{width:calc(100% - 20px);margin-top:14px}.grid,.tgs,.row{grid-template-columns:1fr}.hero,.card{padding:14px}}
 </style>
+<link rel="stylesheet" href="../assets/apps.css">
+<script src="../assets/theme-boot.js"></script>
 </head>
 <body data-chrome="auto"><main>
 <header class="top"><div><div class="brand">SANKET <span>DMR</span> MONITOR</div><div class="sub">Production · BrandMeister receive-only directory</div></div><div class="actions"><a class="secondary" data-link="pttVirtual" href="https://sanketptt.com/radio/?ch=virtual">Main PTT ↗</a><a class="secondary" data-link="home" href="https://sanketptt.com/">Main Website ↗</a><span class="pill">RX ONLY · TX DISABLED</span></div></header>
@@ -89,4 +91,4 @@ async function openTalkgroup(id){
 document.querySelectorAll('[data-tg]').forEach(button=>button.addEventListener('click',()=>openTalkgroup(button.dataset.tg)));
 document.getElementById('openCustom').addEventListener('click',()=>openTalkgroup(document.getElementById('customtg').value.trim()));
 </script>
-<script type="module" src="../ptt/apply.js"></script></body></html>
+<script type="module" src="../ptt/apply.js"></script><script src="../assets/theme.js"></script></body></html>

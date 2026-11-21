@@ -1,0 +1,677 @@
+html.home {
+  scroll-padding-top: 80px;
+}
+
+html.home *,
+html.home *::before,
+html.home *::after {
+  box-sizing: border-box;
+}
+
+html.home body {
+  margin: 0;
+}
+
+html.home a {
+  color: inherit;
+  text-decoration: none;
+}
+
+html.home .wrap {
+  width: min(var(--content), calc(100% - 40px));
+  margin: auto;
+}
+
+html.home .site-header {
+  height: auto;
+  background: color-mix(in srgb, var(--bg) 84%, transparent) !important;
+}
+
+html.home .site-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: var(--nav-h);
+}
+
+html.home .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  min-width: 0;
+  font-weight: 650;
+  font-size: 15px;
+  letter-spacing: -0.04em;
+}
+
+html.home .brand img {
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+
+html.home .brand > span {
+  min-width: 0;
+}
+
+html.home .brand small {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+html.home .navlinks {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  margin-left: auto;
+}
+
+html.home .navlinks a {
+  padding: 6px 7px;
+  border-radius: 8px;
+  color: var(--muted) !important;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+html.home .navlinks a[href="#contact"] {
+  display: none;
+}
+
+html.home .navlinks a:hover {
+  color: var(--ink) !important;
+  background: var(--surface-muted);
+}
+
+html.home .nav-end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+html.home .menu {
+  display: none;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 12px/1 var(--font);
+  cursor: pointer;
+}
+
+html.home .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: var(--primary-contrast) !important;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: transform 0.16s var(--ease), background 0.16s var(--ease), border-color 0.16s var(--ease);
+}
+
+html.home .btn:hover {
+  transform: translateY(-1px);
+}
+
+html.home .btn.secondary {
+  background: var(--surface);
+  color: var(--ink) !important;
+  border-color: var(--line-strong);
+}
+
+html.home .hero {
+  padding: 56px 0 28px;
+  border: 0 !important;
+}
+
+html.home .hero-grid {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+html.home .eyebrow,
+html.home .plan-tag {
+  color: var(--accent-ink) !important;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+html.home h1 {
+  max-width: 16ch;
+  margin: 10px 0 14px;
+  font-size: clamp(40px, 5.4vw, 68px);
+  font-weight: 600;
+  letter-spacing: -0.048em;
+  line-height: 0.98;
+}
+
+html.home .hero-copy p,
+html.home .section-head p,
+html.home .trustline {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+html.home .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+html.home .trustline {
+  margin-top: 14px;
+  font-size: 12px;
+}
+
+html.home .demo-shell {
+  background: #0c0d10;
+  border: 1px solid #2a2a2e;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  color: #ececee;
+}
+
+html.home .demo-head,
+html.home .panel-head,
+html.home .demo-caption,
+html.home .demo-foot {
+  color: #a1a1aa;
+}
+
+html.home .demo-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  background: #111113;
+  border-bottom: 1px solid #2a2a2e;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+html.home .live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #86efac !important;
+}
+
+html.home .live-pill i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+}
+
+html.home .demo-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+html.home .demo-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #2a2a2e;
+  border-radius: 12px;
+  background: #101114;
+}
+
+html.home .panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #2a2a2e;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+html.home .demo-panel iframe {
+  display: block;
+  width: 100%;
+  height: 430px;
+  border: 0;
+  background: #090909;
+}
+
+html.home .demo-caption,
+html.home .demo-foot {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+html.home .demo-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 0 14px 12px;
+}
+
+html.home .demo-foot b {
+  color: #f4f4f5;
+}
+
+html.home .channel-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+html.home .channel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border: 1px solid #2a2a2e;
+  border-radius: 999px;
+  background: #141416;
+  color: #d4d4d8;
+  font-size: 12px;
+}
+
+html.home .channel-chip i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c, #fb923c);
+}
+
+html.home .watermark {
+  position: relative;
+}
+
+html.home .watermark:after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 64px;
+  height: 64px;
+  background: url("../sanket-mark.svg") center/contain no-repeat;
+  opacity: 0.12;
+  filter: grayscale(1) brightness(2);
+  pointer-events: none;
+}
+
+html.home section {
+  padding: 72px 0;
+}
+
+html.home .section-head {
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+html.home .section-head h2,
+html.home #pricing h2 {
+  margin: 8px 0;
+  color: var(--ink);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+}
+
+html.home .feature-grid,
+html.home .product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+html.home .feature,
+html.home .product,
+html.home .workflow-item,
+html.home .contact-info,
+html.home .diagram {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+html.home .feature h3,
+html.home .product h3 {
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+html.home .feature p,
+html.home .product p,
+html.home .feature li,
+html.home .workflow-item span {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+html.home .feature ul {
+  margin: 12px 0 0;
+  padding-left: 16px;
+}
+
+html.home .feature .num,
+html.home .product .icon {
+  color: var(--accent-ink);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+html.home .product .icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+}
+
+html.home .product a {
+  color: var(--accent-ink) !important;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+html.home .topology {
+  padding: 18px;
+  border-radius: 16px;
+  background: #0c0d10;
+  color: #ececee;
+}
+
+html.home .topology-head,
+html.home .topology-note,
+html.home .topo-card span {
+  color: #a1a1aa;
+  font-size: 12px;
+}
+
+html.home .topology svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+html.home .topology-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+html.home .topo-card {
+  padding: 12px;
+  border: 1px solid #2a2a2e;
+  border-radius: 10px;
+  background: #141416;
+}
+
+html.home .topo-card b {
+  display: block;
+  font-size: 13px;
+}
+
+html.home .pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+html.home .price-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  transition: border-color 0.16s var(--ease), transform 0.16s var(--ease);
+}
+
+html.home .price-card:hover {
+  border-color: var(--line-strong);
+}
+
+html.home .price-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow);
+}
+
+html.home .price-card h3 {
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+html.home .price {
+  margin: 4px 0;
+  color: var(--ink);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+html.home .price small,
+html.home .price-sub,
+html.home .price-card li,
+html.home .price-note {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+html.home .price-card ul {
+  flex: 1;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+
+html.home .price-card li {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+html.home .price-card li:before {
+  content: "✓ ";
+  color: var(--ok);
+  font-weight: 700;
+}
+
+html.home .price-card .btn {
+  margin-top: 8px;
+}
+
+html.home .price-note {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-muted);
+}
+
+html.home .price-note b,
+html.home .contact-info b {
+  color: var(--ink);
+}
+
+html.home .workflow {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+  align-items: center;
+}
+
+html.home .workflow-list {
+  display: grid;
+  gap: 8px;
+}
+
+html.home .workflow-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+html.home .workflow-item strong {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 12px;
+}
+
+html.home .workflow-item b {
+  display: block;
+  font-size: 14px;
+}
+
+html.home .diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+html.home .contact-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+}
+
+html.home .contact form {
+  display: grid;
+  gap: 8px;
+}
+
+html.home .contact label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+html.home .contact input,
+html.home .contact textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+html.home .contact .note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+html.home .contact-info p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+html.home .contact-info a {
+  color: var(--accent-ink) !important;
+  font-weight: 600;
+}
+
+html.home footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 22px 0 32px;
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  html.home .pricing-grid,
+  html.home .topology-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  html.home .menu { display: inline-flex; }
+  html.home .nav-end .btn { display: none; }
+  html.home .brand { max-width: calc(100% - 150px); }
+  html.home .brand small { overflow: hidden; text-overflow: ellipsis; max-width: 42vw; }
+  html.home .navlinks a[href="#contact"] { display: block; }
+  html.home .navlinks {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 64px;
+    z-index: 30;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    padding: 8px 16px 14px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  html.home .navlinks.open { display: flex; }
+  html.home .navlinks a { padding: 12px 4px; }
+  html.home .feature-grid,
+  html.home .product-grid,
+  html.home .workflow,
+  html.home .contact-grid,
+  html.home .demo-grid {
+    grid-template-columns: 1fr;
+  }
+  html.home section { padding: 48px 0; }
+  html.home .hero { padding: 28px 0 12px; }
+  html.home h1 { font-size: 40px; }
+  html.home .demo-panel iframe { height: 360px; }
+}
+
+@media (max-width: 560px) {
+  html.home .wrap { width: calc(100% - 28px); }
+  html.home .pricing-grid,
+  html.home .topology-grid,
+  html.home .feature-grid,
+  html.home .product-grid {
+    grid-template-columns: 1fr;
+  }
+  html.home .demo-head { align-items: flex-start; flex-direction: column; }
+}

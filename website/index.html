@@ -1,78 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="sanket-site home">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07192d">
+<meta name="theme-color" content="#111113">
+<script src="assets/theme-boot.js"></script>
 <title>Sanket — Communication, Transcription & Control</title>
 <meta name="description" content="Sanket is a cloud and self-hosted push-to-talk communication platform with live multilingual transcription, channel dashboards, recording history and offline Whisper options.">
 <link rel="icon" type="image/svg+xml" href="sanket-mark.svg">
-<style>
-:root{--navy:#07192d;--navy2:#0b233b;--panel:#102b46;--ink:#17283b;--muted:#65788b;--line:#e3eaf0;--orange:#f47721;--cyan:#42d9d0;--green:#42d99a;--paper:#f6f8fb}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}body{margin:0;font:15px/1.55 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:#fff}a{color:inherit;text-decoration:none}.wrap{width:min(1200px,calc(100% - 36px));margin:auto}
-header{height:72px;position:sticky;top:0;z-index:20;background:#ffffffed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.nav{height:100%;display:flex;align-items:center;gap:25px}.brand{display:flex;align-items:center;gap:10px;font-weight:950;font-size:22px;letter-spacing:-1px}.brand img{width:39px;height:39px}.brand b{color:var(--orange)}.brand small{display:block;font-size:8px;letter-spacing:1.6px;color:#788899;line-height:1.2}.navlinks{display:flex;align-items:center;gap:20px;margin-left:auto}.navlinks a{font-size:11px;font-weight:800;color:#526579}.navlinks a:hover{color:var(--orange)}.navlinks .login{padding:9px 13px;border:1px solid #dce5ed;border-radius:7px;color:#163c5a}.navlinks .demo-link{background:var(--orange);color:#fff;border-color:var(--orange)}.menu{display:none;margin-left:auto;border:1px solid var(--line);background:#fff;border-radius:7px;padding:8px 11px}
-.hero{padding:35px 0 24px;background:radial-gradient(ellipse at 85% 0%,#e8f5fa 0,transparent 38%),linear-gradient(180deg,#f8fbfd,#fff)}.hero-grid{display:grid;grid-template-columns:1fr auto;align-items:end;gap:25px;margin-bottom:18px}.eyebrow{font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--orange)}h1{font-size:clamp(32px,4.2vw,52px);letter-spacing:-2px;line-height:1.04;margin:8px 0 10px;color:var(--navy)}.hero-copy p{max-width:690px;color:#617488;font-size:14px;margin:0}.hero-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:7px;background:var(--orange);color:#fff;font-size:11px;font-weight:900;border:1px solid var(--orange)}.btn.secondary{background:#fff;color:#24435d;border-color:#dbe5ed}.trustline{font-size:10px;color:#8090a0;margin-top:9px}
-.demo-shell{background:var(--navy);border:1px solid #1d405d;border-radius:15px;overflow:hidden;box-shadow:0 22px 55px #0b274019;color:#eaf5fc}.demo-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;background:#0a2035;border-bottom:1px solid #21435e}.demo-head b{font-size:11px;letter-spacing:.8px}.demo-head span{font-size:9px;color:#8fb0c5}.live-pill{display:inline-flex;align-items:center;gap:6px;color:#a1f1d1!important}.live-pill i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
-.demo-grid{display:grid;grid-template-columns:minmax(260px,.78fr) minmax(0,1.22fr);gap:10px;padding:10px}.demo-panel{min-width:0;border:1px solid #244862;border-radius:9px;background:#0d2944;overflow:hidden}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid #244862;font-size:10px;font-weight:900}.panel-head small{font-size:8px;color:#83a8bf;font-weight:600}.demo-panel iframe{display:block;width:100%;height:430px;border:0;background:#07192d}.demo-panel.transcript iframe{height:430px}.demo-caption{padding:8px 11px;border-top:1px solid #244862;color:#89a9bf;font-size:9px}.demo-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 14px 12px;color:#8eacc0;font-size:9px}.demo-foot b{color:#dff8ff}
-.channel-strip{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.channel-chip{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid #284b65;border-radius:6px;background:#102c47;font-size:9px;color:#c5dce9}.channel-chip i{width:7px;height:7px;border-radius:50%;background:var(--c)}.watermark{position:relative}.watermark:after{content:"";position:absolute;right:18px;bottom:18px;width:74px;height:74px;background:url("sanket-mark.svg") center/contain no-repeat;opacity:.11;filter:grayscale(1) brightness(2);pointer-events:none;z-index:5}
-section{padding:66px 0;border-top:1px solid var(--line)}.section-head{max-width:760px;margin-bottom:25px}.section-head h2{font-size:clamp(27px,3.2vw,39px);letter-spacing:-1.2px;line-height:1.12;color:var(--navy);margin:8px 0}.section-head p{color:var(--muted);margin:0;font-size:13px}
-.topology{background:#07192d;border-radius:14px;padding:18px;color:#e9f5fc;overflow:hidden}.topology-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}.topology-head b{font-size:11px;letter-spacing:1px}.topology-head span{font-size:9px;color:#8baec5}.topology svg{width:100%;height:auto;display:block}.topology-note{font-size:10px;color:#91aec2;margin-top:9px}.topology-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.topo-card{padding:11px;border:1px solid #244963;border-radius:8px;background:#0d2944}.topo-card b{display:block;font-size:10px}.topo-card span{font-size:9px;color:#8eacc1}
-.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.feature{padding:18px;border:1px solid var(--line);border-radius:10px;background:#fff}.feature .num{font-size:9px;color:var(--orange);font-weight:950;letter-spacing:1px}.feature h3{font-size:15px;margin:7px 0}.feature p{font-size:11px;color:var(--muted);margin:0}.feature ul{padding-left:16px;margin:10px 0 0;color:#526579;font-size:10px}.feature li{margin:5px 0}
-.pricing-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.price-card{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fff;display:flex;flex-direction:column;min-width:0}.price-card.featured{border:2px solid var(--orange);box-shadow:0 12px 35px #f4772115}.plan-tag{font-size:9px;color:var(--orange);font-weight:950;letter-spacing:1.3px}.price-card h3{font-size:17px;margin:7px 0}.price{font-size:29px;line-height:1.2;font-weight:950;letter-spacing:-1.1px;color:var(--navy);margin:8px 0 2px}.price small{font-size:10px;color:#687b8e;font-weight:700;letter-spacing:0}.price-sub{font-size:10px;color:#778899;min-height:34px}.price-card ul{list-style:none;padding:0;margin:13px 0;flex:1}.price-card li{padding:7px 0;border-bottom:1px solid #edf1f4;font-size:10px;color:#526579}.price-card li:before{content:"✓";color:#14966d;font-weight:950;margin-right:7px}.price-card .btn{margin-top:8px}.price-note{padding:13px 15px;background:#f5f8fa;border:1px solid var(--line);border-radius:8px;margin-top:15px;font-size:10px;color:#607487}.price-note b{color:#263e54}
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.product{border:1px solid var(--line);border-radius:11px;padding:18px;background:#fff}.product .icon{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:#fff1e7;color:#d9681b;font-size:17px}.product h3{font-size:16px;margin:11px 0 5px}.product p{font-size:11px;color:var(--muted);margin:0 0 10px}.product a{font-size:10px;font-weight:900;color:#d9681b}
-.workflow{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.workflow-list{display:grid;gap:10px}.workflow-item{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:8px}.workflow-item strong{width:26px;height:26px;flex:none;display:grid;place-items:center;border-radius:7px;background:#fff0e5;color:#cf651c;font-size:11px}.workflow-item b{display:block;font-size:11px}.workflow-item span{display:block;font-size:10px;color:var(--muted);margin-top:2px}.diagram{background:#f4f8fb;border:1px solid #dfe8ef;border-radius:12px;padding:16px}.diagram svg{width:100%;height:auto;display:block}
-.contact{background:#f7f9fb}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.contact form{display:grid;gap:7px}.contact label{font-size:10px;font-weight:850}.contact input,.contact textarea{width:100%;padding:11px;border:1px solid #dbe4eb;border-radius:7px;font:inherit;background:#fff}.contact .note{font-size:9px;color:#8090a0}.contact-info{padding:18px;border:1px solid var(--line);border-radius:10px;background:#fff}.contact-info p{font-size:12px;color:#586d81}.contact-info a{color:#165c89;font-weight:800}
-footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer b{color:#253d52}
-@media(max-width:1000px){.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.navlinks{gap:12px}.demo-panel iframe,.demo-panel.transcript iframe{height:390px}}
-@media(max-width:720px){header{height:62px}.nav{gap:10px}.brand{font-size:20px}.menu{display:block}.navlinks{display:none;position:absolute;left:0;right:0;top:61px;padding:12px 18px;background:white;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0}.navlinks.open{display:flex}.navlinks a{padding:11px 0;border-bottom:1px solid #edf1f4}.navlinks .login{border:0;padding:11px 0}.hero{padding:25px 0 18px}.hero-grid{grid-template-columns:1fr;gap:12px}h1{font-size:36px}.demo-grid{grid-template-columns:1fr}.demo-panel iframe,.demo-panel.transcript iframe{height:360px}.topology-grid{grid-template-columns:repeat(2,1fr)}.feature-grid,.product-grid{grid-template-columns:1fr 1fr}.workflow,.contact-grid{grid-template-columns:1fr}section{padding:48px 0}}
-@media(max-width:460px){.wrap{width:calc(100% - 24px)}.feature-grid,.product-grid,.pricing-grid{grid-template-columns:1fr}.demo-head{align-items:flex-start;flex-direction:column}.demo-panel iframe,.demo-panel.transcript iframe{height:330px}.topology{padding:12px}.topology-grid{grid-template-columns:1fr 1fr}.price-card{padding:16px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
-<link rel="stylesheet" href="assets/yatra.css">
+<link rel="stylesheet" href="assets/theme.css">
+<link rel="stylesheet" href="assets/home.css">
 </head>
 <body>
-<header><div class="wrap nav">
+<header class="site-header"><div class="wrap site-nav">
 <a class="brand" href="#top"><img src="sanket-mark.svg" alt=""><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a>
 <nav class="navlinks" id="navlinks">
-<a href="#platform">Platform</a><a href="#topology">Architecture</a><a href="#pricing">Pricing</a><a href="#products">Products</a>
-<a class="login" href="https://sanketptt.com/radio/" data-link="ptt" target="_blank" rel="noopener">CHANNEL LOGIN ↗</a>
-<a class="login demo-link" href="#live-demo">LIVE TRANSCRIPTION DEMO ↓</a>
-</nav><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-<div class="yatra-tools" aria-label="Shortcuts"><a href="#pricing" aria-label="Offers"><svg viewBox="0 0 24 24"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2 7h20v5H2zM12 7v14M12 7c-1.5-3-5-3-5 0s3.5 0 5 0c1.5-3 5-3 5 0s-3.5 0-5 0"/></svg></a><a href="#contact" aria-label="Wallet"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm14 6h3"/></svg></a><a href="#contact" aria-label="Alerts"><svg viewBox="0 0 24 24"><path d="M6 16V10a6 6 0 1 1 12 0v6l1.5 2H4.5zM10 19a2 2 0 0 0 4 0"/></svg><i>1</i></a></div>
+<a href="#platform">Platform</a>
+<a href="#topology">Architecture</a>
+<a href="#pricing">Pricing</a>
+<a href="#products">Products</a>
+<a href="sanket-radios/">Radios</a>
+<a href="ptt2/">PTT 2</a>
+<a href="try/">Try it</a>
+<a href="radio-hub.html">Radio hub</a>
+<a href="https://sanketptt.com/radio/" data-link="ptt" target="_blank" rel="noopener">Channel login</a>
+<a href="#live-demo">Live demo</a>
+<a href="#contact">Contact</a>
+</nav>
+<div class="nav-end">
+<button class="theme-toggle" type="button" data-theme-toggle>Theme</button>
+<a class="btn" href="#contact">Contact</a>
+<button class="menu" id="menu" type="button" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
+</div>
 </div></header>
 <main id="top">
-<section class="yatra-launch"><div class="wrap">
-<div class="yatra-card">
-<div class="yatra-tiles" id="yatraTiles">
-<a href="sanket-radios/"><em>Free</em><span>◉</span><b>Radios</b></a>
-<a href="ptt2/"><em>New</em><span>▣</span><b>PTT 2</b></a>
-<a href="transcribe/"><span>▤</span><b>Transcribe</b></a>
-<a href="#sdr"><em>Meet</em><span>◎</span><b>SDR</b></a>
-<a href="#pricing"><span>₹</span><b>Pricing</b></a>
-<a class="yatra-more" href="radio-hub.html"><span>⌘</span><b>Radio hub</b></a>
-<a class="yatra-more" href="try/"><span>▶</span><b>Try it</b></a>
-<a class="yatra-more" href="demo.html"><span>✦</span><b>Live demo</b></a>
-<a class="yatra-more" href="aakashvani/"><span>📢</span><b>Vaani PA</b></a>
-</div>
-<button class="yatra-chevron" type="button" id="yatraMore" aria-expanded="false" aria-label="More services">⌄</button>
-</div>
-<div class="yatra-ctas">
-<a class="yatra-cta fill" href="demo.html"><span>✦</span> Try Sanket live</a>
-<a class="yatra-cta line" href="#contact"><span>✉</span> Talk to us</a>
-</div>
-<div class="yatra-section-head"><h2><span>✦</span> Offers for teams</h2><a href="#pricing">View all</a></div>
-<div class="yatra-offers">
-<article><div class="art">PTT</div><div><b>Free public radios</b><small>Share one link and talk</small><a href="sanket-radios/">OPEN</a></div></article>
-<article><div class="art">1 HR</div><div><b>Cloud recordings</b><small>Latest hour, then it rolls off</small><a href="#pricing">CLOUD</a></div></article>
-<article><div class="art">25+</div><div><b>Volume on lines</b><small>10% off 25, 15% off 100</small><a href="#pricing">LINES</a></div></article>
-</div>
-<div class="yatra-promo"><div><b>Talk on a free channel today</b><small>Public radios. No email or password. Hold PTT, release to listen.</small></div><a href="sanket-radios/">Open radios</a></div>
-</div></section>
 <section class="hero" style="border:0">
 <div class="wrap">
 <div class="hero-grid">
 <div class="hero-copy">
 <div class="eyebrow">COMMUNICATION · TRANSCRIPTION · CONTROL</div>
-<h1>Every conversation.<br><span style="color:var(--orange)">Clearer, connected, understood.</span></h1>
+<h1>Every conversation.<br><span>Clearer, connected, understood.</span></h1>
 <p>Sanket brings push-to-talk channels, live multilingual transcription, searchable communication history and control-room visibility into one secure platform. Choose cloud convenience or your own local infrastructure.</p>
 <div class="hero-actions"><a class="btn" href="#live-demo">Explore the live demo ↓</a><a class="btn secondary" href="#pricing">View deployment plans</a></div>
 <div class="trustline">Cloud hosted · Self-hosted · Local Whisper · Offline-ready enterprise deployments</div>
@@ -119,8 +85,8 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 <div class="topology-note">Local Whisper is an optional fallback and must be installed/configured on a compatible client device. The demo above uses a shared demonstration channel, not a private customer channel.</div>
 </div></div></section>
 <section id="pricing"><div class="wrap">
-<div class="yatra-section-head"><h2><span>₹</span> Choose how you want to run Sanket</h2><a href="#contact">View all</a></div>
-<div class="yatra-filters" role="tablist" aria-label="Pricing filters"><button type="button" class="is-on" data-filter="all">All</button><button type="button" data-filter="cloud">Cloud</button><button type="button" data-filter="dedicated">Dedicated</button><button type="button" data-filter="addon">Add-ons</button></div>
+<div class="section-head"><div class="eyebrow">PRICING</div><h2>Choose how you want to run Sanket</h2><p><a href="#contact">View all</a></p></div>
+<div class="plan-filters" role="tablist" aria-label="Pricing filters"><button type="button" class="is-on" data-filter="all" aria-selected="true">All</button><button type="button" data-filter="cloud" aria-selected="false">Cloud</button><button type="button" data-filter="dedicated" aria-selected="false">Dedicated</button><button type="button" data-filter="addon" aria-selected="false">Add-ons</button></div>
 <div class="pricing-grid">
 <article class="price-card featured" data-plan="cloud"><div class="plan-tag">CLOUD LINE</div><h3>Cloud</h3><div class="price">₹450 <small>per line / month</small></div><div class="price-sub">Unlimited live push-to-talk. The latest 1 hour of recordings is kept.</div><ul><li>Unlimited live push-to-talk</li><li>Latest 1 hour of recordings kept</li><li>Rolling: older audio rolls off automatically</li><li>Hosted line, no server to buy</li></ul><a class="btn" href="#contact">Choose Cloud ↗</a></article>
 <article class="price-card"><div class="plan-tag">LOCAL · 20 CHANNELS</div><h3>Sanket Local 20</h3><div class="price">₹35,000 <small>/ year</small></div><div class="price-sub">Local hardware configuration for 20 channels / 20 concurrent users.</div><ul><li>Customer-side hardware deployment</li><li>20 channels and 20 concurrent capacity</li><li>Local channel management</li><li>Annual hardware / service configuration</li><li>Final storage and support scope confirmed in quote</li></ul><a class="btn secondary" href="#contact">Request Local 20 ↗</a></article>
@@ -175,5 +141,5 @@ document.getElementById('year').textContent=new Date().getFullYear();
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.target);const subject=encodeURIComponent('Sanket deployment enquiry — '+d.get('name'));const body=encodeURIComponent('Name: '+d.get('name')+'\nEmail: '+d.get('email')+'\nOrganisation: '+d.get('org')+'\nEstimated channels: '+d.get('channels')+'\n\n'+d.get('message'));location.href='mailto:akshatsingh@canberravision.com?cc=akshat@sanketptt.com&subject='+subject+'&body='+body;document.getElementById('formNote').textContent='Your email app should open with the enquiry draft. Nothing is submitted to a website server.'});
 </script>
 <script type="module" src="ptt/apply.js"></script>
-<script src="assets/yatra.js" data-root=""></script>
+<script src="assets/theme.js"></script>
 </body></html>\n<!-- Sanket website preview revision: 2026-11-21 -->\n
