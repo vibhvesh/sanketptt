@@ -33,8 +33,19 @@ html.sanket-site .landing-nav-actions {
 }
 
 html.sanket-site .landing-nav-actions a {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
+  box-sizing: border-box;
+  min-height: 36px;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
   white-space: nowrap;
+  text-decoration: none !important;
 }
 
 @media (max-width: 760px) {
@@ -61,8 +72,20 @@ html.sanket-site .landing-nav-actions a {
 
 html.sanket-site .logo,
 html.sanket-site .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
   color: var(--ink) !important;
   letter-spacing: -0.04em !important;
+  text-decoration: none !important;
+}
+
+html.sanket-site .logo > span {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  min-width: 0;
 }
 
 html.sanket-site .logo b,
@@ -72,7 +95,13 @@ html.sanket-site .brand b {
 
 html.sanket-site .logo small,
 html.sanket-site .brand small {
+  display: block !important;
+  margin-top: 2px;
   color: var(--muted) !important;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-decoration: none !important;
 }
 
 html.sanket-site .landing-nav-actions a,
