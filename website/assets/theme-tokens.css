@@ -1,0 +1,66 @@
+/**
+ * Sanket site tokens. One accent, shared by light and dark.
+ * Dark follows the visitor's system setting.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+html.sanket-site {
+  color-scheme: light;
+  --font: Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --bg: #f4f5f7;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #eef1f5;
+  --ink: #12161c;
+  --ink-soft: #3c4654;
+  --muted: #5c6774;
+  --line: #e3e6ec;
+  --line-strong: #cfd5de;
+  --accent: #c2410c;
+  --accent-hover: #9a3412;
+  --accent-contrast: #ffffff;
+  --accent-soft: #fff4ed;
+  --accent-ring: rgba(194, 65, 12, 0.22);
+  --ok: #047857;
+  --warning-bg: #fff7e8;
+  --warning-ink: #6b4a12;
+  --warning-line: #efd3a2;
+  --shadow: 0 1px 2px rgba(16, 18, 24, 0.04), 0 12px 32px rgba(16, 18, 24, 0.06);
+  --shadow-soft: 0 8px 24px rgba(16, 18, 24, 0.05);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-pill: 999px;
+  --space: 8px;
+  --nav-h: 72px;
+  --focus: 0 0 0 3px var(--accent-ring);
+  --hero-glow: radial-gradient(900px 420px at 12% -10%, rgba(194, 65, 12, 0.12), transparent 60%),
+    radial-gradient(700px 380px at 100% 0%, rgba(15, 23, 42, 0.05), transparent 55%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html.sanket-site {
+    color-scheme: dark;
+    --bg: #090b10;
+    --bg-elevated: #12151c;
+    --surface: #151922;
+    --surface-muted: #1c212c;
+    --ink: #f4f6f8;
+    --ink-soft: #d5dbe3;
+    --muted: #a8b1bd;
+    --line: #2a3140;
+    --line-strong: #3a4354;
+    --accent: #ff8a3d;
+    --accent-hover: #ffb07a;
+    --accent-contrast: #1c1008;
+    --accent-soft: rgba(255, 138, 61, 0.14);
+    --accent-ring: rgba(255, 138, 61, 0.35);
+    --ok: #34d399;
+    --warning-bg: #2a2116;
+    --warning-ink: #f6ddb4;
+    --warning-line: #6b5430;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.35);
+    --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.28);
+    --hero-glow: radial-gradient(900px 420px at 10% -10%, rgba(255, 138, 61, 0.16), transparent 58%),
+      radial-gradient(640px 320px at 100% 0%, rgba(255, 255, 255, 0.04), transparent 50%);
+  }
+}

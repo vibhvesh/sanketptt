@@ -85,6 +85,10 @@
       "href": "https://sanketptt.com/ptt2/",
       "role": "app"
     },
+    "sanketRadios": {
+      "href": "https://sanketptt.com/sanket-radios/",
+      "role": "app"
+    },
     "dev": {
       "href": "https://sanketptt.com/dev/",
       "role": "app"

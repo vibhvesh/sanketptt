@@ -1,0 +1,529 @@
+/* Marketing chrome. Layout grids on the homepage stay as the page defined them. */
+
+html.sanket-site .top,
+html.sanket-site header.top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: auto !important;
+  min-height: var(--nav-h);
+  background: color-mix(in srgb, var(--surface) 78%, transparent) !important;
+  border-bottom: 1px solid var(--line) !important;
+  box-shadow: none !important;
+  backdrop-filter: saturate(1.4) blur(18px);
+  -webkit-backdrop-filter: saturate(1.4) blur(18px);
+}
+
+html.sanket-site .top .wrap.nav {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px;
+  width: min(1320px, calc(100% - 48px)) !important;
+  margin-inline: auto !important;
+  min-height: var(--nav-h);
+  box-sizing: border-box;
+}
+
+html.sanket-site .landing-nav-actions {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto !important;
+  min-width: 0;
+}
+
+html.sanket-site .landing-nav-actions a {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  min-height: 36px;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none !important;
+}
+
+@media (max-width: 760px) {
+  html.sanket-site .top .wrap.nav {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    padding: 10px 16px 12px !important;
+    row-gap: 8px;
+  }
+
+  html.sanket-site .landing-nav-actions {
+    flex: 1 1 100%;
+    margin-left: 0 !important;
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  html.sanket-site .landing-nav-actions::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+html.sanket-site .logo,
+html.sanket-site .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--ink) !important;
+  letter-spacing: -0.04em !important;
+  text-decoration: none !important;
+}
+
+html.sanket-site .logo > span {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  min-width: 0;
+}
+
+html.sanket-site .logo b,
+html.sanket-site .brand b {
+  color: var(--accent) !important;
+}
+
+html.sanket-site .logo small,
+html.sanket-site .brand small {
+  display: block !important;
+  margin-top: 2px;
+  color: var(--muted) !important;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-decoration: none !important;
+}
+
+html.sanket-site .landing-nav-actions a,
+html.sanket-site .back,
+html.sanket-site .links a {
+  border-radius: var(--radius-pill) !important;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+}
+
+html.sanket-site .landing-nav-actions .nav-try,
+html.sanket-site .hero-btn.primary,
+html.sanket-site .top .cta,
+html.sanket-site a.primary,
+html.sanket-site .link.primary,
+html.sanket-site .actions a.primary {
+  background: var(--accent) !important;
+  color: var(--accent-contrast) !important;
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+html.sanket-site .landing-nav-actions .nav-contact,
+html.sanket-site .hero-btn.secondary,
+html.sanket-site .link,
+html.sanket-site .actions a,
+html.sanket-site .tabs button,
+html.sanket-site .demoTab {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line-strong) !important;
+}
+
+html.sanket-site .tabs button[aria-selected="true"],
+html.sanket-site .demoTab.active {
+  background: var(--ink) !important;
+  color: var(--bg) !important;
+  border-color: var(--ink) !important;
+}
+
+html.sanket-site .hero {
+  background: var(--hero-glow), var(--bg) !important;
+}
+
+html.sanket-site .hero-eyebrow,
+html.sanket-site .eyebrow {
+  color: var(--accent) !important;
+  letter-spacing: 0.14em !important;
+}
+
+html.sanket-site .hero-copy h1,
+html.sanket-site .hero h1,
+html.sanket-site h1 {
+  color: var(--ink) !important;
+  letter-spacing: -0.045em !important;
+}
+
+html.sanket-site .hero-copy h1 span {
+  color: var(--accent) !important;
+}
+
+html.sanket-site .hero-lead,
+html.sanket-site .lead,
+html.sanket-site .hero p,
+html.sanket-site .head p,
+html.sanket-site .card p,
+html.sanket-site .usecase p,
+html.sanket-site .priceMeta,
+html.sanket-site .price small,
+html.sanket-site .priceList li,
+html.sanket-site .muted {
+  color: var(--muted) !important;
+}
+
+html.sanket-site .hero-text-link,
+html.sanket-site .hero-text-link span,
+html.sanket-site .card a,
+html.sanket-site .contact-card a {
+  color: var(--accent) !important;
+}
+
+html.sanket-site .hero-proof,
+html.sanket-site .hero-proof span {
+  color: var(--ink-soft) !important;
+}
+
+html.sanket-site .public-demo-warning,
+html.sanket-site .warning {
+  background: var(--warning-bg) !important;
+  color: var(--warning-ink) !important;
+  border-color: var(--warning-line) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+html.sanket-site .public-demo-warning b,
+html.sanket-site .warning b {
+  color: var(--warning-ink) !important;
+}
+
+html.sanket-site .public-demo-warning p {
+  color: var(--warning-ink) !important;
+}
+
+html.sanket-site .warning-symbol {
+  background: var(--accent) !important;
+  color: var(--accent-contrast) !important;
+}
+
+html.sanket-site section {
+  border-top-color: var(--line) !important;
+}
+
+html.sanket-site .head h2,
+html.sanket-site .field-copy h2,
+html.sanket-site .card h3,
+html.sanket-site .priceCard h3,
+html.sanket-site .usecase h3 {
+  color: var(--ink) !important;
+}
+
+html.sanket-site .card,
+html.sanket-site .priceCard,
+html.sanket-site .usecase,
+html.sanket-site .step,
+html.sanket-site .field-point,
+html.sanket-site .channel,
+html.sanket-site .shot,
+html.sanket-site .pricingNote,
+html.sanket-site .custom {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+html.sanket-site .priceCard.featured {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow) !important;
+}
+
+html.sanket-site .card small,
+html.sanket-site .usecase .num,
+html.sanket-site .tag,
+html.sanket-site .status {
+  color: var(--accent) !important;
+}
+
+html.sanket-site .field-story,
+html.sanket-site .contact {
+  background: var(--bg-elevated) !important;
+  border-color: var(--line) !important;
+}
+
+html.sanket-site .device-photo-main,
+html.sanket-site .device-photo-card,
+html.sanket-site .hero .wrap > .live-signals .signal-card,
+html.sanket-site .signal-card {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+html.sanket-site .device-photo-label,
+html.sanket-site .device-photo-caption {
+  background: var(--surface-muted) !important;
+  color: var(--ink-soft) !important;
+  border-color: var(--line) !important;
+}
+
+html.sanket-site .device-photo-label b,
+html.sanket-site .signal-card b {
+  color: var(--ink) !important;
+}
+
+html.sanket-site .device-photo-label span,
+html.sanket-site .signal-card small,
+html.sanket-site .device-photo-credit,
+html.sanket-site .hero-visual-caption {
+  color: var(--muted) !important;
+}
+
+html.sanket-site .contact input,
+html.sanket-site .contact textarea,
+html.sanket-site .custom input {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+html.sanket-site .foot,
+html.sanket-site body > footer,
+html.sanket-site footer {
+  color: var(--muted) !important;
+  border-color: var(--line) !important;
+}
+
+html.sanket-site .foot b,
+html.sanket-site footer b {
+  color: var(--ink) !important;
+}
+
+html.sanket-site #tafRadioHub,
+html.sanket-site #control > #tafRadioHub,
+html.sanket-site #tafRadioHub .taf-player-row,
+html.sanket-site #control #tafRadioHub .taf-player-row,
+html.sanket-site #tafRadioHub .taf-radio-actions select {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+html.sanket-site #control > #tafRadioHub,
+html.sanket-site #tafRadioHub {
+  height: auto !important;
+  min-height: 64px !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-items: center !important;
+}
+
+html.sanket-site #control #tafRadioHub .taf-top-five,
+html.sanket-site #tafRadioHub .taf-top-five,
+html.sanket-site #control .taf-top-five {
+  display: flex !important;
+  align-items: center !important;
+  height: auto !important;
+  min-height: 56px !important;
+  overflow: visible !important;
+}
+
+html.sanket-site #control .taf-top-five button,
+html.sanket-site #control #tafRadioHub .taf-top-five button,
+html.sanket-site #tafRadioHub .taf-top-five button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 56px !important;
+  min-width: 56px !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  max-height: 56px !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  text-align: center !important;
+}
+
+html.sanket-site #control .taf-top-five button:before,
+html.sanket-site #control #tafRadioHub .taf-top-five button:before {
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  line-height: 1 !important;
+  font-size: 15px !important;
+  flex: none !important;
+}
+
+html.sanket-site #control .taf-top-five button[data-station="fm-gold-delhi"]:before,
+html.sanket-site #control .taf-top-five button[data-station="air-news"]:before {
+  font-size: 12px !important;
+}
+
+html.sanket-site #control .taf-top-five button b,
+html.sanket-site #control .taf-top-five button small,
+html.sanket-site #tafRadioHub .taf-top-five button b,
+html.sanket-site #tafRadioHub .taf-top-five button small {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  html.sanket-site #control > #tafRadioHub {
+    flex-wrap: wrap !important;
+    row-gap: 8px !important;
+  }
+
+  html.sanket-site #control #tafRadioHub .taf-player-row {
+    order: 2 !important;
+    margin-left: auto !important;
+  }
+
+  html.sanket-site #control #tafRadioHub .taf-top-five {
+    order: 3 !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    overflow-x: auto !important;
+  }
+}
+
+html.sanket-site #tafRadioHub .taf-radio-heading h3,
+html.sanket-site #tafRadioHub .taf-now b {
+  color: var(--ink) !important;
+}
+
+html.sanket-site #tafRadioHub .taf-player-row button,
+html.sanket-site #control #tafRadioHub .taf-player-row button,
+html.sanket-site #control .taf-player-row button,
+html.sanket-site #control .taf-player-row button:disabled,
+html.sanket-site .custom button {
+  background: var(--accent) !important;
+  color: var(--accent-contrast) !important;
+  border: 0 !important;
+  border-radius: var(--radius-pill) !important;
+  opacity: 1 !important;
+  filter: none !important;
+  box-shadow: none !important;
+  font-weight: 800 !important;
+  min-height: 32px !important;
+  height: auto !important;
+  padding: 6px 12px !important;
+  font-size: 11px !important;
+}
+
+html.sanket-site #tafRadioHub .taf-top-five button,
+html.sanket-site #control #tafRadioHub .taf-top-five button {
+  background: var(--accent-soft) !important;
+  color: var(--accent) !important;
+  border-color: var(--line) !important;
+  border-radius: var(--radius-pill) !important;
+}
+
+html.sanket-site .channel a,
+html.sanket-site .back {
+  background: var(--accent-soft);
+  color: var(--accent) !important;
+  border-radius: var(--radius-pill);
+}
+
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair > .join-pane,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair > .transcript-pane,
+html.sanket-site .live-pair > .pane {
+  background: var(--surface) !important;
+  border-color: var(--line) !important;
+}
+
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair > .pane > .ph,
+html.sanket-site .try-live-guide,
+html.sanket-site .transcript-guide,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair > .join-pane > .try-live-guide,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair > .transcript-pane > .transcript-guide {
+  background: var(--surface-muted) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+html.sanket-site .try-live-guide b,
+html.sanket-site .transcript-guide b,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair .try-live-guide b,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair .transcript-guide b,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair > .pane > .ph {
+  color: var(--ink) !important;
+}
+
+html.sanket-site .try-live-guide span,
+html.sanket-site .transcript-guide span,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair .try-live-guide span,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair .transcript-guide span,
+html.sanket-site .hero .wrap > .cockpit-bottom > .live-pair > .pane > .ph small {
+  color: var(--muted) !important;
+}
+
+html.sanket-site header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--surface) 82%, transparent) !important;
+  border-bottom: 1px solid var(--line) !important;
+  backdrop-filter: saturate(1.4) blur(18px);
+}
+
+html.sanket-site .pane {
+  border-color: var(--line) !important;
+  border-radius: var(--radius) !important;
+}
+
+html.sanket-site .demo-link-strip {
+  color: var(--muted);
+}
+
+/* Demo console: color only. The split layout stays full height. */
+html.sanket-site.sanket-demo body {
+  background: var(--bg) !important;
+  color: var(--ink) !important;
+}
+
+html.sanket-site.sanket-demo header {
+  background: color-mix(in srgb, var(--surface) 88%, transparent) !important;
+  color: var(--ink) !important;
+  border-bottom: 1px solid var(--line) !important;
+  backdrop-filter: blur(16px);
+}
+
+html.sanket-site.sanket-demo .brand,
+html.sanket-site.sanket-demo .home {
+  color: var(--ink) !important;
+}
+
+html.sanket-site.sanket-demo .sub {
+  color: var(--muted) !important;
+}
+
+html.sanket-site.sanket-demo .invite {
+  background: var(--accent) !important;
+  color: var(--accent-contrast) !important;
+  border-color: transparent !important;
+  border-radius: var(--radius-pill) !important;
+}
+
+html.sanket-site.sanket-demo .panel {
+  background: var(--surface) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+html.sanket-site.sanket-demo .ph {
+  background: var(--surface-muted) !important;
+  color: var(--ink) !important;
+}
+
+html.sanket-site.sanket-demo .ph small {
+  color: var(--muted) !important;
+}
