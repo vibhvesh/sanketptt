@@ -13,19 +13,44 @@ export const PUBLIC_BROKERS = Object.freeze([
   "wss://test.mosquitto.org:8081",
 ]);
 
-/**
- * Sanket PTT relay address. Empty until a relay host is confirmed.
- * stlu-001.sanketptt.com is the transcribe service, not this socket.
- */
-export const SANKET_RELAY_HOST = "";
-export const SANKET_RELAY_PORT = 443;
-export const SANKET_RELAY_PATH = "/mqtt";
+/** Sanket PTT relay. Socket.io app, separate from the transcribe service. */
+export const SANKET_RELAY_ORIGIN = "https://relay.canberravision.com";
+export const SANKET_CHANNEL_PASSWORD = "radio123";
+export const ROOM_STORAGE_KEY = "sanket.ptt2.relayRoom";
 
-export function sanketBrokerUrl() {
-  if (!SANKET_RELAY_HOST) return "";
-  const port = SANKET_RELAY_PORT ? ":" + SANKET_RELAY_PORT : "";
-  const path = SANKET_RELAY_PATH.charAt(0) === "/" ? SANKET_RELAY_PATH : "/" + SANKET_RELAY_PATH;
-  return "wss://" + SANKET_RELAY_HOST + port + path;
+export const SANKET_ACCOUNTS = Object.freeze({
+  operator: { email: "operator@relay.local", password: "Radio123!" },
+  admin: { email: "admin@relay.local", password: "Admin123!" },
+});
+
+export function accountFor(name) {
+  return SANKET_ACCOUNTS[name] || SANKET_ACCOUNTS.operator;
+}
+
+export function loadAccount() {
+  const query = new URLSearchParams(location.search).get("relayAccount");
+  return query === "admin" ? "admin" : "operator";
+}
+
+export function loadRoom() {
+  let stored = "";
+  try {
+    stored = localStorage.getItem(ROOM_STORAGE_KEY) || "";
+  } catch (e) {
+    stored = "";
+  }
+  const query = new URLSearchParams(location.search).get("room");
+  return String(query || stored || "RM-LOBY").toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 16) || "RM-LOBY";
+}
+
+export function saveRoom(id) {
+  const room = String(id || "").toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 16);
+  try {
+    localStorage.setItem(ROOM_STORAGE_KEY, room);
+  } catch (e) {
+    /* ignore */
+  }
+  return room;
 }
 
 export function cleanRelay(value) {
@@ -58,10 +83,12 @@ export function saveRelay(id) {
 export function relaySpec(id) {
   const relay = cleanRelay(id);
   if (relay === RELAY_SANKET) {
-    const url = sanketBrokerUrl();
     return {
       id: RELAY_SANKET,
-      brokers: url ? [url] : [],
+      origin: SANKET_RELAY_ORIGIN,
+      roomId: loadRoom(),
+      account: loadAccount(),
+      brokers: [],
       username: "",
       password: "",
       exclusive: true,
@@ -77,8 +104,11 @@ export function relaySpec(id) {
 }
 
 export function formatRelayNet(event, relayId, channel) {
-  if (cleanRelay(relayId) === RELAY_SANKET && (event === "unreachable" || event === "disconnected")) {
+  if (cleanRelay(relayId) === RELAY_SANKET && (event === "unreachable" || event === "disconnected" || String(event || "").indexOf("unreachable") === 0)) {
     return SANKET_UNREACHABLE;
+  }
+  if (cleanRelay(relayId) === RELAY_SANKET && event === SANKET_RELAY_ORIGIN) {
+    return "Sanket relay connected · " + (channel || "");
   }
   const prefix = globalThis.PTT_PREFIX || "";
   const topic = prefix + (channel || "");

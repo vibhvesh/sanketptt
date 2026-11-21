@@ -1,6 +1,9 @@
 import { mountSettings, watchRecorder } from "./transcribe/ui.js";
 import { loadRelay, relaySpec } from "./relay/config.js";
 import { mountRelay } from "./relay/ui.js";
+import { openSanketRelay } from "./relay/sanket-socket.js";
+
+window.ptt2OpenSanket = openSanketRelay;
 
 const settings = document.getElementById("ptt2Settings");
 if (settings) {
