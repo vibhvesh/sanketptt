@@ -23,29 +23,29 @@
   color: var(--ink);
   padding: 0 12px;
 }
-.play, .stop { background: var(--navy); color: #fff; border-color: var(--navy); font-weight: 800; cursor: pointer; }
-.play:disabled, .stop:disabled { opacity: 0.45; cursor: default; }
+.play, .stop { background: var(--green); color: var(--on-green); border-color: var(--green); border-radius: var(--radius-btn); font-weight: 700; cursor: pointer; }
+.play:disabled, .stop:disabled { background: var(--bg); color: var(--muted); border-color: var(--line); cursor: default; }
 #tafDirectoryStatus, #tafLastChecked { color: var(--muted); font-size: 12px; }
 .stations { display: flex; gap: 8px; overflow-x: auto; margin: 12px 0 8px; padding-bottom: 4px; }
 .stations button {
   flex: 0 0 auto;
-  border: 1px solid #d5e2ee;
-  background: #f4f8fb;
-  color: #1d4e79;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
   border-radius: 999px;
   padding: 8px 12px;
   font-weight: 750;
   cursor: pointer;
 }
-.stations button.active { background: #e5f2fb; border-color: #7eb0d6; }
+.stations button.active { background: var(--yellow); color: var(--on-yellow); border-color: var(--yellow); }
 .stations b { font-size: 13px; white-space: nowrap; }
 .stations small { display: none; }
 .radio-foot { justify-content: space-between; color: var(--muted); font-size: 12px; }
 .live-retry {
   margin-left: 8px;
-  border: 1px solid #8fb4d4;
-  background: #fff;
-  color: #0f4c81;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--ink);
   border-radius: 8px;
   padding: 4px 10px;
   font-weight: 800;
@@ -54,9 +54,9 @@
 .live-retry[hidden] { display: none; }
 
 .signals { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 12px; padding: 10px; }
-.signal-card { display: flex; gap: 10px; align-items: center; min-width: 0; padding: 12px; border-radius: 12px; background: #f7fafc; }
+.signal-card { display: flex; gap: 10px; align-items: center; min-width: 0; padding: 12px; border-radius: 12px; background: var(--bg); color: var(--ink); }
 .signal-card b { display: block; font-size: 11px; letter-spacing: 0.06em; }
-.signal-card small { color: #1769aa; font-weight: 800; }
+.signal-card small { color: var(--green-ink); font-weight: 800; }
 .sig-led { width: 10px; height: 10px; border-radius: 50%; background: #c5d0da; flex: 0 0 10px; }
 .signal-card.good .sig-led { background: #1aa36a; box-shadow: 0 0 0 4px #e5f6ee; }
 .signal-card.bad .sig-led { background: #d4552b; }
@@ -78,13 +78,13 @@
 .try a { color: #fff; font-weight: 800; text-decoration: none; }
 .try span, .guide span { display: block; color: #b7cde0; font-weight: 500; }
 .guide { padding: 8px 12px 0; font-size: 13px; }
-.people { margin-top: 12px; padding: 4px 4px 12px; background: var(--navy); color: #e7f3fb; }
+.people { margin-top: 12px; padding: 4px 4px 12px; background: var(--bg-2); color: var(--ink); }
 .presence-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 10px; }
-.presence-columns h5 { margin: 0 0 8px; color: #8eb0c7; font-size: 11px; letter-spacing: 0.08em; }
+.presence-columns h5 { margin: 0 0 8px; color: var(--muted); font-size: 11px; letter-spacing: 0.08em; }
 .presence-list { max-height: 220px; overflow: auto; }
-.presence-user, .presence-event { margin: 0 0 6px; padding: 8px 10px; border-radius: 8px; background: #123049; font-size: 13px; }
-.presence-user small, .presence-event small { display: block; color: #8eb0c7; }
-.empty-live { color: #9eb6c9; font-size: 13px; }
+.presence-user, .presence-event { margin: 0 0 6px; padding: 8px 10px; border-radius: 12px; background: var(--bg); color: var(--ink); font-size: 13px; }
+.presence-user small, .presence-event small { display: block; color: var(--muted); }
+.empty-live { color: var(--muted); font-size: 13px; }
 @media (max-width: 900px) {
   .signals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stage {

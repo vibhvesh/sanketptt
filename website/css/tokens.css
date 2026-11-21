@@ -1,0 +1,57 @@
+/* Bright enterprise cloud theme. Azure blue, AWS orange, light surfaces. */
+:root, html[data-theme="light"] {
+  --bg: #f5f7fb;
+  --bg-2: #ffffff;
+  --bg-muted: #eef3f9;
+  --ink: #0f1b2d;
+  --muted: #3e4c63;
+  --line: #d5deea;
+  --blue: #0078d4;
+  --link: #005a9e;
+  --orange: #ff9900;
+  --on-orange: #0f1b2d;
+  --hero: #06245c;
+  --yellow: #e8f3ff;
+  --on-yellow: #0f1b2d;
+  --note: #fff6e5;
+  --on-note: #0f1b2d;
+  --green: #0c831f;
+  --green-hover: #0a6e1a;
+  --green-ink: #0a6e1a;
+  --on-green: #ffffff;
+  --shadow: 0 1px 2px rgba(15, 27, 45, 0.06), 0 8px 24px rgba(15, 27, 45, 0.06);
+  --shadow-8: 0 12px 32px rgba(15, 27, 45, 0.12);
+  --glass: color-mix(in srgb, #ffffff 92%, transparent);
+  --radius: 12px;
+  --radius-btn: 999px;
+  --header: 68px;
+  --font: "Segoe UI Variable", "Segoe UI", Inter, system-ui, "Noto Sans Devanagari", sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --fast: 220ms;
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --bg: #0b1220;
+  --bg-2: #111a2e;
+  --bg-muted: #17243a;
+  --ink: #f4f7fb;
+  --muted: #c5d2e4;
+  --line: #2c4060;
+  --blue: #4da3ff;
+  --link: #8ec5ff;
+  --orange: #ff9900;
+  --on-orange: #0f1b2d;
+  --hero: #071633;
+  --yellow: #1a2c4a;
+  --on-yellow: #f4f7fb;
+  --note: #2a2418;
+  --on-note: #f4f7fb;
+  --green: #0c831f;
+  --green-hover: #0a6e1a;
+  --green-ink: #7ddea0;
+  --on-green: #ffffff;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-8: 0 16px 36px rgba(0, 0, 0, 0.4);
+  --glass: color-mix(in srgb, #111a2e 92%, transparent);
+  color-scheme: dark;
+}
