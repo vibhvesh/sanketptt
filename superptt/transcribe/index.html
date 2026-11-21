@@ -45,7 +45,7 @@ button,.btn,.cta{border-radius:9px;transition:background .16s ease,border-color 
  <b>Transcription</b>
  <p class=m>Control room set → transcripts come from the Pi (PIN login). Otherwise this browser transcribes.</p>
  <div class=row><input id=cr placeholder="control-room URL (https://…trycloudflare.com)" style=flex:1><input id=pin type=password inputmode=numeric placeholder=PIN style=width:100px><button id=login>Log in</button></div>
- <div class=row style=margin-top:6px><label>Engine <select id=eng><option value=whisper>Local Whisper (in browser)</option><option value=eleven>ElevenLabs (your key)</option></select></label>
+ <div class=row style=margin-top:6px><label>Engine <select id=eng><option value=sanket>Sanket Transcribe</option><option value=local>Local Whisper (in browser)</option><option value=eleven>ElevenLabs (your key)</option></select></label>
   <label>Model <select id=model><option value="onnx-community/whisper-tiny">whisper-tiny (~40 MB)</option><option value="onnx-community/whisper-base">whisper-base (~80 MB)</option></select></label>
   <label>Language <select id=lang><option value=auto>auto (tiny often defaults to English)</option><option value=en>English</option><option value=hi>Hindi</option><option value=gu>Gujarati</option><option value=mr>Marathi</option><option value=bn>Bengali</option><option value=ta>Tamil</option><option value=te>Telugu</option><option value=pa>Punjabi</option><option value=ur>Urdu</option></select></label></div>
  <div class=row style=margin-top:6px><input id=xik type=password placeholder="ElevenLabs API key (kept only in this browser)" style=flex:1 autocomplete=off><button id=xiclr>forget key</button></div>

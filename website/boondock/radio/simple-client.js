@@ -55,7 +55,7 @@ fmClose.onclick=closeFmPanel;
 $("radioStationSelect").addEventListener("change",()=>{if($("radioStationSelect").value)closeFmPanel()});$("radioStationButtons").addEventListener("click",e=>{if(e.target.closest("button"))closeFmPanel()});
 
 document.querySelector(".panel:has(#us)")?.remove();$("locp")?.remove();const logPanel=$("log")?.closest(".panel");if(logPanel)logPanel.style.display="none";
-const messages=document.createElement("section");messages.id="simpleMessages";messages.innerHTML='<div class="ribbon-head">LAST FIVE AUDIO MESSAGES</div><div id="recentAudioRibbons"><small>Waiting for radio traffic</small></div><div class="transcript-head"><b>MESSAGE HISTORY · NEWEST AT BOTTOM</b><span id="whisperState">WHISPER · AUTO</span></div><div id="simpleTranscriptList"><small>Your sent and received messages will appear here</small></div><div id="simpleSstvGallery"><div class="transcript-head"><b>SSTV PICTURES</b><span>LOCAL & RECEIVED</span></div></div>';main.after(messages);if(sstvListEl)$("simpleSstvGallery").appendChild(sstvListEl);
+const messages=document.createElement("section");messages.id="simpleMessages";messages.innerHTML='<div class="ribbon-head">LAST FIVE AUDIO MESSAGES</div><div id="recentAudioRibbons"><small>Waiting for radio traffic</small></div><div class="transcript-head"><b>MESSAGE HISTORY · NEWEST AT BOTTOM</b><span id="whisperState">SANKET · AUTO</span></div><div id="simpleTranscriptList"><small>Your sent and received messages will appear here</small></div><div id="simpleSstvGallery"><div class="transcript-head"><b>SSTV PICTURES</b><span>LOCAL & RECEIVED</span></div></div>';main.after(messages);if(sstvListEl)$("simpleSstvGallery").appendChild(sstvListEl);
 const css=[
 "body{padding:0!important;background:#8f210f!important;overflow:hidden!important;height:100dvh!important}",
 ".rig{width:100%!important;max-width:520px!important;height:100dvh!important;min-height:0!important;overflow:hidden!important;padding:6px 9px!important;display:flex!important;flex-direction:column!important;gap:4px!important;border-radius:0!important}",
@@ -189,6 +189,7 @@ setRadioPower(false);
 })();
 let asr=null,asrLoading=null,queue=Promise.resolve();const done=new Set(),texts=new Map();
 async function loadWhisper(){if(asr)return asr;if(asrLoading)return asrLoading;$("whisperState").textContent="WHISPER · LOADING";asrLoading=import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.5").then(T=>T.pipeline("automatic-speech-recognition","onnx-community/whisper-base",{dtype:"q8"})).then(p=>{asr=p;$("whisperState").textContent="WHISPER · ON DEVICE";return p}).catch(e=>{$("whisperState").textContent="WHISPER · UNAVAILABLE";throw e});return asrLoading}
+async function transcribeWav(wav){try{if(!window.SanketTranscribe)throw new Error("client missing");const out=await SanketTranscribe.postWav(wav);$("whisperState").textContent="SANKET TRANSCRIBE";return (out.text||"").trim()||"No speech detected";}catch(err){const pipe=await loadWhisper(),r=await pipe(wavFloat(wav),{task:"transcribe",chunk_length_s:30,stride_length_s:5});return (r.text||"").trim()||"No speech detected";}}
 const sqlInput=$("simpleSquelchLevel");if(sqlInput){sqlInput.value=localStorage.getItem("sanketptt.squelch")||"0";$("simpleSquelchValue").textContent=sqlInput.value;sqlInput.oninput=()=>{$("simpleSquelchValue").textContent=sqlInput.value;localStorage.setItem("sanketptt.squelch",sqlInput.value)}}
 function wavFloat(wav){const v=new DataView(wav),n=v.getUint32(40,true)/2,rate=v.getUint32(24,true),src=new Float32Array(n);for(let i=0;i<n;i++)src[i]=v.getInt16(44+i*2,true)/32768;const m=Math.floor(n*16000/rate),out=new Float32Array(m);for(let i=0;i<m;i++){const x=i*rate/16000,j=Math.floor(x),f=x-j;out[i]=src[j]*(1-f)+(src[Math.min(j+1,n-1)]||0)*f}return out}
 let messagePlayer=null,messagePlayerUrl=null,messagePlayerButton=null;
@@ -233,8 +234,8 @@ function drawMessages(entries){
   if(!done.has(e.key)){
    done.add(e.key);
    queue=queue.then(async()=>{
-    try{const pipe=await loadWhisper(),r=await pipe(wavFloat(e.wav),{task:"transcribe",chunk_length_s:30,stride_length_s:5});texts.set(e.key,(r.text||"").trim()||"No speech detected")}
-    catch(err){texts.set(e.key,"Whisper unavailable: "+err.message)}
+    try{texts.set(e.key,await transcribeWav(e.wav))}
+    catch(err){texts.set(e.key,"Transcription failed: "+err.message)}
     drawMessages(rec.entries||[]);
    });
   }

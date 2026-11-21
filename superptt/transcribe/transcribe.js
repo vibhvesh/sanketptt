@@ -63,7 +63,7 @@
   function queue(s) { Q.push(s); pump(); }
   function pump() {
     if (busy || !Q.length) return; busy = true; var s = Q.shift(); s.status = 'run'; render();
-    (cfg.eng === 'eleven' && LS.sptt_xi_key ? eleven(s) : whisper(s)).then(function (r) {
+    (cfg.eng === 'eleven' && LS.sptt_xi_key ? eleven(s) : cfg.eng === 'local' ? whisper(s) : sanket(s).catch(function () { return whisper(s); })).then(function (r) {
       s.text = r.text || '(no speech)'; s.lang = r.lang || (cfg.lang !== 'auto' ? cfg.lang : guessLang(s.text)); s.engine = r.engine; s.status = 'done';
     }, function (e) { s.status = 'err'; s.text = 'transcription failed: ' + (e && e.message || e); }).then(function () { s.pcm = null; busy = false; render(); pump(); });
   }
@@ -77,6 +77,23 @@
       else if (pend[m.id]) { var P = pend[m.id]; delete pend[m.id]; m.t === 'result' ? P.ok(m.text) : P.no(new Error(m.error)); }
     };
     return worker;
+  }
+  function sanket(s) {
+    var body = wav(s.pcm), lang = cfg.lang && cfg.lang !== 'auto' ? cfg.lang : '';
+    var run = window.SanketTranscribe
+      ? window.SanketTranscribe.postWav(body, { language: lang })
+      : fetch('https://stlu-001.sanketptt.com/api/transcribe', { method: 'POST', headers: (function () {
+          var headers = { 'Content-Type': 'audio/wav' };
+          if (lang) headers['X-Sanket-Language'] = lang;
+          try {
+            var saved = JSON.parse(localStorage.getItem('sanket.ptt2.remember') || 'null');
+            if (saved && saved.email && saved.password) headers.Authorization = 'Basic ' + btoa(saved.email + ':' + saved.password);
+          } catch (e) {}
+          return headers;
+        })(), body: body })
+        .then(function (r) { if (!r.ok) throw new Error('Sanket Transcribe ' + r.status); return r.json(); })
+        .then(function (data) { return { text: String(data.text || '').trim(), language: String(data.language || '') }; });
+    return Promise.resolve(run).then(function (r) { return { text: r.text, lang: r.language || '', engine: 'sanket' }; });
   }
   function whisper(s) {
     return new Promise(function (ok, no) { pend[s.id] = { ok: ok, no: no }; getWorker().postMessage({ t: 'run', id: s.id, model: cfg.model, lang: cfg.lang, audio: to16k(s.pcm) }); })
@@ -125,7 +142,7 @@
 
   // ---------- UI ----------
   function setMode() {
-    $('mode').textContent = cfg.cr && crTok ? 'transcripts: control room' : cfg.eng === 'eleven' && LS.sptt_xi_key ? 'transcripts: ElevenLabs (this browser)' : 'transcripts: ' + (cfg.model || '').split('/').pop() + ' in this browser';
+    $('mode').textContent = cfg.cr && crTok ? 'transcripts: control room' : cfg.eng === 'eleven' && LS.sptt_xi_key ? 'transcripts: ElevenLabs (this browser)' : cfg.eng === 'local' ? 'transcripts: ' + (cfg.model || '').split('/').pop() + ' in this browser' : 'transcripts: Sanket Transcribe';
   }
   function lockTag(c) {
     if (c.enc) return '🔒'; if (rejects[c.name] && rejects[c.name].nokey) return '<span class=nokey>🔒 key needed</span>'; return '';
@@ -176,7 +193,7 @@
     Promise.all(Object.keys(K).map(function (c) { return cl.setKey(c, K[c].s, K[c].kid, K[c].hide).catch(function () {}); }))
       .then(function () { chs.forEach(function (c) { cl.join(c); }); });
     $('setup').classList.add('hide'); setMode(); crStart();
-    if (!cfg.cr && cfg.eng !== 'eleven') getWorker().postMessage({ t: 'load', model: cfg.model });   // warm the model
+    if (!cfg.cr && cfg.eng === 'local') getWorker().postMessage({ t: 'load', model: cfg.model });   // warm local Whisper only when it is the selected engine
   }
   function keyInfo() { var k = Object.keys(allKeys()); $('keyinfo').textContent = k.length ? '🔒 keys in this browser: ' + k.join(', ') : 'No channel keys: paste the invite link or open it on this device.'; }
   $('addkey').onclick = function () { var got = importInvite($('invite').value); $('invite').value = ''; $('chans').value = cfg.chans; keyInfo(); $('serr').textContent = got.length ? '🔒 key added for ' + got.join(', ') : 'no key found in that text'; };
@@ -185,7 +202,7 @@
   $('gear').onclick = function () { $('setup').classList.toggle('hide'); };
   $('go').onclick = start;
   // boot
-  cfg.model = cfg.model || 'onnx-community/whisper-tiny'; cfg.lang = cfg.lang || 'auto'; cfg.eng = cfg.eng || 'whisper';
+  cfg.model = cfg.model || 'onnx-community/whisper-tiny'; cfg.lang = cfg.lang || 'auto'; if (!cfg.eng || cfg.eng === 'whisper') cfg.eng = 'sanket';
   $('chans').value = cfg.chans || ''; $('disc').checked = !!cfg.disc; $('burl').value = cfg.burl || ''; $('buser').value = cfg.buser || ''; $('bpass').value = cfg.bpass || '';
   $('eng').value = cfg.eng; $('model').value = cfg.model; $('lang').value = cfg.lang; $('cr').value = cfg.cr || '';
   if (LS.sptt_xi_key) $('xik').placeholder = 'ElevenLabs key saved in this browser';
