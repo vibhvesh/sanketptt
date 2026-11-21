@@ -555,7 +555,7 @@ kwLoad();
  if(compact)document.body.classList.add("embed-mode");
  $("engine").value="free";
  $("inSrc").value="ptt";
- const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40);const ch=(stored||q.get("ch")||"virtual").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,40)||"virtual";
+ const fromQuery=(q.get("ch")||"").replace(/[^A-Za-z0-9-]/g,"").slice(0,40);const stored=(localStorage.getItem("sanketptt.activeChannel")||"").replace(/[^A-Za-z0-9-]/g,"").slice(0,40);const ch=fromQuery||stored||"virtual";
  $("pttUrl").value=RADIO_DEF+"?ch="+encodeURIComponent(ch);
  inUI();syncPttBackLink();
  $("status").textContent="Starting live PTT listener… source and destination languages are configurable below.";

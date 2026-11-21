@@ -77,6 +77,10 @@
       "href": "https://sanketptt.com/radio-hub.html",
       "role": "app"
     },
+    "try": {
+      "href": "https://sanketptt.com/try/",
+      "role": "app"
+    },
     "dev": {
       "href": "https://sanketptt.com/dev/",
       "role": "app"

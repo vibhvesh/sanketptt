@@ -56,7 +56,7 @@ jobs:
           ROOTS = (
               "radio/", "transcribe/", "dmr/", "aakashvani/", "docs/", "pi/",
               "pi-webclient/", "superptt/", "dev/", "boondock/", "ptt/",
-              "newlook/", "vani-admin/",
+              "newlook/", "vani-admin/", "try/",
               "releases/", "css/", "js/", "demo.html", "radio-hub.html",
               "sanket-mark.svg",
           )

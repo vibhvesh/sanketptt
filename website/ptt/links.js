@@ -103,6 +103,61 @@ export function transcribeDemo(id) {
   return url("transcribe/", "demo=1&autostart=1&compact=1&ch=" + encodeURIComponent(ch));
 }
 
+/** Shared MQTT root used by /radio/, /dev/, and /boondock/radio/. */
+export const MQTT_PREFIX = "ptt-radio-66ab9178/";
+
+export function mqttTopic(id) {
+  const ch = sanitizeChannel(id);
+  return ch ? MQTT_PREFIX + ch + "/" : "";
+}
+
+export function appChannel(app, id) {
+  const ch = sanitizeChannel(id);
+  const q = ch ? "ch=" + encodeURIComponent(ch) : "";
+  if (app === "dev") return url("dev/", q);
+  if (app === "boondock") return url("boondock/radio/", q);
+  if (app === "dmr") return url("dmr/");
+  if (app === "aakashvani") return url("aakashvani/");
+  return ch ? channelUrl(ch) : url("radio/");
+}
+
+export function appEmbed(app, id) {
+  const ch = sanitizeChannel(id) || "virtual";
+  const q = "ch=" + encodeURIComponent(ch) + "&embed=1";
+  if (app === "dev") return url("dev/", q);
+  if (app === "boondock") return url("boondock/radio/", q);
+  return url("radio/", q);
+}
+
+/**
+ * Every live PTT and the transcriber that hears it.
+ * status: existing (already paired), built (same transcribe app, own channel), none (no audio feed).
+ */
+export const pairs = Object.freeze([
+  { id: "virtual", title: "Radio · Virtual", app: "radio", channel: "virtual", status: "existing", note: "Default shared channel. The dev and Boondock apps also open this channel when no ch is set." },
+  { id: "master", title: "Radio · Master", app: "radio", channel: "master", status: "existing", note: "Named radio channel." },
+  { id: "city-control", title: "Radio · City Control", app: "radio", channel: "city-control", status: "existing", note: "Named radio channel." },
+  { id: "kolkata-control", title: "Radio · Kolkata Control", app: "radio", channel: "kolkata-control", status: "existing", note: "Named radio channel." },
+  { id: "sanket-website-demo", title: "Radio · Website demo", app: "radio", channel: "sanket-website-demo", status: "existing", note: "Channel used by the side-by-side demo page." },
+  { id: "dev", title: "Development radio", app: "dev", channel: "dev", status: "built", note: "Same MQTT prefix as the main radio. This row uses channel dev so it does not share Virtual." },
+  { id: "boondock", title: "Boondock Echo radio", app: "boondock", channel: "boondock", status: "built", note: "Same MQTT prefix as the main radio. This row uses channel boondock." },
+  { id: "dmr", title: "DMR monitor", app: "dmr", channel: "", status: "none", note: "Opens BrandMeister and Hoseline. It does not send audio into the Sanket relay." },
+  { id: "aakashvani", title: "आकाशवाणी", app: "aakashvani", channel: "", status: "none", note: "Control-room preview. Speaker routing needs the Raspberry Pi service, so there is no live feed to transcribe." },
+]);
+
+export function pairEmbed(pair) {
+  if (pair.app === "dmr" || pair.app === "aakashvani") return appChannel(pair.app);
+  return appEmbed(pair.app, pair.channel);
+}
+
+export function pairListen(pair) {
+  return pair.status === "none" ? "" : transcribeCompact(pair.channel);
+}
+
+export function pairOpen(pair) {
+  return appChannel(pair.app, pair.channel);
+}
+
 /** github.com repository links. Marked source-entry so the link check can see the label. */
 export const source = Object.freeze({
   sanketptt: "https://github.com/vibhvesh/sanketptt", // source-entry
@@ -141,6 +196,7 @@ export const links = Object.freeze({
   aakashvani: url("aakashvani/"),
   demo: url("demo.html"),
   radioHub: url("radio-hub.html"),
+  try: url("try/"),
   dev: url("dev/"),
   boondock: url("boondock/radio/"),
   brandmeister: "https://brandmeister.network/",
@@ -181,6 +237,7 @@ export const roles = Object.freeze({
   aakashvani: "app",
   demo: "app",
   radioHub: "app",
+  try: "app",
   dev: "app",
   boondock: "app",
   brandmeister: "external",
