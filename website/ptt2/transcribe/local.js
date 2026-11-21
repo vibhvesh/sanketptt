@@ -2,7 +2,8 @@
  * On-device transcription. The Whisper model is downloaded only when a clip needs it.
  * English tiny model: small enough to run in the browser over WASM, with WebGPU when present.
  */
-const MODEL_ID = "onnx-community/whisper-tiny.en";
+const MODEL_ID = "onnx-community/whisper-tiny";
+const LANGUAGE_NAMES = { en: "english", hi: "hindi" };
 let pipelinePromise = null;
 
 function resampleTo16k(wavBuffer) {
@@ -24,9 +25,12 @@ function resampleTo16k(wavBuffer) {
 }
 
 async function chooseDevice() {
-  if (!navigator.gpu) return "wasm";
+  if (!navigator.gpu || !navigator.gpu.requestAdapter) return "wasm";
   try {
-    const adapter = await navigator.gpu.requestAdapter();
+    const adapter = await Promise.race([
+      navigator.gpu.requestAdapter(),
+      new Promise((resolve) => setTimeout(() => resolve(null), 1500)),
+    ]);
     if (adapter) return "webgpu";
   } catch (e) {
     return "wasm";
@@ -57,7 +61,7 @@ export async function transcribeLocal(wavBuffer, config) {
   const task = config && config.translate ? "translate" : "transcribe";
   const language = (config && config.language) || "en";
   const result = await transcriber(audio, {
-    language: language === "auto" ? undefined : language,
+    language: language === "auto" ? undefined : (LANGUAGE_NAMES[language] || language),
     task,
     return_timestamps: true,
   });

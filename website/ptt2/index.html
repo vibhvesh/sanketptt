@@ -219,6 +219,7 @@ html.ptt-embed #main .hint{display:none!important}
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
+<div id="ptt2Settings"></div>
 <div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -226,7 +227,7 @@ html.ptt-embed #main .hint{display:none!important}
 <div style="display:flex;gap:6px;margin-top:6px"><select id=sstvMode><option value=r36>Robot36 (~37 s)</option><option value=m1>Martin M1 (~115 s)</option><option value=s1>Scottie S1 (~111 s)</option><option value=pd120>PD120 640×496 (~127 s)</option></select><button id=sstvSend style="flex:1">📡 SEND IMAGE</button><button id=sstvCancel>✕</button></div><div id=sstvSt class=hint></div></div>
 <input type=file id=sstvFile accept="image/*" style="display:none"><button id=sstvBtn style="width:100%;margin-bottom:6px">📷 SSTV · send a picture</button>
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
-<div id="ptt2Settings"></div><div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
+<div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
 <div id=net>connecting…</div></div>
 <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
 <script src="sstv.js"></script>
