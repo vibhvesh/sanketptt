@@ -6,25 +6,21 @@
  * X-Sanket-* headers are not in the CORS allow list and /api/uploads requires a cockpit login.
  * Each attempt aborts after 15s. One retry, then the caller decides.
  */
-import { isAllowedServer, SANKET_DEMO_USERNAME, SANKET_DEMO_PASSWORD } from "./config.js";
+import { isAllowedServer } from "./config.js";
+import { basicAuthHeader } from "../relay/auth.js";
 import { languageHeader, lineSearch } from "./line.js";
 
 export const REQUEST_TIMEOUT_MS = 15000;
 const ATTEMPTS = 2;
-
-function basicAuth() {
-  return "Basic " + btoa(SANKET_DEMO_USERNAME + ":" + SANKET_DEMO_PASSWORD);
-}
 
 async function postOnce(serverUrl, wavBuffer, config, line) {
   const root = String(serverUrl).replace(/\/+$/, "");
   const target = new URL(root + "/api/transcribe");
   const identity = lineSearch(line);
   identity.forEach((value, key) => target.searchParams.set(key, value));
-  const headers = {
-    Authorization: basicAuth(),
-    "Content-Type": "audio/wav",
-  };
+  const headers = { "Content-Type": "audio/wav" };
+  const auth = basicAuthHeader();
+  if (auth) headers.Authorization = auth;
   const language = languageHeader(config && config.language);
   if (language) headers["X-Sanket-Language"] = language;
   if (config && config.translate) headers["X-Sanket-Translate"] = "1";

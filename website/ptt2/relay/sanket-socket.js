@@ -7,8 +7,8 @@ import {
   RELAY_SANKET,
   SANKET_RELAY_ORIGIN,
   SANKET_CHANNEL_PASSWORD,
-  accountFor,
 } from "./config.js";
+import { getCredentials, getToken } from "./auth.js";
 
 const SOCKET_MODULE = SANKET_RELAY_ORIGIN + "/vendor/socket.mjs";
 
@@ -31,8 +31,12 @@ async function api(path, { method = "GET", token, body } = {}) {
   }
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const message = data && data.error && data.error.message ? data.error.message : "Relay request failed (" + response.status + ")";
-    throw new Error(message);
+    const message = response.status === 401
+      ? "Sign-in failed. Check the email and password."
+      : (data && data.error && data.error.message ? data.error.message : "Request failed (" + response.status + ").");
+    const error = new Error(message);
+    error.status = response.status;
+    throw error;
   }
   return data;
 }
@@ -41,21 +45,21 @@ export function openSanketRelay(options) {
   return new SanketRelay(options || {});
 }
 
-/** Channels assigned to the signed-in demo account. */
-export async function assignedRooms(accountName) {
-  const account = accountFor(accountName || "operator");
-  const login = await api("/api/auth/login", {
-    method: "POST",
-    body: { email: account.email, password: account.password },
-  });
-  const listed = await api("/api/rooms", { token: login.token });
+/** Channels assigned to the signed-in account. */
+export async function assignedRooms() {
+  const token = getToken();
+  if (!token) {
+    const error = new Error("Sign in required.");
+    error.status = 401;
+    throw error;
+  }
+  const listed = await api("/api/rooms", { token });
   return (listed.rooms || []).filter((room) => room.memberRole && room.roomId);
 }
 
 class SanketRelay {
   constructor(options) {
     this.cb = options.on || function () {};
-    this.accountName = options.account || "operator";
     this.ch = String(options.roomId || "RM-LOBY").toUpperCase();
     this.relayId = RELAY_SANKET;
     this.id = "";
@@ -79,19 +83,15 @@ class SanketRelay {
   }
 
   async start() {
-    const account = accountFor(this.accountName);
+    const creds = getCredentials();
     try {
-      const login = await api("/api/auth/login", {
-        method: "POST",
-        body: { email: account.email, password: account.password },
-      });
+      this.token = getToken();
+      if (!this.token) throw Object.assign(new Error("Sign in required."), { status: 401 });
       if (this.closed) return;
-      this.token = login.token;
-      this.speakerEmail = account.email;
-      this.username = login.user && login.user.username || "";
-      this.id = login.user && login.user.userId || "";
+      this.speakerEmail = creds ? creds.email : "";
       const me = await api("/api/auth/me", { token: this.token });
-      if (me.user && me.user.userId) this.id = me.user.userId;
+      this.username = me.user && me.user.username || "";
+      this.id = me.user && me.user.userId || "";
       const listed = await api("/api/rooms", { token: this.token });
       this.rooms = (listed.rooms || []).filter((room) => room.memberRole);
       if (!this.rooms.some((room) => room.roomId === this.ch) && this.rooms[0]) this.ch = this.rooms[0].roomId;

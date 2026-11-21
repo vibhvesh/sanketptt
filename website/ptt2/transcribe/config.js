@@ -5,10 +5,6 @@ export const STORAGE_KEY = "sanket.ptt2.transcribe";
 /** Sanket Transcribe. HTTPS on sanketptt.com only. */
 export const SANKET_TRANSCRIBE_SERVER = "https://stlu-001.sanketptt.com";
 
-/** Demo operator account published for this server. */
-export const SANKET_DEMO_USERNAME = "operator@relay.local";
-export const SANKET_DEMO_PASSWORD = "Radio123!";
-
 /** Extra internal host, if one is assigned later. Empty means it is not allowed yet. */
 export const INTERNAL_TRANSCRIBE_HOST = "";
 

@@ -30,20 +30,6 @@ export const SANKET_RELAY_ORIGIN = "https://relay.canberravision.com";
 export const SANKET_CHANNEL_PASSWORD = "radio123";
 export const ROOM_STORAGE_KEY = "sanket.ptt2.relayRoom";
 
-export const SANKET_ACCOUNTS = Object.freeze({
-  operator: { email: "operator@relay.local", password: "Radio123!" },
-  admin: { email: "admin@relay.local", password: "Admin123!" },
-});
-
-export function accountFor(name) {
-  return SANKET_ACCOUNTS[name] || SANKET_ACCOUNTS.operator;
-}
-
-export function loadAccount() {
-  const query = new URLSearchParams(location.search).get("relayAccount");
-  return query === "admin" ? "admin" : "operator";
-}
-
 export function loadPublicChannel() {
   let stored = "";
   try {
@@ -121,7 +107,6 @@ export function relaySpec(id) {
       id: RELAY_SANKET,
       origin: SANKET_RELAY_ORIGIN,
       roomId: loadRoom(),
-      account: loadAccount(),
       brokers: [],
       username: "",
       password: "",

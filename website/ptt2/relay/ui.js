@@ -4,7 +4,6 @@ import {
   RELAY_SANKET,
   SANKET_UNREACHABLE,
   formatRelayNet,
-  loadAccount,
   loadPublicChannel,
   loadRelay,
   loadRoom,
@@ -14,8 +13,7 @@ import {
   saveRoom,
 } from "./config.js";
 import { assignedRooms } from "./sanket-socket.js";
-
-const SIGNED_IN_KEY = "sanket.ptt2.signedIn";
+import { getToken, rememberedLogin, signIn, signOut } from "./auth.js";
 
 function paint(status, text) {
   status.textContent = text;
@@ -26,23 +24,6 @@ function esc(value) {
   return String(value).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
 }
 
-function signedIn() {
-  if (loadRelay() === RELAY_SANKET) return true;
-  try {
-    return localStorage.getItem(SIGNED_IN_KEY) === "1";
-  } catch (e) {
-    return false;
-  }
-}
-
-function markSignedIn() {
-  try {
-    localStorage.setItem(SIGNED_IN_KEY, "1");
-  } catch (e) {
-    /* ignore */
-  }
-}
-
 function currentValue() {
   return loadRelay() === RELAY_SANKET ? "sanket:" + loadRoom() : "public:" + loadPublicChannel();
 }
@@ -51,14 +32,39 @@ export function mountRelay(root, onChoose) {
   root.innerHTML = `
     <h3>AVAILABLE CHANNELS</h3>
     <div id="ptt2ChannelChips" role="listbox" aria-label="Available channels"></div>
-    <button type="button" id="ptt2SignIn">Sign in to see your channels</button>
+    <form id="ptt2Auth">
+      <label for="ptt2Email">Email</label>
+      <input id="ptt2Email" type="email" autocomplete="username" inputmode="email">
+      <label for="ptt2Password">Password</label>
+      <div class="ptt2-pass">
+        <input id="ptt2Password" type="password" autocomplete="current-password">
+        <button type="button" id="ptt2PassToggle">Show</button>
+      </div>
+      <label class="ptt2-remember"><input id="ptt2Remember" type="checkbox"> Remember me</label>
+      <button type="submit" id="ptt2SignIn">Sign in</button>
+      <button type="button" id="ptt2Demo">Use demo account</button>
+      <p id="ptt2AuthError" hidden></p>
+    </form>
+    <button type="button" id="ptt2SignOut" hidden>Sign out</button>
     <p id="ptt2RelayStatus"></p>
   `;
   const chips = root.querySelector("#ptt2ChannelChips");
-  const signIn = root.querySelector("#ptt2SignIn");
+  const form = root.querySelector("#ptt2Auth");
+  const email = root.querySelector("#ptt2Email");
+  const password = root.querySelector("#ptt2Password");
+  const remember = root.querySelector("#ptt2Remember");
+  const toggle = root.querySelector("#ptt2PassToggle");
+  const demo = root.querySelector("#ptt2Demo");
+  const error = root.querySelector("#ptt2AuthError");
+  const signOutButton = root.querySelector("#ptt2SignOut");
   const status = root.querySelector("#ptt2RelayStatus");
   let sanketRooms = [];
-  let showingSanket = signedIn();
+  let showingSanket = false;
+
+  function showError(message) {
+    error.hidden = !message;
+    error.textContent = message || "";
+  }
 
   function choose(value) {
     const mark = value.indexOf(":");
@@ -92,7 +98,35 @@ export function mountRelay(root, onChoose) {
       const on = item.value === active ? " is-on" : "";
       return `<button type="button" class="ptt2-chip${on}" data-value="${esc(item.value)}" aria-pressed="${on ? "true" : "false"}">${esc(item.name)}</button>`;
     }).join("");
-    signIn.hidden = showingSanket;
+    form.hidden = showingSanket;
+    signOutButton.hidden = !showingSanket;
+  }
+
+  function returnToPublic() {
+    sanketRooms = [];
+    showingSanket = false;
+    saveRelay(RELAY_PUBLIC);
+    showError("");
+    render();
+    paint(status, "Joining " + loadPublicChannel() + ".");
+    onChoose(relaySpec(RELAY_PUBLIC));
+  }
+
+  async function enter(address, secret, keep) {
+    showError("");
+    paint(status, "Signing in…");
+    try {
+      await signIn(address, secret, keep);
+      sanketRooms = await assignedRooms();
+      showingSanket = true;
+      render();
+      paint(status, sanketRooms.length ? "Your channels" : "No channels are assigned to this sign-in.");
+    } catch (e) {
+      showingSanket = false;
+      render();
+      if (e && e.status === 401) showError("Sign-in failed. Check the email and password.");
+      else paint(status, SANKET_UNREACHABLE);
+    }
   }
 
   chips.addEventListener("click", (event) => {
@@ -101,34 +135,34 @@ export function mountRelay(root, onChoose) {
     choose(button.getAttribute("data-value"));
   });
 
-  async function signInNow() {
-    signIn.disabled = true;
-    paint(status, "Signing in…");
-    try {
-      sanketRooms = await assignedRooms(loadAccount());
-      markSignedIn();
-      showingSanket = true;
-      render();
-      paint(status, sanketRooms.length ? "Your channels" : "No channels are assigned to this sign-in.");
-    } catch (e) {
-      showingSanket = false;
-      render();
-      paint(status, SANKET_UNREACHABLE);
-    } finally {
-      signIn.disabled = false;
-    }
-  }
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    enter(email.value, password.value, remember.checked);
+  });
 
-  signIn.addEventListener("click", () => {
-    signInNow();
+  toggle.addEventListener("click", () => {
+    const hidden = password.type === "password";
+    password.type = hidden ? "text" : "password";
+    toggle.textContent = hidden ? "Hide" : "Show";
+  });
+
+  demo.addEventListener("click", () => {
+    email.value = "operator@relay.local";
+    password.value = "Radio123!";
+    remember.checked = false;
+    enter(email.value, password.value, false);
+  });
+
+  signOutButton.addEventListener("click", () => {
+    signOut();
+    password.value = "";
+    remember.checked = false;
+    returnToPublic();
   });
 
   window.ptt2SetRelayRooms = (rooms) => {
     sanketRooms = rooms || [];
-    if (sanketRooms.length) {
-      markSignedIn();
-      showingSanket = true;
-    }
+    showingSanket = true;
     render();
   };
 
@@ -139,7 +173,14 @@ export function mountRelay(root, onChoose) {
     return text;
   };
 
+  const saved = rememberedLogin();
+  if (!getToken() && !saved) saveRelay(RELAY_PUBLIC);
+  if (saved) {
+    email.value = saved.email;
+    password.value = saved.password;
+    remember.checked = true;
+  }
   render();
   paint(status, loadRelay() === RELAY_SANKET ? "Joining " + loadRoom() + "." : "Joining " + loadPublicChannel() + ".");
-  if (showingSanket) signInNow();
+  if (getToken() || saved) enter(email.value, password.value, remember.checked);
 }
