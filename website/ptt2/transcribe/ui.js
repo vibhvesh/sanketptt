@@ -62,10 +62,11 @@ export function mountSettings(root) {
     <h3>TRANSCRIPTION</h3>
     <label for="ptt2Mode">Mode</label>
     <select id="ptt2Mode">
-      <option value="auto">Auto · server if reachable, otherwise local</option>
-      <option value="local">Local · on this device</option>
-      <option value="server">Server · Sanket Transcribe, fall back to local</option>
+      <option value="auto">Auto</option>
+      <option value="local">Local</option>
+      <option value="server">Server</option>
     </select>
+    <p class="ptt2-hint">Auto and Server use Sanket Transcribe when it answers. Otherwise the clip stays on this device.</p>
     <label for="ptt2Server">Sanket Transcribe server URL</label>
     <input id="ptt2Server" type="url" placeholder="https://….sanketptt.com" autocomplete="off">
     <label for="ptt2Language">Language</label>
