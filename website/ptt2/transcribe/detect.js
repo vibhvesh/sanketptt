@@ -12,7 +12,7 @@ export async function serverHealthy(serverUrl) {
     return { ok: true, reason: "" };
   } catch (e) {
     const message = e && e.message ? e.message : String(e);
-    const blocked = /failed to fetch|networkerror|load failed|cors/i.test(message);
+    const blocked = /cors|access-control/i.test(message);
     return {
       ok: false,
       reason: blocked
