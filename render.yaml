@@ -1,0 +1,28 @@
+# Internal lead finder. The public site stays on Hostinger; this service is only the API.
+# The Render service root is the repository root (no rootDir).
+# Free-plan disk is ephemeral — saved searches disappear when the instance restarts.
+# See leads/README.md.
+services:
+  - type: web
+    name: sanket-leads
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r leads/requirements.txt
+    startCommand: cd leads && uvicorn sanket_leads.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: LEADS_TOKEN
+        sync: false
+      - key: LEADS_DB_PATH
+        value: /tmp/sanket-leads.sqlite
+      - key: LEADS_CORS_ORIGINS
+        value: https://sanketptt.com,https://www.sanketptt.com
+      - key: NOMINATIM_USER_AGENT
+        value: SanketLeads/1.0 (+https://sanketptt.com/leads/; internal sales research)
+      - key: NOMINATIM_MIN_INTERVAL
+        value: "1.1"
+      - key: OVERPASS_TIMEOUT
+        value: "8"
