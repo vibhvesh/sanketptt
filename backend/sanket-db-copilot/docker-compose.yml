@@ -1,0 +1,8 @@
+services:
+  sanket-db-copilot:
+    build: .
+    container_name: sanket-db-copilot
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:8091:8091"
