@@ -10,7 +10,7 @@ html.sanket-site.radios-page .logo {
 }
 
 html.sanket-site.radios-page .landing-nav-actions {
-  flex: 1 1 auto;
+  flex: 1 1 0% !important;
   min-width: 0 !important;
   justify-content: flex-end;
   overflow-x: auto;
@@ -19,17 +19,38 @@ html.sanket-site.radios-page .landing-nav-actions {
 
 @media (max-width: 480px) {
   html.sanket-site.radios-page .top .wrap.nav {
-    padding: 8px 12px !important;
+    padding: 8px 10px !important;
     gap: 8px;
   }
 
+  html.sanket-site.radios-page .logo img {
+    width: 32px;
+    height: 32px;
+  }
+
   html.sanket-site.radios-page .landing-nav-actions {
-    justify-content: flex-start;
-    gap: 6px;
+    justify-content: flex-end;
+    gap: 4px;
   }
 
   html.sanket-site.radios-page .landing-nav-actions a {
-    padding: 0 10px !important;
+    height: 34px;
+    min-height: 34px;
+    padding: 0 8px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 370px) {
+  html.sanket-site.radios-page .top .wrap.nav {
+    flex-wrap: wrap !important;
+    row-gap: 8px;
+  }
+
+  html.sanket-site.radios-page .landing-nav-actions {
+    flex: 1 1 100% !important;
+    justify-content: flex-start;
+    overflow: visible;
   }
 }
 
