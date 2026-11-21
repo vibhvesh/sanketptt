@@ -19,6 +19,13 @@ export class PeerAudio {
 
   async openMic() {
     this.closeMic();
+    const shared = globalThis.stream;
+    if (shared && shared.getAudioTracks && shared.getAudioTracks().some((track) => track.readyState === "live")) {
+      this.localStream = shared;
+      this.borrowed = true;
+      return;
+    }
+    this.borrowed = false;
     this.localStream = await navigator.mediaDevices.getUserMedia({
       audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
       video: false,
@@ -26,8 +33,9 @@ export class PeerAudio {
   }
 
   closeMic() {
-    if (this.localStream) this.localStream.getTracks().forEach((track) => track.stop());
+    if (this.localStream && !this.borrowed) this.localStream.getTracks().forEach((track) => track.stop());
     this.localStream = null;
+    this.borrowed = false;
   }
 
   async startTransmitting(peers) {
