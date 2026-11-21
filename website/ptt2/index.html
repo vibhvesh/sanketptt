@@ -132,6 +132,12 @@ html.sanket-listen-only #ptt,html.sanket-listen-only #sstvP,html.sanket-listen-o
 html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx{display:none!important}
 html.sanket-listen-only #main>.hint{display:none!important}
 
+#ptt2ChannelBar{margin:8px 10px 0;padding:10px;border:1px solid #2f6f9a;border-radius:12px;background:#0d253d;color:#e7f3fb;font:13px/1.35 system-ui}
+#ptt2ChannelBar h3{margin:0 0 8px;font-size:13px;letter-spacing:.6px}
+#ptt2ChannelChips{display:flex;flex-wrap:wrap;gap:8px}
+.ptt2-chip{min-height:40px;padding:8px 12px;border:1px solid #35536b;border-radius:999px;background:#07192d;color:#e7f3fb;font:13px/1.2 system-ui}
+.ptt2-chip.is-on{background:#123c2e;border-color:#3dbe8b;color:#d8ffe9;font-weight:700}
+#ptt2SignIn{width:100%;margin-top:8px;min-height:44px;border:0;border-radius:10px;background:#1b6b4a;color:#fff;font:14px/1 system-ui;font-weight:700}
 #ptt2Settings{margin:8px 10px 0;padding:10px;border:1px solid #23445e;border-radius:10px;background:#0d253d;color:#e7f3fb;font:12px/1.4 system-ui}
 #ptt2Settings h3{margin:0 0 8px;font-size:12px;letter-spacing:.4px}
 #ptt2Settings label{display:block;margin:6px 0 2px;font-size:10px;letter-spacing:.4px;color:#9fb4c6}
@@ -222,9 +228,10 @@ html.ptt-embed #main .hint{display:none!important}
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
+<div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id="ptt2Settings"></div>
-<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
+<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
 <div id=sstvTx style="display:none"><canvas id=sstvPrev width=320 height=240 style="width:100%;max-width:320px;display:block;margin:auto;border-radius:6px"></canvas>

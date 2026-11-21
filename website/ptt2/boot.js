@@ -5,13 +5,18 @@ import { openSanketRelay } from "./relay/sanket-socket.js";
 
 window.ptt2OpenSanket = openSanketRelay;
 
-const settings = document.getElementById("ptt2Settings");
-if (settings) {
-  settings.innerHTML = '<div id="ptt2RelayMount"></div><div id="ptt2TranscribeMount"></div>';
-  mountRelay(document.getElementById("ptt2RelayMount"), (spec) => {
+const channels = document.getElementById("ptt2ChannelBar");
+if (channels) {
+  mountRelay(channels, (spec) => {
     if (typeof window.ptt2UseRelay === "function") window.ptt2UseRelay(spec);
   });
-  mountSettings(document.getElementById("ptt2TranscribeMount"));
+}
+const settings = document.getElementById("ptt2Settings");
+if (settings) mountSettings(settings);
+const power = document.getElementById("go");
+const talk = document.getElementById("ptt");
+if (power && talk && channels) {
+  power.addEventListener("click", () => talk.before(channels));
 }
 if (typeof rec !== "undefined" && typeof renderLog === "function") {
   watchRecorder(rec, renderLog);
