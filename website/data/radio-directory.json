@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-21T06:30:17.697099+00:00",
+  "generated_at": "2026-11-21T14:54:49.334008+00:00",
   "source": "vendored-akashvani-station-list",
   "checked": 275,
-  "available": 237,
+  "available": 243,
   "stations": [
     {
       "id": "air-42",
@@ -117,11 +117,19 @@
       "type": "hls"
     },
     {
-      "id": "air-56",
-      "name": "Akashvani Pasighat",
+      "id": "air-57",
+      "name": "Akashvani Tawang",
+      "region": "ARUNACHAL PRADESH",
+      "language": "Monpa, Hindi",
+      "url": "https://radio.wavespb.com/live/0ab7e5a9701ec9e2/0ab7e5a9701ec9e2.m3u8",
+      "type": "hls"
+    },
+    {
+      "id": "air-58",
+      "name": "Akashvani Tezu",
       "region": "ARUNACHAL PRADESH",
       "language": "Hindi, English",
-      "url": "https://radio.wavespb.com/live/464360d5ed44082b/464360d5ed44082b.m3u8",
+      "url": "https://radio.wavespb.com/live/7579db5ef9660a6e/7579db5ef9660a6e.m3u8",
       "type": "hls"
     },
     {
@@ -194,6 +202,14 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/f6fa349221f25803/f6fa349221f25803.m3u8",
+      "type": "hls"
+    },
+    {
+      "id": "air-65",
+      "name": "Akashvani Nagaon",
+      "region": "ASSAM",
+      "language": "Assamese, Hindi, English",
+      "url": "https://radio.wavespb.com/live/f2619d605f469c55/f2619d605f469c55.m3u8",
       "type": "hls"
     },
     {
@@ -501,14 +517,6 @@
       "type": "hls"
     },
     {
-      "id": "air-114",
-      "name": "Akashvani Bellari",
-      "region": "KARNATAKA",
-      "language": "Kannada, Hindi, English",
-      "url": "https://radio.wavespb.com/live/5a457983e1e7e12f/5a457983e1e7e12f.m3u8",
-      "type": "hls"
-    },
-    {
       "id": "air-119",
       "name": "Akashvani Bhadravati",
       "region": "KARNATAKA",
@@ -650,6 +658,14 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/e97acc829da9bf2a/e97acc829da9bf2a.m3u8",
+      "type": "hls"
+    },
+    {
+      "id": "air-132",
+      "name": "Akashvani Kannur",
+      "region": "KERALA",
+      "language": "Malayalam, English",
+      "url": "https://radio.wavespb.com/live/b82c91a395fc4a7d/b82c91a395fc4a7d.m3u8",
       "type": "hls"
     },
     {
@@ -837,6 +853,14 @@
       "type": "hls"
     },
     {
+      "id": "air-162",
+      "name": "Akashvani Amravati",
+      "region": "MAHARASHTRA",
+      "language": "Marathi, Hindi, English",
+      "url": "https://radio.wavespb.com/live/662185c15bea296f/662185c15bea296f.m3u8",
+      "type": "hls"
+    },
+    {
       "id": "air-164",
       "name": "Akashvani Beed",
       "region": "MAHARASHTRA",
@@ -1013,6 +1037,14 @@
       "type": "hls"
     },
     {
+      "id": "air-187",
+      "name": "Akashvani Churachandpur",
+      "region": "MANIPUR",
+      "language": "Manipuri, Hindi",
+      "url": "https://radio.wavespb.com/live/1b5f328e785c8cf2/1b5f328e785c8cf2.m3u8",
+      "type": "hls"
+    },
+    {
       "id": "air-188",
       "name": "Akashvani Imphal Kangla",
       "region": "MANIPUR",
@@ -1074,6 +1106,14 @@
       "region": "MIZORAM",
       "language": "Mizo, Hindi, English",
       "url": "https://radio.wavespb.com/live/6893614bef61d497/6893614bef61d497.m3u8",
+      "type": "hls"
+    },
+    {
+      "id": "air-197",
+      "name": "Akashvani Lunglei",
+      "region": "MIZORAM",
+      "language": "Mizo, Hindi, English",
+      "url": "https://radio.wavespb.com/live/3ab311dc7cdb60a1/3ab311dc7cdb60a1.m3u8",
       "type": "hls"
     },
     {
@@ -1314,6 +1354,14 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/775687c68323aecb/775687c68323aecb.m3u8",
+      "type": "hls"
+    },
+    {
+      "id": "air-223",
+      "name": "Akashvani Barmer",
+      "region": "RAJASTHAN",
+      "language": "Rajasthani, Hindi",
+      "url": "https://radio.wavespb.com/live/a19c91113515497c/a19c91113515497c.m3u8",
       "type": "hls"
     },
     {
@@ -1661,14 +1709,6 @@
       "type": "hls"
     },
     {
-      "id": "air-263",
-      "name": "Akashvani Belonia",
-      "region": "TRIPURA",
-      "language": "Bengali, Kokborok, Hindi",
-      "url": "https://radio.wavespb.com/live/00ff79c493fe8353/00ff79c493fe8353.m3u8",
-      "type": "hls"
-    },
-    {
       "id": "air-264",
       "name": "Akashvani Kailashahar",
       "region": "TRIPURA",
@@ -1714,6 +1754,14 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/90f2250fec262bde/90f2250fec262bde.m3u8",
+      "type": "hls"
+    },
+    {
+      "id": "air-270",
+      "name": "Akashvani Jhansi",
+      "region": "UTTAR PRADESH",
+      "language": "Hindi",
+      "url": "https://radio.wavespb.com/live/f8f027390a964141/f8f027390a964141.m3u8",
       "type": "hls"
     },
     {
