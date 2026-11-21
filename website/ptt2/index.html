@@ -137,7 +137,8 @@ html.sanket-listen-only #main>.hint{display:none!important}
 #ptt2Settings label{display:block;margin:6px 0 2px;font-size:10px;letter-spacing:.4px;color:#9fb4c6}
 #ptt2Settings select,#ptt2Settings input[type=url]{width:100%;box-sizing:border-box;background:#07192d;color:#fff;border:1px solid #35536b;border-radius:6px;padding:7px;font:12px inherit}
 #ptt2Settings .row{display:flex;gap:8px;align-items:center;margin-top:8px}
-#ptt2Status{margin:8px 0 0;color:#9fb4c6;font-size:11px}
+#ptt2Status,#ptt2RelayStatus{margin:8px 0 0;color:#9fb4c6;font-size:11px}
+#ptt2RelayStatus.down{color:#ffb4a8}
 .ptt2-hint{margin:6px 0 0;color:#9fb4c6;font-size:11px}
 .ptt2-line{display:block;margin-top:4px;color:#d5e6f2;font:12px/1.35 system-ui}
 .ptt2-badge{display:inline-block;margin-right:6px;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase}
@@ -241,15 +242,17 @@ var BROKERS=['wss://public:public@public.cloud.shiftr.io','wss://broker.emqx.io:
 var HB_MS=5000,EXPIRE_MS=15000,FLOOR_TIMEOUT_MS=2500,CLAIM_GRACE_MS=700;
 function fmtCS(v){v=(v||'').trim();return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\/]+$/.test(v)?v.toUpperCase():v}
 function Radio(mqttLib,opts){var R=this;R.mqtt=mqttLib;R.ch=opts.ch||CHANNEL;
- R.id=Math.random().toString(36).slice(2,10);R.name=null;R.users={};R.floor=null;R.cb=opts.on||function(){};R.bi=0;R.brokers=opts.brokers||BROKERS;R.connect();}
+ R.id=Math.random().toString(36).slice(2,10);R.name=null;R.users={};R.floor=null;R.cb=opts.on||function(){};R.bi=0;R.brokers=opts.brokers||BROKERS;R.username=opts.username||'';R.password=opts.password||'';R.exclusive=!!opts.exclusive;R.relayId=opts.relayId||'public';R.connect();}
 Radio.prototype.T=function(s){return PTT_PREFIX+this.ch+'/'+s};
 Radio.prototype.connect=function(){var R=this,url=R.brokers[R.bi%R.brokers.length],ok=false;
- var c=R.c=R.mqtt.connect(url,{clientId:'ptt_'+R.id+'_'+Date.now()%1e6,clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000,
-  will:{topic:R.T('presence/'+R.id),payload:'',retain:true,qos:0}});
+ var link={clientId:'ptt_'+R.id+'_'+Date.now()%1e6,clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000,
+  will:{topic:R.T('presence/'+R.id),payload:'',retain:true,qos:0}};
+ if(R.username){link.username=R.username;link.password=R.password;}
+ var c=R.c=R.mqtt.connect(url,link);
  c.on('connect',function(){ok=true;R.url=url;c.subscribe([R.T('presence/+'),R.T('floor'),R.T('audio'),R.T('sstv')]);if(R.name)R.beat();R.cb('net',url)});
  c.on('message',function(t,p){R.onMsg(t,p)});
- c.on('error',function(){});
- c.on('close',function(){if(R.closed)return;R.cb('net','disconnected');if(!ok)R.bi++;setTimeout(function(){c.end(true);R.connect()},ok?1500:300)});
+ c.on('error',function(){if(R.exclusive)R.cb('net','unreachable')});
+ c.on('close',function(){if(R.closed)return;R.cb('net',R.exclusive?'unreachable':'disconnected');if(!ok&&!R.exclusive)R.bi++;setTimeout(function(){c.end(true);R.connect()},ok?1500:300)});
  if(!R.timer)R.timer=setInterval(function(){R.tick()},1000);};
 Radio.prototype.join=function(name){this.name=String(name).slice(0,40);this.beat();};
 Radio.prototype.beat=function(){var R=this;if(!R.name||!R.c.connected)return;R.lastBeat=Date.now();
@@ -336,11 +339,14 @@ function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.tex
  us.innerHTML=st0.users.map(function(u){var t=f&&f.id===u.id;return '<li class="'+(t?'tk':u.id===radio.id?'me':'')+'">'+(t?'🎙 ':'')+esc(u.name)+(u.id===radio.id?' ·YOU':'')+pinTxt(u)+'</li>'}).join('')||'<li class=none>No stations</li>';
  var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.textContent=granted?'ON AIR':busy?'BUSY':holding?'…':'PTT';
  st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
-function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
+function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec||{};
+ radio=new Radio(mqtt,{ch:CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end()}render()}
- else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);play(v)}}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
-(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}start(CHANNEL);var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
+ else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);play(v)}}else if(k==='net')net.textContent=window.ptt2OnRelayNet?window.ptt2OnRelayNet(v,radio.relayId,radio.ch):('relay: '+v+' · topic '+PTT_PREFIX+radio.ch)}});radio.browser=true;if(keep)radio.join(keep);render()}
+window.ptt2UseRelay=function(spec){start(spec)};
+(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
 go.onclick=async function(){
+ if(!radio)return alert('The relay is still starting. Try again in a moment.');
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
  try{localStorage.nm=me}catch(e){}
  // Join the radio first. Microphone permission is optional for listening.
