@@ -1,4 +1,4 @@
-import { loadConfig, saveConfig, isAllowedServer } from "./config.js";
+import { SANKET_TRANSCRIBE_SERVER, SERVER_CUSTOM, SERVER_SANKET, loadConfig, saveConfig, isAllowedServer } from "./config.js";
 import { localCapability, serverHealthy } from "./detect.js";
 import { transcribeTransmission } from "./router.js";
 import { lineFromRadio } from "./line.js";
@@ -123,8 +123,13 @@ export function mountSettings(root) {
       <option value="server">Server</option>
     </select>
     <p class="ptt2-hint">Auto uses Sanket Transcribe when it answers. Line default keeps that channel's language and model.</p>
-    <label for="ptt2Server">Sanket Transcribe server URL</label>
-    <input id="ptt2Server" type="url" placeholder="https://….sanketptt.com" autocomplete="off">
+    <label for="ptt2ServerChoice">Server</label>
+    <select id="ptt2ServerChoice">
+      <option value="sanket">Sanket Transcribe (stlu-001)</option>
+      <option value="custom">Custom URL…</option>
+    </select>
+    <label for="ptt2Server" id="ptt2ServerLabel" hidden>Custom URL</label>
+    <input id="ptt2Server" type="url" placeholder="https://…" autocomplete="off" hidden>
     <label for="ptt2Language">Language</label>
     <select id="ptt2Language">
       <option value="auto">Line default</option>
@@ -136,20 +141,29 @@ export function mountSettings(root) {
     <p id="ptt2Status"></p>
   `;
   const mode = root.querySelector("#ptt2Mode");
+  const choice = root.querySelector("#ptt2ServerChoice");
+  const serverLabel = root.querySelector("#ptt2ServerLabel");
   const server = root.querySelector("#ptt2Server");
   const language = root.querySelector("#ptt2Language");
   const translate = root.querySelector("#ptt2Translate");
   const status = root.querySelector("#ptt2Status");
   mode.value = config.mode;
-  server.value = config.serverUrl;
+  choice.value = config.serverChoice === SERVER_CUSTOM ? SERVER_CUSTOM : SERVER_SANKET;
+  server.value = config.serverChoice === SERVER_CUSTOM ? config.serverUrl : "";
   language.value = ["en", "hi", "gu", "auto"].includes(config.language) ? config.language : "auto";
   translate.checked = config.translate;
+
+  function showCustom() {
+    const custom = choice.value === SERVER_CUSTOM;
+    server.hidden = !custom;
+    serverLabel.hidden = !custom;
+  }
 
   async function refreshStatus() {
     const current = loadConfig();
     const device = localCapability();
     let serverText = "Server not set.";
-    if (current.rejectedServer) serverText = "That server is not a Sanket Transcribe host.";
+    if (current.rejectedServer) serverText = "Custom URL must start with https.";
     else if (current.serverUrl) {
       const health = await serverHealthy(current.serverUrl);
       serverText = health.ok ? "Sanket Transcribe server responded." : health.reason;
@@ -158,21 +172,26 @@ export function mountSettings(root) {
   }
 
   function persist() {
+    showCustom();
+    const custom = choice.value === SERVER_CUSTOM;
     const typed = server.value.trim();
-    if (typed && !isAllowedServer(typed)) {
-      status.textContent = "Server URL must be https on sanketptt.com. It was not saved.";
+    if (custom && typed && !isAllowedServer(typed)) {
+      status.textContent = "Custom URL must start with https. It was not saved.";
       return;
     }
     saveConfig({
       mode: mode.value,
-      serverUrl: typed,
+      serverChoice: custom ? SERVER_CUSTOM : SERVER_SANKET,
+      serverUrl: custom ? typed : SANKET_TRANSCRIBE_SERVER,
       language: language.value,
       translate: translate.checked,
     });
     refreshStatus();
   }
 
+  showCustom();
   mode.addEventListener("change", persist);
+  choice.addEventListener("change", persist);
   server.addEventListener("change", persist);
   language.addEventListener("change", persist);
   translate.addEventListener("change", persist);
