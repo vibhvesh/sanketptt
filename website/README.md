@@ -20,7 +20,7 @@ The page references existing guide screenshots from `docs/img/` in this reposito
 
 ## Internal lead finder
 
-`/leads/` is an unlisted sales page (noindex, not in the site menu). It needs the separate API in [`../leads/README.md`](../leads/README.md). Opening the page on the static site does nothing useful until that service is running and its address is set.
+`/leads/` is an unlisted sales page (noindex, not in the site menu). It calls the Render API at https://sanket-leads.onrender.com. Setup is in [`../leads/README.md`](../leads/README.md).
 
 ## Notes
 

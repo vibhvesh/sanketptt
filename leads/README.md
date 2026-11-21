@@ -26,11 +26,7 @@ What is **not** deployed by either workflow:
 
 - This Python API. Hostinger only receives files. GitHub Pages only receives files. Nothing there runs the search.
 
-What **will** deploy when this branch is merged to `main`:
-
-- `website/leads/` becomes `https://sanketptt.com/leads/` on the next Hostinger deploy.
-
-Until the API below is running, that page can open but searches fail. Set the service address on the password screen (saved in the browser) or in `website/leads/config.js`.
+The API is already running on Render at https://sanket-leads.onrender.com. `website/leads/config.js` points the page at that origin. Merging this branch to `main` publishes the page to `https://sanketptt.com/leads/` on the next Hostinger deploy.
 
 ## Run it locally
 
@@ -44,7 +40,7 @@ export LEADS_DB_PATH=./data/leads.sqlite
 uvicorn sanket_leads.api:app --host 0.0.0.0 --port 8765
 ```
 
-Open http://127.0.0.1:8765/leads/ and use the token above. Leave the service address blank.
+Open http://127.0.0.1:8765/leads/ and use the token above. The page is prefilled with the Render API. Clear **Lead service address** before opening the desk if you want it to call this local server instead.
 
 Tests (no network):
 
@@ -73,22 +69,19 @@ Do not commit the real token.
 
 ## Deploy the API on Render
 
-`render.yaml` at the repository root describes a free web service named `sanket-leads`, rooted in this folder. Applying it is manual:
+The service is deployed as **sanket-leads** at https://sanket-leads.onrender.com. Its root is the repository root (Render root directory is empty). `render.yaml` matches that service:
 
-1. In the Render dashboard, New → Blueprint, and point it at this repo (or create a Python web service with root directory `leads`).
-2. Build command: `pip install -r requirements.txt`
-3. Start command: `uvicorn sanket_leads.api:app --host 0.0.0.0 --port $PORT`
-4. Health check: `/api/health`
-5. Set `LEADS_TOKEN` in the Render environment (mark it secret). The blueprint leaves it unset on purpose.
-6. Confirm `LEADS_CORS_ORIGINS` includes `https://sanketptt.com` and `https://www.sanketptt.com`.
+| Setting | Value |
+|---|---|
+| Build | `pip install -r leads/requirements.txt` |
+| Start | `cd leads && uvicorn sanket_leads.api:app --host 0.0.0.0 --port $PORT` |
+| Health check | `/api/health` |
+
+`LEADS_TOKEN` is set in the Render environment and is not in the repo. `LEADS_CORS_ORIGINS` should include `https://sanketptt.com` and `https://www.sanketptt.com` so the Hostinger page can call the API.
 
 The free plan's disk is wiped on restart and after the service spins down (about 15 minutes idle). Searches then start again from an empty database. To keep SQLite, move the service to a plan with a persistent disk and set `LEADS_DB_PATH` to that mount, for example `/var/data/leads.sqlite`.
 
-After the service has a URL:
-
-1. Open `https://sanketptt.com/leads/` (after this branch is on `main`).
-2. Enter `LEADS_TOKEN` and the Render URL, for example `https://sanket-leads.onrender.com`.
-3. Or set `window.SANKET_LEADS_API` in `website/leads/config.js` to that origin and deploy the website again.
+The page at `website/leads/config.js` already uses `https://sanket-leads.onrender.com`. After the Hostinger deploy, open `https://sanketptt.com/leads/` and enter `LEADS_TOKEN`.
 
 Nominatim's usage policy allows this low-volume, identified use. The service also caps how many searches one password can start.
 
