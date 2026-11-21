@@ -45,6 +45,18 @@ export function openSanketRelay(options) {
   return new SanketRelay(options || {});
 }
 
+/** Public rooms that can be joined without a channel password. */
+export async function listFreeRooms() {
+  const token = getToken();
+  if (!token) {
+    const error = new Error("Sign in required.");
+    error.status = 401;
+    throw error;
+  }
+  const listed = await api("/api/rooms", { token });
+  return (listed.rooms || []).filter((room) => room.roomId && room.accessType === "public" && !room.hasPassword && room.roomStatus !== "disabled");
+}
+
 /** Channels assigned to the signed-in account. */
 export async function assignedRooms() {
   const token = getToken();
