@@ -47,6 +47,7 @@ Preview deploys rewrite the site origin inside this module to `/preview`. Pass p
 | `demo` | `/demo.html` | app | Radio hub demo card |
 | `radioHub` | `/radio-hub.html` | app | Reserved for hub links |
 | `try` | `/try/` | app | Try it page and the homepage Try it link |
+| `ptt2` | `/ptt2/` | app | New PTT 2 radio. Transcription settings and the router live under `website/ptt2/transcribe/`. |
 | `dev` | `/dev/` | app | Radio hub development card. The repo `dev/` app is copied to `website/dev/` and the deploy publishes that folder. |
 | `boondock` | `/boondock/radio/` | app | Radio hub Boondock card. The radio and its transcribe page are copied under `website/boondock/`. |
 | `brandmeister` | BrandMeister | external | DMR page |
@@ -85,6 +86,10 @@ All of these radios publish on MQTT prefix `ptt-radio-66ab9178/` plus the channe
 | `/aakashvani/` | venue preview, no relay | none | none | no transcriber |
 
 `pairEmbed`, `pairListen`, and `pairOpen` in `links.js` build the Try page URLs. Do not paste those URLs into the page.
+
+## PTT 2
+
+`/ptt2/` is a separate copy of the web radio. It does not replace `/radio/`. Its transcription code is only under `website/ptt2/transcribe/`: `config.js` stores mode, server URL, language, and translate; `detect.js` checks `/health` and WebAssembly; `local.js` runs Whisper tiny in the browser; `remote.js` is the stub client for the Sanket Transcribe server; `router.js` is the only call the radio makes. The server URL must be `https` on `sanketptt.com`. The default server constant is empty until that server exists.
 
 Channel ids: `virtual`, `master`, `city-control`, `kolkata-control`, `sanket-website-demo`, `dev`, `boondock`.
 

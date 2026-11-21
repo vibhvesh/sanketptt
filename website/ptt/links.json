@@ -81,6 +81,10 @@
       "href": "https://sanketptt.com/try/",
       "role": "app"
     },
+    "ptt2": {
+      "href": "https://sanketptt.com/ptt2/",
+      "role": "app"
+    },
     "dev": {
       "href": "https://sanketptt.com/dev/",
       "role": "app"
