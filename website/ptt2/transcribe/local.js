@@ -2,14 +2,17 @@
  * On-device transcription. The Whisper model is downloaded only when a clip needs it.
  * English tiny model: small enough to run in the browser over WASM, with WebGPU when present.
  */
+import { readPcm } from "./clip.js";
+
 const MODEL_ID = "onnx-community/whisper-tiny";
 const LANGUAGE_NAMES = { en: "english", hi: "hindi" };
 let pipelinePromise = null;
 
 function resampleTo16k(wavBuffer) {
-  const view = new DataView(wavBuffer);
-  const rate = view.getUint32(24, true);
-  const data = new Int16Array(wavBuffer, 44);
+  const parsed = readPcm(wavBuffer);
+  if (!parsed) throw new Error("incomplete audio");
+  const rate = parsed.rate;
+  const data = parsed.pcm;
   const target = 16000;
   const outLen = Math.max(1, Math.floor(data.length * target / rate));
   const out = new Float32Array(outLen);

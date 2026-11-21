@@ -2,8 +2,8 @@
 
 export const STORAGE_KEY = "sanket.ptt2.transcribe";
 
-/** Placeholder for the Sanket Transcribe server. Empty until that box is ready. */
-export const SANKET_TRANSCRIBE_SERVER = "";
+/** Sanket Transcribe. HTTPS on sanketptt.com only. */
+export const SANKET_TRANSCRIBE_SERVER = "https://stlu-001.sanketptt.com";
 
 /** Extra internal host, if one is assigned later. Empty means it is not allowed yet. */
 export const INTERNAL_TRANSCRIBE_HOST = "";
@@ -11,7 +11,7 @@ export const INTERNAL_TRANSCRIBE_HOST = "";
 const DEFAULTS = Object.freeze({
   mode: "auto",
   serverUrl: SANKET_TRANSCRIBE_SERVER,
-  language: "en",
+  language: "auto",
   translate: false,
 });
 
@@ -19,6 +19,14 @@ function cleanMode(value) {
   return value === "local" || value === "server" || value === "auto" ? value : DEFAULTS.mode;
 }
 
+export const SERVER_SANKET = "sanket";
+export const SERVER_CUSTOM = "custom";
+
+export function isPresetServer(raw) {
+  return String(raw || "").trim().replace(/\/+$/, "") === SANKET_TRANSCRIBE_SERVER;
+}
+
+/** A usable transcribe server is any https URL. */
 export function isAllowedServer(raw) {
   const text = String(raw || "").trim();
   if (!text) return false;
@@ -28,11 +36,7 @@ export function isAllowedServer(raw) {
   } catch (e) {
     return false;
   }
-  if (parsed.protocol !== "https:") return false;
-  const host = parsed.hostname.toLowerCase();
-  if (host === "sanketptt.com" || host.endsWith(".sanketptt.com")) return true;
-  if (INTERNAL_TRANSCRIBE_HOST && host === INTERNAL_TRANSCRIBE_HOST.toLowerCase()) return true;
-  return false;
+  return parsed.protocol === "https:" && !!parsed.hostname;
 }
 
 function readStored() {
@@ -49,26 +53,35 @@ export function loadConfig() {
   const stored = readStored();
   const query = new URLSearchParams(location.search);
   const mode = cleanMode(query.get("mode") || stored.mode);
-  const serverUrl = String(query.has("serverUrl") ? query.get("serverUrl") : (stored.serverUrl || "")).trim();
+  const storedUrl = String(stored.serverUrl || "").trim();
+  const fromQuery = query.has("serverUrl");
+  const rawUrl = String(fromQuery ? query.get("serverUrl") : storedUrl).trim();
+  let serverChoice = stored.serverChoice === SERVER_CUSTOM ? SERVER_CUSTOM : stored.serverChoice === SERVER_SANKET ? SERVER_SANKET : "";
+  if (fromQuery || !serverChoice) serverChoice = !rawUrl || isPresetServer(rawUrl) ? SERVER_SANKET : SERVER_CUSTOM;
+  const serverUrl = serverChoice === SERVER_SANKET ? SANKET_TRANSCRIBE_SERVER : (isAllowedServer(rawUrl) ? rawUrl : "");
   const language = String(query.get("language") || stored.language || DEFAULTS.language).slice(0, 12);
   const translateRaw = query.has("translate") ? query.get("translate") : stored.translate;
   const translate = translateRaw === true || translateRaw === "1" || translateRaw === "true";
   return {
     mode,
-    serverUrl: isAllowedServer(serverUrl) || serverUrl === "" ? serverUrl : "",
+    serverChoice,
+    serverUrl,
     language: language || DEFAULTS.language,
     translate,
-    serverAllowed: serverUrl === "" || isAllowedServer(serverUrl),
-    rejectedServer: serverUrl !== "" && !isAllowedServer(serverUrl),
+    serverAllowed: serverChoice === SERVER_SANKET || isAllowedServer(serverUrl),
+    rejectedServer: serverChoice === SERVER_CUSTOM && rawUrl !== "" && !isAllowedServer(rawUrl),
   };
 }
 
 export function saveConfig(partial) {
   const next = Object.assign({}, loadConfig(), partial);
-  const serverUrl = String(next.serverUrl || "").trim();
+  const serverChoice = next.serverChoice === SERVER_CUSTOM ? SERVER_CUSTOM : SERVER_SANKET;
+  const typed = String(next.serverUrl || "").trim();
+  const serverUrl = serverChoice === SERVER_SANKET ? SANKET_TRANSCRIBE_SERVER : (isAllowedServer(typed) ? typed : "");
   const record = {
     mode: cleanMode(next.mode),
-    serverUrl: serverUrl === "" || isAllowedServer(serverUrl) ? serverUrl : "",
+    serverChoice,
+    serverUrl,
     language: String(next.language || DEFAULTS.language).slice(0, 12),
     translate: !!next.translate,
   };
