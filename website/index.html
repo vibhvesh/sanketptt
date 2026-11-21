@@ -136,4 +136,4 @@ document.getElementById('year').textContent=new Date().getFullYear();
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.target);const subject=encodeURIComponent('Sanket deployment enquiry — '+d.get('name'));const body=encodeURIComponent('Name: '+d.get('name')+'\nEmail: '+d.get('email')+'\nOrganisation: '+d.get('org')+'\nEstimated channels: '+d.get('channels')+'\n\n'+d.get('message'));location.href='mailto:akshatsingh@canberravision.com?cc=akshat@sanketptt.com&subject='+subject+'&body='+body;document.getElementById('formNote').textContent='Your email app should open with the enquiry draft. Nothing is submitted to a website server.'});
 </script>
 <script type="module" src="ptt/apply.js"></script>
-</body></html>
+</body></html>\n<!-- Sanket website preview revision: 2026-11-21 -->\n
