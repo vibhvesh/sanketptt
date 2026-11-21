@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-11-20T23:51:02.098422+00:00",
-  "source": "https://raw.githubusercontent.com/codito/akashvani/master/stations.json",
+  "source": "vendored-akashvani-station-list",
   "checked": 275,
   "available": 128,
   "stations": [

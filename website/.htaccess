@@ -1,0 +1,15 @@
+# Directory requests without a trailing slash were redirected to http:// and then failed.
+# These rules stay on https and add the slash for the app folders this site publishes.
+# They match the full request path, so the same file is safe at the site root and under /preview/.
+Options -Indexes
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} ^/(preview/)?(radio|transcribe|dmr|aakashvani|dev|boondock|docs|ptt)$ [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI}/ [R=301,L,QSA]
+
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+RewriteCond %{REQUEST_URI} ^/(preview/)?(radio|transcribe|dmr|aakashvani|dev|boondock|docs|ptt)/?$ [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,QSA]
+</IfModule>

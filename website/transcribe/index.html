@@ -240,7 +240,7 @@ body.embed-mode #kwBar,body.embed-mode
  <div class="row" id="languageRow" style="gap:6px;margin-bottom:8px"><label class="sel" style="flex:1">SOURCE LANGUAGE<select id="src"></select></label><label class="sel" style="flex:1">DESTINATION LANGUAGE<select id="dst"></select></label></div>
  <div class="ptt"><button id="startBtn">▶ START</button><button id="stopBtn" disabled>■ STOP</button></div>
 </div>
-<div class="one"><a id="pttBackLink" href="../" target="_blank" rel="noopener" style="color:inherit">📻 Open PTT Radio</a> · DEMO · Temporary data, auto-deleted after 7 days · ⚙ Settings for key, languages &amp; alerts</div>
+<div class="one"><a id="pttBackLink" data-link="ptt" href="https://sanketptt.com/radio/" target="_blank" rel="noopener" style="color:inherit">📻 Open PTT Radio</a> · DEMO · Temporary data, auto-deleted after 7 days · ⚙ Settings for key, languages &amp; alerts</div>
 </div></div>
 <div class="modal" id="setModal"><div class="panel"><div class="ph"><span>⚙ SETTINGS</span><button class="gear" id="setClose" aria-label="Close">✕</button></div><div class="dw">
  <label>ElevenLabs API key (stored only in this browser)<input id="key" type="password" placeholder="xi-api-key" autocomplete="off"></label>
@@ -445,14 +445,14 @@ $("engine").value=localStorage.getItem("be_engine")||"free";$("engine").onchange
 $("startBtn").addEventListener("click",()=>{if(engine()==="free")loadAsr().catch(()=>{});});$("startBtn").onclick=()=>$("inSrc").value==="ptt"?pttStart():start();$("stopBtn").onclick=()=>pttOn?pttStop():stop();if(0)$("stopBtn").onclick=stop;$("recalBtn").onclick=()=>{if(mode==="rec")endClip();startCal();};
 /* ---------- PTT Radio link input (listen-only monitor) ---------- */
 const PTT_PREFIX="ptt-radio-66ab9178/",PTT_BROKERS=["wss://public:public@public.cloud.shiftr.io","wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt","wss://test.mosquitto.org:8081"],PTT_RATE=12000;
-const RADIO_DEF=location.origin+"/";
+let RADIO_DEF="https://sanketptt.com/radio/";
 const pttBackLink=document.getElementById("pttBackLink");
-function pttShareUI(){const ch=pttChan($("pttUrl").value.trim()||RADIO_DEF);const link=location.origin+"/?ch="+encodeURIComponent(ch);$("pttShare").innerHTML=`Channel <b>${esc(ch)}</b> · share/open radio: <a href="${esc(link)}" target="_blank" rel="noopener" style="color:var(--lcdt)">${esc(link)}</a>`;}
+function pttShareUI(){const ch=pttChan($("pttUrl").value.trim()||RADIO_DEF);const link=window.SanketLinks?window.SanketLinks.channelUrl(ch):RADIO_DEF;$("pttShare").innerHTML=`Channel <b>${esc(ch)}</b> · share/open radio: <a href="${esc(link)}" target="_blank" rel="noopener" style="color:var(--lcdt)">${esc(link)}</a>`;}
 let pttSstv={};window.__sstvStats={images:0};let pttOn=false,pttC=null,pttId="",pttCh="virtual",pttUsers={},pttFloor=null,pttTimer=null,pttBi=0,pttClip=null;window.__pttStats={chunks:0,clips:0};
-$("inSrc").value=localStorage.getItem("be_in")||"mic";(function(){const v=localStorage.getItem("be_ptt");if(v&&/boondock-echo-live|ptt-radio/i.test(v)){let q="";try{const ch=new URL(v).searchParams.get("ch");if(ch)q="?ch="+encodeURIComponent(ch);}catch(e){}localStorage.setItem("be_ptt",RADIO_DEF+q);}})();$("pttUrl").value=localStorage.getItem("be_ptt")||RADIO_DEF;const demoParams=new URLSearchParams(location.search),demoChannel=(demoParams.get("ch")||"").replace(/[^\w-]/g,"").slice(0,40);if(demoChannel){const demoLink=RADIO_DEF+"?ch="+encodeURIComponent(demoChannel);localStorage.setItem("be_in","ptt");localStorage.setItem("be_ptt",demoLink);$("inSrc").value="ptt";$("pttUrl").value=demoLink;}
+$("inSrc").value=localStorage.getItem("be_in")||"mic";(function(){const v=localStorage.getItem("be_ptt");if(v&&/boondock-echo-live|ptt-radio/i.test(v)){let q="";try{const ch=new URL(v).searchParams.get("ch");if(ch)q="?ch="+encodeURIComponent(ch);}catch(e){}localStorage.setItem("be_ptt",RADIO_DEF+q);}})();$("pttUrl").value=localStorage.getItem("be_ptt")||RADIO_DEF;const demoParams=new URLSearchParams(location.search),demoChannel=(demoParams.get("ch")||"").replace(/[^A-Za-z0-9-]/g,"").slice(0,40);if(demoChannel){const demoLink=window.SanketLinks?window.SanketLinks.channelUrl(demoChannel):RADIO_DEF;localStorage.setItem("be_in","ptt");localStorage.setItem("be_ptt",demoLink);$("inSrc").value="ptt";$("pttUrl").value=demoLink;}
 function inUI(){const p=$("inSrc").value==="ptt";$("pttWrap").style.display=$("pttShare").style.display=p?"":"none";if(p)pttShareUI();}$("pttUrl").oninput=()=>{pttShareUI();syncPttBackLink();};$("inSrc").onchange=()=>{localStorage.setItem("be_in",$("inSrc").value);inUI();};inUI();syncPttBackLink();
-function syncPttBackLink(){const ch=pttChan($("pttUrl").value||RADIO_DEF);pttBackLink.href="../?ch="+encodeURIComponent(ch);}
-function pttChan(u){try{const x=new URL(u);return(x.searchParams.get("ch")||new URLSearchParams(x.hash.slice(1)).get("ch")||"virtual").replace(/[^\w-]/g,"")||"virtual";}catch(e){return"virtual";}}
+function syncPttBackLink(){const ch=pttChan($("pttUrl").value||RADIO_DEF);pttBackLink.href=window.SanketLinks?window.SanketLinks.channelUrl(ch):RADIO_DEF;}document.addEventListener("sanket-links-ready",()=>{RADIO_DEF=window.SanketLinks.links.ptt;try{pttShareUI();syncPttBackLink();}catch(e){}});
+function pttChan(u){try{const x=new URL(u);return(x.searchParams.get("ch")||new URLSearchParams(x.hash.slice(1)).get("ch")||"virtual").replace(/[^A-Za-z0-9-]/g,"")||"virtual";}catch(e){return"virtual";}}
 function pttT(s){return PTT_PREFIX+pttCh+"/"+s;}
 function pttStat(m){$("pttSt").textContent="📻 "+m;}
 function pttBeat(){if(pttC&&pttC.connected)pttC.publish(pttT("presence/"+pttId),JSON.stringify({id:pttId,name:"SanketTranscribe",ts:Date.now()}),{retain:true});}
@@ -584,4 +584,4 @@ kwLoad();
  }
  window.addEventListener("storage",e=>{if(e.key==="sanketptt.activeChannel"&&e.newValue)follow(e.newValue);});
  window.addEventListener("message",e=>{if(e.data&&e.data.type==="sanket-ptt-channel"&&e.data.channel)follow(e.data.channel);});
-})();</script></body></html>
+})();</script><script type="module" src="../ptt/apply.js"></script></body></html>

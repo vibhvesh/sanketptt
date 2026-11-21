@@ -23,6 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Reject GitHub-hosted site links
+        run: bash scripts/check-links.sh
+
       - name: Verify SSH secrets
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -52,7 +55,8 @@ jobs:
           PREFIX = "/preview"
           ROOTS = (
               "radio/", "transcribe/", "dmr/", "aakashvani/", "docs/", "pi/",
-              "pi-webclient/", "superptt/", "dev/", "newlook/", "vani-admin/",
+              "pi-webclient/", "superptt/", "dev/", "boondock/", "ptt/",
+              "newlook/", "vani-admin/",
               "releases/", "css/", "js/", "demo.html", "radio-hub.html",
               "sanket-mark.svg",
           )
@@ -72,8 +76,9 @@ jobs:
               text = text.replace('location.origin+"/"', 'location.origin+"/preview/"')
               text = text.replace("location.origin+'/'", "location.origin+'/preview/'")
               text = text.replace("https://sanketptt.com/", "/preview/")
-              text = text.replace('https://sanketptt.com"', '/preview/"')
-              text = text.replace("https://sanketptt.com'", "/preview/'")
+              # Origin with no path stays unslashed so BASE + "/radio/" becomes /preview/radio/.
+              text = text.replace('https://sanketptt.com"', '/preview"')
+              text = text.replace("https://sanketptt.com'", "/preview'")
               text = attr.sub(lambda m: m.group("prefix") + PREFIX + "/" + m.group("path"), text)
               text = js.sub(lambda m: m.group("q") + PREFIX + "/" + m.group("path"), text)
               text = text.replace('href="/"', 'href="/preview/"')

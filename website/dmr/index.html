@@ -28,11 +28,11 @@ footer{margin-top:20px;color:var(--muted);font-size:11px}
 </style>
 </head>
 <body data-chrome="auto"><script src="../js/chrome.js" defer></script><main>
-<header class="top"><div><div class="brand">SANKET <span>DMR</span> MONITOR</div><div class="sub">Production · BrandMeister receive-only directory</div></div><div class="actions"><a class="secondary" href="/?ch=virtual">Main PTT ↗</a><a class="secondary" href="/">Main Website ↗</a><span class="pill">RX ONLY · TX DISABLED</span></div></header>
+<header class="top"><div><div class="brand">SANKET <span>DMR</span> MONITOR</div><div class="sub">Production · BrandMeister receive-only directory</div></div><div class="actions"><a class="secondary" data-link="pttVirtual" href="https://sanketptt.com/radio/?ch=virtual">Main PTT ↗</a><a class="secondary" data-link="home" href="https://sanketptt.com/">Main Website ↗</a><span class="pill">RX ONLY · TX DISABLED</span></div></header>
 <section class="hero">
  <div class="sub">INDIA FIRST · PRODUCTION</div><h1>BrandMeister DMR monitoring</h1>
  <p class="muted">Find India and state-level talkgroups, then open BrandMeister's official listening player. This production page is isolated from the development dashboard. It does not transmit, connect to a repeater, or rebroadcast DMR audio into Sanket PTT.</p>
- <div class="actions"><a href="https://brandmeister.network/" target="_blank" rel="noopener">BrandMeister Dashboard ↗</a><a class="secondary" href="https://hose.brandmeister.network/" target="_blank" rel="noopener">Open Hoseline ↗</a></div>
+ <div class="actions"><a data-link="brandmeister" href="https://brandmeister.network/" target="_blank" rel="noopener">BrandMeister Dashboard ↗</a><a class="secondary" data-link="hoseline" href="https://hose.brandmeister.network/" target="_blank" rel="noopener">Open Hoseline ↗</a></div>
 </section>
 <section class="card">
  <h2>India talkgroups</h2>
@@ -62,7 +62,7 @@ footer{margin-top:20px;color:var(--muted);font-size:11px}
 </section>
 <section class="card">
  <h2>Live network tools</h2>
- <div class="actions"><a class="secondary" href="https://brandmeister.network/" target="_blank" rel="noopener">Last Heard / Dashboard ↗</a><a class="secondary" href="https://hose.brandmeister.network/" target="_blank" rel="noopener">Hoseline Player ↗</a></div>
+ <div class="actions"><a class="secondary" data-link="brandmeister" href="https://brandmeister.network/" target="_blank" rel="noopener">Last Heard / Dashboard ↗</a><a class="secondary" data-link="hoseline" href="https://hose.brandmeister.network/" target="_blank" rel="noopener">Hoseline Player ↗</a></div>
  <p class="muted">Use the audio/listen control in BrandMeister's Last Heard interface or select the desired talkgroup in Hoseline.</p>
 </section>
 </div>
@@ -84,9 +84,9 @@ async function openTalkgroup(id){
   if(!/^\d{1,7}$/.test(id)){statusEl.textContent='Enter a numeric talkgroup ID.';return}
   try{await navigator.clipboard.writeText(id);statusEl.textContent='TG '+id+' copied. Hoseline opened; select/paste this ID in the player if it is not selected automatically.'}
   catch(e){statusEl.textContent='TG '+id+' selected. Copy it manually into Hoseline if needed.'}
-  window.open('https://hose.brandmeister.network/','_blank','noopener');
+  window.open((window.SanketLinks&&window.SanketLinks.links.hoseline)||document.querySelector('[data-link="hoseline"]').href,'_blank','noopener');
 }
 document.querySelectorAll('[data-tg]').forEach(button=>button.addEventListener('click',()=>openTalkgroup(button.dataset.tg)));
 document.getElementById('openCustom').addEventListener('click',()=>openTalkgroup(document.getElementById('customtg').value.trim()));
 </script>
-</body></html>
+<script type="module" src="../ptt/apply.js"></script></body></html>

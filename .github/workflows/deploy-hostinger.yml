@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Reject GitHub-hosted site links
+        run: bash scripts/check-links.sh
+
       - name: Verify deploy secrets
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}

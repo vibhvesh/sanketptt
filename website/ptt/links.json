@@ -1,0 +1,177 @@
+{
+  "base": "https://sanketptt.com",
+  "channels": {
+    "virtual": "virtual",
+    "master": "master",
+    "cityControl": "city-control",
+    "kolkataControl": "kolkata-control",
+    "websiteDemo": "sanket-website-demo"
+  },
+  "sanitizer": "letters, numbers, hyphens; max 40",
+  "links": {
+    "home": {
+      "href": "https://sanketptt.com/",
+      "role": "app"
+    },
+    "ptt": {
+      "href": "https://sanketptt.com/radio/",
+      "role": "app"
+    },
+    "pttVirtual": {
+      "href": "https://sanketptt.com/radio/?ch=virtual",
+      "role": "app"
+    },
+    "pttEmbed": {
+      "href": "https://sanketptt.com/radio/?ch=virtual&embed=1",
+      "role": "app"
+    },
+    "channelVirtual": {
+      "href": "https://sanketptt.com/radio/?ch=virtual",
+      "role": "app"
+    },
+    "channelMaster": {
+      "href": "https://sanketptt.com/radio/?ch=master",
+      "role": "app"
+    },
+    "channelCityControl": {
+      "href": "https://sanketptt.com/radio/?ch=city-control",
+      "role": "app"
+    },
+    "channelKolkataControl": {
+      "href": "https://sanketptt.com/radio/?ch=kolkata-control",
+      "role": "app"
+    },
+    "channelWebsiteDemo": {
+      "href": "https://sanketptt.com/radio/?ch=sanket-website-demo",
+      "role": "app"
+    },
+    "embedWebsiteDemo": {
+      "href": "https://sanketptt.com/radio/?ch=sanket-website-demo&embed=1",
+      "role": "app"
+    },
+    "transcribe": {
+      "href": "https://sanketptt.com/transcribe/",
+      "role": "app"
+    },
+    "transcribeCompact": {
+      "href": "https://sanketptt.com/transcribe/?compact=1&ch=virtual",
+      "role": "app"
+    },
+    "transcribeDemo": {
+      "href": "https://sanketptt.com/transcribe/?demo=1&autostart=1&compact=1&ch=sanket-website-demo",
+      "role": "app"
+    },
+    "dmr": {
+      "href": "https://sanketptt.com/dmr/",
+      "role": "app"
+    },
+    "aakashvani": {
+      "href": "https://sanketptt.com/aakashvani/",
+      "role": "app"
+    },
+    "demo": {
+      "href": "https://sanketptt.com/demo.html",
+      "role": "app"
+    },
+    "radioHub": {
+      "href": "https://sanketptt.com/radio-hub.html",
+      "role": "app"
+    },
+    "dev": {
+      "href": "https://sanketptt.com/dev/",
+      "role": "app"
+    },
+    "boondock": {
+      "href": "https://sanketptt.com/boondock/radio/",
+      "role": "app"
+    },
+    "brandmeister": {
+      "href": "https://brandmeister.network/",
+      "role": "external"
+    },
+    "hoseline": {
+      "href": "https://hose.brandmeister.network/",
+      "role": "external"
+    },
+    "sourceSanketptt": {
+      "href": "https://github.com/vibhvesh/sanketptt",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceSanketpttDev": {
+      "href": "https://github.com/vibhvesh/sanketptt/tree/main/dev",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceSanketpttDmr": {
+      "href": "https://github.com/vibhvesh/sanketptt/tree/main/dmr",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceSanketpttAakashvani": {
+      "href": "https://github.com/vibhvesh/sanketptt/tree/main/aakashvani",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceSanketpttTranscribe": {
+      "href": "https://github.com/vibhvesh/sanketptt/tree/main/transcribe",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceDemo": {
+      "href": "https://github.com/vibhvesh/sanketptt/blob/main/website/demo.html",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceSanketpttAudit": {
+      "href": "https://github.com/vibhvesh/sanketptt/tree/audit/radio-stability-2026-11-19",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceBoondock": {
+      "href": "https://github.com/vibhvesh/boondock-echo-live",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceBoondockAudit": {
+      "href": "https://github.com/vibhvesh/boondock-echo-live/tree/audit/radio-stability-2026-11-19",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourcePttRadio": {
+      "href": "https://github.com/vibhvesh/ptt-radio",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourcePttRadioAudit": {
+      "href": "https://github.com/vibhvesh/ptt-radio/tree/audit/radio-stability-2026-11-19",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceStoryRadio": {
+      "href": "https://github.com/vibhvesh/sanket-story-radio",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceChitrakoot": {
+      "href": "https://github.com/vibhvesh/chitrakoot-sanket-radio",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceHyderabad": {
+      "href": "https://github.com/vibhvesh/hyderabad-police-ptt",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceHyderabadAudit": {
+      "href": "https://github.com/vibhvesh/hyderabad-police-ptt/tree/audit/radio-stability-2026-11-19",
+      "role": "source",
+      "source-entry": true
+    },
+    "sourceAkashvaniStations": {
+      "href": "https://github.com/codito/akashvani",
+      "role": "source",
+      "source-entry": true
+    }
+  }
+}
