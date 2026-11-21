@@ -6,23 +6,21 @@ Standalone public-facing website for the Sanket product family.
 
 Open `index.html` in a browser. It is a self-contained static page (HTML, CSS and JavaScript) and has no build dependencies.
 
-## Public site
+## GitHub Pages
 
-The marketing page is served at https://sanketptt.com/. Push-to-talk, Transcribe, DMR, guides and installers are published under the same host (`/?ch=`, `/transcribe/`, `/dmr/`, `/docs/`, `/pi/install.sh`). This shorter layout is on the `dev` branch and is not deployed by the Hostinger workflow until that branch is merged to `main`.
+The site is published at:
 
-## Hostinger (custom domain)
+https://vibhvesh.github.io/sanketptt/website/
 
-Hostinger deploy (GitHub Actions) syncs **`website/`** plus **`aakashvani/`** on push to `main`. See [docs/DEPLOY_HOSTINGER.md](../docs/DEPLOY_HOSTINGER.md).
-
-`website/` is the Hostinger document root. It includes the marketing page and copies of the PTT app (`radio/`), Transcribe, DMR, guides, Pi installer and Android APKs so those paths resolve on https://sanketptt.com.
+The existing Sanket PTT root app, Transcribe app and Pi service are not modified by this website folder.
 
 ## Product guide screenshots
 
-Guide images are served from `/docs/img/` on the same host.
+The page references existing guide screenshots from `docs/img/` in this repository using raw GitHub URLs.
 
 ## Notes
 
-- Dashboard signal graphs in the product previews are illustrative. The homepage relay, presence and radio directory are live and fall back to an explicit offline or built-in-station state when a service is unavailable.
-- Contact form opens a prefilled email draft to Akshat Singh; it does not submit to a backend.
-- Public contact: Akshat Singh, akshatsingh@canberravision.com, akshat@sanketptt.com, +91 99982 99023, Canberra Vision, 713 Samanvay Silver, Akota, Vadodara, Gujarat, India.
-- Sanket SDR does not publish a price. The card asks for a meeting and does not describe specific capabilities.
+- Dashboard activity, messages, signal graphs and counts are illustrative sample data, not live system telemetry.
+- Contact form opens a prefilled email draft; it does not submit to a backend.
+- Update the public contact email/address details after confirming the preferred business contact information.
+- SDR content describes receive-only spectrum monitoring; use only lawful public or authorised frequencies.
