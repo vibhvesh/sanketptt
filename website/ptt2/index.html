@@ -132,14 +132,35 @@ html.sanket-listen-only #ptt,html.sanket-listen-only #sstvP,html.sanket-listen-o
 html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx{display:none!important}
 html.sanket-listen-only #main>.hint{display:none!important}
 
+#ptt2ChannelBar{margin:8px 10px 0;padding:10px;border:1px solid #2f6f9a;border-radius:12px;background:#0d253d;color:#e7f3fb;font:13px/1.35 system-ui}
+#ptt2ChannelBar h3{margin:0 0 8px;font-size:13px;letter-spacing:.6px}
+#ptt2ChannelChips{display:flex;flex-wrap:wrap;gap:8px}
+.ptt2-chip{min-height:40px;padding:8px 12px;border:1px solid #35536b;border-radius:999px;background:#07192d;color:#e7f3fb;font:13px/1.2 system-ui}
+.ptt2-chip.is-on{background:#123c2e;border-color:#3dbe8b;color:#d8ffe9;font-weight:700}
+#ptt2Auth{margin-top:8px}
+#ptt2ChannelBar [hidden]{display:none !important}
+#ptt2Auth label{display:block;margin:8px 0 4px;font-size:11px;letter-spacing:.3px;color:#9fb4c6}
+#ptt2Auth input[type=email],#ptt2Auth input[type=password],#ptt2Auth input[type=text]{width:100%;box-sizing:border-box;min-height:44px;padding:8px 10px;border:1px solid #35536b;border-radius:8px;background:#07192d;color:#fff;font:16px system-ui}
+.ptt2-pass{display:flex;gap:6px;align-items:center}
+.ptt2-pass input{flex:1}
+#ptt2PassToggle,#ptt2Demo,#ptt2SignOut{min-height:44px;border:1px solid #35536b;border-radius:8px;background:#12344c;color:#e7f3fb;font:14px system-ui}
+#ptt2SignIn{width:100%;margin-top:8px;min-height:44px;border:0;border-radius:10px;background:#1b6b4a;color:#fff;font:14px/1 system-ui;font-weight:700}
+#ptt2Demo,#ptt2SignOut{width:100%;margin-top:8px}
+.ptt2-remember{display:flex !important;align-items:center;gap:8px;margin-top:8px;color:#e7f3fb;font-size:14px}
+.ptt2-remember input{width:18px;height:18px}
+#ptt2AuthError{margin:8px 0 0;color:#ffb4a8;font-size:13px}
 #ptt2Settings{margin:8px 10px 0;padding:10px;border:1px solid #23445e;border-radius:10px;background:#0d253d;color:#e7f3fb;font:12px/1.4 system-ui}
 #ptt2Settings h3{margin:0 0 8px;font-size:12px;letter-spacing:.4px}
 #ptt2Settings label{display:block;margin:6px 0 2px;font-size:10px;letter-spacing:.4px;color:#9fb4c6}
+#ptt2Settings [hidden]{display:none !important}
 #ptt2Settings select,#ptt2Settings input[type=url]{width:100%;box-sizing:border-box;background:#07192d;color:#fff;border:1px solid #35536b;border-radius:6px;padding:7px;font:12px inherit}
 #ptt2Settings .row{display:flex;gap:8px;align-items:center;margin-top:8px}
-#ptt2Status{margin:8px 0 0;color:#9fb4c6;font-size:11px}
+#ptt2Status,#ptt2RelayStatus{margin:8px 0 0;color:#9fb4c6;font-size:11px}
+#ptt2RelayStatus.down{color:#ffb4a8}
 .ptt2-hint{margin:6px 0 0;color:#9fb4c6;font-size:11px}
 .ptt2-line{display:block;margin-top:4px;color:#d5e6f2;font:12px/1.35 system-ui}
+.ptt2-note{display:block;margin-top:2px;color:#ffb4a8;font-size:11px}
+.ptt2-retry{margin-left:6px;padding:2px 8px;border:0;border-radius:8px;background:#1b3148;color:#e7f3fb;font:11px system-ui}
 .ptt2-badge{display:inline-block;margin-right:6px;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase}
 .ptt2-badge.local{background:#164a43;color:#8de8c5}
 .ptt2-badge.server{background:#1d3f68;color:#9fd0ff}
@@ -219,9 +240,10 @@ html.ptt-embed #main .hint{display:none!important}
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
+<div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id="ptt2Settings"></div>
-<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
+<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
 <div id=sstvTx style="display:none"><canvas id=sstvPrev width=320 height=240 style="width:100%;max-width:320px;display:block;margin:auto;border-radius:6px"></canvas>
@@ -241,25 +263,28 @@ var BROKERS=['wss://public:public@public.cloud.shiftr.io','wss://broker.emqx.io:
 var HB_MS=5000,EXPIRE_MS=15000,FLOOR_TIMEOUT_MS=2500,CLAIM_GRACE_MS=700;
 function fmtCS(v){v=(v||'').trim();return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\/]+$/.test(v)?v.toUpperCase():v}
 function Radio(mqttLib,opts){var R=this;R.mqtt=mqttLib;R.ch=opts.ch||CHANNEL;
- R.id=Math.random().toString(36).slice(2,10);R.name=null;R.users={};R.floor=null;R.cb=opts.on||function(){};R.bi=0;R.brokers=opts.brokers||BROKERS;R.connect();}
+ R.id=Math.random().toString(36).slice(2,10);R.name=null;R.users={};R.floor=null;R.cb=opts.on||function(){};R.bi=0;R.brokers=opts.brokers||BROKERS;R.username=opts.username||'';R.password=opts.password||'';R.exclusive=!!opts.exclusive;R.relayId=opts.relayId||'public';R.connect();}
 Radio.prototype.T=function(s){return PTT_PREFIX+this.ch+'/'+s};
-Radio.prototype.connect=function(){var R=this,url=R.brokers[R.bi%R.brokers.length],ok=false;
- var c=R.c=R.mqtt.connect(url,{clientId:'ptt_'+R.id+'_'+Date.now()%1e6,clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000,
-  will:{topic:R.T('presence/'+R.id),payload:'',retain:true,qos:0}});
+Radio.prototype.connect=function(){var R=this;if(!R.brokers.length){R.cb('net','unreachable');return;}
+ var url=R.brokers[R.bi%R.brokers.length],ok=false;
+ var link={clientId:'ptt_'+R.id+'_'+Date.now()%1e6,clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000,
+  will:{topic:R.T('presence/'+R.id),payload:'',retain:true,qos:0}};
+ if(R.username){link.username=R.username;link.password=R.password;}
+ var c=R.c=R.mqtt.connect(url,link);
  c.on('connect',function(){ok=true;R.url=url;c.subscribe([R.T('presence/+'),R.T('floor'),R.T('audio'),R.T('sstv')]);if(R.name)R.beat();R.cb('net',url)});
  c.on('message',function(t,p){R.onMsg(t,p)});
- c.on('error',function(){});
- c.on('close',function(){if(R.closed)return;R.cb('net','disconnected');if(!ok)R.bi++;setTimeout(function(){c.end(true);R.connect()},ok?1500:300)});
+ c.on('error',function(){if(R.exclusive)R.cb('net','unreachable')});
+ c.on('close',function(){if(R.closed)return;R.cb('net',R.exclusive?'unreachable':'disconnected');if(!ok&&!R.exclusive)R.bi++;setTimeout(function(){c.end(true);R.connect()},ok?1500:300)});
  if(!R.timer)R.timer=setInterval(function(){R.tick()},1000);};
 Radio.prototype.join=function(name){this.name=String(name).slice(0,40);this.beat();};
-Radio.prototype.beat=function(){var R=this;if(!R.name||!R.c.connected)return;R.lastBeat=Date.now();
+Radio.prototype.beat=function(){var R=this;if(!R.name||!R.c||!R.c.connected)return;R.lastBeat=Date.now();
  var m={id:R.id,name:R.name,ts:Date.now()};if(R.loc)m.loc=R.loc;R.c.publish(R.T('presence/'+R.id),JSON.stringify(m),{retain:true});};
 // location: {lat,lon,acc(m),src:'gps'|'ip',city}; null = not sharing
 function cleanLoc(l){if(!l||typeof l!=='object')return null;var la=+l.lat,lo=+l.lon;if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return null;
  return {lat:Math.round(la*1e5)/1e5,lon:Math.round(lo*1e5)/1e5,acc:isFinite(+l.acc)?Math.round(+l.acc):null,src:l.src==='gps'?'gps':'ip',city:l.city?String(l.city).slice(0,60):null}}
 function distKm(a,b){if(!a||!b)return null;var R=6371,d=Math.PI/180,x=(b.lat-a.lat)*d,y=(b.lon-a.lon)*d,h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a.lat*d)*Math.cos(b.lat*d)*Math.sin(y/2)*Math.sin(y/2);return 2*R*Math.asin(Math.sqrt(h))}
 Radio.prototype.setLoc=function(l){this.loc=cleanLoc(l);if(this.users[this.id])this.users[this.id].loc=this.loc;this.beat();this.emit()};
-Radio.prototype.leave=function(){var R=this;R.release();if(R.c.connected)R.c.publish(R.T('presence/'+R.id),'',{retain:true});R.closed=true;clearInterval(R.timer);var c=R.c;setTimeout(function(){c.end()},200)};
+Radio.prototype.leave=function(){var R=this;R.release();if(R.c&&R.c.connected)R.c.publish(R.T('presence/'+R.id),'',{retain:true});R.closed=true;clearInterval(R.timer);var c=R.c;if(c)setTimeout(function(){c.end()},200)};
 Radio.prototype.tick=function(){var R=this,now=Date.now(),ch=false;
  if(R.name&&(!R.lastBeat||now-R.lastBeat>=HB_MS))R.beat();
  for(var k in R.users)if(now-R.users[k].seen>EXPIRE_MS){delete R.users[k];ch=true}
@@ -284,7 +309,7 @@ Radio.prototype.onMsg=function(t,p){var R=this,now=Date.now(),s=t.slice(PTT_PREF
  if(s==='audio'){var b=p instanceof Uint8Array?p:new Uint8Array(p),n=b[0],id='';for(var i=1;i<=n;i++)id+=String.fromCharCode(b[i]);
   if(R.floor&&R.floor.id===id&&id!==R.id){R.floor.seen=now;var pcm=Uint8Array.prototype.slice.call(b,1+n);R.cb('audio',new Int16Array(pcm.buffer,pcm.byteOffset,pcm.length>>1))}}};
 // claim floor; resolves true if we hold it after the race grace period
-Radio.prototype.claim=function(done){var R=this;if(R.floor&&R.floor.id!==R.id)return done(false);R.talking=true;var ts=Date.now();
+Radio.prototype.claim=function(done){var R=this;if(!R.c||!R.c.connected||(R.floor&&R.floor.id!==R.id))return done(false);R.talking=true;var ts=Date.now();
  R.floor={id:R.id,name:R.name,ts:ts,seen:Date.now(),got:Date.now()};R.c.publish(R.T('floor'),JSON.stringify({t:'claim',id:R.id,name:R.name,ts:ts}));R.emit();
  setTimeout(function(){var ok=R.talking&&R.floor&&R.floor.id===R.id;if(!ok)R.talking=false;done(ok)},CLAIM_GRACE_MS)};
 Radio.prototype.sendSstv=function(m){m.id=this.id;m.name=this.name;m.ts=Date.now();if(this.c.connected)this.c.publish(this.T('sstv'),JSON.stringify(m));};
@@ -296,17 +321,20 @@ if(typeof module!=='undefined')module.exports={Radio:Radio,distKm:distKm,cleanLo
 </script>
 <script id=rec>
 // ---- session recorder + WAV builder (also used by tests) ----
-var REC_MAX_ENTRIES=50,REC_MAX_SAMPLES=12000*60*20,REC_GAP_MS=1500;
+var REC_MAX_ENTRIES=50,REC_MAX_SAMPLES=12000*60*20,REC_GAP_MS=1500,REC_TAIL_MS=300;
 function buildWav(i16s,rate){var n=0;i16s.forEach(function(a){n+=a.length});var buf=new ArrayBuffer(44+n*2),v=new DataView(buf),p=0;
  function str(s){for(var i=0;i<s.length;i++)v.setUint8(p++,s.charCodeAt(i))}function u32(x){v.setUint32(p,x,true);p+=4}function u16(x){v.setUint16(p,x,true);p+=2}
  str('RIFF');u32(36+n*2);str('WAVE');str('fmt ');u32(16);u16(1);u16(1);u32(rate);u32(rate*2);u16(2);u16(16);str('data');u32(n*2);
  i16s.forEach(function(a){for(var i=0;i<a.length;i++){v.setInt16(p,a[i],true);p+=2}});return buf}
-function Recorder(rate,onChange){this.rate=rate||12000;this.entries=[];this.cur=null;this.onChange=onChange||function(){};this.seq=0}
+function Recorder(rate,onChange){this.rate=rate||12000;this.entries=[];this.cur=null;this.onChange=onChange||function(){};this.seq=0;this.tailing=false;this.endTimer=null}
 Recorder.prototype.feed=function(id,name,i16,mine,now,loc){now=now||Date.now();var c=this.cur;
- if(c&&(c.id!==id||now-c.last>REC_GAP_MS)){this.end();c=null}
+ if(c&&c.id!==id){this.end();c=null}
+ else if(c&&!this.tailing&&now-c.last>REC_GAP_MS){this.end();c=null}
  if(!c){c=this.cur={key:++this.seq,id:id,name:name,mine:!!mine,t0:now,last:now,chunks:[],n:0,loc:loc||null}}
  c.chunks.push(new Int16Array(i16));c.n+=i16.length;c.last=now};
-Recorder.prototype.end=function(){var c=this.cur;this.cur=null;if(!c||!c.n)return null;
+Recorder.prototype.requestEnd=function(){var R=this;if(!R.cur||R.endTimer)return;
+ R.tailing=true;R.endTimer=setTimeout(function(){R.endTimer=null;R.tailing=false;R.end()},REC_TAIL_MS)};
+Recorder.prototype.end=function(){if(this.endTimer){clearTimeout(this.endTimer);this.endTimer=null}this.tailing=false;var c=this.cur;this.cur=null;if(!c||!c.n)return null;
  var e={key:c.key,id:c.id,name:c.name,mine:c.mine,t0:c.t0,loc:c.loc,samples:c.n,dur:c.n/this.rate,wav:buildWav(c.chunks,this.rate)};
  this.entries.unshift(e);var tot=0;for(var i=0;i<this.entries.length;i++){tot+=this.entries[i].samples;if(i>=REC_MAX_ENTRIES||tot>REC_MAX_SAMPLES){this.entries.length=i;break}}
  this.onChange(this.entries);return e};
@@ -336,11 +364,18 @@ function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.tex
  us.innerHTML=st0.users.map(function(u){var t=f&&f.id===u.id;return '<li class="'+(t?'tk':u.id===radio.id?'me':'')+'">'+(t?'🎙 ':'')+esc(u.name)+(u.id===radio.id?' ·YOU':'')+pinTxt(u)+'</li>'}).join('')||'<li class=none>No stations</li>';
  var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.textContent=granted?'ON AIR':busy?'BUSY':holding?'…':'PTT';
  st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
-function start(){if(radio)radio.leave();radio=new Radio(mqtt,{ch:CHANNEL,on:function(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
-  if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.end()}render()}
- else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);play(v)}}else if(k==='net')net.textContent='relay: '+v+' · topic '+PTT_PREFIX+radio.ch}});radio.browser=true;render()}
-(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}start(CHANNEL);var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
+function relayEvents(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
+  if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.requestEnd()}render()}
+ else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);play(v)}}else if(k==='net')net.textContent=window.ptt2OnRelayNet?window.ptt2OnRelayNet(v,radio.relayId,radio.ch):('Joined '+(radio.ch||''))}
+function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec||{};
+ if(spec.channel)CHANNEL=String(spec.channel).replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL;
+ if(spec.id==='sanket'&&window.ptt2OpenSanket)radio=window.ptt2OpenSanket({roomId:spec.roomId,account:spec.account,on:relayEvents});
+ else radio=new Radio(mqtt,{ch:spec.channel||CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:relayEvents});
+ radio.browser=true;if(keep)radio.join(keep);render()}
+window.ptt2UseRelay=function(spec){start(spec)};
+(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
 go.onclick=async function(){
+ if(!radio)return alert('The channel is still starting. Try again in a moment.');
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
  try{localStorage.nm=me}catch(e){}
  // Join the radio first. Microphone permission is optional for listening.
@@ -358,7 +393,7 @@ go.onclick=async function(){
   stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});
   if(stream&&ac){
    var src=ac.createMediaStreamSource(stream);proc=ac.createScriptProcessor(4096,1,1);var mute=ac.createGain();mute.gain.value=0;src.connect(proc);proc.connect(mute);mute.connect(ac.destination);
-   proc.onaudioprocess=function(e){if(!granted||sstvTx)return;var i=e.inputBuffer.getChannelData(0),r=ac.sampleRate/RATE,n=Math.floor(i.length/r),o=new Int16Array(n);for(var k=0;k<n;k++)o[k]=Math.max(-1,Math.min(1,i[Math.floor(k*r)]))*32767;if(radio.sendAudio(o)){txLvl=Math.max(txLvl,lvl(o));rec.feed(radio.id,radio.name,o,true,undefined,radio.loc)}};
+   proc.onaudioprocess=function(e){var keep=rec&&rec.tailing;if((!granted&&!keep)||sstvTx)return;var i=e.inputBuffer.getChannelData(0),r=ac.sampleRate/RATE,n=Math.floor(i.length/r),o=new Int16Array(n);for(var k=0;k<n;k++)o[k]=Math.max(-1,Math.min(1,i[Math.floor(k*r)]))*32767;if(granted&&radio.sendAudio(o))txLvl=Math.max(txLvl,lvl(o));rec.feed(radio.id,radio.name,o,true,undefined,radio.loc)};
   }
  }catch(e){net.textContent='Listening mode · microphone unavailable: '+e.message}
 };
@@ -387,7 +422,7 @@ unlock.onclick=unlockAudio;
 function play(a){if(!ac)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
  var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+8)playT=now+0.15;s.start(playT);playT+=b.duration}
 function down(e){e&&e.preventDefault();if(SANKET_LISTEN_ONLY||holding||sstvTx)return;unlockAudio();holding=true;render();radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})}
-function up(e){e&&e.preventDefault();if(!holding||sstvTx)return;holding=false;granted=false;radio.release();rec.end();render()}
+function up(e){e&&e.preventDefault();if(!holding||sstvTx)return;holding=false;granted=false;radio.release();rec.requestEnd();render()}
 ptt.addEventListener('pointerdown',function(e){ptt.setPointerCapture(e.pointerId);down(e)});['pointerup','pointercancel'].forEach(function(t){ptt.addEventListener(t,up)});
 ptt.oncontextmenu=function(e){e.preventDefault()};
 onkeydown=function(e){if(!SANKET_LISTEN_ONLY&&e.code=='Space'&&main.style.display=='block'&&!e.repeat)down(e)};onkeyup=function(e){if(!SANKET_LISTEN_ONLY&&e.code=='Space')up(e)};
