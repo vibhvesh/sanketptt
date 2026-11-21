@@ -345,6 +345,26 @@ html.sanket-site #tafRadioHub .taf-top-five button small {
   display: none !important;
 }
 
+@media (max-width: 760px) {
+  html.sanket-site #control > #tafRadioHub {
+    flex-wrap: wrap !important;
+    row-gap: 8px !important;
+  }
+
+  html.sanket-site #control #tafRadioHub .taf-player-row {
+    order: 2 !important;
+    margin-left: auto !important;
+  }
+
+  html.sanket-site #control #tafRadioHub .taf-top-five {
+    order: 3 !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    overflow-x: auto !important;
+  }
+}
+
 html.sanket-site #tafRadioHub .taf-radio-heading h3,
 html.sanket-site #tafRadioHub .taf-now b {
   color: var(--ink) !important;
