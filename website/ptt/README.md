@@ -6,7 +6,7 @@ All PTT and app URLs are built in this folder. Pages put `data-link="key"` on an
 
 ## How to change a link
 
-1. Edit the path in `links.js` (`url("/radio/")`, a channel id, or a `source` entry).
+1. Edit the path in `links.js` (`url("radio/")`, a channel id, or a `source` entry).
 2. Run `bash scripts/check-links.sh`. It rewrites nothing; it fails if `links.json` does not match.
 3. Regenerate the JSON from the module if the check says it is out of date:
 
@@ -14,7 +14,7 @@ All PTT and app URLs are built in this folder. Pages put `data-link="key"` on an
 node --input-type=module -e 'import {writeFileSync} from "node:fs"; import {BASE,channels,links,roles} from "./website/ptt/links.js"; const out={base:BASE,channels,sanitizer:"letters, numbers, hyphens; max 40", links:Object.fromEntries(Object.entries(links).map(([k,href])=>([k,{href,role:roles[k]}])))}; writeFileSync("website/ptt/links.json", JSON.stringify(out,null,2)+"\n");'
 ```
 
-Preview deploys rewrite `https://sanketptt.com` inside this module to `/preview`. Do not hard-code `/preview` here.
+Preview deploys rewrite the site origin inside this module to `/preview`. Pass paths to `url()` without a leading slash so that rewrite does not prefix them a second time. Do not hard-code `/preview` here.
 
 ## Guards
 

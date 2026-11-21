@@ -52,18 +52,22 @@ export function rewriteLegacy(input) {
   const tail = parsed.search + parsed.hash;
   if (path === "boondock-echo-live" || path.startsWith("boondock-echo-live/")) {
     const rest = path.slice("boondock-echo-live/".length).replace(/^\/+/, "");
-    return origin() + "/boondock/" + rest + tail;
+    return origin() + "/" + "boondock/" + rest + tail;
   }
   if (path === "sanketptt" || path.startsWith("sanketptt/")) {
     let rest = path.slice("sanketptt/".length).replace(/^\/+/, "");
     if (rest.startsWith("website/")) rest = rest.slice("website/".length);
-    if (rest === "" || rest === "index.html") return origin() + "/radio/" + tail;
+    if (rest === "" || rest === "index.html") return origin() + "/" + "radio/" + tail;
     return origin() + "/" + rest + tail;
   }
   return raw;
 }
 
-/** Build an absolute URL on this site, then pass it through the legacy guard. */
+/**
+ * Build an absolute URL on this site, then pass it through the legacy guard.
+ * Pass the path without a leading slash. The preview deploy prefixes quoted
+ * slash-paths such as a leading slash plus radio/, and this function adds that slash.
+ */
 export function url(path, query) {
   const clean = "/" + String(path || "").replace(/^\/+/, "");
   let out = origin() + clean;
@@ -76,27 +80,27 @@ export function url(path, query) {
 
 export function channelUrl(id) {
   const ch = sanitizeChannel(id);
-  return ch ? url("/radio/", "ch=" + encodeURIComponent(ch)) : url("/radio/");
+  return ch ? url("radio/", "ch=" + encodeURIComponent(ch)) : url("radio/");
 }
 
 export function embedUrl(id) {
   const ch = sanitizeChannel(id) || channels.virtual;
-  return url("/radio/", "ch=" + encodeURIComponent(ch) + "&embed=1");
+  return url("radio/", "ch=" + encodeURIComponent(ch) + "&embed=1");
 }
 
 export function transcribeFor(id) {
   const ch = sanitizeChannel(id);
-  return ch ? url("/transcribe/", "ch=" + encodeURIComponent(ch)) : url("/transcribe/");
+  return ch ? url("transcribe/", "ch=" + encodeURIComponent(ch)) : url("transcribe/");
 }
 
 export function transcribeCompact(id) {
   const ch = sanitizeChannel(id) || channels.virtual;
-  return url("/transcribe/", "compact=1&ch=" + encodeURIComponent(ch));
+  return url("transcribe/", "compact=1&ch=" + encodeURIComponent(ch));
 }
 
 export function transcribeDemo(id) {
   const ch = sanitizeChannel(id) || channels.websiteDemo;
-  return url("/transcribe/", "demo=1&autostart=1&compact=1&ch=" + encodeURIComponent(ch));
+  return url("transcribe/", "demo=1&autostart=1&compact=1&ch=" + encodeURIComponent(ch));
 }
 
 /** github.com repository links. Marked source-entry so the link check can see the label. */
@@ -120,8 +124,8 @@ export const source = Object.freeze({
 });
 
 export const links = Object.freeze({
-  home: url("/"),
-  ptt: url("/radio/"),
+  home: url(""),
+  ptt: url("radio/"),
   pttVirtual: channelUrl(channels.virtual),
   pttEmbed: embedUrl(channels.virtual),
   channelVirtual: channelUrl(channels.virtual),
@@ -130,15 +134,15 @@ export const links = Object.freeze({
   channelKolkataControl: channelUrl(channels.kolkataControl),
   channelWebsiteDemo: channelUrl(channels.websiteDemo),
   embedWebsiteDemo: embedUrl(channels.websiteDemo),
-  transcribe: url("/transcribe/"),
+  transcribe: url("transcribe/"),
   transcribeCompact: transcribeCompact(channels.virtual),
   transcribeDemo: transcribeDemo(channels.websiteDemo),
-  dmr: url("/dmr/"),
-  aakashvani: url("/aakashvani/"),
-  demo: url("/demo.html"),
-  radioHub: url("/radio-hub.html"),
-  dev: url("/dev/"),
-  boondock: url("/boondock/radio/"),
+  dmr: url("dmr/"),
+  aakashvani: url("aakashvani/"),
+  demo: url("demo.html"),
+  radioHub: url("radio-hub.html"),
+  dev: url("dev/"),
+  boondock: url("boondock/radio/"),
   brandmeister: "https://brandmeister.network/",
   hoseline: "https://hose.brandmeister.network/",
   sourceSanketptt: source.sanketptt,
