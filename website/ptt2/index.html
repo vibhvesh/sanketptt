@@ -421,12 +421,42 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 .brand-wordmark h1 em{font-style:normal!important;color:#fff!important;background:#e47d20!important;border-radius:7px!important;padding:1px 5px!important}
 .brand-wordmark small{letter-spacing:1.6px!important}
 @media(max-width:430px){.sanket-brand-wave{gap:6px!important}.sanket-brand-wave>img{width:34px!important;height:34px!important}.brand-wave{width:44px!important;flex-basis:44px!important;gap:2px!important}.brand-wave i{width:2px!important}.brand-wordmark h1{font-size:clamp(13px,4.2vw,18px)!important;letter-spacing:-.4px!important}.brand-wordmark small{font-size:8px!important;letter-spacing:1px!important}}
+</style></style><style id="ptt2-compact-header-meter-v1">
+/* Compact signal window integrated into the brand lockup */
+.sanket-brand-wave{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;margin-bottom:7px!important;min-height:72px!important}
+.sanket-brand-wave>img{width:48px!important;height:48px!important;flex:0 0 48px!important}
+.brand-wave{display:none!important}
+.brand-wordmark{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:3px!important;flex:1 1 auto!important;min-width:0!important;position:relative!important}
+.brand-wordmark h1{margin:0!important;font-size:clamp(17px,4.8vw,25px)!important;line-height:1.05!important;white-space:nowrap!important;letter-spacing:-.6px!important}
+.brand-wordmark h1 em{background:transparent!important;color:#193957!important;padding:0!important}
+.brand-wordmark small{font-size:9px!important;line-height:1!important;letter-spacing:1.3px!important;color:#667887!important}
+.sanket-header-meter{position:relative!important;display:flex!important;flex-direction:column!important;gap:0!important;width:100%!important;max-width:100%!important;margin:0!important;padding:3px 7px 4px!important;box-sizing:border-box!important;border:1px solid #527c69!important;border-radius:5px!important;background:linear-gradient(90deg,#092b43,#071d2c)!important;box-shadow:inset 0 0 8px #0008!important}
+.sanket-header-meter .meter-live-label{display:flex!important;align-items:center!important;gap:4px!important;font-size:7px!important;line-height:1!important;letter-spacing:.7px!important;color:#b6d0c1!important}
+.sanket-header-meter .meter-live-label i{width:5px!important;height:5px!important;flex:none!important}
+.sanket-header-meter .meter-live-label b{font-size:7px!important}
+.sanket-header-meter .bars{height:13px!important;min-height:13px!important;display:flex!important;align-items:flex-end!important;gap:2px!important;margin:2px 0 0!important}
+.sanket-header-meter .bars b{height:20%!important;min-width:2px!important;flex:1 1 0!important;border-radius:2px!important}
+.sanket-header-meter .bars b.l{height:55%!important}
+.sanket-header-meter .bars b.l.y{height:75%!important}
+.sanket-header-meter .bars b.l.r{height:100%!important}
+.brand .leds{flex:0 0 auto!important;gap:6px!important}
+@media(max-width:430px){
+ .sanket-brand-wave{gap:6px!important;min-height:64px!important}
+ .sanket-brand-wave>img{width:38px!important;height:38px!important;flex-basis:38px!important}
+ .brand-wordmark h1{font-size:clamp(15px,4.4vw,19px)!important}
+ .brand-wordmark small{font-size:7px!important;letter-spacing:.9px!important}
+ .sanket-header-meter{padding:2px 5px 3px!important}
+ .sanket-header-meter .meter-live-label{font-size:6px!important}
+ .sanket-header-meter .bars{height:10px!important;min-height:10px!important}
+ .brand .leds{font-size:9px!important;gap:4px!important}
+ .brand .led i{width:11px!important;height:11px!important}
+}
 </style></head><body><div class=rig>
-<div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><small>POWERED BY SANKET PTT</small></div>
+<div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
-<div class="meter sanket-live-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div></div>
+</div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
 <div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div><button id=ptt2Logout type=button onclick="window.ptt2Logout()">LOG OUT</button></div><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><button id=unlock type=button aria-pressed="false">🔊 TAP TO ENABLE AUDIO</button><div class=hint>Hold to talk · Desktop: hold Space</div>
