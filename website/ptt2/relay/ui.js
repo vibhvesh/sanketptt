@@ -30,21 +30,15 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
       <button type="submit" id="ptt2SignIn">Connect</button>
       <p id="ptt2AuthError" hidden></p>
     </form>
-    <button type="button" id="ptt2PowerOff" aria-label="Switch off radio" hidden>
-      <span class="ptt2-power-led"></span><span class="ptt2-power-symbol">⏻</span><span class="ptt2-power-label">OFF</span>
-    </button>
   `;
   const select = root.querySelector("#ptt2Frequency");
   const form = root.querySelector("#ptt2Auth");
   const email = root.querySelector("#ptt2Email");
   const password = root.querySelector("#ptt2Password");
   const error = root.querySelector("#ptt2AuthError");
-  const power = root.querySelector("#ptt2PowerOff");
   const sessionBar = document.querySelector(".ptt2-session-bar");
-  if (sessionBar && power) { const actions = document.createElement("div"); actions.className = "ptt2-session-actions"; sessionBar.appendChild(actions); actions.appendChild(document.getElementById("unlock")); actions.appendChild(power); }
   let rooms = [];
   let signedIn = false;
-  let active = false;
 
   function options() {
     const items = rooms.map((r) => ({ value: "sanket:" + r.roomId, name: r.roomName || r.name || r.roomId }));
@@ -71,15 +65,6 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
     rooms = [...unique.values()];
     if (!rooms.some((r) => r.roomId === loadRoom()) && rooms[0]) saveRoom(rooms[0].roomId);
     return rooms;
-  }
-
-  function setPower(on) {
-    active = !!on;
-    power.hidden = false;
-    power.classList.toggle("is-on", active);
-    power.classList.toggle("is-off", !active);
-    power.querySelector(".ptt2-power-label").textContent = active ? "SWITCH OFF" : "OFF";
-    power.setAttribute("aria-label", active ? "Switch off radio" : "Radio is off");
   }
 
   function choose(value) {
@@ -113,20 +98,10 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
       error.textContent = e && e.status === 401 ? "Sign-in failed" : SANKET_UNREACHABLE;
       error.hidden = false;
       signedIn = false;
-      setPower(false);
     }
   }
 
   select.addEventListener("change", () => choose(select.value));
-  power.addEventListener("click", () => {
-    if (!active) return;
-    setPower(false);
-    onSwitchOff();
-    signOut();
-    signedIn = false;
-    form.hidden = false;
-    options();
-  });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     connect(email.value.trim(), password.value);
@@ -148,7 +123,6 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
   } else {
     options();
   }
-  setPower(false);
   window.ptt2SetRelayRooms = async (list, activeRoom) => {
     await loadRooms();
     signedIn = true;
@@ -161,7 +135,6 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
       select.dataset.connection = "offline";
     } else {
       select.dataset.connection = "connected";
-      if (signedIn) setPower(true);
     }
     return "";
   };
