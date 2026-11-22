@@ -2,8 +2,8 @@ import {
   PUBLIC_CHANNELS, RELAY_PUBLIC, RELAY_SANKET, SANKET_UNREACHABLE,
   loadPublicChannel, loadRelay, loadRoom, relaySpec, savePublicChannel, saveRelay, saveRoom,
 } from "./config.js";
-import { assignedRooms } from "./sanket-socket.js";
-import { getToken, rememberedLogin, signIn } from "./auth.js";
+import { assignedRooms, listFreeRooms } from "./sanket-socket.js";
+import { getToken, rememberedLogin, signIn, signOut } from "./auth.js";
 
 function esc(value) {
   return String(value).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
@@ -17,7 +17,7 @@ function currentValue() {
   return loadRelay() === RELAY_SANKET ? "sanket:" + loadRoom() : "public:" + loadPublicChannel();
 }
 
-export function mountRelay(root, onChoose) {
+export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
   const freeMode = new URLSearchParams(location.search).get("free") === "1";
   root.innerHTML = `
     <div class="ptt2-frequency-row">
@@ -30,25 +30,51 @@ export function mountRelay(root, onChoose) {
       <button type="submit" id="ptt2SignIn">Connect</button>
       <p id="ptt2AuthError" hidden></p>
     </form>
+    <button type="button" id="ptt2PowerOff" aria-label="Switch off radio" hidden>
+      <span class="ptt2-power-led"></span><span class="ptt2-power-symbol">⏻</span><span class="ptt2-power-label">OFF</span>
+    </button>
   `;
   const select = root.querySelector("#ptt2Frequency");
   const form = root.querySelector("#ptt2Auth");
   const email = root.querySelector("#ptt2Email");
   const password = root.querySelector("#ptt2Password");
   const error = root.querySelector("#ptt2AuthError");
+  const power = root.querySelector("#ptt2PowerOff");
   let rooms = [];
   let signedIn = false;
+  let active = false;
 
   function options() {
-    const items = signedIn
-      ? rooms.map((r) => ({ value: "sanket:" + r.roomId, name: r.roomName || r.roomId }))
-      : [{ value: "sanket:" + loadRoom(), name: loadRoom() }];
+    const items = rooms.map((r) => ({ value: "sanket:" + r.roomId, name: r.roomName || r.name || r.roomId }));
     const selected = currentValue();
     select.innerHTML = items.map((item) =>
-      '<option value="' + esc(item.value) + '"' + (item.value === selected || (!signedIn && item.value === "sanket:" + loadRoom()) ? " selected" : "") + ">" + esc(item.name) + "</option>"
+      '<option value="' + esc(item.value) + '"' + (item.value === selected ? " selected" : "") + ">" + esc(item.name) + "</option>"
     ).join("");
     select.hidden = false;
-    select.disabled = !signedIn;
+    select.disabled = !signedIn || items.length < 2;
+  }
+
+  async function loadRooms() {
+    const [assigned, free] = await Promise.all([
+      assignedRooms().catch(() => []),
+      listFreeRooms().catch(() => []),
+    ]);
+    const unique = new Map();
+    [...assigned, ...free].forEach((room) => {
+      if (room && room.roomId) unique.set(room.roomId, room);
+    });
+    rooms = [...unique.values()];
+    if (!rooms.some((r) => r.roomId === loadRoom()) && rooms[0]) saveRoom(rooms[0].roomId);
+    return rooms;
+  }
+
+  function setPower(on) {
+    active = !!on;
+    power.hidden = false;
+    power.classList.toggle("is-on", active);
+    power.classList.toggle("is-off", !active);
+    power.querySelector(".ptt2-power-label").textContent = active ? "ON" : "OFF";
+    power.setAttribute("aria-label", active ? "Switch off radio" : "Radio is off");
   }
 
   function choose(value) {
@@ -68,9 +94,8 @@ export function mountRelay(root, onChoose) {
     error.hidden = true;
     try {
       await signIn(address, secret, true);
-      rooms = await assignedRooms();
+      await loadRooms();
       signedIn = true;
-      if (!rooms.some((r) => r.roomId === loadRoom()) && rooms[0]) saveRoom(rooms[0].roomId);
       saveRelay(RELAY_SANKET);
       form.hidden = true;
       options();
@@ -82,10 +107,21 @@ export function mountRelay(root, onChoose) {
     } catch (e) {
       error.textContent = e && e.status === 401 ? "Sign-in failed" : SANKET_UNREACHABLE;
       error.hidden = false;
+      signedIn = false;
+      setPower(false);
     }
   }
 
   select.addEventListener("change", () => choose(select.value));
+  power.addEventListener("click", () => {
+    if (!active) return;
+    setPower(false);
+    onSwitchOff();
+    signOut();
+    signedIn = false;
+    form.hidden = false;
+    options();
+  });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     connect(email.value.trim(), password.value);
@@ -98,7 +134,7 @@ export function mountRelay(root, onChoose) {
     connect(email.value, password.value);
   } else if (getToken()) {
     assignedRooms().then((list) => {
-      rooms = list;
+      await loadRooms();
       signedIn = true;
       if (!rooms.some((r) => r.roomId === loadRoom()) && rooms[0]) saveRoom(rooms[0].roomId);
       saveRelay(RELAY_SANKET);
@@ -108,8 +144,8 @@ export function mountRelay(root, onChoose) {
   } else {
     options();
   }
-  window.ptt2SetRelayRooms = (list, activeRoom) => {
-    rooms = list || rooms;
+  window.ptt2SetRelayRooms = async (list, activeRoom) => {
+    await loadRooms();
     signedIn = true;
     if (activeRoom) saveRoom(activeRoom);
     form.hidden = true;
@@ -120,6 +156,7 @@ export function mountRelay(root, onChoose) {
       select.dataset.connection = "offline";
     } else {
       select.dataset.connection = "connected";
+      if (signedIn) setPower(true);
     }
     return "";
   };
