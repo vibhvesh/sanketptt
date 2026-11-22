@@ -37,16 +37,48 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 @media(max-width:520px){.radio-flash{align-items:flex-start;flex-direction:column;gap:9px}.radio-flash a{width:100%;text-align:center}}
 </style>
 <link rel="stylesheet" href="../assets/sanket-tricolor-fusion.css">
+<style id="sanket-parakeet-navigation">
+.sk-site-header{height:76px;background:rgba(255,255,255,.94);border-bottom:1px solid #e6ebf1;backdrop-filter:blur(18px);box-shadow:0 4px 22px rgba(15,39,66,.035)}
+.sk-site-header .nav{gap:27px}
+.sk-site-header .brand{flex:none;font-size:21px;letter-spacing:-.8px}
+.sk-site-header .brand img{width:38px;height:38px}
+.sk-site-header .navlinks{display:flex;align-items:center;gap:23px;margin-left:auto}
+.sk-site-header .navlinks>a,.sk-site-header .nav-menu>summary{font-size:12px;font-weight:650;color:#42566b;white-space:nowrap;cursor:pointer;list-style:none}
+.sk-site-header .nav-menu>summary::-webkit-details-marker{display:none}
+.sk-site-header .nav-menu>summary span{font-size:14px;color:#8797a8;margin-left:3px}
+.sk-site-header .nav-menu{position:relative}
+.sk-site-header .nav-popover{position:absolute;top:calc(100% + 18px);left:-18px;min-width:245px;padding:8px;background:#fff;border:1px solid #e4eaf0;border-radius:15px;box-shadow:0 18px 50px rgba(15,39,66,.14);display:grid;gap:2px;z-index:50}
+.sk-site-header .nav-popover a{padding:11px 12px;border-radius:9px;color:#18324b;font-size:12px;font-weight:750}
+.sk-site-header .nav-popover a:hover{background:#f3f7fb;color:#e66b1b}
+.sk-site-header .nav-popover small{display:block;color:#8291a0;font-size:10px;font-weight:450;margin-top:2px}
+.sk-site-header .navlinks>a.login{padding:10px 14px;border:1px solid #d9e2eb;border-radius:10px;color:#173b5a}
+.sk-site-header .navlinks>a.demo-link{background:#f47721;border-color:#f47721;color:white;padding:11px 16px;box-shadow:0 5px 15px rgba(244,119,33,.2)}
+.sk-site-header .navlinks>a:hover{color:#e66b1b}
+.sk-site-header .navlinks>a.demo-link:hover{color:#fff;background:#e96c1b}
+.yatra-launch{display:none!important}
+@media(max-width:1000px){.sk-site-header .navlinks{gap:13px}.sk-site-header .navlinks>a,.sk-site-header .nav-menu>summary{font-size:11px}}
+@media(max-width:720px){
+ .sk-site-header{height:66px}.sk-site-header .nav{gap:8px}
+ .sk-site-header .menu{display:block;margin-left:auto;border-radius:10px;padding:9px 12px;background:#f4f7fa;color:#183b5b;border:1px solid #dfe7ef}
+ .sk-site-header .navlinks{display:none;position:absolute;top:65px;left:12px;right:12px;padding:12px;background:#fff;border:1px solid #e3eaf0;border-radius:15px;box-shadow:0 20px 45px rgba(15,39,66,.16);align-items:stretch;gap:3px;max-height:calc(100dvh - 85px);overflow:auto}
+ .sk-site-header .navlinks.open{display:flex;flex-direction:column}
+ .sk-site-header .navlinks>a,.sk-site-header .nav-menu>summary{padding:12px 11px;border-radius:9px;font-size:13px}
+ .sk-site-header .navlinks>a.login{border:0}
+ .sk-site-header .navlinks>a.demo-link{margin-top:5px;text-align:center}
+ .sk-site-header .nav-popover{position:static;box-shadow:none;border:0;border-radius:8px;background:#f6f8fb;margin:2px 6px 7px;min-width:0}
+}
+</style>
 </head>
 <body>
-<header><div class="wrap nav">
-<a class="brand" href="#top"><img src="sanket-mark.svg" alt=""><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a>
-<nav class="navlinks" id="navlinks">
-<a href="#platform">Platform</a><a href="#topology">Architecture</a><a href="#pricing">Pricing</a><a href="#products">Products</a><a href="radios/">Radio Hub</a><a href="sanket-radios/">Free Radios</a><a href="sanket-game/">Prisha Shopper</a>
-<a class="login" href="https://sanketptt.com/radio/" data-link="ptt" target="_blank" rel="noopener">CHANNEL LOGIN ↗</a>
-<a class="login demo-link" href="#live-demo">LIVE TRANSCRIPTION DEMO ↓</a>
+<header class="sk-site-header"><div class="wrap nav">
+<a class="brand" href="#top" aria-label="Sanket home"><img src="sanket-mark.svg" alt=""><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a>
+<nav class="navlinks" id="navlinks" aria-label="Main navigation">
+<details class="nav-menu"><summary>Platform <span>⌄</span></summary><div class="nav-popover"><a href="radio/">PTT Radio <small>Push-to-talk channels</small></a><a href="transcribe/">Live Transcription <small>Speech-to-text and alerts</small></a><a href="aakashvani/">Control Room <small>Monitor and coordinate</small></a><a href="radios/">Radio Hub <small>Internet radio directory</small></a></div></details>
+<a href="#platform">Features</a><a href="#topology">Architecture</a><a href="#deployment">Solutions</a><a href="#pricing">Pricing</a>
+<details class="nav-menu"><summary>Explore <span>⌄</span></summary><div class="nav-popover"><a href="#products">Sanket Products <small>Explore the product family</small></a><a href="sanket-radios/">Free Public Radios <small>Try a public channel</small></a><a href="sanket-game/">Prisha Shopper <small>Voice shopping game</small></a><a href="#contact">Contact & Support <small>Talk to our team</small></a></div></details>
+<a class="login" href="radio/" data-link="ptt">Sign in</a>
+<a class="login demo-link" href="#live-demo">Try live demo <span>↗</span></a>
 </nav><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-<div class="yatra-tools" aria-label="Shortcuts"><a href="#pricing" aria-label="Offers"><svg viewBox="0 0 24 24"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2 7h20v5H2zM12 7v14M12 7c-1.5-3-5-3-5 0s3.5 0 5 0c1.5-3 5-3 5 0s-3.5 0-5 0"/></svg></a><a href="#contact" aria-label="Wallet"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm14 6h3"/></svg></a><a href="#contact" aria-label="Alerts"><svg viewBox="0 0 24 24"><path d="M6 16V10a6 6 0 1 1 12 0v6l1.5 2H4.5zM10 19a2 2 0 0 0 4 0"/></svg><i>1</i></a></div>
 </div></header>
 <main id="top">
 <section class="yatra-launch"><div class="wrap">
