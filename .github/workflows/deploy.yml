@@ -15,11 +15,13 @@ jobs:
     environment: {name: github-pages, url: "${{ steps.d.outputs.page_url }}"}
     steps:
       - uses: actions/checkout@v4
-      - name: Stage site (exclude top-level android/, APKs, build output)
+      - name: Stage the public website from website/
         run: |
           mkdir _site
-          rsync -a --exclude='.git*' --exclude='_site' --exclude='/android' --exclude='*.apk' --exclude='node_modules' --exclude='build' ./ _site/
+          rsync -a --delete --exclude='.git*' --exclude='node_modules' --exclude='build' website/ _site/
           touch _site/.nojekyll
+          test -f _site/index.html
+          test -f _site/CNAME
           du -sh _site
       - uses: actions/upload-pages-artifact@v3
       - id: d
