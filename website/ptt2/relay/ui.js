@@ -42,15 +42,13 @@ export function mountRelay(root, onChoose) {
   function options() {
     const items = signedIn
       ? rooms.map((r) => ({ value: "sanket:" + r.roomId, name: r.roomName || r.roomId }))
-      : freeMode
-        ? PUBLIC_CHANNELS.map((r) => ({ value: "public:" + r.id, name: r.name }))
-        : [];
+      : [{ value: "sanket:" + loadRoom(), name: loadRoom() }];
     const selected = currentValue();
     select.innerHTML = items.map((item) =>
-      '<option value="' + esc(item.value) + '"' + (item.value === selected ? " selected" : "") + ">" + esc(item.name) + "</option>"
+      '<option value="' + esc(item.value) + '"' + (item.value === selected || (!signedIn && item.value === "sanket:" + loadRoom()) ? " selected" : "") + ">" + esc(item.name) + "</option>"
     ).join("");
-    select.hidden = !items.length;
-    if (!signedIn && !freeMode) select.hidden = true;
+    select.hidden = false;
+    select.disabled = !signedIn;
   }
 
   function choose(value) {
