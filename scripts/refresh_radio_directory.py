@@ -64,16 +64,17 @@ def normalise_rb(row):
     except (TypeError, ValueError):
         lat, lon = None, None
     return {
-        "id": "rb-" + station_id, "name": name,
+        "id": "rb-" + station_id, "station_id": "rb-" + station_id, "name": name,
         "country": str(row.get("country") or "Unknown"),
         "countrycode": str(row.get("countrycode") or "").upper(),
         "region": str(row.get("state") or ""), "city": str(row.get("city") or ""),
-        "language": languages, "type": classify(tags, name), "tags": tags,
+        "language": languages, "languages": languages, "type": classify(tags, name), "categories": classify(tags, name), "tags": tags,
         "url": url, "homepage": str(row.get("homepage") or ""),
         "favicon": str(row.get("favicon") or ""), "codec": str(row.get("codec") or ""),
         "bitrate": int(row.get("bitrate") or 0), "geo_lat": lat, "geo_long": lon,
         "clickcount": int(row.get("clickcount") or 0), "votes": int(row.get("votes") or 0),
-        "source": "Radio Browser community directory", "verified": "directory-listed"
+        "source": "Radio Browser community directory", "verified": "directory-listed",
+        "directory_status": "listed", "last_checked": None
     }
 
 def normalise_air(row):
@@ -86,13 +87,15 @@ def normalise_air(row):
     tags = ["akashvani", "india", "public service"]
     return {
         "id": "air-" + str(row.get("epg_id") or hashlib.sha256(url.encode()).hexdigest()[:16]),
+        "station_id": "air-" + str(row.get("epg_id") or hashlib.sha256(url.encode()).hexdigest()[:16]),
         "name": name, "country": "India", "countrycode": "IN",
         "region": region, "city": str(row.get("city") or ""),
-        "language": langs, "type": classify(tags + langs, name), "tags": tags,
+        "language": langs, "languages": langs, "type": classify(tags + langs, name), "categories": classify(tags + langs, name), "tags": tags,
         "url": url, "homepage": "", "favicon": "",
         "codec": "HLS" if ".m3u8" in url.lower() else "",
         "bitrate": 0, "geo_lat": None, "geo_long": None,
-        "source": "Akashvani catalogue", "verified": "directory-listed"
+        "source": "Akashvani catalogue", "verified": "directory-listed",
+        "directory_status": "listed", "last_checked": None
     }
 
 def main():
@@ -140,9 +143,11 @@ def main():
     regions = sorted({x["region"] for x in items if x["region"]})
     genres = sorted({genre for x in items for genre in x["type"]})
     payload = {
-        "schema_version": 3, "generated_at": datetime.now(timezone.utc).isoformat(),
+        "schema_version": 4, "generated_at": datetime.now(timezone.utc).isoformat(),
         "directory_name": "Sanket Global Radio Directory",
-        "description": "Discovery index only. Stream availability and rebroadcast rights are not guaranteed.",
+        "description": "Canonical public station catalogue for all Sanket radio experiences. Discovery index only; stream availability and rebroadcast rights are not guaranteed.",
+        "api": {"json": "/data/radio-directory.json", "format": "application/json"},
+        "station_fields": ["station_id", "name", "country", "countrycode", "region", "city", "languages", "categories", "tags", "url", "homepage", "favicon", "codec", "bitrate", "geo_lat", "geo_long", "source", "directory_status", "last_checked"],
         "sources": sources, "station_count": len(items), "country_count": len(countries),
         "countries": countries, "languages": languages, "regions": regions, "genres": genres,
         "stations": items
