@@ -451,6 +451,16 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
  .brand .leds{font-size:9px!important;gap:4px!important}
  .brand .led i{width:11px!important;height:11px!important}
 }
+</style></style><style id="ptt2-single-power-control-v1">
+.ptt2-session-bar{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;min-height:38px!important;padding:3px 2px!important}
+#hd{display:none!important}
+#ptt2PowerOff{position:static!important;inset:auto!important;transform:none!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;width:auto!important;min-width:76px!important;height:36px!important;min-height:36px!important;padding:0 13px!important;border-radius:9px!important;border:1px solid #a9c9b5!important;background:#0b2b1c!important;color:#eafff0!important;box-shadow:0 2px 8px #0b2b1c22!important}
+#ptt2PowerOff[hidden]{display:none!important}
+#ptt2PowerOff .ptt2-power-symbol{display:none!important}
+#ptt2PowerOff .ptt2-power-led{width:8px!important;height:8px!important;flex:none!important}
+#ptt2PowerOff .ptt2-power-label{font:800 11px/1 system-ui!important;letter-spacing:1px!important}
+#ptt2PowerOff.is-on{border-color:#43e879!important}
+#ptt2PowerOff.is-off{border-color:#d95c5c!important;color:#ffdada!important}
 </style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -459,7 +469,7 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 </div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div><button id=ptt2Logout type=button onclick="window.ptt2Logout()">LOG OUT</button></div><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><button id=unlock type=button aria-pressed="false">🔊 TAP TO ENABLE AUDIO</button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div></div><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><button id=unlock type=button aria-pressed="false">🔊 TAP TO ENABLE AUDIO</button><div class=hint>Hold to talk · Desktop: hold Space</div>
 <div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -591,13 +601,6 @@ function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec
  else radio=new Radio(mqtt,{ch:spec.channel||CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:relayEvents});
  radio.browser=true;if(keep)radio.join(keep);render()}
 window.ptt2UseRelay=function(spec){start(spec)};
-window.ptt2Logout=function(){
- if(typeof window.ptt2StopRadio==="function")window.ptt2StopRadio();
- document.documentElement.classList.remove("sanket-listen-only");
- try{localStorage.removeItem("nm")}catch(e){}
- var n=document.getElementById("nm");if(n)n.value="";
- var l=document.getElementById("login"),m=document.getElementById("main");if(l)l.style.display="block";if(m)m.style.display="none";
-};
 window.ptt2StopRadio=function(){
  if(radio){radio.leave();radio=null}
  if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}
