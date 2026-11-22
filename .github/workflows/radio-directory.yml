@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - "scripts/refresh_radio_directory.py"
+      - "website/data/radio-directory.json"
+      - "website/data/radio-search-index.json"
       - ".github/workflows/radio-directory.yml"
   schedule:
     - cron: "30 2 * * *"
@@ -27,7 +29,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add website/data/radio-directory.json
+          git add -A website/data/
           git diff --cached --quiet || git commit -m "Refresh news and music radio directory"
           git pull --rebase origin main
           git push
