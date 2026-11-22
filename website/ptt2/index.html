@@ -330,7 +330,7 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 <div style="display:flex;gap:6px;margin-top:6px"><select id=sstvMode><option value=r36>Robot36 (~37 s)</option><option value=m1>Martin M1 (~115 s)</option><option value=s1>Scottie S1 (~111 s)</option><option value=pd120>PD120 640×496 (~127 s)</option></select><button id=sstvSend style="flex:1">📡 SEND IMAGE</button><button id=sstvCancel>✕</button></div><div id=sstvSt class=hint></div></div>
 <input type=file id=sstvFile accept="image/*" style="display:none"><button id=sstvBtn style="width:100%;margin-bottom:6px">📷 SSTV · send a picture</button>
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
-<div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
+<div class=panel><h3><span>LATEST MESSAGES</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
 <div id=net>connecting…</div></div>
 <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
 <script src="sstv.js"></script>
@@ -434,7 +434,7 @@ function meterLoop(){var v=granted?txLvl:(Date.now()-rxAt<300?rxLvl:0);txLvl*=.8
 var rec=new Recorder(RATE,renderLog),player=null,playingKey=null;
 setInterval(function(){rec.tick()},500);
 function fmtD(s){return s<60?s.toFixed(1)+'s':Math.floor(s/60)+'m'+('0'+Math.round(s%60)).slice(-2)+'s'}
-function renderLog(es){var latest=(es||[]).slice(-3).reverse();log.innerHTML=latest.length?latest.map(function(e){return '<li class="'+(e.mine?'mine':'')+'"><button data-k="'+e.key+'" class="'+(playingKey===e.key?'playing':'')+'">'+(playingKey===e.key?'■':'▶')+'</button><span class=cs>'+esc(e.name)+(e.mine?' (you)':'')+(e.loc?'<span class=lg>📍 '+esc(locTxt(e.loc))+'</span>':'')+'</span><span class=tm>'+new Date(e.t0).toLocaleTimeString()+'</span><span class=du>'+fmtD(e.dur)+'</span></li>'}).join(''):'<li class=hint>No recent messages</li>'}
+function renderLog(es){var latest=(es||[]).slice(0,3);log.innerHTML=latest.length?latest.map(function(e){return '<li class="'+(e.mine?'mine':'')+'"><button data-k="'+e.key+'" class="'+(playingKey===e.key?'playing':'')+'">'+(playingKey===e.key?'■':'▶')+'</button><span class=cs>'+esc(e.name)+(e.mine?' (you)':'')+(e.loc?'<span class=lg>📍 '+esc(locTxt(e.loc))+'</span>':'')+'</span><span class=tm>'+new Date(e.t0).toLocaleTimeString()+'</span><span class=du>'+fmtD(e.dur)+'</span></li>'}).join(''):'<li class=hint>No recent messages</li>'}
 log.onclick=function(ev){var b=ev.target.closest('button');if(!b)return;var k=+b.dataset.k,e=rec.entries.filter(function(x){return x.key===k})[0];
  if(player){player.pause();URL.revokeObjectURL(player.src);player=null;var was=playingKey;playingKey=null;renderLog(rec.entries);if(was===k)return}
  if(!e)return;player=new Audio(URL.createObjectURL(new Blob([e.wav],{type:'audio/wav'})));playingKey=k;
@@ -454,7 +454,7 @@ function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec
  radio.browser=true;if(keep)radio.join(keep);render()}
 window.ptt2UseRelay=function(spec){start(spec)};
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
-window.ptt2RelayAuthenticated=function(username){if(!username)return;nm.value=username;go.click()};
+window.ptt2RelayAuthenticated=function(username){if(!username)return;if(main.style.display==="block"){hd.textContent=username;return}nm.value=username;go.click()};
 go.onclick=async function(){
  if(!radio)return alert('The channel is still starting. Try again in a moment.');
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
