@@ -94,3 +94,6 @@ All of these radios publish on MQTT prefix `ptt-radio-66ab9178/` plus the channe
 Channel ids: `virtual`, `master`, `city-control`, `kolkata-control`, `sanket-website-demo`, `dev`, `boondock`.
 
 `sanitizeChannel()` keeps letters, numbers, and hyphens, and stops at 40 characters. Build a channel with `channelUrl(id)` or `embedUrl(id)`. Do not write a character class in a page.
+
+
+The Hostinger link guard intentionally exempts `website/data/radio-directory.json`: it contains third-party station homepage and favicon metadata, which may legitimately be hosted on public GitHub Pages or raw file hosts. This exception does not apply to first-party application HTML, JavaScript, CSS, or PTT link definitions.
