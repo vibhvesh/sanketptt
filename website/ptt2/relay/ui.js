@@ -95,7 +95,13 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
         error.hidden = false;
       }
     } catch (e) {
-      error.textContent = e && e.status === 401 ? "Sign-in failed" : SANKET_UNREACHABLE;
+      const message = e && e.message ? e.message : String(e || "Unknown connection error");
+      const blocked = e && e.blocked || /failed to fetch|cors|access-control/i.test(message);
+      error.textContent = e && e.status === 401
+        ? "Sign-in failed. Check your username and password."
+        : blocked
+          ? "Browser blocked the relay request (CORS or network policy). Check relay.canberravision.com CORS allow-list for https://sanketptt.com."
+          : "Relay connection failed: " + message;
       error.hidden = false;
       signedIn = false;
     }
