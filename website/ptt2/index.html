@@ -581,12 +581,12 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 #ptt2ChannelBar .ptt2-frequency-row{display:flex!important;align-items:center!important;gap:9px!important;width:100%!important;padding:5px 8px!important;min-height:44px!important;background:#0b2416!important;border:1px solid #39764d!important;border-radius:10px!important}
 #ptt2ChannelBar .ptt2-frequency-label{font-size:10px!important;white-space:nowrap!important}
 #ptt2Frequency{display:block!important;visibility:visible!important;flex:1!important;width:100%!important;min-height:38px!important;font-size:14px!important}
-#ptt2ChannelChips,.ptt2-chip,#ptt2Auth{display:none!important}
+#ptt2ChannelChips,.ptt2-chip{display:none!important}
 .ptt2-quick-actions{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:8px!important;margin:6px 0!important}
 .ptt2-quick-actions button{min-height:34px!important;padding:6px 11px!important;border-radius:999px!important;font:700 11px system-ui!important}
 #ptt2SettingsToggle{background:#123c2e!important;border:1px solid #4a8064!important;color:#e4ffed!important}
 #ptt2PowerOff{background:#26343d!important;border:1px solid #73828a!important;color:#fff!important}
-#main{display:flex!important;flex-direction:column!important;gap:8px!important}
+#main{gap:8px!important}
 #main>.ptt2-session-bar{display:none!important}
 #ptt{order:1!important;width:min(68vw,300px)!important;height:min(68vw,300px)!important;margin:16px auto 8px!important}
 #unlock{order:2!important;display:block!important;width:auto!important;min-width:108px!important;min-height:36px!important;margin:0 auto 8px!important;padding:8px 14px!important;border-radius:999px!important;background:#173c5a!important;color:#fff!important;font:700 11px system-ui!important}
@@ -875,4 +875,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot.js?v=20261122-9"></script></body></html>
+</script><script type="module" src="boot.js?v=20261122-10"></script></body></html>
