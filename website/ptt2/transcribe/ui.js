@@ -114,86 +114,47 @@ export function watchRecorder(recorder, renderLog) {
 
 export function mountSettings(root) {
   const config = loadConfig();
+  root.hidden = true;
   root.innerHTML = `
-    <h3>TRANSCRIPTION</h3>
-    <label for="ptt2Mode">Mode</label>
-    <select id="ptt2Mode">
-      <option value="auto">Auto</option>
-      <option value="local">Local</option>
-      <option value="server">Server</option>
-    </select>
-    <p class="ptt2-hint">Auto uses Sanket Transcribe when it answers. Line default keeps that channel's language and model.</p>
+    <div class="ptt2-settings-head"><h3>RADIO SETTINGS &amp; DIAGNOSTICS</h3><button type="button" id="ptt2SettingsClose" aria-label="Close settings">×</button></div>
+    <label for="ptt2Mode">Transcription engine</label>
+    <select id="ptt2Mode"><option value="auto">Auto · server first, local fallback</option><option value="server">Server only</option><option value="local">Local only</option></select>
     <label for="ptt2ServerChoice">Server</label>
-    <select id="ptt2ServerChoice">
-      <option value="sanket">Sanket Transcribe (stlu-001)</option>
-      <option value="custom">Custom URL…</option>
-    </select>
+    <select id="ptt2ServerChoice"><option value="sanket">Sanket Transcribe (default)</option><option value="custom">Custom URL…</option></select>
     <label for="ptt2Server" id="ptt2ServerLabel" hidden>Custom URL</label>
     <input id="ptt2Server" type="url" placeholder="https://…" autocomplete="off" hidden>
-    <label for="ptt2Language">Language</label>
-    <select id="ptt2Language">
-      <option value="auto">Line default</option>
-      <option value="gu">Gujarati</option>
-      <option value="hi">Hindi</option>
-      <option value="en">English</option>
-    </select>
-    <div class="row"><label><input id="ptt2Translate" type="checkbox"> Translate to English</label></div>
-    <p id="ptt2Status"></p>
+    <label for="ptt2Language">Speech language</label>
+    <select id="ptt2Language"><option value="auto">Auto detect / channel default</option><option value="en">English</option><option value="hi">Hindi</option><option value="gu">Gujarati</option><option value="mr">Marathi</option><option value="bn">Bengali</option><option value="pa">Punjabi</option><option value="ta">Tamil</option><option value="te">Telugu</option><option value="ur">Urdu</option><option value="zh">Chinese</option><option value="ru">Russian</option></select>
+    <div class="ptt2-setting-check"><input id="ptt2Translate" type="checkbox"><label for="ptt2Translate">Translate transcription</label></div>
+    <label for="ptt2TargetLanguage">Destination language (local translation)</label>
+    <select id="ptt2TargetLanguage"><option value="en">English</option><option value="hi">Hindi</option><option value="gu">Gujarati</option><option value="mr">Marathi</option><option value="bn">Bengali</option><option value="pa">Punjabi</option><option value="ta">Tamil</option><option value="te">Telugu</option><option value="ur">Urdu</option><option value="zh">Chinese</option><option value="ru">Russian</option></select>
+    <p class="ptt2-hint">Local translation downloads a multilingual model on first use and caches it in this browser. The first download can be large.</p>
+    <div class="ptt2-report"><b>STARTUP CHECK / REPORT</b><p id="ptt2Status">Checking server and local capability…</p><button type="button" id="ptt2RunCheck">Run check again</button></div>
   `;
-  const mode = root.querySelector("#ptt2Mode");
-  const choice = root.querySelector("#ptt2ServerChoice");
-  const serverLabel = root.querySelector("#ptt2ServerLabel");
-  const server = root.querySelector("#ptt2Server");
-  const language = root.querySelector("#ptt2Language");
-  const translate = root.querySelector("#ptt2Translate");
-  const status = root.querySelector("#ptt2Status");
-  mode.value = config.mode;
-  choice.value = config.serverChoice === SERVER_CUSTOM ? SERVER_CUSTOM : SERVER_SANKET;
-  server.value = config.serverChoice === SERVER_CUSTOM ? config.serverUrl : "";
-  language.value = ["en", "hi", "gu", "auto"].includes(config.language) ? config.language : "auto";
-  translate.checked = config.translate;
-
-  function showCustom() {
-    const custom = choice.value === SERVER_CUSTOM;
-    server.hidden = !custom;
-    serverLabel.hidden = !custom;
+  const $ = (selector) => root.querySelector(selector);
+  const mode=$("#ptt2Mode"), choice=$("#ptt2ServerChoice"), serverLabel=$("#ptt2ServerLabel"), server=$("#ptt2Server");
+  const language=$("#ptt2Language"), translate=$("#ptt2Translate"), target=$("#ptt2TargetLanguage"), status=$("#ptt2Status");
+  mode.value=config.mode; choice.value=config.serverChoice===SERVER_CUSTOM?SERVER_CUSTOM:SERVER_SANKET;
+  server.value=config.serverChoice===SERVER_CUSTOM?config.serverUrl:"";
+  language.value=config.language||"auto"; translate.checked=!!config.translate; target.value=config.targetLanguage||"hi";
+  $("#ptt2SettingsClose").addEventListener("click",()=>{root.hidden=true;const b=document.getElementById("ptt2SettingsToggle");if(b)b.setAttribute("aria-expanded","false")});
+  function showCustom(){const custom=choice.value===SERVER_CUSTOM;server.hidden=!custom;serverLabel.hidden=!custom}
+  async function refreshStatus(){
+    status.textContent="Checking server and local Whisper…";
+    const current=loadConfig(),device=localCapability();
+    let serverText=current.serverUrl?"Server check pending":"Server URL not configured";
+    if(current.rejectedServer)serverText="Invalid server URL (HTTPS required)";
+    else if(current.serverUrl){const health=await serverHealthy(current.serverUrl);serverText=health.ok?"Sanket server: ONLINE":"Sanket server: NOT AVAILABLE — "+health.reason}
+    const localText=device.ok?"Local Whisper: available ("+(device.webgpu?"WebGPU":"WASM")+")":"Local Whisper: unavailable";
+    status.textContent=serverText+"\n"+localText+"\nDefault: "+(current.mode==="auto"?"server first, local fallback":current.mode==="server"?"server only":"local only")+"\nDestination: "+current.targetLanguage+" (local model; server may ignore destination language).";
   }
-
-  async function refreshStatus() {
-    const current = loadConfig();
-    const device = localCapability();
-    let serverText = "Server not set.";
-    if (current.rejectedServer) serverText = "Custom URL must start with https.";
-    else if (current.serverUrl) {
-      const health = await serverHealthy(current.serverUrl);
-      serverText = health.ok ? "Sanket Transcribe server responded." : health.reason;
-    }
-    status.textContent = serverText + (device.ok ? " Local Whisper can run here" + (device.webgpu ? " (WebGPU)." : " (WASM).") : " This browser cannot run local Whisper.");
-  }
-
-  function persist() {
-    showCustom();
-    const custom = choice.value === SERVER_CUSTOM;
-    const typed = server.value.trim();
-    if (custom && typed && !isAllowedServer(typed)) {
-      status.textContent = "Custom URL must start with https. It was not saved.";
-      return;
-    }
-    saveConfig({
-      mode: mode.value,
-      serverChoice: custom ? SERVER_CUSTOM : SERVER_SANKET,
-      serverUrl: custom ? typed : SANKET_TRANSCRIBE_SERVER,
-      language: language.value,
-      translate: translate.checked,
-    });
+  function persist(){
+    showCustom();const custom=choice.value===SERVER_CUSTOM,typed=server.value.trim();
+    if(custom&&typed&&!isAllowedServer(typed)){status.textContent="Custom URL must start with HTTPS. Not saved.";return}
+    saveConfig({mode:mode.value,serverChoice:custom?SERVER_CUSTOM:SERVER_SANKET,serverUrl:custom?typed:SANKET_TRANSCRIBE_SERVER,language:language.value,translate:translate.checked,targetLanguage:target.value});
     refreshStatus();
   }
-
-  showCustom();
-  mode.addEventListener("change", persist);
-  choice.addEventListener("change", persist);
-  server.addEventListener("change", persist);
-  language.addEventListener("change", persist);
-  translate.addEventListener("change", persist);
-  refreshStatus();
+  [mode,choice,server,language,translate,target].forEach(el=>el.addEventListener("change",persist));
+  $("#ptt2RunCheck").addEventListener("click",refreshStatus);
+  showCustom();refreshStatus();
 }
