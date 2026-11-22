@@ -249,6 +249,10 @@ body{padding:8px!important;background:radial-gradient(ellipse at 50% 0%,#183d2b 
 .ptt2-frequency-label{flex:none;color:#8bffa9;font:700 10px/1 system-ui;letter-spacing:1.4px}
 #ptt2Frequency{flex:1;min-width:0;min-height:40px!important;padding:7px 34px 7px 10px!important;border:1px solid #49df72!important;border-radius:8px!important;background-color:#0b2416!important;color:#dffff0!important;font:600 15px/1.2 system-ui!important;box-shadow:0 0 12px #39ff6833!important}
 #ptt2Frequency[hidden]{display:none!important}
+/* Keep Android's native channel menu compact and readable. */
+#ptt2Frequency, #ptt2Frequency option{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important;font-size:14px!important;line-height:1.25!important;font-weight:500!important}
+#ptt2Frequency option{padding:8px 10px!important;background:#0b2416!important;color:#dffff0!important}
+@media(max-width:600px){#ptt2Frequency{font-size:14px!important;min-height:38px!important}#ptt2Frequency option{font-size:14px!important}}
 #ptt2Auth{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0 0!important}
 #ptt2Auth input{min-width:0;min-height:40px!important;margin:0!important;padding:8px!important;font:14px system-ui!important}
 #ptt2SignIn{grid-column:1/-1;min-height:40px!important;margin:0!important}
