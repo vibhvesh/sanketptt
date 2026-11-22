@@ -314,6 +314,21 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #log .ptt2-badge.wait{color:#ffd66e!important}
 #log .ptt2-note{display:block!important;color:#ffb4a8!important}
 @media(max-width:560px){.rig{padding:12px 11px 10px!important}#ptt{width:min(58vw,205px)!important;height:min(58vw,205px)!important;margin-top:clamp(14px,4vh,32px)!important}#log{max-height:160px!important}}
+</style><style id="ptt2-power-switch-v1">
+#ptt2ChannelBar{position:static!important;display:flex!important;flex-direction:column!important;gap:10px!important;margin:0 0 10px!important;padding:0!important;border:0!important;background:transparent!important}
+#ptt2Frequency{width:100%!important}
+#ptt2PowerOff{position:fixed!important;z-index:1000!important;left:50%!important;bottom:calc(env(safe-area-inset-bottom,0px) + 18px)!important;transform:translateX(-50%)!important;width:86px!important;height:86px!important;border-radius:50%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:1px!important;padding:8px!important;border:2px solid #60736a!important;background:radial-gradient(circle at 35% 25%,#33433a,#101b15 70%)!important;color:#d8e6dc!important;box-shadow:0 5px 18px #0007,inset 0 2px 5px #ffffff22!important}
+#ptt2PowerOff[hidden]{display:none!important}
+#ptt2PowerOff .ptt2-power-led{width:11px;height:11px;border-radius:50%;background:#64736a;box-shadow:inset 0 1px 3px #000}
+#ptt2PowerOff .ptt2-power-symbol{font:30px/1 system-ui!important}
+#ptt2PowerOff .ptt2-power-label{font:800 9px/1 system-ui!important;letter-spacing:1.4px}
+#ptt2PowerOff.is-on{border-color:#42f477!important;color:#dffff0!important;box-shadow:0 0 0 2px #42f47755,0 0 24px #42f47755,inset 0 2px 5px #ffffff22!important}
+#ptt2PowerOff.is-on .ptt2-power-led{background:#46ff78;box-shadow:0 0 7px #46ff78,0 0 16px #46ff78;animation:ptt2PowerBlink 1.15s steps(2,end) infinite}
+#ptt2PowerOff.is-off{border-color:#65716a!important;color:#aebbb2!important}
+#ptt2PowerOff.is-off .ptt2-power-led{background:#e24a4a;box-shadow:0 0 5px #e24a4a}
+@keyframes ptt2PowerBlink{50%{opacity:.22;box-shadow:none}}
+#main>.panel:has(#log){padding-bottom:100px!important}
+@media(min-width:600px){#ptt2PowerOff{bottom:24px!important}}
 </style></head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET</h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -453,6 +468,14 @@ function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec
  else radio=new Radio(mqtt,{ch:spec.channel||CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:relayEvents});
  radio.browser=true;if(keep)radio.join(keep);render()}
 window.ptt2UseRelay=function(spec){start(spec)};
+window.ptt2StopRadio=function(){
+ if(radio){radio.leave();radio=null}
+ if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}
+ if(proc){try{proc.disconnect()}catch(e){}proc=null}
+ granted=false;holding=false;
+ try{if(ac&&ac.state!=='closed')ac.close()}catch(e){}ac=null;
+ main.style.display='none';login.style.display='block';
+};
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
 window.ptt2RelayAuthenticated=function(username){if(!username)return;if(main.style.display==="block"){hd.textContent=username;return}nm.value=username;go.click()};
 go.onclick=async function(){
