@@ -214,3 +214,6 @@ def main():
         output.write("\n")
     print("Published manifest for", len(items), "stations across", len(countries),
           "countries; search index:", os.path.getsize(search_path), "bytes")
+
+if __name__ == "__main__":
+    main()
