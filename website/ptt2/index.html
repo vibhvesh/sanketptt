@@ -37,7 +37,7 @@ button{font-family:Orbitron,sans-serif;cursor:pointer;border:0;border-radius:10p
  background:radial-gradient(circle at 35% 30%,#7dffb5,#16c060 45%,#076b33);border:6px solid #222;box-shadow:0 0 0 4px #555,0 0 30px #39ff88aa,inset 0 -8px 16px #0006;text-shadow:0 1px 3px #0008;transition:transform .08s}
 #ptt.on{background:radial-gradient(circle at 35% 30%,#ff9a9a,#ff2020 45%,#8a0000);box-shadow:0 0 0 4px #555,0 0 50px #ff2020,inset 0 -8px 16px #0006;transform:scale(.96)}
 #ptt.busy{background:radial-gradient(circle at 35% 30%,#ffe39a,#ffae00 45%,#8a5a00);box-shadow:0 0 0 4px #555,0 0 40px #ffae00,inset 0 -8px 16px #0006}
-#ptt.wait{filter:brightness(1.2)}
+#ptt.wait{filter:brightness(1.2)}#ptt .ptt-logo{display:block;width:76%;height:76%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 2px 2px #003b1c55)}#ptt.on .ptt-logo{filter:drop-shadow(0 2px 3px #65000066)}#ptt.busy .ptt-logo{filter:drop-shadow(0 2px 3px #5b3a0066)}#ptt:focus-visible{outline:3px solid #f4a340;outline-offset:5px}
 .hint{text-align:center;color:#d5dee6;font-size:11px}
 #unlock{display:none;width:100%;padding:12px;margin-top:8px;background:linear-gradient(135deg,#ffb800,#ff7a18);color:#111}
 #main{display:none}
@@ -243,7 +243,7 @@ html.ptt-embed #main .hint{display:none!important}
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""></button><div class=hint>Hold to talk · Desktop: hold Space</div>
 <div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -253,72 +253,16 @@ html.ptt-embed #main .hint{display:none!important}
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
 <div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
 <div id=net>connecting…</div></div>
-<script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
+
 <script src="sstv.js"></script>
 <script id=core>
 // ---- protocol core (also used by headless tests) ----
-var PTT_PREFIX='ptt-radio-66ab9178/',CHANNEL='virtual';
 var SANKET_LISTEN_ONLY=new URLSearchParams(location.search).get('listen')==='1';
 var SANKET_DEVICE_NAME=(new URLSearchParams(location.search).get('name')||'').replace(/[^A-Za-z0-9._:-]/g,'').slice(0,40);
-var BROKERS=['wss://public:public@public.cloud.shiftr.io','wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081'];
-var HB_MS=5000,EXPIRE_MS=15000,FLOOR_TIMEOUT_MS=2500,CLAIM_GRACE_MS=700;
-function fmtCS(v){v=(v||'').trim();return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\/]+$/.test(v)?v.toUpperCase():v}
-function Radio(mqttLib,opts){var R=this;R.mqtt=mqttLib;R.ch=opts.ch||CHANNEL;
- R.id=Math.random().toString(36).slice(2,10);R.name=null;R.users={};R.floor=null;R.cb=opts.on||function(){};R.bi=0;R.brokers=opts.brokers||BROKERS;R.username=opts.username||'';R.password=opts.password||'';R.exclusive=!!opts.exclusive;R.relayId=opts.relayId||'public';R.connect();}
-Radio.prototype.T=function(s){return PTT_PREFIX+this.ch+'/'+s};
-Radio.prototype.connect=function(){var R=this;if(!R.brokers.length){R.cb('net','unreachable');return;}
- var url=R.brokers[R.bi%R.brokers.length],ok=false;
- var link={clientId:'ptt_'+R.id+'_'+Date.now()%1e6,clean:true,keepalive:20,reconnectPeriod:0,connectTimeout:8000,
-  will:{topic:R.T('presence/'+R.id),payload:'',retain:true,qos:0}};
- if(R.username){link.username=R.username;link.password=R.password;}
- var c=R.c=R.mqtt.connect(url,link);
- c.on('connect',function(){ok=true;R.url=url;c.subscribe([R.T('presence/+'),R.T('floor'),R.T('audio'),R.T('sstv')]);if(R.name)R.beat();R.cb('net',url)});
- c.on('message',function(t,p){R.onMsg(t,p)});
- c.on('error',function(){if(R.exclusive)R.cb('net','unreachable')});
- c.on('close',function(){if(R.closed)return;R.cb('net',R.exclusive?'unreachable':'disconnected');if(!ok&&!R.exclusive)R.bi++;setTimeout(function(){c.end(true);R.connect()},ok?1500:300)});
- if(!R.timer)R.timer=setInterval(function(){R.tick()},1000);};
-Radio.prototype.join=function(name){this.name=String(name).slice(0,40);this.beat();};
-Radio.prototype.beat=function(){var R=this;if(!R.name||!R.c||!R.c.connected)return;R.lastBeat=Date.now();
- var m={id:R.id,name:R.name,ts:Date.now()};if(R.loc)m.loc=R.loc;R.c.publish(R.T('presence/'+R.id),JSON.stringify(m),{retain:true});};
-// location: {lat,lon,acc(m),src:'gps'|'ip',city}; null = not sharing
 function cleanLoc(l){if(!l||typeof l!=='object')return null;var la=+l.lat,lo=+l.lon;if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return null;
  return {lat:Math.round(la*1e5)/1e5,lon:Math.round(lo*1e5)/1e5,acc:isFinite(+l.acc)?Math.round(+l.acc):null,src:l.src==='gps'?'gps':'ip',city:l.city?String(l.city).slice(0,60):null}}
 function distKm(a,b){if(!a||!b)return null;var R=6371,d=Math.PI/180,x=(b.lat-a.lat)*d,y=(b.lon-a.lon)*d,h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a.lat*d)*Math.cos(b.lat*d)*Math.sin(y/2)*Math.sin(y/2);return 2*R*Math.asin(Math.sqrt(h))}
-Radio.prototype.setLoc=function(l){this.loc=cleanLoc(l);if(this.users[this.id])this.users[this.id].loc=this.loc;this.beat();this.emit()};
-Radio.prototype.leave=function(){var R=this;R.release();if(R.c&&R.c.connected)R.c.publish(R.T('presence/'+R.id),'',{retain:true});R.closed=true;clearInterval(R.timer);var c=R.c;if(c)setTimeout(function(){c.end()},200)};
-Radio.prototype.tick=function(){var R=this,now=Date.now(),ch=false;
- if(R.name&&(!R.lastBeat||now-R.lastBeat>=HB_MS))R.beat();
- for(var k in R.users)if(now-R.users[k].seen>EXPIRE_MS){delete R.users[k];ch=true}
- if(R.floor&&now-R.floor.seen>FLOOR_TIMEOUT_MS){R.floor=null;ch=true}
- if(R.floor&&R.floor.id===R.id&&R.talking)R.c.publish(R.T('floor'),JSON.stringify({t:'hb',id:R.id,name:R.name,ts:R.floor.ts}));
- if(ch)R.emit()};
-Radio.prototype.list=function(){var a=[];for(var k in this.users)a.push(this.users[k]);return a.sort(function(x,y){return x.name<y.name?-1:1})};
-Radio.prototype.emit=function(){this.cb('state',{users:this.list(),floor:this.floor,me:this.id})};
-function beats(a,b){return a.ts<b.ts||(a.ts===b.ts&&(a.name+a.id)<(b.name+b.id))} // earliest ts, then name/id
-Radio.prototype.onMsg=function(t,p){var R=this,now=Date.now(),s=t.slice(PTT_PREFIX.length+R.ch.length+1);
- if(s.indexOf('presence/')===0){var id=s.slice(9);if(!p.length){delete R.users[id];if(R.floor&&R.floor.id===id)R.floor=null}
-  else{try{var m=JSON.parse(p.toString());if(now-m.ts<EXPIRE_MS*4)R.users[id]={id:id,name:String(m.name).slice(0,40),seen:now,loc:cleanLoc(m.loc)}}catch(e){}}R.emit();return}
- if(s==='floor'){var m;try{m=JSON.parse(p.toString())}catch(e){return}
-  if(m.t==='claim'||m.t==='hb'){var f=R.floor;
-   // accept if free, same holder, or racing claim that beats current one within grace window
-   if(!f||f.id===m.id||(m.t==='claim'&&now-f.got<CLAIM_GRACE_MS*3&&beats(m,f))){R.floor={id:m.id,name:m.name,ts:m.ts,seen:now,got:f&&f.id===m.id?f.got:now};}
-   else if(m.t==='hb'&&f&&f.id!==m.id&&beats(m,f)){R.floor={id:m.id,name:m.name,ts:m.ts,seen:now,got:now}}
-   if(R.users[m.id])R.users[m.id].seen=now;}
-  else if(m.t==='release'&&R.floor&&R.floor.id===m.id)R.floor=null;
-  R.emit();return}
- if(s==='sstv'){try{var q=JSON.parse(p.toString());if(q&&q.id!==R.id)R.cb('sstv',q)}catch(e){}return}
- if(s==='audio'){var b=p instanceof Uint8Array?p:new Uint8Array(p),n=b[0],id='';for(var i=1;i<=n;i++)id+=String.fromCharCode(b[i]);
-  if(R.floor&&R.floor.id===id&&id!==R.id){R.floor.seen=now;var pcm=Uint8Array.prototype.slice.call(b,1+n);R.cb('audio',new Int16Array(pcm.buffer,pcm.byteOffset,pcm.length>>1))}}};
-// claim floor; resolves true if we hold it after the race grace period
-Radio.prototype.claim=function(done){var R=this;if(!R.c||!R.c.connected||(R.floor&&R.floor.id!==R.id))return done(false);R.talking=true;var ts=Date.now();
- R.floor={id:R.id,name:R.name,ts:ts,seen:Date.now(),got:Date.now()};R.c.publish(R.T('floor'),JSON.stringify({t:'claim',id:R.id,name:R.name,ts:ts}));R.emit();
- setTimeout(function(){var ok=R.talking&&R.floor&&R.floor.id===R.id;if(!ok)R.talking=false;done(ok)},CLAIM_GRACE_MS)};
-Radio.prototype.sendSstv=function(m){m.id=this.id;m.name=this.name;m.ts=Date.now();if(this.c.connected)this.c.publish(this.T('sstv'),JSON.stringify(m));};
-Radio.prototype.release=function(){var R=this;R.talking=false;if(R.floor&&R.floor.id===R.id){R.floor=null;R.c.publish(R.T('floor'),JSON.stringify({t:'release',id:R.id}));R.emit()}};
-Radio.prototype.sendAudio=function(i16){var R=this;if(!R.talking||!R.floor||R.floor.id!==R.id||!R.c.connected)return false;
- var n=R.id.length,b=new Uint8Array(1+n+i16.byteLength);b[0]=n;for(var i=0;i<n;i++)b[1+i]=R.id.charCodeAt(i);
- b.set(new Uint8Array(i16.buffer,i16.byteOffset,i16.byteLength),1+n);R.c.publish(R.T('audio'),typeof Buffer!=='undefined'&&!this.browser?Buffer.from(b):b);return true};
-if(typeof module!=='undefined')module.exports={Radio:Radio,distKm:distKm,cleanLoc:cleanLoc};
+if(typeof module!=='undefined')module.exports={distKm:distKm,cleanLoc:cleanLoc};
 </script>
 <script id=rec>
 // ---- session recorder + WAV builder (also used by tests) ----
@@ -363,18 +307,18 @@ log.onclick=function(ev){var b=ev.target.closest('button');if(!b)return;var k=+b
 clr.onclick=function(){if(player){player.pause();player=null;playingKey=null}rec.clear()};
 function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.textContent=radio.ch.toUpperCase();
  us.innerHTML=st0.users.map(function(u){var t=f&&f.id===u.id;return '<li class="'+(t?'tk':u.id===radio.id?'me':'')+'">'+(t?'🎙 ':'')+esc(u.name)+(u.id===radio.id?' ·YOU':'')+pinTxt(u)+'</li>'}).join('')||'<li class=none>No stations</li>';
- var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.textContent=granted?'ON AIR':busy?'BUSY':holding?'…':'PTT';
+ var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.setAttribute('aria-label',granted?'On air — transmitting':busy?'Channel busy':holding?'Requesting transmit':'Push to talk');
  st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
 function relayEvents(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.requestEnd()}render()}
  else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);play(v)}}else if(k==='net')net.textContent=window.ptt2OnRelayNet?window.ptt2OnRelayNet(v,radio.relayId,radio.ch):('Joined '+(radio.ch||''))}
-function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec||{};
- if(spec.channel)CHANNEL=String(spec.channel).replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL;
- if(spec.id==='sanket'&&window.ptt2OpenSanket)radio=window.ptt2OpenSanket({roomId:spec.roomId,account:spec.account,on:relayEvents});
- else radio=new Radio(mqtt,{ch:spec.channel||CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:relayEvents});
- radio.browser=true;if(keep)radio.join(keep);render()}
+function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();radio=null;
+ if(!spec||spec.id!=='sanket'||!window.ptt2OpenSanket){net.textContent='Sign in to Sanket Relay.';return;}
+ radio=window.ptt2OpenSanket({roomId:spec.roomId,account:spec.account,on:relayEvents});
+ radio.browser=true;if(keep)radio.join(keep);render();
+ var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',spec.roomId||'')}
 window.ptt2UseRelay=function(spec){start(spec)};
-(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
+window.ptt2StopRelay=function(){if(radio){radio.leave();radio=null;}net.textContent='Signed out of Sanket Relay.';};
 go.onclick=async function(){
  if(!radio)return alert('The channel is still starting. Try again in a moment.');
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
