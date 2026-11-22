@@ -19,6 +19,8 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
       - name: Install Android build tools
         run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
       - name: Create one-time APK signing key
