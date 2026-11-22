@@ -572,7 +572,7 @@ go.onclick=async function(){
   return; // Never request a microphone or enter any transmit path.
  }
  startLoc();
- if(ac){setInterval(function(){unlock.style.display=ac&&ac.state==='running'?'none':'block'},1000)}
+ unlock.style.display='block';
  try{
   stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});
   if(stream&&ac){
