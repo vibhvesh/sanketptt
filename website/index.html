@@ -28,12 +28,20 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 <link rel="stylesheet" href="assets/yatra.css">
+<style>
+.radio-flash{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px;padding:13px 16px;border:1px solid #f47721;border-radius:12px;background:linear-gradient(105deg,#102c46,#183e50 55%,#402719);color:#fff;box-shadow:0 8px 26px #f4772122;position:relative;overflow:hidden}
+.radio-flash:before{content:"";position:absolute;inset:0 auto 0 -35%;width:28%;background:linear-gradient(90deg,transparent,#ffffff24,transparent);transform:skewX(-20deg);animation:radioSweep 3.2s ease-in-out infinite}
+.radio-flash-copy{position:relative;z-index:1;min-width:0}.radio-flash-kicker{display:block;color:#ffb36e;font-size:8px;font-weight:950;letter-spacing:1.7px}.radio-flash strong{display:block;font-size:15px;margin:2px 0}.radio-flash small{display:block;color:#c3d5df;font-size:10px}.radio-flash a{position:relative;z-index:1;flex:none;background:#f47721;color:#fff;border-radius:8px;padding:10px 13px;font-size:10px;font-weight:950;box-shadow:0 0 0 0 #f4772160;animation:radioPulse 2s infinite}
+@keyframes radioSweep{0%,20%{left:-35%}75%,100%{left:125%}}@keyframes radioPulse{0%,100%{box-shadow:0 0 0 0 #f4772160}50%{box-shadow:0 0 0 7px #f4772100}}
+@media(prefers-reduced-motion:reduce){.radio-flash:before,.radio-flash a{animation:none}}
+@media(max-width:520px){.radio-flash{align-items:flex-start;flex-direction:column;gap:9px}.radio-flash a{width:100%;text-align:center}}
+</style>
 </head>
 <body>
 <header><div class="wrap nav">
 <a class="brand" href="#top"><img src="sanket-mark.svg" alt=""><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a>
 <nav class="navlinks" id="navlinks">
-<a href="#platform">Platform</a><a href="#topology">Architecture</a><a href="#pricing">Pricing</a><a href="#products">Products</a><a href="radios/">Radios</a>
+<a href="#platform">Platform</a><a href="#topology">Architecture</a><a href="#pricing">Pricing</a><a href="#products">Products</a><a href="radios/">Radio Hub</a><a href="sanket-radios/">Free Radios</a>
 <a class="login" href="https://sanketptt.com/radio/" data-link="ptt" target="_blank" rel="noopener">CHANNEL LOGIN ↗</a>
 <a class="login demo-link" href="#live-demo">LIVE TRANSCRIPTION DEMO ↓</a>
 </nav><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
@@ -41,6 +49,7 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
 </div></header>
 <main id="top">
 <section class="yatra-launch"><div class="wrap">
+<div class="radio-flash"><div class="radio-flash-copy"><span class="radio-flash-kicker">● LIVE · FREE PUBLIC CHANNELS</span><strong>Talk instantly on Sanket Radios</strong><small>Pick a channel, share the link and press to talk. No account required for public channels.</small></div><a href="sanket-radios/">OPEN SANKET RADIOS ↗</a></div>
 <div class="yatra-card">
 <div class="yatra-tiles" id="yatraTiles">
 <a href="radios/"><em>Directory</em><span>◉</span><b>Radios</b></a>
