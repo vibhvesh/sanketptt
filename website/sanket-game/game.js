@@ -71,3 +71,46 @@ $("copyResult").onclick=async()=>{const ok=await copyText(Array.from(document.qu
 $("againBtn").onclick=()=>{hide("result");show("lobby")};
 $("historyBtn").onclick=()=>{const games=getHistory().filter(g=>g.player.toLowerCase()===player.toLowerCase());show("history");$("historyText").textContent=games.length?games.map((g,i)=>{const d=new Date(g.playedAt);return (i+1)+". "+d.toLocaleString()+" — "+(g.won?"WON":"LOST")+" — "+money(g.total)+"\n"+g.orders.map(o=>"   "+o.transcript+(o.accepted?" → "+o.item+" × "+o.quantity:" → Rejected")).join("\n")}).join("\n\n"):"No games saved in this tab's session yet."};
 $("closeHistory").onclick=()=>hide("history");
+
+/* Regional language support: Hindi and Gujarati */
+let GAME_LANGUAGE="en";
+const GAME_TEXT={
+hi:{ready:"खेलने के लिए तैयार?",name:"अपना नाम लिखें",join:"चलो खरीदारी करें!",aisles:["🍎 फल","🥕 सब्ज़ियाँ","🥛 दूध और बेकरी","🌾 अनाज और राशन","🍪 नाश्ता और पेय","🏍️ बाइक और कार"],subs:["ताज़े और रसीले फल","रोज़ की रंग-बिरंगी सब्ज़ियाँ","दूध, पनीर और नाश्ते की चीज़ें","रसोई का ज़रूरी राशन","बिस्कुट, चाय और स्वादिष्ट चीज़ें","आपकी पसंद की सवारी"],budget:"🛒 आपका खरीदारी बजट",hint:"सामान चुनें और अपनी टोकरी भरें!",intro:"अगली दुकान पर जाने के लिए बाएँ या दाएँ स्वाइप करें। सामान जोड़ने के लिए दबाएँ।",back:"← पीछे",next:"अगली दुकान →",add:"+ जोड़ें",more:"और जोड़ें",copy:"सूची कॉपी करें",finish:"मेरी टोकरी दिखाएँ! 🛒",voice:"बोले गए ऑर्डर:",total:"आपका कुल",readyText:"नमस्ते! मैं प्रिशा हूँ! 👋",buddy:"आपकी खरीदारी की दोस्त",hello:"आइए साथ में खरीदारी करें और अपनी टोकरी भरें!",count:"सामान आपकी टोकरी में",win:"आप बजट में रहे — आप जीत गए!",lose:"बजट से ज़्यादा खर्च — आप हार गए।",winTitle:"आप जीत गए!",loseTitle:"कोई बात नहीं! फिर कोशिश करें!",near:"बहुत करीब थे! शानदार खरीदारी!",great:"आपने बजट में खरीदारी की। बहुत खूब!",try:"आपकी टोकरी बजट से ऊपर हो गई। फिर कोशिश करें!"},
+gu:{ready:"રમવા માટે તૈયાર છો?",name:"તમારું નામ લખો",join:"ચાલો ખરીદી કરીએ!",aisles:["🍎 ફળ","🥕 શાકભાજી","🥛 દૂધ અને બેકરી","🌾 અનાજ અને કરિયાણું","🍪 નાસ્તો અને પીણાં","🏍️ બાઈક અને કાર"],subs:["તાજાં અને રસદાર ફળ","રોજિંદાં રંગબેરંગી શાકભાજી","દૂધ, ચીઝ અને નાસ્તાની વસ્તુઓ","રસોડાની જરૂરી વસ્તુઓ","બિસ્કિટ, ચા અને નાસ્તો","તમારી મનપસંદ સવારી"],budget:"🛒 તમારું ખરીદી બજેટ",hint:"વસ્તુઓ પસંદ કરો અને ટોપલી ભરો!",intro:"આગલી દુકાનમાં જવા ડાબે કે જમણે સ્વાઇપ કરો. વસ્તુ ઉમેરવા દબાવો.",back:"← પાછા",next:"આગલી દુકાન →",add:"+ ઉમેરો",more:"વધુ ઉમેરો",copy:"યાદી કોપી કરો",finish:"મારી ટોપલી જુઓ! 🛒",voice:"સાચવેલા વૉઇસ ઓર્ડર:",total:"તમારું કુલ",readyText:"નમસ્તે! હું પ્રિશા છું! 👋",buddy:"તમારી ખરીદીની મિત્ર",hello:"ચાલો સાથે ખરીદી કરીએ અને ટોપલી ભરીએ!",count:"વસ્તુઓ તમારી ટોપલીમાં",win:"તમે બજેટમાં રહ્યા — તમે જીતી ગયા!",lose:"બજેટ કરતાં વધુ ખર્ચ — તમે હારી ગયા.",winTitle:"તમે જીતી ગયા!",loseTitle:"કોઈ વાંધો નહીં! ફરી રમો!",near:"ખૂબ નજીક હતા! સરસ ખરીદી!",great:"તમે બજેટમાં ખરીદી કરી. શાબાશ!",try:"તમારી ટોપલી બજેટ કરતાં વધી ગઈ. ફરી પ્રયાસ કરો!"}
+};
+const GAME_PRODUCTS={
+hi:{apple:"सेब",banana:"केला",orange:"संतरा",mango:"आम",grapes:"अंगूर",tomato:"टमाटर",potato:"आलू",onion:"प्याज़",carrot:"गाजर",cucumber:"खीरा",milk:"ताज़ा दूध",curd:"दही",butter:"मक्खन",cheese:"चीज़ स्लाइस",bread:"ब्राउन ब्रेड",rice:"चावल",atta:"गेहूँ का आटा",oil:"खाना पकाने का तेल",sugar:"चीनी",dal:"तूर दाल",biscuits:"मैरी बिस्कुट",tea:"काली चाय",juice:"संतरे का जूस",chips:"आलू चिप्स",chocolate:"मिल्क चॉकलेट",bicycle:"बच्चों की साइकिल",scooter:"स्कूटर",motorbike:"मोटरसाइकिल",electricbike:"इलेक्ट्रिक बाइक",hatchback:"हैचबैक कार",suv:"एसयूवी कार"},
+gu:{apple:"સફરજન",banana:"કેળાં",orange:"સંતરું",mango:"કેરી",grapes:"દ્રાક્ષ",tomato:"ટામેટાં",potato:"બટાકા",onion:"ડુંગળી",carrot:"ગાજર",cucumber:"કાકડી",milk:"તાજું દૂધ",curd:"દહીં",butter:"માખણ",cheese:"ચીઝ સ્લાઇસ",bread:"બ્રાઉન બ્રેડ",rice:"ચોખા",atta:"ઘઉંનો લોટ",oil:"ખાદ્ય તેલ",sugar:"ખાંડ",dal:"તુવેર દાળ",biscuits:"મેરી બિસ્કિટ",tea:"કાળી ચા",juice:"નારંગીનો રસ",chips:"બટાકાની વેફર",chocolate:"મિલ્ક ચોકલેટ",bicycle:"બાળકોની સાઇકલ",scooter:"સ્કૂટર",motorbike:"મોટરસાઇકલ",electricbike:"ઇલેક્ટ્રિક બાઇક",hatchback:"હેચબેક કાર",suv:"એસયુવી કાર"}
+};
+const GAME_SPOKEN={
+hi:{apple:["सेब"],banana:["केला","केले"],orange:["संतरा"],mango:["आम"],grapes:["अंगूर"],tomato:["टमाटर"],potato:["आलू"],onion:["प्याज","प्याज़"],carrot:["गाजर"],cucumber:["खीरा"],milk:["दूध"],curd:["दही"],butter:["मक्खन"],cheese:["चीज"],bread:["ब्रेड"],rice:["चावल"],atta:["आटा"],oil:["तेल"],sugar:["चीनी"],dal:["दाल"],biscuits:["बिस्कुट"],tea:["चाय"],juice:["जूस"],chips:["चिप्स"],chocolate:["चॉकलेट"],bicycle:["साइकिल"],scooter:["स्कूटर"],motorbike:["मोटरसाइकिल","बाइक"],electricbike:["इलेक्ट्रिक बाइक"],hatchback:["कार"],suv:["एसयूवी","कार"]},
+gu:{apple:["સફરજન"],banana:["કેળા","કેળું"],orange:["સંતરું"],mango:["કેરી"],grapes:["દ્રાક્ષ"],tomato:["ટામેટાં"],potato:["બટાકા"],onion:["ડુંગળી"],carrot:["ગાજર"],cucumber:["કાકડી"],milk:["દૂધ"],curd:["દહીં"],butter:["માખણ"],cheese:["ચીઝ"],bread:["બ્રેડ"],rice:["ચોખા"],atta:["લોટ"],oil:["તેલ"],sugar:["ખાંડ"],dal:["દાળ"],biscuits:["બિસ્કિટ"],tea:["ચા"],juice:["જ્યુસ","રસ"],chips:["વેફર"],chocolate:["ચોકલેટ"],bicycle:["સાઇકલ"],scooter:["સ્કૂટર"],motorbike:["મોટરસાઇકલ","બાઇક"],electricbike:["ઇલેક્ટ્રિક બાઇક"],hatchback:["કાર"],suv:["એસયુવી","કાર"]}
+};
+function gameT(k){return (GAME_TEXT[GAME_LANGUAGE]||{})[k]||""}
+function gameItemName(id,english){return (GAME_PRODUCTS[GAME_LANGUAGE]||{})[id]||english}
+function applyGameLanguage(){
+ const d=GAME_TEXT[GAME_LANGUAGE]||{};
+ document.documentElement.lang=GAME_LANGUAGE;
+ $("readyTitle").textContent=GAME_LANGUAGE==="en"?"Ready to play?":d.ready;
+ $("name").placeholder=GAME_LANGUAGE==="en"?"Your name":d.name;
+ $("joinBtn").textContent=GAME_LANGUAGE==="en"?"Let's go shopping!":d.join;
+ document.querySelector(".mascot-kicker").textContent=GAME_LANGUAGE==="en"?"YOUR SHOPPING BUDDY":d.buddy;
+ document.querySelector(".mascot-welcome h2").textContent=GAME_LANGUAGE==="en"?"Hi! I'm Prisha! 👋":d.readyText;
+ document.querySelector(".mascot-welcome p").textContent=GAME_LANGUAGE==="en"?"Let's go shopping together. Fill our basket and have fun!":d.hello;
+ if(!$("round").hidden){renderProducts();renderSelected();updatePageUI()}
+}
+$("languageSelect").addEventListener("change",e=>{GAME_LANGUAGE=e.target.value;applyGameLanguage()});
+const oldRenderProducts=renderProducts;
+renderProducts=function(){oldRenderProducts();if(GAME_LANGUAGE==="en")return;document.querySelectorAll(".market-page").forEach((section,i)=>{const cat=CATEGORIES[i];section.querySelectorAll(".product-card").forEach((card,j)=>{const item=cat.items[j];if(!item)return;card.querySelector(".product-name").textContent=gameItemName(item[0],item[1]);const im=card.querySelector("img");if(im)im.alt=gameItemName(item[0],item[1]);const btn=card.querySelector("[data-add]");if(btn)btn.textContent=selected[item[0]]?gameT("more"):gameT("add")})})};
+const oldUpdatePageUI=updatePageUI;
+updatePageUI=function(){oldUpdatePageUI();if(GAME_LANGUAGE==="en")return;const d=GAME_TEXT[GAME_LANGUAGE];$("pageTitle").textContent=d.aisles[page];$("pageSubtitle").textContent=d.subs[page];$("prevPage").textContent=d.back;$("nextPage").textContent=d.next};
+const oldRenderSelected=renderSelected;
+renderSelected=function(){oldRenderSelected();if(GAME_LANGUAGE!=="en"){$("selectedCount").textContent=ITEMS.reduce((n,x)=>n+(selected[x.id]||0),0)+" "+gameT("count");$("selectedList").textContent=ITEMS.filter(x=>selected[x.id]).map(x=>gameItemName(x.id,x.name)+" × "+selected[x.id]+" — "+money(x.price*selected[x.id])).join("\n")||"—";$("copyBtn").textContent=gameT("copy");$("finishBtn").textContent=gameT("finish")}};
+const oldUpdateBudget=updateBudget;
+updateBudget=function(extra=0){oldUpdateBudget(extra);if(GAME_LANGUAGE!=="en"){$("budgetBox").querySelector(".budget-line span").textContent=gameT("budget");$("budgetHint").textContent=selectedTotal()>BUDGET?((GAME_LANGUAGE==="hi")?"🙈 अरे! बजट पार हो गया। कुछ सामान हटाएँ!":"🙈 અરે! બજેટ વધી ગયું. થોડી વસ્તુઓ દૂર કરો!"):selectedTotal()>=BUDGET*.9?((GAME_LANGUAGE==="hi")?"🎯 बहुत करीब! बजट के अंदर रहें!":"🎯 બહુ નજીક! બજેટમાં રહો!"):gameT("hint")}};
+const oldParse=parse;
+parse=function(t){const found=oldParse(t);if(found)return found;const s=String(t||"").toLowerCase();for(const item of ITEMS){const words=(GAME_SPOKEN[GAME_LANGUAGE]||{})[item.id]||[];for(const word of words){const at=s.indexOf(word);if(at>=0){const before=s.slice(0,at).trim().split(/\s+/).pop();const nums={one:1,two:2,three:3};let q=/^\d+$/.test(before)?Math.max(1,Math.min(99,Number(before))):1;if(GAME_LANGUAGE==="hi"&&/दो|दोनो/.test(before))q=2;if(GAME_LANGUAGE==="gu"&&/બે/.test(before))q=2;return {item,q}}}}return null};
+const oldTranscribe=transcribe;
+transcribe=async function(blob){const r=await fetch(SERVER+"/api/transcribe",{method:"POST",headers:{"Content-Type":"audio/wav","X-Sanket-Language":GAME_LANGUAGE},body:blob});if(!r.ok)throw Error("Transcription server HTTP "+r.status);return String((await r.json()).text||"").trim()};
+const oldPlayCelebration=playCelebration;
+playCelebration=function(won,total){oldPlayCelebration(won,total);if(GAME_LANGUAGE!=="en"){$("resultTitle").textContent=gameT(won?"winTitle":"loseTitle");$("resultMessage").textContent=won?(total>=BUDGET*.9?gameT("near"):gameT("great")):gameT("try")}};
