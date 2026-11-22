@@ -302,7 +302,7 @@ if(typeof module!=='undefined')module.exports={Recorder:Recorder,buildWav:buildW
 </script>
 <script>
 var RATE=12000,radio,ac,stream,proc,playT=0,holding=false,granted=false,st0={users:[],floor:null},rxLvl=0,txLvl=0,rxAt=0;
-try{localStorage.removeItem('ch')}catch(e){}nm.value=localStorage.nm||'';
+try{localStorage.removeItem('ch')}catch(e){}nm.value=SANKET_DEVICE_NAME||localStorage.nm||'';
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var NB=20;bars.innerHTML=new Array(NB+1).join('<b></b>');var barEls=bars.children;
 function lvl(a){var m=0;for(var i=0;i<a.length;i+=4){var x=Math.abs(a[i]);if(x>m)m=x}return Math.min(1,Math.sqrt(m/32768)*1.2)}
@@ -348,13 +348,13 @@ go.onclick=async function(){
   }
  }catch(e){net.textContent='Listening mode · microphone unavailable: '+e.message}
 };
-if(SANKET_LISTEN_ONLY){
- nm.value=SANKET_DEVICE_NAME||'SANKET-PI';
+if(SANKET_LISTEN_ONLY||new URLSearchParams(location.search).get('autojoin')==='1'){
+ nm.value=SANKET_DEVICE_NAME||'SANKET-PTT';
  // Chromium kiosk may reach this script after the load event in cached/reloaded sessions.
  // Run the same Power On / Join handler directly once the page is ready.
  var autoJoinStarted=false;
  function autoJoin(){
-  if(autoJoinStarted||!SANKET_LISTEN_ONLY)return;
+  if(autoJoinStarted||!(SANKET_LISTEN_ONLY||new URLSearchParams(location.search).get('autojoin')==='1'))return;
   autoJoinStarted=true;
   nm.value=SANKET_DEVICE_NAME||'SANKET-PI';
   go.click();
