@@ -474,7 +474,83 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #unlock.audio-active{background:linear-gradient(145deg,#d9ffe7,#9cebb9)!important;box-shadow:0 0 0 2px #42f47744,0 0 14px #42f47777!important}
 #main>#ptt{margin-top:clamp(16px,4vh,34px)!important}
 @media(max-width:560px){.ptt2-session-actions{gap:7px!important}#ptt2PowerOff,#unlock{flex-basis:42px!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;max-width:42px!important;max-height:42px!important}}
-</style></head><body><div class=rig>
+</style>
+<style id="ptt2-global-smooth-ui-v1">
+/* Global polish for the complete Sanket PTT client */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body,.rig{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale }
+body{overflow-x:hidden}
+.rig{width:min(100%,520px);min-width:0;overflow:hidden;border-radius:22px}
+.rig *{min-width:0}
+.brand,.leds,.ptt2-session-bar,.ptt2-session-actions{flex-wrap:wrap}
+.panel,#ptt2ChannelBar,#ptt2Settings,#ptt2Auth,#latestMessagesPanel,
+#main>.panel,.ptt2-card,.ptt2-section{
+  border-radius:16px!important;box-sizing:border-box!important;max-width:100%!important
+}
+#ptt2ChannelBar{width:100%!important;margin:8px 0 6px!important;padding:10px!important}
+#ptt2ChannelBar .ptt2-frequency-row{
+  min-height:48px!important;padding:6px 8px!important;gap:10px!important;
+  align-items:center!important;border-radius:12px!important
+}
+#ptt2ChannelBar .ptt2-frequency-label{
+  font:700 11px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  letter-spacing:.2px!important;white-space:normal!important
+}
+#ptt2Frequency,select#ptt2Frequency{
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  min-height:46px!important;padding:10px 42px 10px 13px!important;
+  border:1px solid #cbd8e3!important;border-radius:12px!important;
+  background-color:#fff!important;color:#18324b!important;
+  font:600 16px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  letter-spacing:0!important;white-space:normal!important
+}
+#ptt2Frequency option,select option{
+  font:500 16px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  padding:9px!important;white-space:normal!important
+}
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),
+select,textarea{
+  max-width:100%!important;min-width:0!important;min-height:44px!important;
+  border-radius:12px!important;line-height:1.35!important
+}
+button,.btn,.cta{
+  max-width:100%;min-width:0;border-radius:12px!important;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation
+}
+.panel{padding:12px!important}
+#log{scroll-behavior:smooth;overscroll-behavior:contain}
+#log li,#latestMessagesPanel #log li{
+  border-radius:13px!important;overflow-wrap:anywhere;word-break:normal;
+  line-height:1.4!important
+}
+#log li .cs{min-width:0;overflow-wrap:anywhere}
+#us li{max-width:100%;overflow-wrap:anywhere;line-height:1.35}
+#st,.hint,#net,.ptt2-hint,.ptt2-line,.ptt2-note{
+  line-height:1.45!important;overflow-wrap:anywhere
+}
+#ptt{flex-shrink:0;touch-action:none;-webkit-tap-highlight-color:transparent}
+#map{max-width:100%;overflow:hidden;border-radius:14px!important}
+img,canvas,video{max-width:100%;height:auto}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:3px solid #2c79b8!important;outline-offset:2px!important
+}
+@media(max-width:560px){
+  body{padding:8px!important}
+  .rig{padding:12px!important;border-radius:18px!important}
+  .panel{padding:10px!important;margin-top:10px!important}
+  #ptt2ChannelBar .ptt2-frequency-row{gap:7px!important}
+  #ptt2Frequency,select#ptt2Frequency{font-size:16px!important;min-height:46px!important}
+  #latestMessagesPanel #log{padding-right:2px!important}
+}
+@media(min-width:561px){
+  .rig{margin:14px auto!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+</style>
+</head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
