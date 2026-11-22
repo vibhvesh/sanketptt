@@ -403,3 +403,50 @@ body{min-height:100dvh;overflow-x:hidden;overflow-y:auto;padding-bottom:calc(98p
   #round .product-name { font-size: 10px !important; }
   #round .quick-checkout { min-width: 116px !important; font-size: 10px !important; }
 }
+
+/* Correct product-photo crop: keep the full product visible on phones.
+   The earlier 44–48px forced image window clipped fruit photography. */
+@media (max-width: 650px) {
+  #round .product-photo {
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    padding: 5px !important;
+    overflow: hidden !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+  #round .product-photo img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+  #round .product-photo .fallback {
+    font-size: 48px !important;
+    line-height: 1 !important;
+  }
+  #round .product-card,
+  #round .product-info {
+    overflow: visible !important;
+  }
+  #round .market-viewport {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    max-height: none !important;
+  }
+  /* Let the document scroll naturally; reserve space for the fixed PTT dock. */
+  body {
+    overflow-y: auto !important;
+    padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+  }
+}
+@media (max-width: 380px) {
+  #round .product-photo {
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+  }
+}
