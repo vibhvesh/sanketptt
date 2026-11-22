@@ -133,8 +133,7 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
     password.value = saved.password || "";
     connect(email.value, password.value);
   } else if (getToken()) {
-    assignedRooms().then((list) => {
-      await loadRooms();
+    loadRooms().then(() => {
       signedIn = true;
       if (!rooms.some((r) => r.roomId === loadRoom()) && rooms[0]) saveRoom(rooms[0].roomId);
       saveRelay(RELAY_SANKET);
@@ -144,6 +143,7 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
   } else {
     options();
   }
+  setPower(false);
   window.ptt2SetRelayRooms = async (list, activeRoom) => {
     await loadRooms();
     signedIn = true;
