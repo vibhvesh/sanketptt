@@ -153,6 +153,17 @@ html.sanket-listen-only #main>.hint{display:none!important}
 .ptt2-remember{display:flex !important;align-items:center;gap:8px;margin-top:8px;color:#e7f3fb;font-size:14px}
 .ptt2-remember input{width:18px;height:18px}
 #ptt2AuthError{margin:8px 0 0;color:#ffb4a8;font-size:13px}
+.ptt2-settings-launch{display:flex;justify-content:flex-end;margin:6px 10px 0}
+#ptt2SettingsToggle{border:1px solid #6d8d7a;border-radius:999px;background:#102c1c;color:#dffff0;padding:7px 12px;font:700 11px system-ui;letter-spacing:.5px}
+#ptt2SettingsToggle:active{transform:scale(.97)}
+#ptt2Settings[hidden]{display:none!important}
+.ptt2-settings-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#ptt2SettingsClose{border:1px solid #456;border-radius:50%;width:30px;height:30px;background:#07192d;color:#fff;font-size:20px}
+.ptt2-setting-check{display:flex;align-items:center;gap:8px;margin:8px 0}
+#ptt2Settings .ptt2-setting-check label{margin:0;color:#e7f3fb;font-size:12px;letter-spacing:0}
+.ptt2-report{margin-top:10px;padding:9px;border:1px solid #35536b;border-radius:8px;background:#07192d}
+.ptt2-report p{white-space:pre-line;font-size:11px;line-height:1.5;color:#d5e6f2}
+#ptt2RunCheck{border:1px solid #47745e;border-radius:7px;background:#123c2e;color:#dffff0;padding:7px 10px;font:12px system-ui}
 #ptt2Settings{margin:8px 10px 0;padding:10px;border:1px solid #23445e;border-radius:10px;background:#0d253d;color:#e7f3fb;font:12px/1.4 system-ui}
 #ptt2Settings h3{margin:0 0 8px;font-size:12px;letter-spacing:.4px}
 #ptt2Settings label{display:block;margin:6px 0 2px;font-size:10px;letter-spacing:.4px;color:#9fb4c6}
@@ -560,6 +571,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
 </div>
+<div class="ptt2-settings-launch"><button type="button" id="ptt2SettingsToggle" aria-controls="ptt2Settings" aria-expanded="false" title="Settings and transcription report">⚙ SETTINGS &amp; REPORT</button></div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
 <div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div></div><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><button id=unlock type=button aria-pressed="false">🔊 TAP TO ENABLE AUDIO</button><div class=hint>Hold to talk · Desktop: hold Space</div>
@@ -831,4 +843,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot.js?v=20261122-4"></script></body></html>
+</script><script type="module" src="boot.js?v=20261122-5"></script></body></html>
