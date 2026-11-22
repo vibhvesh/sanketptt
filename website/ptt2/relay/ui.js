@@ -41,7 +41,7 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
   const error = root.querySelector("#ptt2AuthError");
   const power = root.querySelector("#ptt2PowerOff");
   const sessionBar = document.querySelector(".ptt2-session-bar");
-  if (sessionBar && power) sessionBar.insertBefore(power, sessionBar.querySelector("#ptt2Logout"));
+  if (sessionBar && power) sessionBar.appendChild(power);
   let rooms = [];
   let signedIn = false;
   let active = false;
