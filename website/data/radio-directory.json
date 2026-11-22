@@ -1,8 +1,119 @@
 {
+  "schema_version": 4,
   "generated_at": "2026-11-22T01:04:53.888572+00:00",
-  "source": "vendored-akashvani-station-list",
-  "checked": 275,
-  "available": 218,
+  "directory_name": "Sanket Global Radio Directory",
+  "description": "Canonical public station catalogue for all Sanket radio experiences. Discovery index only; stream availability and rebroadcast rights are not guaranteed.",
+  "api": {
+    "json": "/data/radio-directory.json",
+    "format": "application/json"
+  },
+  "station_fields": [
+    "station_id",
+    "name",
+    "country",
+    "countrycode",
+    "region",
+    "city",
+    "languages",
+    "categories",
+    "tags",
+    "url",
+    "homepage",
+    "favicon",
+    "codec",
+    "bitrate",
+    "geo_lat",
+    "geo_long",
+    "source",
+    "directory_status",
+    "last_checked"
+  ],
+  "sources": {
+    "legacy_source": "vendored-akashvani-station-list",
+    "checked": 275,
+    "available": 218
+  },
+  "station_count": 218,
+  "country_count": 1,
+  "countries": [
+    "India"
+  ],
+  "languages": [
+    "Assamese",
+    "Bengali",
+    "Bhojpuri",
+    "Braj Bhasha",
+    "Chhattisgarhi",
+    "Dogri",
+    "English",
+    "English​",
+    "Garhwali",
+    "Gujarati",
+    "Haryanvi",
+    "Hindi",
+    "Hindi​",
+    "Kannada",
+    "Khasi",
+    "Kokborok",
+    "Konkani",
+    "Maithili",
+    "Malayalam",
+    "Manipuri",
+    "Marathi",
+    "Mizo",
+    "Nagamese",
+    "Nagpuri",
+    "Nepali",
+    "Nicobarese",
+    "Odia",
+    "Pahari",
+    "Punjabi",
+    "Rajasthani",
+    "Tamil",
+    "Telugu",
+    "Tulu",
+    "Urdu",
+    "and English"
+  ],
+  "regions": [
+    "ANDAMAN NICOBAR",
+    "ANDHRA PRADESH",
+    "ARUNACHAL PRADESH",
+    "ASSAM",
+    "BIHAR",
+    "CHANDIGARH",
+    "CHHATISGARH",
+    "DAMAN AND DIU",
+    "DELHI",
+    "GOA",
+    "GUJARAT",
+    "HARYANA",
+    "HIMACHAL PRADESH",
+    "JAMMU & KASHMIR",
+    "JHARKHAND",
+    "KARNATAKA",
+    "KERALA",
+    "LAKSHADWEEP",
+    "MADHYA PRADESH",
+    "MAHARASHTRA",
+    "MANIPUR",
+    "MEGHALAYA",
+    "MIZORAM",
+    "NAGALAND",
+    "NATIONAL",
+    "ODISHA",
+    "PUDUCHERRY",
+    "PUNJAB",
+    "RAJASTHAN",
+    "SIKKIM",
+    "TAMIL NADU",
+    "TELANGANA",
+    "TRIPURA",
+    "UTTAR PRADESH",
+    "UTTARAKHAND",
+    "WEST BENGAL"
+  ],
+  "genres": [],
   "stations": [
     {
       "id": "air-42",
@@ -10,7 +121,21 @@
       "region": "ANDAMAN NICOBAR",
       "language": "Hindi, English, Nicobarese",
       "url": "https://radio.wavespb.com/live/dc9ff2a05098df5b/dc9ff2a05098df5b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-42",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "English",
+        "Nicobarese"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-304",
@@ -18,7 +143,21 @@
       "region": "ANDAMAN NICOBAR",
       "language": "Hindi, English, Nicobarese",
       "url": "https://radio.wavespb.com/live/fbc6b60c0bdf0293/fbc6b60c0bdf0293.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-304",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "English",
+        "Nicobarese"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-43",
@@ -26,7 +165,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/3bcd83926d6c3cca/3bcd83926d6c3cca.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-43",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-49",
@@ -34,7 +185,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/2d38e3dcb8d4e0a4/2d38e3dcb8d4e0a4.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-49",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-44",
@@ -42,7 +205,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/26ec521ec4f7c684/26ec521ec4f7c684.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-44",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-45",
@@ -50,7 +225,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/57d77b93b7580e24/57d77b93b7580e24.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-45",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-46",
@@ -58,7 +245,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/b11784e3b37b7620/b11784e3b37b7620.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-46",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-48",
@@ -66,7 +265,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/1119aa26b4e9f653/1119aa26b4e9f653.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-48",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-52",
@@ -74,7 +285,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/8362d532bd498fd0/8362d532bd498fd0.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-52",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-50",
@@ -82,7 +305,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/bad174fd7eac38d0/bad174fd7eac38d0.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-50",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-53",
@@ -90,7 +325,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/147314c8aedf4389/147314c8aedf4389.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-53",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-47",
@@ -98,7 +345,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/8bc9175bb717c13b/8bc9175bb717c13b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-47",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-51",
@@ -106,7 +365,19 @@
       "region": "ANDHRA PRADESH",
       "language": "Telugu",
       "url": "https://radio.wavespb.com/live/0beac8e921bbfdbb/0beac8e921bbfdbb.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-51",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-54",
@@ -114,7 +385,20 @@
       "region": "ARUNACHAL PRADESH",
       "language": "Hindi, English​",
       "url": "https://radio.wavespb.com/live/098c57a7f382c0d4/098c57a7f382c0d4.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-54",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "English​"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-300",
@@ -122,7 +406,20 @@
       "region": "ARUNACHAL PRADESH",
       "language": "Hindi, English",
       "url": "https://radio.wavespb.com/live/1f4ec5a1ea8e9015/1f4ec5a1ea8e9015.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-300",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-55",
@@ -130,7 +427,20 @@
       "region": "ARUNACHAL PRADESH",
       "language": "Hindi, English",
       "url": "https://radio.wavespb.com/live/174624e09dbdcdde/174624e09dbdcdde.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-55",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-59",
@@ -138,7 +448,21 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/6db6683f71f6df13/6db6683f71f6df13.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-59",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Assamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-60",
@@ -146,7 +470,21 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/24092163948ab5d8/24092163948ab5d8.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-60",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Assamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-61",
@@ -154,7 +492,21 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/d1712a1355f27abb/d1712a1355f27abb.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-61",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Assamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-64",
@@ -162,7 +514,20 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi",
       "url": "https://radio.wavespb.com/live/202fb3b9e2e3f6f1/202fb3b9e2e3f6f1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-64",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Assamese",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-295",
@@ -170,7 +535,21 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/f6fa349221f25803/f6fa349221f25803.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-295",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Assamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-65",
@@ -178,7 +557,21 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/f2619d605f469c55/f2619d605f469c55.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-65",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Assamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-66",
@@ -186,7 +579,20 @@
       "region": "ASSAM",
       "language": "Bengali, Hindi",
       "url": "https://radio.wavespb.com/live/389a55127e012f97/389a55127e012f97.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-66",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-67",
@@ -194,7 +600,21 @@
       "region": "ASSAM",
       "language": "Assamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/9260e7a38d76ffda/9260e7a38d76ffda.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-67",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Assamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-74",
@@ -202,7 +622,20 @@
       "region": "BIHAR",
       "language": "Maithili, Hindi",
       "url": "https://radio.wavespb.com/live/cd626d48acead509/cd626d48acead509.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-74",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Maithili",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-75",
@@ -210,7 +643,21 @@
       "region": "CHANDIGARH",
       "language": "Punjabi, Hindi, English",
       "url": "https://radio.wavespb.com/live/db4a912ff7882d9d/db4a912ff7882d9d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-75",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Punjabi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-77",
@@ -218,7 +665,20 @@
       "region": "CHHATISGARH",
       "language": "Chhattisgarhi, Hindi",
       "url": "https://radio.wavespb.com/live/10dd6162d75fb6a4/10dd6162d75fb6a4.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-77",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Chhattisgarhi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-82",
@@ -226,7 +686,20 @@
       "region": "CHHATISGARH",
       "language": "Chhattisgarhi, Hindi",
       "url": "https://radio.wavespb.com/live/5ed52a2deec8534e/5ed52a2deec8534e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-82",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Chhattisgarhi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-83",
@@ -234,7 +707,21 @@
       "region": "DAMAN AND DIU",
       "language": "Gujarati, Hindi, English",
       "url": "https://radio.wavespb.com/live/c124a58382e75a46/c124a58382e75a46.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-83",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Gujarati",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-296",
@@ -242,7 +729,19 @@
       "region": "DELHI",
       "language": "Hindi",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi05/air005_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-296",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-2",
@@ -250,7 +749,19 @@
       "region": "DELHI",
       "language": "Hindi",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi03/air003_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-2",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-3",
@@ -258,7 +769,19 @@
       "region": "DELHI",
       "language": "Hindi",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi02/air002_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-3",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-40",
@@ -266,7 +789,19 @@
       "region": "DELHI",
       "language": "Hindi",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi06/air006_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-40",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-41",
@@ -274,7 +809,19 @@
       "region": "DELHI",
       "language": "Hindi",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi04/air004_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-41",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-302",
@@ -282,7 +829,21 @@
       "region": "GOA",
       "language": "Konkani, Marathi, Hindi",
       "url": "https://radio.wavespb.com/live/39dd51a3e97b19b1/39dd51a3e97b19b1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-302",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Konkani",
+        "Marathi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-89",
@@ -290,7 +851,20 @@
       "region": "GUJARAT",
       "language": "Gujarati, Hindi",
       "url": "https://radio.wavespb.com/live/3fa69e2c950b70e8/3fa69e2c950b70e8.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-89",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Gujarati",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-90",
@@ -298,7 +872,20 @@
       "region": "GUJARAT",
       "language": "Gujarati, Hindi",
       "url": "https://radio.wavespb.com/live/76ca5a0d02d6ba94/76ca5a0d02d6ba94.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-90",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Gujarati",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-93",
@@ -306,7 +893,20 @@
       "region": "GUJARAT",
       "language": "Gujarati, Hindi",
       "url": "https://radio.wavespb.com/live/fc6ce69c53a3d739/fc6ce69c53a3d739.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-93",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Gujarati",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-294",
@@ -314,7 +914,20 @@
       "region": "GUJARAT",
       "language": "Gujarati, Hindi",
       "url": "https://radio.wavespb.com/live/8a1bb2ca9d2a6741/8a1bb2ca9d2a6741.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-294",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Gujarati",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-86",
@@ -322,7 +935,20 @@
       "region": "GUJARAT",
       "language": "Gujarati, Hindi",
       "url": "https://radio.wavespb.com/live/983903b6acb669f3/983903b6acb669f3.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-86",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Gujarati",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-95",
@@ -330,7 +956,20 @@
       "region": "HARYANA",
       "language": "Haryanvi, Hindi",
       "url": "https://radio.wavespb.com/live/d3f37eacc0dc6495/d3f37eacc0dc6495.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-95",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Haryanvi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-96",
@@ -338,7 +977,20 @@
       "region": "HARYANA",
       "language": "Haryanvi, Hindi",
       "url": "https://radio.wavespb.com/live/f71ea3f12ae3111c/f71ea3f12ae3111c.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-96",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Haryanvi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-97",
@@ -346,7 +998,20 @@
       "region": "HARYANA",
       "language": "Haryanvi, Hindi",
       "url": "https://radio.wavespb.com/live/d617676f1e7ac0a1/d617676f1e7ac0a1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-97",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Haryanvi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-98",
@@ -354,7 +1019,20 @@
       "region": "HIMACHAL PRADESH",
       "language": "Pahari, Hindi",
       "url": "https://radio.wavespb.com/live/c3ae5f110a14d3ba/c3ae5f110a14d3ba.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-98",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Pahari",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-99",
@@ -362,7 +1040,20 @@
       "region": "HIMACHAL PRADESH",
       "language": "Pahari, Hindi",
       "url": "https://radio.wavespb.com/live/51244bb8a94ec8ec/51244bb8a94ec8ec.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-99",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Pahari",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-100",
@@ -370,7 +1061,20 @@
       "region": "HIMACHAL PRADESH",
       "language": "Pahari, Hindi",
       "url": "https://radio.wavespb.com/live/0b6f48bb61b49957/0b6f48bb61b49957.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-100",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Pahari",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-101",
@@ -378,7 +1082,20 @@
       "region": "HIMACHAL PRADESH",
       "language": "Pahari, Hindi",
       "url": "https://radio.wavespb.com/live/66f234a8585d2fe0/66f234a8585d2fe0.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-101",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Pahari",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-103",
@@ -386,7 +1103,21 @@
       "region": "JAMMU & KASHMIR",
       "language": "Dogri, Hindi, Urdu",
       "url": "https://radio.wavespb.com/live/42c7dca503e95fec/42c7dca503e95fec.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-103",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Dogri",
+        "Hindi",
+        "Urdu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-104",
@@ -394,7 +1125,21 @@
       "region": "JAMMU & KASHMIR",
       "language": "Dogri, Hindi, Urdu",
       "url": "https://radio.wavespb.com/live/b4173082e8f5e716/b4173082e8f5e716.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-104",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Dogri",
+        "Hindi",
+        "Urdu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-105",
@@ -402,7 +1147,21 @@
       "region": "JAMMU & KASHMIR",
       "language": "Dogri, Hindi, Urdu",
       "url": "https://radio.wavespb.com/live/01e2be674a0543a6/01e2be674a0543a6.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-105",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Dogri",
+        "Hindi",
+        "Urdu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-106",
@@ -410,7 +1169,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/4b077b809c20f314/4b077b809c20f314.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-106",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-107",
@@ -418,7 +1190,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/d94a676236c31713/d94a676236c31713.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-107",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-108",
@@ -426,7 +1211,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/db054b48293b8eb4/db054b48293b8eb4.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-108",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-109",
@@ -434,7 +1232,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/c27e3dffec59b473/c27e3dffec59b473.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-109",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-111",
@@ -442,7 +1253,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/66b77f1dfee894bc/66b77f1dfee894bc.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-111",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-112",
@@ -450,7 +1274,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/af6f533f997d4ae1/af6f533f997d4ae1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-112",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-110",
@@ -458,7 +1295,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/ce9c6a3206b624a7/ce9c6a3206b624a7.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-110",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-113",
@@ -466,7 +1316,20 @@
       "region": "JHARKHAND",
       "language": "Nagpuri, Hindi",
       "url": "https://radio.wavespb.com/live/d839e1ea3f3fd644/d839e1ea3f3fd644.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-113",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagpuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-114",
@@ -474,7 +1337,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/5a457983e1e7e12f/5a457983e1e7e12f.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-114",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-119",
@@ -482,7 +1359,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/ad5b1f0e1fd2e000/ad5b1f0e1fd2e000.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-119",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-120",
@@ -490,7 +1381,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/8a8894314ac7be31/8a8894314ac7be31.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-120",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-121",
@@ -498,7 +1403,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/c0b739e6443d99be/c0b739e6443d99be.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-121",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-122",
@@ -506,7 +1425,20 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi",
       "url": "https://radio.wavespb.com/live/449dcf0b33491e65/449dcf0b33491e65.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-122",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-124",
@@ -514,7 +1446,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/9b1044084099f01c/9b1044084099f01c.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-124",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-125",
@@ -522,7 +1468,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/113d144f4ecf1dd5/113d144f4ecf1dd5.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-125",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-123",
@@ -530,7 +1490,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/9b085f63b2c25275/9b085f63b2c25275.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-123",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-115",
@@ -538,7 +1512,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airbang01/air033_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-115",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-126",
@@ -546,7 +1534,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/723ab703b250900f/723ab703b250900f.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-126",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-129",
@@ -554,7 +1556,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/5f58506ab7d090ec/5f58506ab7d090ec.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-129",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-128",
@@ -562,7 +1578,22 @@
       "region": "KARNATAKA",
       "language": "Tulu, Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/3c522579906d4dcb/3c522579906d4dcb.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-128",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tulu",
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-127",
@@ -570,7 +1601,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/9d18e57ddfb1d4b4/9d18e57ddfb1d4b4.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-127",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-130",
@@ -578,7 +1623,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://radio.wavespb.com/live/e39bab8a1a843e9e/e39bab8a1a843e9e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-130",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-116",
@@ -586,7 +1645,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airbang05/air037_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-116",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-117",
@@ -594,7 +1667,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airbang02/air034_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-117",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-118",
@@ -602,7 +1689,21 @@
       "region": "KARNATAKA",
       "language": "Kannada, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airbang03/air035_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-118",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Kannada",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-135",
@@ -610,7 +1711,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/8321393de70015fc/8321393de70015fc.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-135",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-132",
@@ -618,7 +1732,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/b82c91a395fc4a7d/b82c91a395fc4a7d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-132",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-12",
@@ -626,7 +1753,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/6ff13de7ea9b53d7/6ff13de7ea9b53d7.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-12",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-134",
@@ -634,7 +1774,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/70400e7510e87cdf/70400e7510e87cdf.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-134",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-136",
@@ -642,7 +1795,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/b69c296065db7627/b69c296065db7627.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-136",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-137",
@@ -650,7 +1816,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/58390a2ed33cea4a/58390a2ed33cea4a.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-137",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-138",
@@ -658,7 +1837,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/f70fdeca437dc326/f70fdeca437dc326.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-138",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-133",
@@ -666,7 +1858,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/7df6f2a8c3c4d33b/7df6f2a8c3c4d33b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-133",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-139",
@@ -674,7 +1879,20 @@
       "region": "KERALA",
       "language": "Malayalam, English",
       "url": "https://radio.wavespb.com/live/ad3a8436a329e2d6/ad3a8436a329e2d6.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-139",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-142",
@@ -682,7 +1900,21 @@
       "region": "LAKSHADWEEP",
       "language": "Malayalam, Hindi​, English",
       "url": "https://radio.wavespb.com/live/ffb3825f86c4b9e3/ffb3825f86c4b9e3.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-142",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Malayalam",
+        "Hindi​",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-143",
@@ -690,7 +1922,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/971411cf78525ddb/971411cf78525ddb.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-143",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-149",
@@ -698,7 +1942,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/e1d62b96207fe4b7/e1d62b96207fe4b7.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-149",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-151",
@@ -706,7 +1962,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://air.pc.cdn.bitgravity.com/air/live/pbaudio212/playlist.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-151",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-155",
@@ -714,7 +1982,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/76260628792d0528/76260628792d0528.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-155",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-157",
@@ -722,7 +2002,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/b60eae3df5a29197/b60eae3df5a29197.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-157",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-158",
@@ -730,7 +2022,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/0f046e291da2017b/0f046e291da2017b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-158",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-159",
@@ -738,7 +2042,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/db8c03f2dcb2e896/db8c03f2dcb2e896.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-159",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-299",
@@ -746,7 +2062,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://air.pc.cdn.bitgravity.com/air/live/pbaudio233/playlist.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-299",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-152",
@@ -754,7 +2082,19 @@
       "region": "MADHYA PRADESH",
       "language": "Hindi",
       "url": "https://air.pc.cdn.bitgravity.com/air/live/pbaudio241/playlist.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-152",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-160",
@@ -762,7 +2102,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/e52945b98fa63678/e52945b98fa63678.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-160",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-161",
@@ -770,7 +2124,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/5dd27f81c839f0f5/5dd27f81c839f0f5.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-161",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-162",
@@ -778,7 +2146,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/662185c15bea296f/662185c15bea296f.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-162",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-164",
@@ -786,7 +2168,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/3f62bdf39635ed61/3f62bdf39635ed61.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-164",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-165",
@@ -794,7 +2190,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/8469b942291df38f/8469b942291df38f.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-165",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-177",
@@ -802,7 +2212,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://air.pc.cdn.bitgravity.com/air/live/pbaudio132/playlist.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-177",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-166",
@@ -810,7 +2234,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/c0040b54233d76a1/c0040b54233d76a1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-166",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-167",
@@ -818,7 +2256,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/bd41e24a31710397/bd41e24a31710397.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-167",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-168",
@@ -826,7 +2278,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://air.pc.cdn.bitgravity.com/air/live/pbaudio063/playlist.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-168",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-6",
@@ -834,7 +2300,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airmum04/air052_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-6",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-174",
@@ -842,7 +2322,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/84ad8273437552d7/84ad8273437552d7.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-174",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-175",
@@ -850,7 +2344,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/111df0bc650820de/111df0bc650820de.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-175",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-176",
@@ -858,7 +2366,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/810a1db2ef684745/810a1db2ef684745.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-176",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-178",
@@ -866,7 +2388,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/825fdd17744384f5/825fdd17744384f5.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-178",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-179",
@@ -874,7 +2410,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/39d650ca0476a1fe/39d650ca0476a1fe.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-179",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-181",
@@ -882,7 +2432,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/615b82703c7e8a4c/615b82703c7e8a4c.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-181",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-184",
@@ -890,7 +2454,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/6878cc031c86befd/6878cc031c86befd.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-184",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-182",
@@ -898,7 +2476,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/77aa8f10f47897a3/77aa8f10f47897a3.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-182",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-185",
@@ -906,7 +2498,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/2792d5e06dbdc800/2792d5e06dbdc800.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-185",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-186",
@@ -914,7 +2520,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/b8a30c8945577840/b8a30c8945577840.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-186",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-169",
@@ -922,7 +2542,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airmum01/air049_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-169",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-170",
@@ -930,7 +2564,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airmum02/air050_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-170",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-171",
@@ -938,7 +2586,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airmum03/air051_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-171",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-172",
@@ -946,7 +2608,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airmum05/air053_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-172",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-173",
@@ -954,7 +2630,21 @@
       "region": "MAHARASHTRA",
       "language": "Marathi, Hindi, English",
       "url": "https://radio.wavespb.com/live/019f90c3d79daeb9/019f90c3d79daeb9.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-173",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Marathi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-187",
@@ -962,7 +2652,20 @@
       "region": "MANIPUR",
       "language": "Manipuri, Hindi",
       "url": "https://radio.wavespb.com/live/1b5f328e785c8cf2/1b5f328e785c8cf2.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-187",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Manipuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-188",
@@ -970,7 +2673,20 @@
       "region": "MANIPUR",
       "language": "Manipuri, Hindi",
       "url": "https://radio.wavespb.com/live/8fcf63e1a8d9016b/8fcf63e1a8d9016b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-188",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Manipuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-189",
@@ -978,7 +2694,20 @@
       "region": "MANIPUR",
       "language": "Manipuri, Hindi",
       "url": "https://radio.wavespb.com/live/405d96a245accd64/405d96a245accd64.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-189",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Manipuri",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-190",
@@ -986,7 +2715,21 @@
       "region": "MEGHALAYA",
       "language": "Khasi, Hindi, English",
       "url": "https://radio.wavespb.com/live/56465e7d42632ff1/56465e7d42632ff1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-190",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Khasi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-193",
@@ -994,7 +2737,21 @@
       "region": "MEGHALAYA",
       "language": "Khasi, Hindi, English",
       "url": "https://radio.wavespb.com/live/0ce240322bab1873/0ce240322bab1873.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-193",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Khasi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-191",
@@ -1002,7 +2759,21 @@
       "region": "MEGHALAYA",
       "language": "Khasi, Hindi, English",
       "url": "https://radio.wavespb.com/live/8d920d17847ba75e/8d920d17847ba75e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-191",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Khasi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-192",
@@ -1010,7 +2781,21 @@
       "region": "MEGHALAYA",
       "language": "Khasi, Hindi, English",
       "url": "https://radio.wavespb.com/live/989abf4a5fee9240/989abf4a5fee9240.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-192",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Khasi",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-195",
@@ -1018,7 +2803,21 @@
       "region": "MIZORAM",
       "language": "Mizo, Hindi, English",
       "url": "https://radio.wavespb.com/live/6893614bef61d497/6893614bef61d497.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-195",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Mizo",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-197",
@@ -1026,7 +2825,21 @@
       "region": "MIZORAM",
       "language": "Mizo, Hindi, English",
       "url": "https://radio.wavespb.com/live/3ab311dc7cdb60a1/3ab311dc7cdb60a1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-197",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Mizo",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-196",
@@ -1034,7 +2847,21 @@
       "region": "MIZORAM",
       "language": "Mizo, Hindi, English",
       "url": "https://radio.wavespb.com/live/443b0a952fbbe057/443b0a952fbbe057.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-196",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Mizo",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-199",
@@ -1042,7 +2869,21 @@
       "region": "NAGALAND",
       "language": "Nagamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/f5861f9687811aae/f5861f9687811aae.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-199",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-200",
@@ -1050,7 +2891,21 @@
       "region": "NAGALAND",
       "language": "Nagamese, Hindi, English",
       "url": "https://radio.wavespb.com/live/fff99886b825e2ae/fff99886b825e2ae.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-200",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nagamese",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-5",
@@ -1058,7 +2913,20 @@
       "region": "NATIONAL",
       "language": "Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airdelhi01/air001_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-5",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-4",
@@ -1066,7 +2934,22 @@
       "region": "NATIONAL",
       "language": "Hindi, Tamil, Telugu, Malayalam",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airbang04/air036_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-4",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "Tamil",
+        "Telugu",
+        "Malayalam"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-1",
@@ -1074,7 +2957,19 @@
       "region": "NATIONAL",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/146ed6ec6dea5a24/146ed6ec6dea5a24.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-1",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-204",
@@ -1082,7 +2977,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/6a8a1c15dc441c4e/6a8a1c15dc441c4e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-204",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-201",
@@ -1090,7 +2998,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/9a5be453a1319cad/9a5be453a1319cad.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-201",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-202",
@@ -1098,7 +3019,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/9ff9e2581893d28d/9ff9e2581893d28d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-202",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-203",
@@ -1106,7 +3040,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/01249e3a4e4625bf/01249e3a4e4625bf.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-203",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-208",
@@ -1114,7 +3061,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/d59a448c8fa48c21/d59a448c8fa48c21.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-208",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-209",
@@ -1122,7 +3082,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/3191cc8afa1d559b/3191cc8afa1d559b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-209",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-210",
@@ -1130,7 +3103,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/e1afe27f9ccb5046/e1afe27f9ccb5046.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-210",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-211",
@@ -1138,7 +3124,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/82893b35c7d1fa49/82893b35c7d1fa49.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-211",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-212",
@@ -1146,7 +3145,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/6f4b24b6ac501e88/6f4b24b6ac501e88.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-212",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-214",
@@ -1154,7 +3166,20 @@
       "region": "ODISHA",
       "language": "Odia, Hindi",
       "url": "https://radio.wavespb.com/live/a6aee9a607d6b17a/a6aee9a607d6b17a.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-214",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Odia",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-215",
@@ -1162,7 +3187,21 @@
       "region": "PUDUCHERRY",
       "language": "Tamil, Hindi, English",
       "url": "https://radio.wavespb.com/live/51065e9e2f00e83e/51065e9e2f00e83e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-215",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-216",
@@ -1170,7 +3209,21 @@
       "region": "PUDUCHERRY",
       "language": "Tamil, Hindi, English",
       "url": "https://radio.wavespb.com/live/6b93ba50696fddcd/6b93ba50696fddcd.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-216",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-217",
@@ -1178,7 +3231,21 @@
       "region": "PUDUCHERRY",
       "language": "Tamil, Hindi, English",
       "url": "https://radio.wavespb.com/live/0e2a3509c6d25e11/0e2a3509c6d25e11.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-217",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-218",
@@ -1186,7 +3253,20 @@
       "region": "PUNJAB",
       "language": "Punjabi, Hindi",
       "url": "https://radio.wavespb.com/live/8651d3d0c2021750/8651d3d0c2021750.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-218",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Punjabi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-301",
@@ -1194,7 +3274,20 @@
       "region": "PUNJAB",
       "language": "Punjabi, Hindi",
       "url": "https://radio.wavespb.com/live/1a7150879f9e362c/1a7150879f9e362c.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-301",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Punjabi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-220",
@@ -1202,7 +3295,20 @@
       "region": "PUNJAB",
       "language": "Punjabi, Hindi",
       "url": "https://radio.wavespb.com/live/8d1636496b33c77e/8d1636496b33c77e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-220",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Punjabi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-8",
@@ -1210,7 +3316,20 @@
       "region": "PUNJAB",
       "language": "Punjabi, Hindi",
       "url": "https://radio.wavespb.com/live/5adc4acbbdd1f6cf/5adc4acbbdd1f6cf.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-8",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Punjabi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-219",
@@ -1218,7 +3337,20 @@
       "region": "PUNJAB",
       "language": "Punjabi, Hindi",
       "url": "https://radio.wavespb.com/live/027744169f5fad66/027744169f5fad66.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-219",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Punjabi",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-221",
@@ -1226,7 +3358,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/67a9516c2ccd3fd5/67a9516c2ccd3fd5.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-221",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-222",
@@ -1234,7 +3379,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/775687c68323aecb/775687c68323aecb.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-222",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-224",
@@ -1242,7 +3400,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/e2588cb0ff825cd9/e2588cb0ff825cd9.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-224",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-226",
@@ -1250,7 +3421,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/c6506b14b519d47c/c6506b14b519d47c.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-226",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-227",
@@ -1258,7 +3442,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/ad081b4086797344/ad081b4086797344.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-227",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-230",
@@ -1266,7 +3463,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/fdba5613a31b678b/fdba5613a31b678b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-230",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-232",
@@ -1274,7 +3484,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/23ae73f45ccdd42d/23ae73f45ccdd42d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-232",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-233",
@@ -1282,7 +3505,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/b5004d73a5aa6787/b5004d73a5aa6787.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-233",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-306",
@@ -1290,7 +3526,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/db62c9a589f741ac/db62c9a589f741ac.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-306",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-234",
@@ -1298,7 +3547,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/550cfb9bbee7b16d/550cfb9bbee7b16d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-234",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-236",
@@ -1306,7 +3568,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/9f2c9cb132d3ae49/9f2c9cb132d3ae49.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-236",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-237",
@@ -1314,7 +3589,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/1c07d04e88eb31c8/1c07d04e88eb31c8.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-237",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-238",
@@ -1322,7 +3610,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/85190aca16096832/85190aca16096832.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-238",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-239",
@@ -1330,7 +3631,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/71d3cbef594e01a9/71d3cbef594e01a9.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-239",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-228",
@@ -1338,7 +3652,20 @@
       "region": "RAJASTHAN",
       "language": "Rajasthani, Hindi",
       "url": "https://radio.wavespb.com/live/72d34573791c739b/72d34573791c739b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-228",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Rajasthani",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-240",
@@ -1346,7 +3673,20 @@
       "region": "SIKKIM",
       "language": "Nepali, Hindi",
       "url": "https://radio.wavespb.com/live/a2fa73a479445b3d/a2fa73a479445b3d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-240",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Nepali",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-243",
@@ -1354,7 +3694,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/a6eec8ec7d6ee49d/a6eec8ec7d6ee49d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-243",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-245",
@@ -1362,7 +3715,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/36378083c1be092b/36378083c1be092b.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-245",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-246",
@@ -1370,7 +3736,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/eef8fc0421c2cc48/eef8fc0421c2cc48.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-246",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-247",
@@ -1378,7 +3757,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/5c28fdbb318c1f13/5c28fdbb318c1f13.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-247",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-305",
@@ -1386,7 +3778,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/f910c4cf0415b953/f910c4cf0415b953.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-305",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-249",
@@ -1394,7 +3799,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/e2ac3971fdada7d1/e2ac3971fdada7d1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-249",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-250",
@@ -1402,7 +3820,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/bd8f073da8cde368/bd8f073da8cde368.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-250",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-251",
@@ -1410,7 +3841,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/340834aaac8e1081/340834aaac8e1081.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-251",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-252",
@@ -1418,7 +3862,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/ee7f2a29ab3b6bf9/ee7f2a29ab3b6bf9.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-252",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-254",
@@ -1426,7 +3883,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/2e8cfad789dc692d/2e8cfad789dc692d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-254",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-248",
@@ -1434,7 +3904,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/10c64309264eb009/10c64309264eb009.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-248",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-244",
@@ -1442,7 +3925,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/3622d8d5aa1809b2/3622d8d5aa1809b2.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-244",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-253",
@@ -1450,7 +3946,20 @@
       "region": "TAMIL NADU",
       "language": "Tamil, English",
       "url": "https://radio.wavespb.com/live/a8b9f00a52568fbd/a8b9f00a52568fbd.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-253",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Tamil",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-38",
@@ -1458,7 +3967,20 @@
       "region": "TELANGANA",
       "language": "Telugu, Hindi",
       "url": "https://radio.wavespb.com/live/e47c5f0cec4af335/e47c5f0cec4af335.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-38",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-258",
@@ -1466,7 +3988,20 @@
       "region": "TELANGANA",
       "language": "Telugu, Hindi",
       "url": "https://radio.wavespb.com/live/8416764ec0889597/8416764ec0889597.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-258",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-259",
@@ -1474,7 +4009,20 @@
       "region": "TELANGANA",
       "language": "Telugu, Hindi",
       "url": "https://radio.wavespb.com/live/5d9989b5189a8f4a/5d9989b5189a8f4a.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-259",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-255",
@@ -1482,7 +4030,20 @@
       "region": "TELANGANA",
       "language": "Telugu, Hindi",
       "url": "https://radio.wavespb.com/live/1c701f7b70df2568/1c701f7b70df2568.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-255",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-260",
@@ -1490,7 +4051,20 @@
       "region": "TELANGANA",
       "language": "Telugu, Hindi",
       "url": "https://radio.wavespb.com/live/deae7120a205bfff/deae7120a205bfff.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-260",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-256",
@@ -1498,7 +4072,21 @@
       "region": "TELANGANA",
       "language": "Telugu, Urdu, Hindi",
       "url": "https://radio.wavespb.com/live/3a02c5c035815bb9/3a02c5c035815bb9.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-256",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu",
+        "Urdu",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-257",
@@ -1506,7 +4094,21 @@
       "region": "TELANGANA",
       "language": "Telugu, Urdu, Hindi",
       "url": "https://radio.wavespb.com/live/89969ad91f106dde/89969ad91f106dde.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-257",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Telugu",
+        "Urdu",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-261",
@@ -1514,7 +4116,22 @@
       "region": "TRIPURA",
       "language": "Bengali, Kokborok, Hindi, and English",
       "url": "https://radio.wavespb.com/live/8e8696f98500ad60/8e8696f98500ad60.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-261",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Kokborok",
+        "Hindi",
+        "and English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-263",
@@ -1522,7 +4139,21 @@
       "region": "TRIPURA",
       "language": "Bengali, Kokborok, Hindi",
       "url": "https://radio.wavespb.com/live/00ff79c493fe8353/00ff79c493fe8353.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-263",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Kokborok",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-264",
@@ -1530,7 +4161,21 @@
       "region": "TRIPURA",
       "language": "Bengali, Kokborok, Hindi",
       "url": "https://radio.wavespb.com/live/c84f390b94a07703/c84f390b94a07703.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-264",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Kokborok",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-262",
@@ -1538,7 +4183,21 @@
       "region": "TRIPURA",
       "language": "Bengali, Kokborok, Hindi",
       "url": "https://radio.wavespb.com/live/d65912ef9829b8c9/d65912ef9829b8c9.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-262",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Kokborok",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-265",
@@ -1546,7 +4205,20 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi, Braj Bhasha",
       "url": "https://radio.wavespb.com/live/94e6de05aa9b04b0/94e6de05aa9b04b0.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-265",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "Braj Bhasha"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-268",
@@ -1554,7 +4226,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/750c49044bde8cfe/750c49044bde8cfe.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-268",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-267",
@@ -1562,7 +4246,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/e323812d96d7881d/e323812d96d7881d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-267",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-269",
@@ -1570,7 +4266,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/90f2250fec262bde/90f2250fec262bde.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-269",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-270",
@@ -1578,7 +4286,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/f8f027390a964141/f8f027390a964141.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-270",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-271",
@@ -1586,7 +4306,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/278ca8613f27411e/278ca8613f27411e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-271",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-273",
@@ -1594,7 +4326,20 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi, Urdu",
       "url": "https://radio.wavespb.com/live/75c01e54cb46ad29/75c01e54cb46ad29.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-273",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "Urdu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-275",
@@ -1602,7 +4347,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/5e42265becd8a816/5e42265becd8a816.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-275",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-276",
@@ -1610,7 +4367,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/4aaa85cab056e9c1/4aaa85cab056e9c1.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-276",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-277",
@@ -1618,7 +4387,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/6a6133146118961c/6a6133146118961c.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-277",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-266",
@@ -1626,7 +4407,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/7427fdb9d3f69c5d/7427fdb9d3f69c5d.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-266",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-278",
@@ -1634,7 +4427,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/bc3b1ad27f1e2fda/bc3b1ad27f1e2fda.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-278",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-279",
@@ -1642,7 +4447,20 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi, Bhojpuri",
       "url": "https://radio.wavespb.com/live/43290b0b741fd08f/43290b0b741fd08f.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-279",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "Bhojpuri"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-272",
@@ -1650,7 +4468,19 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi",
       "url": "https://radio.wavespb.com/live/c0df5324304ad39e/c0df5324304ad39e.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-272",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-274",
@@ -1658,7 +4488,20 @@
       "region": "UTTAR PRADESH",
       "language": "Hindi, Urdu",
       "url": "https://radio.wavespb.com/live/81c465a355a1ea65/81c465a355a1ea65.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-274",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Hindi",
+        "Urdu"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-281",
@@ -1666,7 +4509,20 @@
       "region": "UTTARAKHAND",
       "language": "Garhwali, Hindi",
       "url": "https://radio.wavespb.com/live/355939733d28e2e7/355939733d28e2e7.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-281",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Garhwali",
+        "Hindi"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-283",
@@ -1674,7 +4530,19 @@
       "region": "WEST BENGAL",
       "language": "Bengali",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airkol07/air071_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-283",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-284",
@@ -1682,7 +4550,19 @@
       "region": "WEST BENGAL",
       "language": "Bengali",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airkol01/air065_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-284",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-285",
@@ -1690,7 +4570,19 @@
       "region": "WEST BENGAL",
       "language": "Bengali",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airkol02/air066_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-285",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-289",
@@ -1698,7 +4590,19 @@
       "region": "WEST BENGAL",
       "language": "Bengali",
       "url": "https://radio.wavespb.com/live/1f781b48497e67d3/1f781b48497e67d3.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-289",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-292",
@@ -1706,7 +4610,19 @@
       "region": "WEST BENGAL",
       "language": "Bengali",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airkol03/air067_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-292",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-291",
@@ -1714,7 +4630,19 @@
       "region": "WEST BENGAL",
       "language": "Bengali",
       "url": "https://radio.wavespb.com/live/66249dfecaf80241/66249dfecaf80241.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-291",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-293",
@@ -1722,7 +4650,19 @@
       "region": "WEST BENGAL",
       "language": "Bengali",
       "url": "https://radio.wavespb.com/live/165856ba98ca031a/165856ba98ca031a.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-293",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-286",
@@ -1730,7 +4670,21 @@
       "region": "WEST BENGAL",
       "language": "Bengali, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airkol06/air070_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-286",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-287",
@@ -1738,7 +4692,21 @@
       "region": "WEST BENGAL",
       "language": "Bengali, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airkol05/air069_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-287",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     },
     {
       "id": "air-288",
@@ -1746,7 +4714,21 @@
       "region": "WEST BENGAL",
       "language": "Bengali, Hindi, English",
       "url": "https://d3r9rhourdc02u.cloudfront.net/assets/radio/airkol04/air068_Auto.m3u8",
-      "type": "hls"
+      "type": "hls",
+      "station_id": "air-288",
+      "country": "India",
+      "countrycode": "IN",
+      "city": "",
+      "languages": [
+        "Bengali",
+        "Hindi",
+        "English"
+      ],
+      "tags": [],
+      "categories": [],
+      "source": "Akashvani public station catalogue",
+      "directory_status": "listed",
+      "last_checked": null
     }
   ]
 }
