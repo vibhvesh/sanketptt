@@ -12,6 +12,8 @@ const channels = document.getElementById("ptt2ChannelBar");
 if (channels) {
   mountRelay(channels, (spec) => {
     if (typeof window.ptt2UseRelay === "function") window.ptt2UseRelay(spec);
+  }, () => {
+    if (typeof window.ptt2StopRadio === "function") window.ptt2StopRadio();
   });
 }
 const settings = document.getElementById("ptt2Settings");
