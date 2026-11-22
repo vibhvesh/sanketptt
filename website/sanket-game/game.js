@@ -63,7 +63,65 @@ function stopRec(){if(recording&&rec?.state==="recording"){$("status").textConte
 const ptt=$("ptt");ptt.addEventListener("contextmenu",e=>e.preventDefault());ptt.addEventListener("selectstart",e=>e.preventDefault());ptt.addEventListener("dragstart",e=>e.preventDefault());ptt.addEventListener("pointerdown",e=>{e.preventDefault();e.stopPropagation();try{ptt.setPointerCapture(e.pointerId)}catch{}startRec()});["pointerup","pointercancel","lostpointercapture"].forEach(x=>ptt.addEventListener(x,e=>{e.preventDefault();stopRec()}));
 $("nextBtn").onclick=()=>{$("nextBtn").disabled=true;$("status").textContent="READY FOR NEXT ITEM"};
 async function transcribe(blob){const r=await fetch(SERVER+"/api/transcribe",{method:"POST",headers:{"Content-Type":"audio/wav"},body:blob});if(!r.ok)throw Error("Transcription server HTTP "+r.status);return String((await r.json()).text||"").trim()}
-function parse(t){const s=t.toLowerCase(),item=ITEMS.find(x=>x.words.some(w=>new RegExp("\\b"+w+"\\b").test(s)));if(!item)return null;let q=1,m=s.match(/\b(\d+)\b/);if(m)q=Math.max(1,Math.min(99,+m[1]));else{const words={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,a:1,an:1};for(const [w,n] of Object.entries(words))if(new RegExp("\\b"+w+"\\b").test(s)){q=n;break}}return {item,q}}
+function parse(t){
+ const s=String(t||"").toLowerCase().replace(/[₹,]/g," ").replace(/\s+/g," ").trim();
+ if(!s)return null;
+ const aliases={
+ apple:["apple","apples","सेब","સફરજન"],banana:["banana","bananas","केला","केले","કેળાં","કેળા"],orange:["orange","oranges","संतरा","સંતરું"],mango:["mango","mangoes","आम","કેરી"],grapes:["grape","grapes","अंगूर","દ્રાક્ષ"],
+ tomato:["tomato","tomatoes","टमाटर","ટામેટાં"],potato:["potato","potatoes","आलू","બટાકા"],onion:["onion","onions","प्याज","प्याज़","ડુંગળી"],carrot:["carrot","carrots","गाजर","ગાજર"],cucumber:["cucumber","खीरा","કાકડી"],
+ milk:["milk","दूध","દૂધ"],curd:["curd","yogurt","yoghurt","दही","દહીં"],butter:["butter","मक्खन","માખણ"],cheese:["cheese","चीज","ચીઝ"],bread:["bread","ब्रेड","બ્રેડ"],rice:["rice","चावल","ચોખા"],atta:["atta","flour","wheat","आटा","લોટ"],oil:["oil","तेल","તેલ"],sugar:["sugar","चीनी","ખાંડ"],dal:["dal","lentil","दाल","દાળ"],
+ biscuits:["biscuit","biscuits","मैरी बिस्कुट","બિસ્કિટ"],tea:["tea","चाय","ચા"],juice:["juice","जूस","રસ","જ્યુસ"],chips:["chips","चिप्स","વેફર"],chocolate:["chocolate","चॉकलेट","ચોકલેટ"],
+ bicycle:["bicycle","cycle","साइकिल","સાઇકલ"],scooter:["scooter","स्कूटर","સ્કૂટર"],motorbike:["motorbike","motorcycle","bike","मोटरसाइकिल","બાઇક"],electricbike:["electric bike","ebike","इलेक्ट्रिक बाइक","ઇલેક્ટ્રિક બાઇક"],hatchback:["hatchback","car","कार"],suv:["suv","sports utility vehicle","एसयूवी"]
+ };
+ const item=ITEMS.find(x=>(aliases[x.id]||x.words||[]).some(w=>s.includes(w)));
+ if(!item)return null;
+ const words={a:1,an:1,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,twenty:20,thirty:30,forty:40,fifty:50,hundred:100,
+ "एक":1,"दो":2,"तीन":3,"चार":4,"पाँच":5,"पांच":5,"छह":6,"सात":7,"आठ":8,"नौ":9,"दस":10,"बीस":20,"पचास":50,
+ "એક":1,"બે":2,"ત્રણ":3,"ચાર":4,"પાંચ":5,"છ":6,"સાત":7,"આઠ":8,"નવ":9,"દસ":10,"વીસ":20,"પચાસ":50};
+ const tokens=s.match(/\d+(?:\.\d+)?|[a-z]+|[\u0900-\u097F]+|[\u0A80-\u0AFF]+/g)||[];
+ const units=[
+ {re:/^(g|gram|grams|gm|ग्राम|ગ્રામ)$/,kind:"mass",factor:1},
+ {re:/^(kg|kgs|kilo|kilos|kilogram|kilograms|किलो|किलोग्राम|કિલો|કિલોગ્રામ)$/,kind:"mass",factor:1000},
+ {re:/^(ml|millilitre|milliliter|मिलीलीटर|મિલીલીટર)$/,kind:"volume",factor:1},
+ {re:/^(l|lt|litre|liter|litres|liters|लीटर|લિટર)$/,kind:"volume",factor:1000},
+ {re:/^(packet|packets|pack|packs|pkt|पैकेट|પેકેટ)$/,kind:"pack",factor:1},
+ {re:/^(piece|pieces|pc|pcs|item|items|नग|पीस|નંગ|પીસ)$/,kind:"count",factor:1},
+ {re:/^(dozen|dozens|दर्जन|ડઝન)$/,kind:"dozen",factor:1}
+ ];
+ let amount=null,unit=null,count=null;
+ for(let i=0;i<tokens.length;i++){
+  const raw=tokens[i],n=/^\d/.test(raw)?Number(raw):words[raw];
+  if(!n||!Number.isFinite(n))continue;
+  const u=units.find(z=>z.re.test(tokens[i+1]||""));
+  if(u){amount=n;unit=u;break}
+  if(count===null)count=n;
+ }
+ const m=item.unit.toLowerCase().match(/([\d.]+)\s*(kg|g|gm|gram|ml|l|litre|liter|dozen|piece|pack|loaf)/);
+ let baseValue=1,baseKind="pack";
+ if(m){
+  baseValue=Number(m[1])||1;
+  const u=m[2];
+  if(u==="kg"){baseValue*=1000;baseKind="mass"}
+  else if(["g","gm","gram"].includes(u))baseKind="mass";
+  else if(u==="ml")baseKind="volume";
+  else if(["l","litre","liter"].includes(u)){baseValue*=1000;baseKind="volume"}
+  else if(u==="dozen"){baseValue*=12;baseKind="count"}
+  else if(u==="piece")baseKind="count";
+ }
+ let q=count===null?1:count,label="1 "+item.unit;
+ if(amount!==null&&unit){
+  if(unit.kind==="pack"){q=amount;label=amount+" packet"+(amount===1?"":"s")}
+  else if(unit.kind==="dozen"){q=amount*12/(baseKind==="count"?baseValue:1);label=amount+" dozen"}
+  else if(unit.kind===baseKind){q=amount*unit.factor/baseValue;label=amount+" "+(unit.kind==="mass"?"g":unit.kind==="volume"?"ml":"pieces")}
+  else if(unit.kind==="count"){q=amount/(baseKind==="count"?baseValue:1);label=amount+" pieces"}
+  else {q=amount;label=amount+" "+(unit.kind==="mass"?"g":"ml")}
+ }else if(count!==null){
+  if(baseKind==="count"&&baseValue===12){q=count/12;label=count+" pieces"}
+  else {q=count;label=count+" × "+item.unit}
+ }
+ q=Math.max(.001,Math.min(100000,q));
+ return {item,q,cost:item.price*q,label};
+}
 $("copyBtn").onclick=async()=>{const ok=await copyText(listText());$("copyBtn").textContent=ok?"Copied!":"Copy failed";setTimeout(()=>$("copyBtn").textContent="Copy list",1600)};
 function playCelebration(won,total){
 const margin=BUDGET-total,goodMargin=won&&margin>=BUDGET*.1;
@@ -100,7 +158,7 @@ $("finishBtn").onclick=async()=>{
   }
   billingStage(2);
   const basket=new Map();let sum=0;
-  for(const x of ITEMS)if(selected[x.id]){const q=selected[x.id];basket.set(x.id,{name:x.name,q,total:x.price*q});sum+=x.price*q}
+  for(const x of ITEMS)if(selected[x.id]){const q=selected[x.id];basket.set(x.id,{name:x.name,q,total:x.price*q,details:[q+" × "+x.unit]});sum+=x.price*q}
   for(const r of rows)if(r.order){const x=r.order.item,q=r.order.q,old=basket.get(x.id)||{name:x.name,q:0,total:0};old.q+=q;old.total+=x.price*q;basket.set(x.id,old);sum+=x.price*q}
   await new Promise(resolve=>setTimeout(resolve,550));
   billingStage(3);$("billingTitle").textContent=billingText("done");$("billingSubtitle").textContent=billingText("done");
@@ -109,10 +167,10 @@ $("finishBtn").onclick=async()=>{
   await new Promise(resolve=>setTimeout(resolve,700));
   hideBilling();hide("round");hide("pttDock");show("result");
   const won=sum<=BUDGET&&basket.size>0;playCelebration(won,sum);
-  $("cart").innerHTML=Array.from(basket.values()).map(x=>'<div class="product-card"><div class="product-info"><div class="product-name">'+x.name+' × '+x.q+'</div><div class="product-price">'+money(x.total)+'</div></div></div>').join("")+rows.map(r=>'<div class="product-card"><div class="product-info"><span>'+(r.text||"No speech")+'</span><b>'+(r.order?"Voice accepted":"Not recognised")+'</b></div></div>').join("");
+  $("cart").innerHTML=Array.from(basket.values()).map(x=>'<div class="product-card"><div class="product-info"><div class="product-name">'+x.name+' · '+(x.details||[x.q+' packs']).join(', ')+'</div><div class="product-price">'+money(x.total)+'</div></div></div>').join("")+rows.map(r=>'<div class="product-card"><div class="product-info"><span>'+(r.text||"No speech")+'</span><b>'+(r.order?"Voice accepted":"Not recognised")+'</b></div></div>').join("");
   $("total").textContent=money(sum);$("total").parentElement.classList.toggle("near-total",sum>=BUDGET*.9&&sum<=BUDGET);
   $("message").textContent=sum>BUDGET?"Over budget — you lost.":won?"Within your budget — you win!":"No valid items were accepted.";
-  const saved=saveHistory({player,total:sum,won,playedAt:new Date().toISOString(),orders:[...Array.from(basket.values()).map(x=>({transcript:x.name,accepted:true,item:x.name,quantity:x.q})),...rows.map(r=>({transcript:r.text,accepted:!!r.order,item:r.order?.item.name||"",quantity:r.order?.q||0}))]});
+  const saved=saveHistory({player,total:sum,won,playedAt:new Date().toISOString(),orders:[...Array.from(basket.values()).map(x=>({transcript:x.name,accepted:true,item:x.name,quantity:x.details?.join(", ")||String(x.q)})),...rows.map(r=>({transcript:r.text,accepted:!!r.order,item:r.order?.item.name||"",quantity:r.order?.q||0}))]});
   $("message").textContent+=(saved?" Game saved in this tab's session history.":" Game history could not be saved.");
  }catch(e){hideBilling();$("status").textContent="ERROR";alert("Could not prepare the bill. Please try again.");}
  finally{hideBilling();busy=false;$("finishBtn").disabled=!(Object.keys(selected).length||clips.length)}
