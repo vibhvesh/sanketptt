@@ -36,7 +36,7 @@ audio{width:100%;height:32px;margin-top:7px}
   <input id="pttChannel" value="virtual" maxlength="40" aria-label="PTT channel" placeholder="PTT channel">
   <button class="btn green" id="joinPtt">JOIN LINE</button>
  </div>
- <div style="height:min(72vh,680px);min-height:390px;border:1px solid #34505e;border-radius:12px;overflow:hidden;background:#07192d">
+ <div style="display:flex;gap:7px;align-items:center;margin:6px 0 9px"><label for="audioOutput" style="font-size:10px;color:var(--muted);white-space:nowrap">AUDIO OUTPUT</label><select id="audioOutput" style="flex:1;min-width:0;background:#08151d;color:#eff8fa;border:1px solid #36505d;border-radius:8px;padding:8px;font-size:11px"><option value="">Default speaker</option></select></div><div style="height:min(72vh,680px);min-height:390px;border:1px solid #34505e;border-radius:12px;overflow:hidden;background:#07192d">
   <iframe id="pttFrame" title="Sanket PTT radio line" src="../radio/?embed=1&ch=virtual" allow="microphone; autoplay; geolocation" style="width:100%;height:100%;min-height:390px;border:0;display:block"></iframe>
  </div>
  <div class="notice" style="padding-bottom:0">Incoming PTT or your own transmission takes priority over internet radio. Release PTT to resume the station. Radio audio follows your browser’s selected speaker, headset or Bluetooth output.</div>
@@ -60,6 +60,9 @@ function setPttPriority(active,reason){if(pttBusy===!!active)return;pttBusy=!!ac
   if(state.selected&&audio.src){audio.play().catch(()=>{$("#playingMeta").textContent="PTT ended. Tap Play to resume radio audio."});}}
 }
 window.addEventListener("message",e=>{if(e.source!==pttFrame.contentWindow||!e.data||e.data.type!=="sanket-ptt-audio-state")return;setPttPriority(!!e.data.active,e.data.reason||"rx");});
+async function refreshAudioOutputs(){const sel=$("#audioOutput");if(!navigator.mediaDevices||!navigator.mediaDevices.enumerateDevices)return;try{const ds=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==="audiooutput");sel.innerHTML='<option value="">Default speaker</option>'+ds.map((d,i)=>'<option value="'+esc(d.deviceId)+'">'+esc(d.label||("Audio output "+(i+1)))+'</option>').join("");}catch(e){}}
+$("#audioOutput").onchange=async()=>{const id=$("#audioOutput").value;try{if(typeof audio.setSinkId==="function")await audio.setSinkId(id||"");else $("#playingMeta").textContent="This browser cannot select a separate audio output; using its default speaker.";pttFrame.contentWindow.postMessage({type:"sanket-audio-output",deviceId:id},"*");}catch(e){$("#playingMeta").textContent="Output selection failed: "+e.message;}};
+$("#audioOutput").addEventListener("focus",refreshAudioOutputs);refreshAudioOutputs();
 $("#joinPtt").onclick=()=>{const ch=($("#pttChannel").value||"virtual").replace(/[^A-Za-z0-9-]/g,"").slice(0,40)||"virtual";$("#pttChannel").value=ch;pttFrame.src="../radio/?embed=1&ch="+encodeURIComponent(ch)+"&name="+encodeURIComponent("GODMODE");};
 function tune(s){if(!s||!s.url)return;state.selected=s;audio.src=s.url;if(pttBusy){$("#playingMeta").textContent="Station selected · PTT has audio priority";return;}audio.play().then(()=>{}).catch(()=>{$("#playingMeta").textContent="Tap Play in the audio control if autoplay is blocked; stream may also be unavailable."});$("#playingName").textContent=s.name;$("#playingMeta").textContent=[s.country,listLang(s.language),s.codec].filter(Boolean).join(" · ");}
 $("#stop").onclick=()=>{audio.pause();audio.removeAttribute("src");audio.load();state.selected=null;$("#playingName").textContent="Playback stopped";$("#playingMeta").textContent="Choose another station"};
