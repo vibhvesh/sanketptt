@@ -129,7 +129,7 @@ html.sanket-listen-only #ptt,html.sanket-listen-only #sstvP,html.sanket-listen-o
 html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx,
 html.sanket-listen-only .hint{ }
 html.sanket-listen-only #sstvP,html.sanket-listen-only #locp,
-html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx{display:none!important}
+html.sanket-listen-only #ledtx{display:none!important}
 html.sanket-listen-only #ptt{display:flex!important;opacity:.55!important;filter:grayscale(.35)!important;cursor:not-allowed!important}
 .ptt2-session-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:4px 2px}
 #ptt2Logout{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:6px 12px;border:1px solid #b7d8c2;border-radius:8px;background:#102c1c;color:#dffff0;font:700 11px/1 system-ui;letter-spacing:.7px}
@@ -384,15 +384,32 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #ptt2PowerOff.is-on{border-color:#42f477!important;box-shadow:0 0 9px #42f47744!important}
 #ptt2PowerOff.is-off{border-color:#e24a4a!important;color:#ffc9c9!important}
 #main>.panel:has(#log){padding-bottom:12px!important}
+</style></style><style id="ptt2-live-audio-controls-v1">
+.sanket-live-meter{margin-top:7px!important;padding:8px 12px 10px!important;border-radius:14px!important;background:linear-gradient(180deg,#092b43,#061c2b)!important;border:1px solid #244e67!important;box-shadow:inset 0 0 18px #0008,0 6px 16px #0b263322!important}
+.sanket-live-meter .meter-live-label{display:flex!important;align-items:center!important;gap:8px!important;color:#9db9b2!important;font:800 10px/1 system-ui!important;letter-spacing:1.4px!important}
+.sanket-live-meter .meter-live-label i{width:7px;height:7px;border-radius:50%;background:#637c73}
+.sanket-live-meter .meter-live-label b{margin-left:auto;color:#6f9384!important;font:800 9px/1 system-ui!important}
+.sanket-live-meter .bars{height:28px!important;gap:3px!important;margin-top:8px!important;align-items:flex-end!important}
+.sanket-live-meter .bars b{height:20%!important;min-width:3px!important;border-radius:4px!important;background:#183e3b!important;transition:height .08s ease,background .08s ease!important}
+.sanket-live-meter .bars b.l{height:45%!important;background:#2fca78!important;box-shadow:0 0 7px #2fca7866!important}
+.sanket-live-meter .bars b.l.y{height:72%!important;background:#f2c14e!important}
+.sanket-live-meter .bars b.l.r{height:100%!important;background:#ff665f!important}
+.sanket-live-meter.is-receiving .meter-live-label i{background:#42f477;box-shadow:0 0 10px #42f477;animation:rxPulse .55s ease-in-out infinite alternate}
+.sanket-live-meter.is-receiving .meter-live-label b{color:#42f477!important}
+.sanket-live-meter.is-transmitting .meter-live-label i{background:#ff655f;box-shadow:0 0 10px #ff655f}
+@keyframes rxPulse{to{opacity:.35;transform:scale(.75)}}
+#unlock{display:block!important;align-self:center!important;width:min(82%,340px)!important;min-height:46px!important;margin:14px auto 8px!important;padding:11px 18px!important;border:1px solid #9ac9a9!important;border-radius:999px!important;background:linear-gradient(135deg,#eaf7ee,#d8eee0)!important;color:#174a30!important;box-shadow:0 4px 12px #174a3018!important;font:800 13px/1.2 system-ui!important;letter-spacing:.5px!important;text-align:center!important}
+#unlock.audio-active{background:linear-gradient(135deg,#dff8e8,#c8efd7)!important;border-color:#48b978!important;color:#126638!important}
+#main>#ptt{margin-bottom:0!important}
 </style></head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET CONNECT</h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
-<div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
+<div class="meter sanket-live-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div></div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div><button id=ptt2Logout type=button onclick="window.ptt2Logout()">LOG OUT</button></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div><button id=ptt2Logout type=button onclick="window.ptt2Logout()">LOG OUT</button></div><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><button id=unlock type=button aria-pressed="false">🔊 TAP TO ENABLE AUDIO</button><div class=hint>Hold to talk · Desktop: hold Space</div>
 <div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -493,14 +510,15 @@ Recorder.prototype.clear=function(){this.entries=[];this.cur=null;this.onChange(
 if(typeof module!=='undefined')module.exports={Recorder:Recorder,buildWav:buildWav};
 </script>
 <script>
-var RATE=12000,radio,ac,stream,proc,playT=0,holding=false,granted=false,st0={users:[],floor:null},rxLvl=0,txLvl=0,rxAt=0;
+var RATE=12000,radio,ac,stream,proc,playT=0,holding=false,granted=false,audioEnabled=false,audioMuted=true,st0={users:[],floor:null},rxLvl=0,txLvl=0,rxAt=0;
 try{localStorage.removeItem('ch')}catch(e){}nm.value=localStorage.nm||'';
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var NB=20;bars.innerHTML=new Array(NB+1).join('<b></b>');var barEls=bars.children;
 function lvl(a){var m=0;for(var i=0;i<a.length;i+=4){var x=Math.abs(a[i]);if(x>m)m=x}return Math.min(1,Math.sqrt(m/32768)*1.2)}
-function meterLoop(){var v=granted?txLvl:(Date.now()-rxAt<300?rxLvl:0);txLvl*=.85;rxLvl*=.9;var k=Math.round(v*NB);
+function meterLoop(){var receiving=Date.now()-rxAt<450;var v=granted?txLvl:(receiving?rxLvl:0);txLvl*=.85;rxLvl*=.9;var k=Math.round(v*NB);
  for(var i=0;i<NB;i++)barEls[i].className=i<k?('l'+(i>=NB*.85?' r':i>=NB*.6?' y':'')):'';
- ledtx.classList.toggle("on",granted);ledrx.classList.toggle("on",Date.now()-rxAt<400);var sig=document.getElementById("pttLiveSignal");if(sig){var online=!!(radio&&radio.c&&radio.c.connected);sig.classList.toggle("is-live",online);sig.classList.toggle("is-tx",!!granted);sig.querySelector("b").textContent=granted?"TX":online?"LIVE":"OFF";}requestAnimationFrame(meterLoop)}meterLoop();
+ var lcd=document.querySelector(".sanket-live-meter"),ms=document.getElementById("meterState");if(lcd){lcd.classList.toggle("is-receiving",receiving);lcd.classList.toggle("is-transmitting",!!granted)}if(ms)ms.textContent=granted?"TRANSMIT":receiving?"LIVE":"IDLE";
+ ledtx.classList.toggle("on",granted);ledrx.classList.toggle("on",receiving);var sig=document.getElementById("pttLiveSignal");if(sig){var online=!!(radio&&radio.c&&radio.c.connected);sig.classList.toggle("is-live",online);sig.classList.toggle("is-tx",!!granted);sig.querySelector("b").textContent=granted?"TX":online?"LIVE":"OFF";}requestAnimationFrame(meterLoop)}meterLoop();
 var rec=new Recorder(RATE,renderLog),player=null,playingKey=null;
 setInterval(function(){rec.tick()},500);
 function fmtD(s){return s<60?s.toFixed(1)+'s':Math.floor(s/60)+'m'+('0'+Math.round(s%60)).slice(-2)+'s'}
@@ -583,9 +601,10 @@ if(SANKET_LISTEN_ONLY){
  }
 }
 
-function unlockAudio(){ac.resume();var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)} // iOS unlock
-unlock.onclick=unlockAudio;
-function play(a){if(!ac)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
+function unlockAudio(){if(!ac)return Promise.resolve();return ac.resume().then(function(){var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)})} // iOS unlock
+function updateAudioButton(){unlock.textContent=!audioEnabled?"🔊 TAP TO ENABLE AUDIO":audioMuted?"🔇 UNMUTE AUDIO":"🔊 MUTE AUDIO";unlock.setAttribute("aria-pressed",String(audioEnabled&&!audioMuted));unlock.classList.toggle("audio-active",audioEnabled&&!audioMuted)}
+unlock.onclick=function(){if(!audioEnabled){audioEnabled=true;audioMuted=false;unlockAudio().catch(function(){audioEnabled=false;audioMuted=true});}else{audioMuted=!audioMuted;if(!audioMuted)unlockAudio().catch(function(){audioMuted=true})}updateAudioButton()};updateAudioButton();
+function play(a){if(!ac||!audioEnabled||audioMuted)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
  var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+8)playT=now+0.15;s.start(playT);playT+=b.duration}
 function down(e){e&&e.preventDefault();if(SANKET_LISTEN_ONLY||holding||sstvTx)return;unlockAudio();holding=true;render();radio.claim(function(ok){granted=ok&&holding;if(ok&&!holding)radio.release();render()})}
 function up(e){e&&e.preventDefault();if(!holding||sstvTx)return;holding=false;granted=false;radio.release();rec.requestEnd();render()}
