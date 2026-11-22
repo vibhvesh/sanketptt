@@ -269,3 +269,10 @@ body{min-height:100dvh;overflow-x:hidden;overflow-y:auto;padding-bottom:calc(98p
   #round .product-name{font-size:11px}
   #round .product-actions button{font-size:10px}
 }
+
+/* Clear, prominent one-tap checkout action */
+#round .basket-mini{gap:8px}
+#round .quick-checkout{flex:0 0 auto;min-width:142px;min-height:42px;margin:0;padding:10px 14px;border-radius:12px;background:linear-gradient(110deg,#f47721,#ed5b16);color:#fff;font-size:13px;font-weight:950;letter-spacing:.15px;box-shadow:0 4px 10px #f4772138}
+#round .quick-checkout:disabled{opacity:.42;box-shadow:none}
+#round .quick-checkout:not(:disabled):active{transform:scale(.97)}
+@media(max-width:380px){#round .quick-checkout{min-width:126px;padding:9px 10px;font-size:12px}}
