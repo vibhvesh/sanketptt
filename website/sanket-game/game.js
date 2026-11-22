@@ -58,8 +58,8 @@ $("joinBtn").onclick=()=>{player=$("name").value.trim();if(!player)return alert(
 document.querySelectorAll("[data-budget]").forEach(b=>b.onclick=()=>{$("budgetInput").value=b.dataset.budget;document.querySelectorAll("[data-budget]").forEach(x=>x.classList.toggle("chosen",x===b))});
 $("startBtn").onclick=()=>{const entered=Number($("budgetInput").value);if(!Number.isFinite(entered)||entered<100||entered>10000000){alert("Choose a budget between ₹100 and ₹1 crore.");return}BUDGET=Math.round(entered);clips=[];selected={};page=0;$("clips").innerHTML="";$("count").textContent="0";hide("lobby");show("round");show("pttDock");$("nextBtn").disabled=true;renderProducts();renderSelected();$("status").textContent="READY";$("finishBtn").disabled=true;updateBudget()};
 async function wav(blob){const c=new AudioContext(),b=await c.decodeAudioData(await blob.arrayBuffer()),rate=16000,n=Math.ceil(b.duration*rate),src=b.getChannelData(0),a=new Float32Array(n);for(let i=0;i<n;i++){let p=i*b.sampleRate/rate,l=Math.floor(p),f=p-l;a[i]=src[l]*(1-f)+src[Math.min(l+1,src.length-1)]*f}const ab=new ArrayBuffer(44+n*2),v=new DataView(ab),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};w(0,"RIFF");v.setUint32(4,36+n*2,true);w(8,"WAVE");w(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,n*2,true);for(let i=0;i<n;i++){let s=Math.max(-1,Math.min(1,a[i]));v.setInt16(44+i*2,s<0?s*32768:s*32767,true)}await c.close();return new Blob([ab],{type:"audio/wav"})}
-async function startRec(){if(recording||busy)return;try{stream=await navigator.mediaDevices.getUserMedia({audio:true});let parts=[];rec=new MediaRecorder(stream);rec.ondataavailable=e=>e.data.size&&parts.push(e.data);rec.onstop=async()=>{try{clips.push(await wav(new Blob(parts,{type:rec.mimeType})));$("count").textContent=clips.length;$("clips").insertAdjacentHTML("beforeend","<li>Voice order "+clips.length+" saved</li>");$("nextBtn").disabled=false;$("finishBtn").disabled=false;$("status").textContent="SAVED"}catch(e){$("status").textContent="Audio error"}finally{stream?.getTracks().forEach(t=>t.stop());stream=null;recording=false;$("ptt").classList.remove("recording")}};rec.start();recording=true;$("ptt").classList.add("recording");$("status").textContent="RECORDING"}catch(e){alert("Please allow microphone access")}}
-function stopRec(){if(recording&&rec?.state==="recording"){$("status").textContent="SAVING";rec.stop()}}
+async function startRec(){if(recording||busy)return;try{stream=await navigator.mediaDevices.getUserMedia({audio:true});let parts=[];rec=new MediaRecorder(stream);rec.ondataavailable=e=>e.data.size&&parts.push(e.data);rec.onstop=async()=>{try{clips.push(await wav(new Blob(parts,{type:rec.mimeType})));$("count").textContent=clips.length;$("clips").insertAdjacentHTML("beforeend","<li>Voice order "+clips.length+" saved</li>");$("nextBtn").disabled=false;$("finishBtn").disabled=false;$("status").textContent="SAVED"}catch(e){$("status").textContent="Audio error"}finally{stream?.getTracks().forEach(t=>t.stop());stream=null;recording=false;$("ptt").classList.remove("recording");$("ptt").setAttribute("aria-pressed","false");$("pttLabel").textContent="HOLD TO SPEAK";$("pttHint").textContent="Tell Prisha what you need";$("voiceFeedback").textContent="✅ Voice saved. You can keep shopping or finish your basket."}};rec.start();recording=true;$("ptt").classList.add("recording");$("ptt").setAttribute("aria-pressed","true");$("pttLabel").textContent="LISTENING…";$("pttHint").textContent="Release when you finish speaking";$("voiceFeedback").textContent="🎙️ Prisha is listening…";$("status").textContent="RECORDING"}catch(e){alert("Please allow microphone access")}}
+function stopRec(){if(recording&&rec?.state==="recording"){$("status").textContent="SAVING";$("pttLabel").textContent="SAVING…";$("pttHint").textContent="Prisha is saving your voice order";$("voiceFeedback").textContent="✨ Got it! Saving your order…";rec.stop()}}
 const ptt=$("ptt");ptt.addEventListener("contextmenu",e=>e.preventDefault());ptt.addEventListener("selectstart",e=>e.preventDefault());ptt.addEventListener("dragstart",e=>e.preventDefault());ptt.addEventListener("pointerdown",e=>{e.preventDefault();e.stopPropagation();try{ptt.setPointerCapture(e.pointerId)}catch{}startRec()});["pointerup","pointercancel","lostpointercapture"].forEach(x=>ptt.addEventListener(x,e=>{e.preventDefault();stopRec()}));
 $("nextBtn").onclick=()=>{$("nextBtn").disabled=true;$("status").textContent="READY FOR NEXT ITEM"};
 async function transcribe(blob){const r=await fetch(SERVER+"/api/transcribe",{method:"POST",headers:{"Content-Type":"audio/wav"},body:blob});if(!r.ok)throw Error("Transcription server HTTP "+r.status);return String((await r.json()).text||"").trim()}
@@ -210,20 +210,19 @@ function makeReportImage(){
  ctx.fillStyle="#607287";ctx.font="23px Arial";ctx.fillText("A fun shopping game with Prisha • Powered by Sanket",78,canvas.height-55);
  return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("Could not create report image")),"image/png"));
 }
+async function reportBase64(blob){return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result).split(",")[1]);r.onerror=reject;r.readAsDataURL(blob)})}
 async function saveReportImage(){
- const blob=await makeReportImage(),url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download="prisha-shopper-report.png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+ const blob=await makeReportImage();
+ if(window.AndroidBridge?.saveReportImage){window.AndroidBridge.saveReportImage(await reportBase64(blob));return}
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="prisha-shopper-report.png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
 }
 async function shareReportImage(){
- const blob=await makeReportImage(),file=new File([blob],"prisha-shopper-report.png",{type:"image/png"});
+ const blob=await makeReportImage();
  const caption="My Prisha Shopper result: "+(lastReportData.won?"I stayed within budget! 🎉":"I went over budget! 🙈")+" Total "+money(lastReportData.total)+". Play at https://sanketptt.com/sanket-game/";
- if(navigator.canShare&&navigator.canShare({files:[file]})){
-  await navigator.share({files:[file],title:"Prisha Shopper report",text:caption});
- }else{
-  await saveReportImage();
-  const url="https://wa.me/?text="+encodeURIComponent(caption+" (The report picture has been saved; attach it from your gallery.)");
-  window.open(url,"_blank","noopener");
- }
+ if(window.AndroidBridge?.shareReportImage){window.AndroidBridge.shareReportImage(await reportBase64(blob),caption);return}
+ const file=new File([blob],"prisha-shopper-report.png",{type:"image/png"});
+ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Prisha Shopper report",text:caption})}
+ else{await saveReportImage();window.open("https://wa.me/?text="+encodeURIComponent(caption+" (The report picture has been saved; attach it from your gallery.)"),"_blank","noopener")}
 }
 $("saveReport").onclick=()=>saveReportImage().catch(e=>alert("Could not save the report image: "+e.message));
 $("shareReport").onclick=()=>shareReportImage().catch(e=>{if(e.name!=="AbortError")alert("Sharing was not available. Please use Save report picture and share it from your gallery.")});

@@ -177,3 +177,49 @@ main{padding-top:8px}
 .report-actions{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
 .report-actions button{flex:1;min-width:190px}
 @media(max-width:520px){.report-actions{flex-direction:column}.report-actions button{width:100%}}
+
+/* Prisha Shopper: phone-first one-screen market and thumb PTT */
+html{scroll-behavior:auto;overscroll-behavior-y:contain}
+body{min-height:100dvh;overflow-x:hidden;overflow-y:auto;padding-bottom:calc(98px + env(safe-area-inset-bottom))}
+#round{padding:12px;margin:8px 0 12px}
+#round .bar{margin-bottom:7px}
+#round .budget-box{padding:9px 11px;margin:8px 0}
+#round .budget-box p{font-size:11px}
+#round .round-intro{font-size:12px;margin:7px 0}
+#round .market-heading{margin:8px 0 6px}
+#round .market-heading h3{font-size:18px}
+#round .market-heading p{font-size:11px}
+#round .market-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;touch-action:pan-x pan-y}
+#round .market-page{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:1px}
+#round .product-card{border-radius:12px}
+#round .product-photo{height:clamp(66px,18vw,92px);padding:2px}
+#round .product-photo .fallback{font-size:38px}
+#round .product-info{padding:7px;gap:2px}
+#round .product-name{font-size:12px;min-height:29px;line-height:1.2}
+#round .product-unit{font-size:10px}
+#round .product-price{font-size:14px;margin-top:2px}
+#round .product-actions{margin-top:4px}
+#round .product-actions button{font-size:11px;padding:7px 5px}
+#round .market-nav{margin:6px 0}
+#round .market-nav button{padding:7px 10px;font-size:11px}
+#round .page-dots{gap:5px}
+#round .page-dot{width:7px;height:7px;min-width:7px}
+.basket-mini{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#f4f8fc;border:1px solid #dce6ef;border-radius:12px;padding:7px 10px;margin:8px 0;font-size:12px;font-weight:850}
+.basket-mini button{margin:0;padding:8px 12px;font-size:12px}
+.voice-feedback{margin:6px 2px 0;color:#5d7185;font-size:11px;min-height:18px;text-align:center}
+.ptt-dock{padding:7px 12px calc(7px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97)}
+.ptt{height:66px;width:min(100%,560px);border-radius:19px;display:grid;grid-template-columns:52px 1fr;grid-template-rows:1fr 1fr;column-gap:8px;padding:7px 14px;position:relative;overflow:hidden}
+.ptt-waves{grid-row:1/3;grid-column:1;display:flex;align-items:center;justify-content:center;gap:3px;height:42px}
+.ptt-waves i{width:4px;height:9px;border-radius:5px;background:#dfffea;opacity:.9;transform-origin:center;transition:height .15s}
+.ptt strong{grid-column:2;grid-row:1;align-self:end;text-align:left;font-size:15px;letter-spacing:.3px}
+.ptt small{grid-column:2;grid-row:2;align-self:start;text-align:left;color:#eafff3;font-size:11px}
+.ptt.recording{background:linear-gradient(110deg,#e65a42,#b71c1c);box-shadow:0 0 0 5px #e65a4222,0 7px 20px #b71c1c44}
+.ptt.recording .ptt-waves i{background:#fff;height:12px;animation:voiceWave .48s ease-in-out infinite alternate}
+.ptt.recording .ptt-waves i:nth-child(2n){animation-delay:.12s}
+.ptt.recording .ptt-waves i:nth-child(3n){animation-delay:.24s}
+.ptt.recording .ptt-waves i:nth-child(4n){animation-delay:.08s}
+.ptt.recording:after{content:"";position:absolute;inset:0;border:2px solid #fff8;border-radius:19px;pointer-events:none;animation:listenPulse 1.1s ease-out infinite}
+@keyframes voiceWave{from{transform:scaleY(.45);opacity:.65}to{transform:scaleY(2.1);opacity:1}}
+@keyframes listenPulse{0%{opacity:.8;transform:scale(.98)}100%{opacity:0;transform:scale(1.04)}}
+@media(min-width:651px){#round .market-page{grid-template-columns:repeat(3,minmax(0,1fr))}#round .product-photo{height:110px}#round .product-name{font-size:14px}#round .product-unit{font-size:12px}#round .product-price{font-size:17px}#round .product-actions button{font-size:13px;padding:9px}}
+@media(max-height:740px) and (max-width:650px){#round .product-photo{height:64px}#round .market-heading{margin:5px 0}#round .market-nav{margin:3px 0}#round .budget-box{padding:7px 9px}.ptt{height:60px}}
