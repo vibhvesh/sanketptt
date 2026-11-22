@@ -253,7 +253,7 @@ html.ptt-embed #main .hint{display:none!important}
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
 <div class=panel><h3><span>📼 SESSION LOG</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
 <div id=net>connecting…</div></div>
-<script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
+
 <script src="sstv.js"></script>
 <script id=core>
 // ---- protocol core (also used by headless tests) ----
@@ -368,13 +368,13 @@ function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.tex
 function relayEvents(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.requestEnd()}render()}
  else if(k==='sstv'){sstvMeta(v)}else if(k==='audio'){var f=radio.floor;sstvFeed(f,v);if(sstvMute.checked&&sstvRx&&sstvRx.rx.state==='img'){rxAt=Date.now();rec.feed(f.id,f.name,v,false,undefined,radio.users[f.id]&&radio.users[f.id].loc);return}var packetAt=Date.now();rxAt=packetAt;rxLvl=Math.max(rxLvl,lvl(v));if(f){var fu=radio.users[f.id];rec.feed(f.id,f.name,v,false,undefined,fu&&fu.loc);play(v)}}else if(k==='net')net.textContent=window.ptt2OnRelayNet?window.ptt2OnRelayNet(v,radio.relayId,radio.ch):('Joined '+(radio.ch||''))}
-function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec||{};
- if(spec.channel)CHANNEL=String(spec.channel).replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL;
- if(spec.id==='sanket'&&window.ptt2OpenSanket)radio=window.ptt2OpenSanket({roomId:spec.roomId,account:spec.account,on:relayEvents});
- else radio=new Radio(mqtt,{ch:spec.channel||CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:relayEvents});
- radio.browser=true;if(keep)radio.join(keep);render()}
+function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();radio=null;
+ if(!spec||spec.id!=='sanket'||!window.ptt2OpenSanket){net.textContent='Sign in to Sanket Relay.';return;}
+ radio=window.ptt2OpenSanket({roomId:spec.roomId,account:spec.account,on:relayEvents});
+ radio.browser=true;if(keep)radio.join(keep);render();
+ var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',spec.roomId||'')}
 window.ptt2UseRelay=function(spec){start(spec)};
-(function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
+window.ptt2StopRelay=function(){if(radio){radio.leave();radio=null;}net.textContent='Signed out of Sanket Relay.';};
 go.onclick=async function(){
  if(!radio)return alert('The channel is still starting. Try again in a moment.');
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
