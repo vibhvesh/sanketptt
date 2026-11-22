@@ -91,3 +91,59 @@ body.billing-open{overflow:hidden}
 #result .celebration.win-big .result-buddy{animation:bigHappyJump .62s ease-in-out infinite alternate}
 @media(max-width:520px){.poster-art{min-height:205px;padding:15px 12px 4px;gap:0}.poster-mascot{width:40%;max-height:225px;margin-left:-8px}.poster-copy h2{font-size:37px}.poster-copy p{font-size:13px}.poster-badges{gap:4px}.poster-badges span{font-size:9px;padding:6px 7px}.poster-speech{font-size:11px;padding:8px}.game-poster{border-radius:19px;margin-bottom:16px}.lobby-buddy{width:62px;height:86px}.round-buddy{width:40px;height:54px}}
 @media(prefers-reduced-motion:reduce){.poster-mascot,.result-buddy{animation:none!important}}
+
+/* Reliable mascot display: one checked-in JPG, never crop the subject */
+.mascot-welcome img,
+.poster-mascot,
+.lobby-buddy,
+.round-buddy,
+#result .result-buddy {
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #fff4e8;
+}
+.mascot-welcome img {
+  width: clamp(112px, 30vw, 160px) !important;
+  height: auto !important;
+  max-height: 230px !important;
+  aspect-ratio: 849 / 1536;
+  display: block;
+  flex: 0 0 auto;
+  padding: 3px;
+  border-radius: 16px;
+}
+.poster-mascot {
+  width: clamp(118px, 27vw, 205px) !important;
+  height: auto !important;
+  max-height: 245px !important;
+  align-self: flex-end;
+  padding: 4px;
+  border-radius: 18px;
+}
+.lobby-buddy {
+  width: 68px !important;
+  height: auto !important;
+  max-height: 112px !important;
+  align-self: flex-end;
+}
+.round-buddy {
+  width: 46px !important;
+  height: auto !important;
+  max-height: 68px !important;
+}
+#result .result-buddy {
+  width: 92px !important;
+  height: auto !important;
+  max-height: 148px !important;
+  margin: 0 auto -8px;
+  padding: 3px;
+  border-radius: 14px;
+}
+.how-photo { display:none !important; }
+.how-card .how-art { min-height:88px; display:grid; place-items:center; font-size:42px; }
+@media(max-width:430px) {
+  .mascot-welcome img { width:108px !important; max-height:196px !important; }
+  .poster-mascot { width:38% !important; max-height:210px !important; }
+  .lobby-buddy { width:58px !important; }
+  .round-buddy { width:38px !important; }
+}
