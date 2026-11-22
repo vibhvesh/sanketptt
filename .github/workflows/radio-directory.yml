@@ -1,4 +1,4 @@
-name: Refresh radio directory
+name: Continuous news and music radio discovery
 on:
   schedule:
     - cron: "*/30 * * * *"
@@ -16,12 +16,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Probe station endpoints and rebuild directory
+      - name: Crawl news, talk and music sources; validate and deduplicate station records
         run: python scripts/refresh_radio_directory.py
       - name: Commit directory when changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add website/data/radio-directory.json
-          git diff --cached --quiet || git commit -m "Refresh verified radio station directory"
+          git diff --cached --quiet || git commit -m "Refresh news and music radio directory"
           git push
