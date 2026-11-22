@@ -13,6 +13,7 @@ const DEFAULTS = Object.freeze({
   serverUrl: SANKET_TRANSCRIBE_SERVER,
   language: "auto",
   translate: false,
+  targetLanguage: "hi",
 });
 
 function cleanMode(value) {
@@ -68,6 +69,7 @@ export function loadConfig() {
     serverUrl,
     language: language || DEFAULTS.language,
     translate,
+    targetLanguage: String(query.get("targetLanguage") || stored.targetLanguage || DEFAULTS.targetLanguage).slice(0, 12),
     serverAllowed: serverChoice === SERVER_SANKET || isAllowedServer(serverUrl),
     rejectedServer: serverChoice === SERVER_CUSTOM && rawUrl !== "" && !isAllowedServer(rawUrl),
   };
@@ -84,6 +86,7 @@ export function saveConfig(partial) {
     serverUrl,
     language: String(next.language || DEFAULTS.language).slice(0, 12),
     translate: !!next.translate,
+    targetLanguage: String(next.targetLanguage || DEFAULTS.targetLanguage).slice(0, 12),
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
   return loadConfig();
