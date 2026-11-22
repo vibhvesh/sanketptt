@@ -8,6 +8,10 @@ on:
       - "aakashvani/**"
       - ".github/workflows/deploy-hostinger.yml"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Daily news and music radio directory crawl"]
+    types: [completed]
+    branches: [main]
 
 concurrency:
   group: hostinger-website
@@ -15,6 +19,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
