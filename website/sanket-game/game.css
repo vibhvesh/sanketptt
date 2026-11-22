@@ -6,3 +6,24 @@
 .language-select{display:block;width:100%;padding:13px;border:1px solid #c7d3df;border-radius:10px;background:#fff;color:#18324b;font:inherit;margin:0 0 12px}
 .mascot-welcome img{display:block;width:clamp(112px,34vw,160px);height:214px;object-fit:cover;object-position:center top;border-radius:16px;background:#f2f5f8;flex:none}
 @media(max-width:430px){.mascot-welcome img{width:116px;height:160px;object-fit:cover}}
+
+/* Result reveal: price first, then an expressive reaction */
+#result .total{font-size:20px;background:#f8fafc;border:1px solid #e1e8ef;border-radius:14px;padding:16px;margin:14px 0 10px}
+#result .total b{font-size:30px;color:#12345a}
+#result .celebration{min-height:150px;margin:8px 0 12px;padding:14px 8px 18px;border-radius:16px}
+#result .celebration .result-face{position:relative;z-index:2;font-size:92px}
+#result .celebration h2,#result .celebration p{position:relative;z-index:2}
+#result .celebration.win-big{background:linear-gradient(135deg,#fff9df,#e9fff0 55%,#edf5ff);border:1px solid #bfe8ca}
+#result .celebration.win-big .result-face{animation:bigHappyJump .62s cubic-bezier(.25,.8,.35,1.3) infinite alternate;filter:drop-shadow(0 8px 8px #e8a52a55)}
+#result .celebration.win-big h2{color:#138808}
+#result .celebration.win-close{background:#fffaf0;border:1px solid #f4dfb4}
+#result .celebration.win-close .result-face{animation:gentleHappy .9s ease-in-out infinite alternate}
+#result .celebration.loss{background:#fff2f1;border:1px solid #f0c4c1}
+#result .celebration.loss .result-face{animation:cryWobble .55s ease-in-out infinite alternate}
+#result .confetti{overflow:hidden;z-index:1}
+#result .confetti i{width:9px;height:15px;top:-22px;border-radius:3px;animation:colourRain var(--d) linear infinite;animation-delay:var(--delay)}
+#result .celebration.loss .confetti i{display:none}
+@keyframes bigHappyJump{0%{transform:translateY(3px) rotate(-5deg) scale(.98)}55%{transform:translateY(-18px) rotate(5deg) scale(1.12)}100%{transform:translateY(-8px) rotate(-3deg) scale(1.06)}}
+@keyframes gentleHappy{to{transform:translateY(-7px) rotate(4deg) scale(1.05)}}
+@keyframes colourRain{0%{transform:translate3d(0,-10px,0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate3d(18px,260px,0) rotate(720deg);opacity:.15}}
+@media(prefers-reduced-motion:reduce){#result .celebration .result-face,#result .confetti i{animation:none!important}}
