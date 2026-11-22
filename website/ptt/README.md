@@ -11,16 +11,16 @@ All PTT and app URLs are built in this folder. Pages put `data-link="key"` on an
 3. Regenerate the JSON from the module if the check says it is out of date:
 
 ```bash
-node --input-type=module -e 'import {writeFileSync} from "node:fs"; import {BASE,channels,links,roles} from "./website/ptt/links.js"; const out={base:BASE,channels,sanitizer:"letters, numbers, hyphens; max 40", links:Object.fromEntries(Object.entries(links).map(([k,href])=>([k,{href,role:roles[k]}])))}; writeFileSync("website/ptt/links.json", JSON.stringify(out,null,2)+"\n");'
+node --input-type=module -e 'import {writeFileSync} from "node:fs"; import {BASE,channels,links,roles} from "./website/ptt/links.js"; const out={base:BASE,channels,sanitizer:"letters, numbers, hyphens; max 40", links:Object.fromEntries(Object.entries(links).map(([k,href])=>([k,{href,role:roles[k]}])))}; writeFileSync("website/ptt/links.json", JSON.stringify(out,null,2)+"\\n");'
 ```
 
 Preview deploys rewrite the site origin inside this module to `/preview`. Pass paths to `url()` without a leading slash so that rewrite does not prefix them a second time. Do not hard-code `/preview` here.
 
 ## Guards
 
-`scripts/check-links.sh` runs in the Hostinger deploy. It fails the job when any file under `website/` contains the GitHub Pages hostname (`github` + `.io`) or the raw file host (`raw.` + `githubusercontent.com`). The only exception is a line in `links.js` or `links.json` marked `source-entry`. Source entries are `github.com` repository links, not Pages links.
+`scripts/check-links.sh` runs in the Hostinger deploy. It fails the job when any file under `website/` contains the legacy GitHub Pages hostname or the raw GitHub file host. The only exception is a line in `links.js` or `links.json` marked `source-entry`. Source entries are repository links, not Pages links.
 
-`rewriteLegacy()` in `links.js` runs on every URL this module returns. A Pages URL for this project is mapped onto `https://sanketptt.com`: the old site root becomes `/radio/`, `website/` is removed, and the Boondock Pages radio becomes `/boondock/`. The Pages hostname is assembled in pieces so the check above still sees a real leak.
+`rewriteLegacy()` in `links.js` runs on every URL this module returns. A legacy Pages URL for this project is mapped onto `https://sanketptt.com`: the old site root becomes `/radio/`, `website/` is removed, and the Boondock Pages radio becomes `/boondock/`. The hostname is assembled in pieces so the check above still sees a real leak.
 
 ## Keys
 
