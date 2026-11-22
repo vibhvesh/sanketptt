@@ -136,7 +136,7 @@ html.sanket-listen-only #ptt{display:flex!important;opacity:.55!important;filter
 #ptt2Logout:active{transform:scale(.97)}
 html.sanket-listen-only #main>.hint{display:none!important}
 
-#ptt2ChannelBar{display:none!important;margin:8px 10px 0;padding:10px;border:1px solid #2f6f9a;border-radius:12px;background:#0d253d;color:#e7f3fb;font:13px/1.35 system-ui}
+#ptt2ChannelBar{margin:8px 10px 0;padding:10px;border:1px solid #2f6f9a;border-radius:12px;background:#0d253d;color:#e7f3fb;font:13px/1.35 system-ui}
 #ptt2ChannelBar h3{margin:0 0 8px;font-size:13px;letter-spacing:.6px}
 #ptt2ChannelChips{display:flex;flex-wrap:wrap;gap:8px}
 .ptt2-chip{min-height:40px;padding:8px 12px;border:1px solid #35536b;border-radius:999px;background:#07192d;color:#e7f3fb;font:13px/1.2 system-ui}
@@ -153,17 +153,6 @@ html.sanket-listen-only #main>.hint{display:none!important}
 .ptt2-remember{display:flex !important;align-items:center;gap:8px;margin-top:8px;color:#e7f3fb;font-size:14px}
 .ptt2-remember input{width:18px;height:18px}
 #ptt2AuthError{margin:8px 0 0;color:#ffb4a8;font-size:13px}
-.ptt2-settings-launch{display:flex;justify-content:flex-end;margin:6px 10px 0}
-#ptt2SettingsToggle{border:1px solid #6d8d7a;border-radius:999px;background:#102c1c;color:#dffff0;padding:7px 12px;font:700 11px system-ui;letter-spacing:.5px}
-#ptt2SettingsToggle:active{transform:scale(.97)}
-#ptt2Settings[hidden]{display:none!important}
-.ptt2-settings-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
-#ptt2SettingsClose{border:1px solid #456;border-radius:50%;width:30px;height:30px;background:#07192d;color:#fff;font-size:20px}
-.ptt2-setting-check{display:flex;align-items:center;gap:8px;margin:8px 0}
-#ptt2Settings .ptt2-setting-check label{margin:0;color:#e7f3fb;font-size:12px;letter-spacing:0}
-.ptt2-report{margin-top:10px;padding:9px;border:1px solid #35536b;border-radius:8px;background:#07192d}
-.ptt2-report p{white-space:pre-line;font-size:11px;line-height:1.5;color:#d5e6f2}
-#ptt2RunCheck{border:1px solid #47745e;border-radius:7px;background:#123c2e;color:#dffff0;padding:7px 10px;font:12px system-ui}
 #ptt2Settings{margin:8px 10px 0;padding:10px;border:1px solid #23445e;border-radius:10px;background:#0d253d;color:#e7f3fb;font:12px/1.4 system-ui}
 #ptt2Settings h3{margin:0 0 8px;font-size:12px;letter-spacing:.4px}
 #ptt2Settings label{display:block;margin:6px 0 2px;font-size:10px;letter-spacing:.4px;color:#9fb4c6}
@@ -260,10 +249,6 @@ body{padding:8px!important;background:radial-gradient(ellipse at 50% 0%,#183d2b 
 .ptt2-frequency-label{flex:none;color:#8bffa9;font:700 10px/1 system-ui;letter-spacing:1.4px}
 #ptt2Frequency{flex:1;min-width:0;min-height:40px!important;padding:7px 34px 7px 10px!important;border:1px solid #49df72!important;border-radius:8px!important;background-color:#0b2416!important;color:#dffff0!important;font:600 15px/1.2 system-ui!important;box-shadow:0 0 12px #39ff6833!important}
 #ptt2Frequency[hidden]{display:none!important}
-/* Keep Android's native channel menu compact and readable. */
-#ptt2Frequency, #ptt2Frequency option{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important;font-size:14px!important;line-height:1.25!important;font-weight:500!important}
-#ptt2Frequency option{padding:8px 10px!important;background:#0b2416!important;color:#dffff0!important}
-@media(max-width:600px){#ptt2Frequency{font-size:14px!important;min-height:38px!important}#ptt2Frequency option{font-size:14px!important}}
 #ptt2Auth{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0 0!important}
 #ptt2Auth input{min-width:0;min-height:40px!important;margin:0!important;padding:8px!important;font:14px system-ui!important}
 #ptt2SignIn{grid-column:1/-1;min-height:40px!important;margin:0!important}
@@ -387,9 +372,7 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 .ptt-live-signal.is-live{border-color:#42f477!important;box-shadow:0 0 12px #42f47788!important}.ptt-live-signal.is-live i{background:#42f477!important;box-shadow:0 0 5px #42f477!important}
 .ptt-live-signal.is-tx{background:rgba(70,15,10,.88)!important;border-color:#ff6464!important}.ptt-live-signal.is-tx i{background:#ff7777!important;box-shadow:0 0 5px #ff5555!important}
 #ptt{position:relative!important}
-</style>
-
-<style id="ptt2-off-button-top-v1">
+</style></style><style id="ptt2-off-button-top-v1">
 /* Compact OFF control beside LOG OUT; remove the floating bottom switch */
 .ptt2-session-bar{justify-content:flex-end!important;gap:8px!important}
 #hd{margin-right:auto!important}
@@ -478,136 +461,16 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #ptt2PowerOff .ptt2-power-label{font:800 11px/1 system-ui!important;letter-spacing:1px!important}
 #ptt2PowerOff.is-on{border-color:#43e879!important}
 #ptt2PowerOff.is-off{border-color:#d95c5c!important;color:#ffdada!important}
-</style><style id="ptt2-audio-power-inline-v1">
-.ptt2-session-bar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;width:100%!important;margin:2px 0 0!important;padding:2px 4px!important}
-.ptt2-session-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:9px!important;flex:0 0 auto!important}
-#ptt2PowerOff,#unlock{position:static!important;inset:auto!important;transform:none!important;display:inline-flex!important;flex:0 0 44px!important;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;max-width:44px!important;max-height:44px!important;margin:0!important;padding:0!important;border-radius:50%!important;align-items:center!important;justify-content:center!important;gap:0!important;box-shadow:0 2px 9px #1234!important;font:20px/1 system-ui!important;letter-spacing:0!important}
-#ptt2PowerOff{border:2px solid #8ca99a!important;background:radial-gradient(circle at 35% 25%,#244c38,#092417 75%)!important;color:#eaffef!important}
-#ptt2PowerOff .ptt2-power-led,#ptt2PowerOff .ptt2-power-label{display:none!important}
-#ptt2PowerOff .ptt2-power-symbol{font:22px/1 system-ui!important}
-#ptt2PowerOff.is-on{border-color:#42f477!important;box-shadow:0 0 0 2px #42f47755,0 0 13px #42f47766!important}
-#ptt2PowerOff.is-off{border-color:#a3aaa5!important}
-#unlock{background:linear-gradient(145deg,#e9f8ee,#ccebd7)!important;border:2px solid #27965a!important;color:#145b35!important;opacity:1!important}
-#unlock.audio-active{background:linear-gradient(145deg,#d9ffe7,#9cebb9)!important;box-shadow:0 0 0 2px #42f47744,0 0 14px #42f47777!important}
-#main>#ptt{margin-top:clamp(16px,4vh,34px)!important}
-@media(max-width:560px){.ptt2-session-actions{gap:7px!important}#ptt2PowerOff,#unlock{flex-basis:42px!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;max-width:42px!important;max-height:42px!important}}
-</style>
-<style id="ptt2-global-smooth-ui-v1">
-/* Global polish for the complete Sanket PTT client */
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body,.rig{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale }
-body{overflow-x:hidden}
-.rig{width:min(100%,520px);min-width:0;overflow:hidden;border-radius:22px}
-.rig *{min-width:0}
-.brand,.leds,.ptt2-session-bar,.ptt2-session-actions{flex-wrap:wrap}
-.panel,#ptt2ChannelBar,#ptt2Settings,#ptt2Auth,#latestMessagesPanel,
-#main>.panel,.ptt2-card,.ptt2-section{
-  border-radius:16px!important;box-sizing:border-box!important;max-width:100%!important
-}
-#ptt2ChannelBar{width:100%!important;margin:8px 0 6px!important;padding:10px!important}
-#ptt2ChannelBar .ptt2-frequency-row{
-  min-height:48px!important;padding:6px 8px!important;gap:10px!important;
-  align-items:center!important;border-radius:12px!important
-}
-#ptt2ChannelBar .ptt2-frequency-label{
-  font:700 11px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif!important;
-  letter-spacing:.2px!important;white-space:normal!important
-}
-#ptt2Frequency,select#ptt2Frequency{
-  width:100%!important;min-width:0!important;max-width:100%!important;
-  min-height:46px!important;padding:10px 42px 10px 13px!important;
-  border:1px solid #cbd8e3!important;border-radius:12px!important;
-  background-color:#fff!important;color:#18324b!important;
-  font:600 16px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif!important;
-  letter-spacing:0!important;white-space:normal!important
-}
-#ptt2Frequency option,select option{
-  font:500 16px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif!important;
-  padding:9px!important;white-space:normal!important
-}
-input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),
-select,textarea{
-  max-width:100%!important;min-width:0!important;min-height:44px!important;
-  border-radius:12px!important;line-height:1.35!important
-}
-button,.btn,.cta{
-  max-width:100%;min-width:0;border-radius:12px!important;
-  -webkit-tap-highlight-color:transparent;touch-action:manipulation
-}
-.panel{padding:12px!important}
-#log{scroll-behavior:smooth;overscroll-behavior:contain}
-#log li,#latestMessagesPanel #log li{
-  border-radius:13px!important;overflow-wrap:anywhere;word-break:normal;
-  line-height:1.4!important
-}
-#log li .cs{min-width:0;overflow-wrap:anywhere}
-#us li{max-width:100%;overflow-wrap:anywhere;line-height:1.35}
-#st,.hint,#net,.ptt2-hint,.ptt2-line,.ptt2-note{
-  line-height:1.45!important;overflow-wrap:anywhere
-}
-#ptt{flex-shrink:0;touch-action:none;-webkit-tap-highlight-color:transparent}
-#map{max-width:100%;overflow:hidden;border-radius:14px!important}
-img,canvas,video{max-width:100%;height:auto}
-button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{
-  outline:3px solid #2c79b8!important;outline-offset:2px!important
-}
-@media(max-width:560px){
-  body{padding:8px!important}
-  .rig{padding:12px!important;border-radius:18px!important}
-  .panel{padding:10px!important;margin-top:10px!important}
-  #ptt2ChannelBar .ptt2-frequency-row{gap:7px!important}
-  #ptt2Frequency,select#ptt2Frequency{font-size:16px!important;min-height:46px!important}
-  #latestMessagesPanel #log{padding-right:2px!important}
-}
-@media(min-width:561px){
-  .rig{margin:14px auto!important}
-}
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto!important}
-  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
-}
-</style>
-
-<style id="ptt2-simple-radio-layout">
-/* Simple operator console: only PTT, channel, compact controls and message history */
-.rig{max-width:680px!important;padding:14px!important}
-.brand{align-items:center!important}
-.leds{gap:7px!important;flex-direction:row!important}
-.led{font-size:9px!important;gap:2px!important}
-.led i{width:9px!important;height:9px!important}
-.led.pw{display:none!important}
-.lcd{margin-bottom:10px!important}
-#ptt2ChannelBar{display:flex!important;order:1!important;width:100%!important;margin:8px 0 6px!important;padding:0!important;background:transparent!important;border:0!important}
-#ptt2ChannelBar .ptt2-frequency-row{display:flex!important;align-items:center!important;gap:9px!important;width:100%!important;padding:5px 8px!important;min-height:44px!important;background:#0b2416!important;border:1px solid #39764d!important;border-radius:10px!important}
-#ptt2ChannelBar .ptt2-frequency-label{font-size:10px!important;white-space:nowrap!important}
-#ptt2Frequency{display:block!important;visibility:visible!important;flex:1!important;width:100%!important;min-height:38px!important;font-size:14px!important}
-#ptt2ChannelChips,.ptt2-chip{display:none!important}
-.ptt2-quick-actions{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:8px!important;margin:6px 0!important}
-.ptt2-quick-actions button{min-height:34px!important;padding:6px 11px!important;border-radius:999px!important;font:700 11px system-ui!important}
-#ptt2SettingsToggle{background:#123c2e!important;border:1px solid #4a8064!important;color:#e4ffed!important}
-#ptt2PowerOff{background:#26343d!important;border:1px solid #73828a!important;color:#fff!important}
-#main{gap:8px!important}
-#main>.ptt2-session-bar{display:none!important}
-#ptt{order:1!important;width:min(68vw,300px)!important;height:min(68vw,300px)!important;margin:16px auto 8px!important}
-#unlock{order:2!important;display:block!important;width:auto!important;min-width:108px!important;min-height:36px!important;margin:0 auto 8px!important;padding:8px 14px!important;border-radius:999px!important;background:#173c5a!important;color:#fff!important;font:700 11px system-ui!important}
-#main>.hint,#main>.panel:not(#latestMessagesPanel),#locp,#sstvP,#net{display:none!important}
-#latestMessagesPanel{order:3!important;display:block!important;margin-top:12px!important;padding:10px!important;background:#0c2030!important;border:1px solid #31516a!important}
-#latestMessagesPanel h3{font-size:12px!important;color:#dceeff!important}
-#log{max-height:260px!important;overflow:auto!important}
-#ptt2Settings{display:block!important;order:4!important;margin:8px 0!important;padding:12px!important;background:#0d253d!important;border:1px solid #35536b!important;border-radius:12px!important;color:#e7f3fb!important}
-#ptt2Settings[hidden]{display:none!important}
-@media(max-width:560px){.rig{padding:10px!important}.brand h1{font-size:clamp(15px,5vw,22px)!important}.leds{gap:6px!important}#ptt{width:min(72vw,280px)!important;height:min(72vw,280px)!important}}
-</style>
-</head><body><div class=rig>
+</style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
 </div>
-<div id="ptt2ChannelBar"></div><div class="ptt2-quick-actions"><button id="ptt2SettingsToggle" type="button" aria-expanded="false">⚙ SETTINGS</button><button id="ptt2PowerOff" type="button">⏻ POWER OFF</button></div>
-<div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button></div>
-<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div></div><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><button id=unlock type=button aria-pressed="false" aria-label="Mute or unmute audio">🔊 MUTE</button><div class=hint>Hold to talk · Desktop: hold Space</div>
-<div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
+<div id="ptt2ChannelBar"></div>
+<div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
+<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div></div><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><button id=unlock type=button aria-pressed="false">🔊 TAP TO ENABLE AUDIO</button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
 <div id=sstvTx style="display:none"><canvas id=sstvPrev width=320 height=240 style="width:100%;max-width:320px;display:block;margin:auto;border-radius:6px"></canvas>
@@ -615,7 +478,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 <input type=file id=sstvFile accept="image/*" style="display:none"><button id=sstvBtn style="width:100%;margin-bottom:6px">📷 SSTV · send a picture</button>
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
 <div class="panel" id="latestMessagesPanel"><h3><span>LATEST MESSAGES</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
-<div id="ptt2Settings" hidden></div><div id=net>connecting…</div></div>
+<div id=net>connecting…</div></div>
 <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
 <script src="sstv.js"></script>
 <script id=core>
@@ -792,7 +655,7 @@ if(SANKET_LISTEN_ONLY){
 }
 
 function unlockAudio(){if(!ac)return Promise.resolve();return ac.resume().then(function(){var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)})} // iOS unlock
-function updateAudioButton(){unlock.textContent=!audioEnabled?"🔊":audioMuted?"🔇":"🔊";unlock.setAttribute("aria-label",!audioEnabled?"Tap to enable audio":audioMuted?"Unmute audio":"Mute audio");unlock.title=unlock.getAttribute("aria-label");unlock.setAttribute("aria-pressed",String(audioEnabled&&!audioMuted));unlock.classList.toggle("audio-active",audioEnabled&&!audioMuted)}
+function updateAudioButton(){unlock.textContent=!audioEnabled?"🔊 TAP TO ENABLE AUDIO":audioMuted?"🔇 UNMUTE AUDIO":"🔊 MUTE AUDIO";unlock.setAttribute("aria-pressed",String(audioEnabled&&!audioMuted));unlock.classList.toggle("audio-active",audioEnabled&&!audioMuted)}
 unlock.onclick=function(){if(!audioEnabled){audioEnabled=true;audioMuted=false;unlockAudio().catch(function(){audioEnabled=false;audioMuted=true});}else{audioMuted=!audioMuted;if(!audioMuted)unlockAudio().catch(function(){audioMuted=true})}updateAudioButton()};updateAudioButton();
 function play(a){if(!ac||!audioEnabled||audioMuted)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
  var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+8)playT=now+0.15;s.start(playT);playT+=b.duration}
@@ -875,4 +738,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot.js?v=20261122-10"></script></body></html>
+</script><script type="module" src="boot.js?v=20261122-12"></script></body></html>
