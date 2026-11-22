@@ -8,7 +8,7 @@
  */
 import { isAllowedServer } from "./config.js";
 import { basicAuthHeader } from "../relay/auth.js";
-import { languageHeader, lineSearch } from "./line.js";
+import { lineSearch } from "./line.js";
 
 export const REQUEST_TIMEOUT_MS = 15000;
 const ATTEMPTS = 2;
@@ -21,9 +21,6 @@ async function postOnce(serverUrl, wavBuffer, config, line) {
   const headers = { "Content-Type": "audio/wav" };
   const auth = basicAuthHeader();
   if (auth) headers.Authorization = auth;
-  const language = languageHeader(config && config.language);
-  if (language) headers["X-Sanket-Language"] = language;
-  if (config && config.translate) headers["X-Sanket-Translate"] = "1";
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
