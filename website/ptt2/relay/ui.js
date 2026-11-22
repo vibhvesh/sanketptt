@@ -1,4 +1,4 @@
-import { RELAY_SANKET, SANKET_UNREACHABLE, formatRelayNet, relaySpec, saveRoom } from "./config.js";
+import { RELAY_SANKET, SANKET_UNREACHABLE, formatRelayNet, loadRoom, relaySpec, saveRoom } from "./config.js";
 import { assignedRooms } from "./sanket-socket.js";
 import { getToken, rememberedLogin, signIn, signOut } from "./auth.js";
 
@@ -66,7 +66,7 @@ export function mountRelay(root, onChoose) {
           '">' + esc(name) + '</button>';
       }).join("");
     }
-    form.hidden = !!getToken();
+    form.hidden = !!getToken() && rooms.length > 0;
     signOutButton.hidden = !getToken();
   }
 
@@ -93,7 +93,7 @@ export function mountRelay(root, onChoose) {
         return;
       }
       const preferred = rooms.find((room) => room.roomId === activeRoom) ||
-        rooms.find((room) => room.roomId === localStorage.getItem("sanket.ptt2.relayRoom")) ||
+        rooms.find((room) => room.roomId === loadRoom()) ||
         rooms[0];
       connectRoom(preferred.roomId);
     } catch (e) {
@@ -152,7 +152,25 @@ export function mountRelay(root, onChoose) {
     password.value = saved.password;
     remember.checked = true;
   }
-  if (getToken() && saved) {
+  if (getToken()) {
+    (async () => {
+      try {
+        rooms = await assignedRooms();
+        render();
+        if (rooms.length) {
+          const preferred = rooms.find((room) => room.roomId === loadRoom()) || rooms[0];
+          connectRoom(preferred.roomId);
+        } else {
+          paint(status, "Signed in · no assigned channels");
+        }
+      } catch (e) {
+        signOut();
+        render();
+        showError("Your Sanket session expired. Please sign in again.");
+        paint(status, SANKET_UNREACHABLE);
+      }
+    })();
+  } else if (saved) {
     enter(saved.email, saved.password, true);
   }
 }
