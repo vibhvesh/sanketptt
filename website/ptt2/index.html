@@ -557,7 +557,7 @@ function startLoc(){if(!shareloc.checked)return;
   function(e){ipLoc(e.code===1?'denied':'unavailable')},{enableHighAccuracy:true,timeout:15000,maximumAge:60000})}
 function stopLoc(){if(watchId!=null)navigator.geolocation.clearWatch(watchId);watchId=null;lastPos=null;radio.setLoc(null);locst.textContent='Location sharing stopped';render()}
 shareloc.onchange=function(){if(shareloc.checked){if(main.style.display==='block')startLoc()}else stopLoc()};
-addEventListener('pagehide',function(){radio.leave()});
+addEventListener('pagehide',function(){if(radio)radio.leave()});
 </script>
 <script>
 // ---- SSTV (multi-mode) send / receive ----
