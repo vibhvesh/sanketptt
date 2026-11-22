@@ -1,4 +1,4 @@
-import { RELAY_SANKET, SANKET_UNREACHABLE, formatRelayNet, loadRoom, relaySpec, saveRoom } from "./config.js";
+import { SANKET_UNREACHABLE, formatRelayNet, loadRoom, relaySpec, saveRoom } from "./config.js";
 import { assignedRooms } from "./sanket-socket.js";
 import { getToken, rememberedLogin, signIn, signOut } from "./auth.js";
 
