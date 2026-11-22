@@ -46,10 +46,13 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
 
   function options() {
     const items = rooms.map((r) => ({ value: "sanket:" + r.roomId, name: r.roomName || r.name || r.roomId }));
-    const selected = currentValue();
+    const remembered = currentValue();
+    if (!items.length) items.push({ value: remembered, name: loadRoom() || "Default channel" });
+    const selected = items.some((item) => item.value === remembered) ? remembered : items[0].value;
     select.innerHTML = items.map((item) =>
       '<option value="' + esc(item.value) + '"' + (item.value === selected ? " selected" : "") + ">" + esc(item.name) + "</option>"
     ).join("");
+    select.value = selected;
     select.hidden = false;
     select.disabled = !signedIn || items.length < 2;
   }
