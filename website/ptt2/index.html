@@ -358,7 +358,7 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #main>#latestMessagesPanel{display:block!important;visibility:visible!important;width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:16px 0 0!important;padding:13px!important;border:1px solid #d8e5dc!important;border-radius:16px!important;background:rgba(255,255,255,.82)!important;box-shadow:0 4px 18px rgba(20,60,38,.08)!important;color:#173c2b!important;text-align:left!important}
 #latestMessagesPanel h3{color:#245b3d!important;font:800 12px/1.2 system-ui!important;letter-spacing:1.3px!important}
 #latestMessagesPanel #clr{background:#e6f1e9!important;color:#245b3d!important;border:1px solid #c7ddcd!important}
-#latestMessagesPanel #log{display:flex!important;flex-direction:column!important;gap:9px!important;width:100%!important;max-height:none!important;overflow:visible!important;box-sizing:border-box!important;padding:0!important;margin:0!important}
+#latestMessagesPanel #log{display:flex!important;flex-direction:column!important;gap:9px!important;width:100%!important;height:clamp(300px,43vh,390px)!important;max-height:43vh!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;scroll-behavior:smooth!important;box-sizing:border-box!important;padding:0 4px 0 0!important;margin:0!important}
 #latestMessagesPanel #log li{display:grid!important;grid-template-columns:44px minmax(0,1fr) auto!important;grid-template-rows:auto auto!important;align-items:center!important;gap:4px 10px!important;width:100%!important;min-height:68px!important;box-sizing:border-box!important;padding:9px 11px!important;margin:0!important;border:1px solid #d7e6dc!important;border-radius:13px!important;background:#f5faf6!important;color:#173c2b!important;box-shadow:0 2px 7px rgba(18,62,36,.05)!important;font:14px/1.35 system-ui!important}
 #latestMessagesPanel #log li>button{grid-column:1;grid-row:1/3;width:40px!important;height:40px!important;border-radius:50%!important;background:#159653!important;color:#fff!important;box-shadow:none!important;font:700 16px system-ui!important}
 #latestMessagesPanel #log li .cs{grid-column:2;grid-row:1;color:#174a30!important;font:700 14px system-ui!important;white-space:normal!important}
@@ -401,6 +401,12 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #unlock{display:block!important;align-self:center!important;width:min(82%,340px)!important;min-height:46px!important;margin:14px auto 8px!important;padding:11px 18px!important;border:1px solid #9ac9a9!important;border-radius:999px!important;background:linear-gradient(135deg,#eaf7ee,#d8eee0)!important;color:#174a30!important;box-shadow:0 4px 12px #174a3018!important;font:800 13px/1.2 system-ui!important;letter-spacing:.5px!important;text-align:center!important}
 #unlock.audio-active{background:linear-gradient(135deg,#dff8e8,#c8efd7)!important;border-color:#48b978!important;color:#126638!important}
 #main>#ptt{margin-bottom:0!important}
+</style></style><style id="ptt2-message-scroll-v2">
+#latestMessagesPanel{min-height:0!important}
+#latestMessagesPanel #log li .cs{font-weight:800!important}
+#latestMessagesPanel #log li .du{font-weight:750!important}
+#latestMessagesPanel #log::-webkit-scrollbar{width:6px}
+#latestMessagesPanel #log::-webkit-scrollbar-thumb{background:#a9c9b5;border-radius:8px}
 </style></head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET CONNECT</h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -522,7 +528,7 @@ function meterLoop(){var receiving=Date.now()-rxAt<450;var v=granted?txLvl:(rece
 var rec=new Recorder(RATE,renderLog),player=null,playingKey=null;
 setInterval(function(){rec.tick()},500);
 function fmtD(s){return s<60?s.toFixed(1)+'s':Math.floor(s/60)+'m'+('0'+Math.round(s%60)).slice(-2)+'s'}
-function renderLog(es){var latest=(es||[]).slice(0,3);log.innerHTML=latest.length?latest.map(function(e){return '<li class="'+(e.mine?'mine':'')+'"><button data-k="'+e.key+'" class="'+(playingKey===e.key?'playing':'')+'">'+(playingKey===e.key?'■':'▶')+'</button><span class=cs>'+esc(e.name)+(e.mine?' (you)':'')+(e.loc?'<span class=lg>📍 '+esc(locTxt(e.loc))+'</span>':'')+'</span><span class=tm>'+new Date(e.t0).toLocaleTimeString()+'</span><span class=du>'+fmtD(e.dur)+'</span></li>'}).join(''):'<li class=hint>No recent messages</li>'}
+function renderLog(es){var all=(es||[]).slice().reverse();log.innerHTML=all.length?all.map(function(e){return '<li class="'+(e.mine?'mine':'')+'"><button data-k="'+e.key+'" class="'+(playingKey===e.key?'playing':'')+'">'+(playingKey===e.key?'■':'▶')+'</button><span class=cs>'+esc(e.name)+(e.mine?' (you)':'')+(e.loc?'<span class=lg>📍 '+esc(locTxt(e.loc))+'</span>':'')+'</span><span class=tm>'+new Date(e.t0).toLocaleTimeString()+'</span><span class=du>'+fmtD(e.dur)+'</span></li>'}).join(''):'<li class=hint>No recent messages</li>';log.scrollTop=log.scrollHeight}
 log.onclick=function(ev){var b=ev.target.closest('button');if(!b)return;var k=+b.dataset.k,e=rec.entries.filter(function(x){return x.key===k})[0];
  if(player){player.pause();URL.revokeObjectURL(player.src);player=null;var was=playingKey;playingKey=null;renderLog(rec.entries);if(was===k)return}
  if(!e)return;player=new Audio(URL.createObjectURL(new Blob([e.wav],{type:'audio/wav'})));playingKey=k;
