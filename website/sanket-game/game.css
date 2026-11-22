@@ -27,3 +27,39 @@
 @keyframes gentleHappy{to{transform:translateY(-7px) rotate(4deg) scale(1.05)}}
 @keyframes colourRain{0%{transform:translate3d(0,-10px,0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate3d(18px,260px,0) rotate(720deg);opacity:.15}}
 @media(prefers-reduced-motion:reduce){#result .celebration .result-face,#result .confetti i{animation:none!important}}
+
+/* Animated bill preparation overlay */
+.billing-overlay{position:fixed;inset:0;z-index:100;background:rgba(10,30,52,.72);backdrop-filter:blur(7px);display:grid;place-items:center;padding:18px;overflow:auto}
+.billing-overlay[hidden]{display:none!important}
+.billing-card{width:min(100%,460px);background:#fff;border-radius:24px;padding:22px 20px 18px;box-shadow:0 24px 70px #061a3060;overflow:hidden;text-align:center}
+.billing-top{display:flex;align-items:center;gap:14px;text-align:left}
+.billing-basket{width:58px;height:58px;flex:none;border-radius:18px;background:#fff2e7;display:grid;place-items:center;font-size:34px;animation:basketBob .8s ease-in-out infinite alternate}
+.billing-kicker{font-size:10px;font-weight:900;letter-spacing:1.5px;color:#f47721}
+.billing-top h2{font-size:clamp(21px,5vw,27px);margin:3px 0 4px;color:#12345a}
+.billing-top p{font-size:13px;line-height:1.45;color:#687b8d;margin:0}
+.billing-scene{height:170px;position:relative;display:flex;align-items:end;justify-content:center;gap:18px;margin:14px auto 8px;max-width:330px;border-radius:18px;background:linear-gradient(180deg,#f3f8fc,#fff4e9);overflow:hidden}
+.billing-clerk{width:100px;height:140px;position:relative;display:flex;align-items:center;justify-content:center;animation:clerkWork .9s ease-in-out infinite alternate}
+.clerk-face{position:absolute;top:0;font-size:52px;z-index:2}
+.clerk-body{position:absolute;top:48px;font-size:66px}
+.clerk-arm{position:absolute;top:53px;right:0;font-size:34px;z-index:3;transform-origin:top left;animation:stampBill .65s ease-in-out infinite alternate}
+.receipt-printer{width:145px;position:relative;z-index:1}
+.printer-slot{height:20px;border-radius:8px 8px 2px 2px;background:#52677c;border:5px solid #344b62}
+.receipt-paper{width:90px;height:74px;background:#fff;border:1px solid #d5dce3;margin:-2px auto -3px;padding:7px 8px;box-shadow:0 2px 6px #18324b20;animation:receiptPrint 1.5s ease-in-out infinite}
+.receipt-paper span{font-size:7px;font-weight:900;color:#12345a;display:block;margin-bottom:7px}
+.receipt-paper i{display:block;height:3px;background:#d9e2ea;margin:5px 0;width:80%}
+.receipt-paper i:nth-of-type(2){width:55%}.receipt-paper i:nth-of-type(3){width:68%}
+.receipt-paper b{display:block;text-align:right;color:#138808;font-size:13px}
+.printer-base{height:26px;background:#344b62;color:#fff;border-radius:3px 3px 10px 10px;font-size:8px;font-weight:900;letter-spacing:1px;padding-top:8px}
+.billing-progress{text-align:left;background:#f7fafc;border:1px solid #e2eaf1;border-radius:14px;padding:13px 14px}
+.billing-progress-track{height:10px;background:#dce4ec;border-radius:20px;overflow:hidden;margin-bottom:12px}
+.billing-progress-track span{display:block;width:22%;height:100%;border-radius:20px;background:linear-gradient(90deg,#20a65a,#8ccf49);transition:width .45s ease}
+.billing-step{font-size:13px;color:#8a98a7;margin:9px 0}
+.billing-step.active{font-weight:850;color:#12345a}
+.billing-step.complete{color:#138808;font-weight:750}
+.billing-footnote{font-size:12px;color:#8090a0;margin:12px 0 0}
+body.billing-open{overflow:hidden}
+@keyframes basketBob{to{transform:translateY(-6px) rotate(4deg)}}
+@keyframes clerkWork{to{transform:translateY(-5px) rotate(2deg)}}
+@keyframes stampBill{to{transform:rotate(-24deg) translateY(-5px)}}
+@keyframes receiptPrint{0%,20%{transform:translateY(-16px);opacity:.5}70%,100%{transform:translateY(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.billing-overlay *{animation:none!important;transition:none!important}}

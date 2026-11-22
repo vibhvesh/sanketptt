@@ -74,7 +74,49 @@ $("resultTitle").textContent=won?"YOU DID IT!":"OH NO! TRY AGAIN!";
 $("resultMessage").textContent=won?(goodMargin?"Brilliant! You saved "+money(margin)+"!":"So close to your budget! Nice shopping!"):"Over budget by "+money(Math.max(0,total-BUDGET))+". Try again!";
 $("confetti").innerHTML=won?Array.from({length:goodMargin?70:28},(_,i)=>'<i style="--x:'+((i*37)%100)+'%;--c:'+["#f47721","#22a65a","#f2c94c","#4597dc","#e76ca0","#7b61ff"][i%6]+';--d:'+(1.4+(i%8)*.2)+'s;--delay:-'+(i%11)*.17+'s"></i>').join(""):"";
 }
-$("finishBtn").onclick=async()=>{if((!clips.length&&!Object.keys(selected).length)||busy)return;busy=true;$("finishBtn").disabled=true;$("status").textContent=clips.length?"TRANSCRIBING":"BUILDING BASKET";const rows=[];for(const audio of clips){try{const text=await transcribe(audio);rows.push({text,order:parse(text)})}catch(e){rows.push({text:"Transcription error: "+e.message,order:null})}}const basket=new Map();let sum=0;for(const x of ITEMS)if(selected[x.id]){const q=selected[x.id];basket.set(x.id,{name:x.name,q,total:x.price*q});sum+=x.price*q}for(const r of rows)if(r.order){const x=r.order.item,q=r.order.q,old=basket.get(x.id)||{name:x.name,q:0,total:0};old.q+=q;old.total+=x.price*q;basket.set(x.id,old);sum+=x.price*q}hide("round");hide("pttDock");show("result");const won=sum<=BUDGET&&basket.size>0;playCelebration(won,sum);$("cart").innerHTML=Array.from(basket.values()).map(x=>'<div class="product-card"><div class="product-info"><div class="product-name">'+x.name+' × '+x.q+'</div><div class="product-price">'+money(x.total)+'</div></div></div>').join("")+rows.map(r=>'<div class="product-card"><div class="product-info"><span>'+(r.text||"No speech")+'</span><b>'+(r.order?"Voice accepted":"Not recognised")+'</b></div></div>').join("");$("total").textContent=money(sum);$("total").parentElement.classList.toggle("near-total",sum>=BUDGET*.9&&sum<=BUDGET);$("message").textContent=sum>BUDGET?"Over budget — you lost.":won?"Within your budget — you win!":"No valid items were accepted.";const saved=saveHistory({player,total:sum,won,playedAt:new Date().toISOString(),orders:[...Array.from(basket.values()).map(x=>({transcript:x.name,accepted:true,item:x.name,quantity:x.q})),...rows.map(r=>({transcript:r.text,accepted:!!r.order,item:r.order?.item.name||"",quantity:r.order?.q||0}))]});$("message").textContent+=(saved?" Game saved in this tab's session history.":" Game history could not be saved.");busy=false};
+function billingText(key){const all={en:{title:"Creating your bill…",subtitle:"Prisha is checking your basket and adding everything up.",one:"⏳ Checking your shopping basket…",two:"○ Calculating item prices…",three:"○ Printing your bill…",done:"✓ Your bill is ready!"},hi:{title:"आपका बिल बन रहा है…",subtitle:"प्रिशा आपकी टोकरी और कुल कीमत जाँच रही है।",one:"⏳ आपकी खरीदारी जाँची जा रही है…",two:"○ सामान की कीमत जोड़ी जा रही है…",three:"○ आपका बिल तैयार हो रहा है…",done:"✓ आपका बिल तैयार है!"},gu:{title:"તમારું બિલ બની રહ્યું છે…",subtitle:"પ્રિશા તમારી ટોપલી અને કુલ કિંમત ચકાસી રહી છે.",one:"⏳ તમારી ખરીદી તપાસી રહી છે…",two:"○ વસ્તુઓની કિંમત ગણાઈ રહી છે…",three:"○ તમારું બિલ છપાઈ રહ્યું છે…",done:"✓ તમારું બિલ તૈયાર છે!"}};return (all[GAME_LANGUAGE]||all.en)[key]}
+function billingStage(stage){
+ const fill=$("billingProgressFill"),one=$("billingStepOne"),two=$("billingStepTwo"),three=$("billingStepThree");
+ const labels=["one","two","three"];
+ [one,two,three].forEach((el,i)=>{el.classList.toggle("active",i===stage-1);el.classList.toggle("complete",i<stage-1)});
+ const done=["✓","✓","✓"];
+ [one,two,three].forEach((el,i)=>{const key=labels[i];el.textContent=i<stage-1?done[i]+" "+billingText(key).replace(/^[^ ]+ /,""):i===stage-1?billingText(key):"○ "+billingText(key).replace(/^[^ ]+ /,"")});
+ fill.style.width=(stage===1?22:stage===2?64:92)+"%";
+}
+function showBilling(){
+ $("billingTitle").textContent=billingText("title");$("billingSubtitle").textContent=billingText("subtitle");
+ $("billingOverlay").hidden=false;document.body.classList.add("billing-open");billingStage(1);
+}
+function hideBilling(){ $("billingOverlay").hidden=true;document.body.classList.remove("billing-open"); }
+$("finishBtn").onclick=async()=>{
+ if((!clips.length&&!Object.keys(selected).length)||busy)return;
+ busy=true;$("finishBtn").disabled=true;$("status").textContent=clips.length?"TRANSCRIBING":"BUILDING BASKET";
+ showBilling();
+ try{
+  const rows=[];
+  if(clips.length){
+   billingStage(1);
+   for(const audio of clips){try{const text=await transcribe(audio);rows.push({text,order:parse(text)})}catch(e){rows.push({text:"Transcription error: "+e.message,order:null})}}
+  }
+  billingStage(2);
+  const basket=new Map();let sum=0;
+  for(const x of ITEMS)if(selected[x.id]){const q=selected[x.id];basket.set(x.id,{name:x.name,q,total:x.price*q});sum+=x.price*q}
+  for(const r of rows)if(r.order){const x=r.order.item,q=r.order.q,old=basket.get(x.id)||{name:x.name,q:0,total:0};old.q+=q;old.total+=x.price*q;basket.set(x.id,old);sum+=x.price*q}
+  await new Promise(resolve=>setTimeout(resolve,550));
+  billingStage(3);$("billingTitle").textContent=billingText("done");$("billingSubtitle").textContent=billingText("done");
+  $("billingProgressFill").style.width="100%";
+  [ $("billingStepOne"),$("billingStepTwo"),$("billingStepThree")].forEach(el=>el.classList.add("complete"));
+  await new Promise(resolve=>setTimeout(resolve,700));
+  hideBilling();hide("round");hide("pttDock");show("result");
+  const won=sum<=BUDGET&&basket.size>0;playCelebration(won,sum);
+  $("cart").innerHTML=Array.from(basket.values()).map(x=>'<div class="product-card"><div class="product-info"><div class="product-name">'+x.name+' × '+x.q+'</div><div class="product-price">'+money(x.total)+'</div></div></div>').join("")+rows.map(r=>'<div class="product-card"><div class="product-info"><span>'+(r.text||"No speech")+'</span><b>'+(r.order?"Voice accepted":"Not recognised")+'</b></div></div>').join("");
+  $("total").textContent=money(sum);$("total").parentElement.classList.toggle("near-total",sum>=BUDGET*.9&&sum<=BUDGET);
+  $("message").textContent=sum>BUDGET?"Over budget — you lost.":won?"Within your budget — you win!":"No valid items were accepted.";
+  const saved=saveHistory({player,total:sum,won,playedAt:new Date().toISOString(),orders:[...Array.from(basket.values()).map(x=>({transcript:x.name,accepted:true,item:x.name,quantity:x.q})),...rows.map(r=>({transcript:r.text,accepted:!!r.order,item:r.order?.item.name||"",quantity:r.order?.q||0}))]});
+  $("message").textContent+=(saved?" Game saved in this tab's session history.":" Game history could not be saved.");
+ }catch(e){hideBilling();$("status").textContent="ERROR";alert("Could not prepare the bill. Please try again.");}
+ finally{hideBilling();busy=false;$("finishBtn").disabled=!(Object.keys(selected).length||clips.length)}
+};
 $("copyResult").onclick=async()=>{const ok=await copyText(Array.from(document.querySelectorAll("#cart .product-card")).map(x=>x.innerText).join("\n")+"\nTotal: "+$("total").textContent);$("copyResult").textContent=ok?"Copied!":"Copy failed"};
 $("againBtn").onclick=()=>{hide("result");show("lobby")};
 $("historyBtn").onclick=()=>{const games=getHistory().filter(g=>g.player.toLowerCase()===player.toLowerCase());show("history");$("historyText").textContent=games.length?games.map((g,i)=>{const d=new Date(g.playedAt);return (i+1)+". "+d.toLocaleString()+" — "+(g.won?"WON":"LOST")+" — "+money(g.total)+"\n"+g.orders.map(o=>"   "+o.transcript+(o.accepted?" → "+o.item+" × "+o.quantity:" → Rejected")).join("\n")}).join("\n\n"):"No games saved in this tab's session yet."};
