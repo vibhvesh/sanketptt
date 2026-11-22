@@ -23,13 +23,13 @@ const CATEGORIES=[
 ["atta","Whole Wheat Flour (Atta)","1 kg",45,["atta","flour","wheat"],"🌾","photo-1574323347407-f5e1ad6d020b"],
 ["oil","Cooking Oil","1 litre",150,["oil"],"🫗","photo-1474979266404-7eaacbcd87c5"],
 ["sugar","White Sugar","1 kg",50,["sugar"],"🧂","photo-1581441363689-1f3c3c414635"],
-["dal","Toor Dal","1 kg",140,["dal","lentil"],"🫘","photo-1515543904379-3d757 wobf5e"]]},
+["dal","Toor Dal","1 kg",140,["dal","lentil"],"🫘","photo-1515543904379-3d757"]]},
 {title:"🍪 Snacks & Drinks",subtitle:"Little treats and tea-time snacks",items:[
 ["biscuits","Marie Biscuits","1 pack",30,["biscuit","biscuits"],"🍪","photo-1558961363-fa8fdf82db35"],
 ["tea","Black Tea","250 g",120,["tea"],"🍵","photo-1544787219-7f47ccb76574"],
 ["juice","Orange Juice","1 litre",90,["juice"],"🧃","photo-1621506289937-a8e4df240d0b"],
 ["chips","Potato Chips","1 pack",20,["chips"],"🥔","photo-1566478989037-eec170784d0b"],
-["chocolate","Milk Chocolate","1 bar",45,["chocolate"],"🍫","photo- chocolate-placeholder"]]}
+["chocolate","Milk Chocolate","1 bar",45,["chocolate"],"🍫","photo-1511381939415-e44015466834"]]}
 ];
 const ITEMS=CATEGORIES.flatMap(c=>c.items.map(x=>({id:x[0],name:x[1],unit:x[2],price:x[3],words:x[4],emoji:x[5],img:"https://images.unsplash.com/"+x[6]+"?auto=format&fit=crop&w=500&q=80"})));
 const $=id=>document.getElementById(id),money=n=>"₹"+Math.round(n).toLocaleString("en-IN");let player="",clips=[],rec=null,stream=null,recording=false,busy=false,selected={},page=0;
