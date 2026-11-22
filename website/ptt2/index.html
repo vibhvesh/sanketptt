@@ -261,8 +261,61 @@ body{padding:8px!important;background:radial-gradient(ellipse at 50% 0%,#183d2b 
 #ptt.on{background:radial-gradient(circle at 35% 30%,#ffb7b7,#ff2424 48%,#760909)!important;box-shadow:0 0 0 2px #ff9b9b,0 0 36px #ff3030,inset 0 -9px 18px #380000!important}
 #ptt.busy{background:radial-gradient(circle at 35% 30%,#fff0a6,#f2b82b 48%,#79500c)!important;box-shadow:0 0 0 2px #ffe29a,0 0 30px #ffbf35,inset 0 -9px 18px #382300!important}
 @media(max-width:560px){body{padding:6px!important}.rig{padding:9px!important}#ptt{width:min(58vw,190px)!important;height:min(58vw,190px)!important}}
+</style><style id="ptt2-mobile-radio-v2">
+html,body{width:100%;min-height:100%;margin:0!important}
+body{padding:0!important;background:#07140f!important;color:#eaffef!important;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif!important}
+.rig{display:flex!important;flex-direction:column!important;width:100%!important;max-width:520px!important;min-height:100svh!important;margin:0 auto!important;padding:14px 14px 12px!important;gap:0!important;border:0!important;border-radius:0!important;background:linear-gradient(180deg,#0b2117,#07140f 65%,#050d0a)!important;box-shadow:none!important}
+.rig:before,.rig:after{display:none!important}
+.brand{display:flex!important;order:0!important;justify-content:flex-start!important;gap:10px!important;margin:0 0 12px!important;padding:4px 2px 10px!important;border-bottom:1px solid #234a34!important}
+.brand h1{font:800 19px/1.1 system-ui!important;letter-spacing:1.5px!important;color:#e9fff0!important;background:none!important;-webkit-text-fill-color:initial!important}
+.brand small{margin-top:3px!important;color:#8df5a9!important;font:700 9px/1.2 system-ui!important;letter-spacing:1.1px!important}
+.leds{display:flex!important;order:1!important;margin-left:auto!important;align-self:center!important;gap:12px!important;color:#d6e8db!important;font:700 10px system-ui!important}
+.led{display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important}
+.led.pw{display:none!important}
+.led i{width:12px!important;height:12px!important;border:1px solid #55705e!important;background:#14251a!important}
+.led.rx.on i{background:#48f5ff!important;box-shadow:0 0 8px #48f5ff,0 0 18px #48f5ff99!important}
+.led.tx.on i{background:#43ff72!important;box-shadow:0 0 8px #43ff72,0 0 18px #43ff7299!important}
+.lcd{display:block!important;order:2!important;margin:0 0 10px!important;padding:7px 9px!important;border:1px solid #234a34!important;border-radius:9px!important;background:#06150d!important;box-shadow:inset 0 0 12px #0008!important}
+.lcd .row,.lcd .freq,#st{display:none!important}
+.meter{display:block!important;margin:0!important}
+.meter .lab{display:flex!important;justify-content:space-between!important;color:#7fa98a!important;font:8px system-ui!important}
+.bars{height:8px!important;margin-top:4px!important;gap:2px!important}
+.bars b{background:#1a3322!important}
+.bars b.l{background:#42ff7b!important;box-shadow:0 0 5px #42ff7b!important}
+#ptt2ChannelBar{order:3!important;display:flex!important;flex-direction:column!important;gap:8px!important;margin:0 0 12px!important;padding:0!important;border:0!important;background:transparent!important}
+.ptt2-frequency-row{display:flex!important;align-items:center!important;gap:9px!important;padding:8px 10px!important;border:1px solid #2e6941!important;border-radius:10px!important;background:#091b11!important}
+.ptt2-frequency-label{flex:none!important;color:#8ef5a8!important;font:800 9px system-ui!important;letter-spacing:1.1px!important}
+#ptt2Frequency{flex:1!important;min-width:0!important;min-height:40px!important;padding:7px 34px 7px 10px!important;border:1px solid #47c96b!important;border-radius:8px!important;background-color:#0b2415!important;color:#eaffef!important;font:650 14px system-ui!important}
+#ptt2Frequency[hidden]{display:block!important;visibility:hidden!important}
+#ptt2Auth{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin:0!important;padding:12px!important;border:1px solid #28563a!important;border-radius:12px!important;background:#0a1b11!important}
+#ptt2Auth[hidden]{display:none!important}
+#ptt2Auth input{width:100%!important;min-height:46px!important;margin:0!important;padding:10px 12px!important;border:1px solid #365d43!important;border-radius:8px!important;background:#06120b!important;color:#f0fff3!important;font:15px system-ui!important}
+#ptt2SignIn{min-height:44px!important;border:1px solid #51e77b!important;border-radius:8px!important;background:#0b7135!important;color:white!important;font:800 14px system-ui!important}
+#ptt2AuthError{margin:0!important;color:#ff9d9d!important;font:12px system-ui!important}
+#login{display:none!important}
+#main{order:4!important;display:none;flex:1 1 auto!important;min-height:0!important;padding:0!important}
+#main[style*="display: block"]{display:flex!important;flex-direction:column!important}
+#hd{display:block!important;margin:2px 0 10px!important;text-align:center!important;color:#eaffef!important;font:750 16px/1.2 system-ui!important;letter-spacing:.2px!important}
+#unlock{display:block!important;align-self:center!important;min-height:36px!important;margin:0 auto 7px!important;padding:7px 12px!important;border-radius:8px!important;background:#173a25!important;color:#dfffe7!important;font:12px system-ui!important}
+#ptt{display:flex!important;align-items:center!important;justify-content:center!important;flex:none!important;width:min(58vw,220px)!important;height:min(58vw,220px)!important;max-width:220px!important;max-height:220px!important;margin:clamp(18px,5vh,44px) auto 18px!important;border:5px solid #164d2b!important;border-radius:50%!important;background:radial-gradient(circle at 34% 25%,#d8ffe0 0%,#73ff91 22%,#19e64d 53%,#087a30 82%,#03441b 100%)!important;box-shadow:0 0 0 2px #73ff91,0 0 18px #39ff68,0 0 48px #39ff6888,inset 0 -10px 18px #003b18!important}
+#ptt .ptt-logo{display:block!important;width:74%!important;height:74%!important;object-fit:contain!important;filter:brightness(1.18) saturate(1.45) drop-shadow(0 0 8px #d4ffdc)!important}
+#ptt.on{background:radial-gradient(circle at 35% 30%,#ffbaba,#ff2929 48%,#760909)!important;box-shadow:0 0 0 2px #ff9b9b,0 0 38px #ff3030,inset 0 -9px 18px #380000!important}
+#ptt.busy{background:radial-gradient(circle at 35% 30%,#fff0a6,#f2b82b 48%,#79500c)!important;box-shadow:0 0 0 2px #ffe29a,0 0 30px #ffbf35,inset 0 -9px 18px #382300!important}
+#ptt2Settings,#transcribeLink,#main>.hint,#main>.panel:not(:has(#log)),#locp,#sstvP,#net,#clr{display:none!important}
+#main>.panel:has(#log){display:block!important;order:10!important;margin:auto 0 0!important;padding:10px!important;border:1px solid #234a34!important;border-radius:11px!important;background:#091a10!important}
+#main>.panel:has(#log)>h3{margin:0 0 7px!important;color:#9bf5ad!important;font:800 10px system-ui!important;letter-spacing:1px!important}
+#log{display:flex!important;flex-direction:column!important;gap:6px!important;max-height:180px!important;overflow:auto!important;margin:0!important;padding:0!important}
+#log li{display:grid!important;grid-template-columns:30px 1fr auto!important;align-items:center!important;gap:7px!important;padding:7px!important;border:1px solid #203c29!important;border-radius:8px!important;background:#0d2115!important;color:#e5f8e9!important;font:11px system-ui!important}
+#log li .cs{min-width:0!important;color:#d9ffe2!important;font:650 11px system-ui!important}
+#log li .tm,#log li .du{color:#91ad98!important;font:9px system-ui!important}
+#log li button{width:28px!important;height:28px!important;border-radius:50%!important;background:#176d38!important;color:#fff!important;font-size:11px!important}
+#log .ptt2-line{grid-column:2/-1!important;margin-top:2px!important;color:#b9e9c4!important;font:11px/1.35 system-ui!important;overflow-wrap:anywhere!important}
+#log .ptt2-badge{font-size:8px!important}
+#log .ptt2-badge.wait{color:#ffd66e!important}
+#log .ptt2-note{display:block!important;color:#ffb4a8!important}
+@media(max-width:560px){.rig{padding:12px 11px 10px!important}#ptt{width:min(58vw,205px)!important;height:min(58vw,205px)!important;margin-top:clamp(14px,4vh,32px)!important}#log{max-height:160px!important}}
 </style></head><body><div class=rig>
-<div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT 2</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
+<div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET</h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
@@ -381,7 +434,7 @@ function meterLoop(){var v=granted?txLvl:(Date.now()-rxAt<300?rxLvl:0);txLvl*=.8
 var rec=new Recorder(RATE,renderLog),player=null,playingKey=null;
 setInterval(function(){rec.tick()},500);
 function fmtD(s){return s<60?s.toFixed(1)+'s':Math.floor(s/60)+'m'+('0'+Math.round(s%60)).slice(-2)+'s'}
-function renderLog(es){log.innerHTML=es.length?es.map(function(e){return '<li class="'+(e.mine?'mine':'')+'"><button data-k="'+e.key+'" class="'+(playingKey===e.key?'playing':'')+'">'+(playingKey===e.key?'■':'▶')+'</button><span class=cs>'+esc(e.name)+(e.mine?' (you)':'')+(e.loc?'<span class=lg>📍 '+esc(locTxt(e.loc))+'</span>':'')+'</span><span class=tm>'+new Date(e.t0).toLocaleTimeString()+'</span><span class=du>'+fmtD(e.dur)+'</span></li>'}).join(''):'<li class=hint>No transmissions yet</li>'}
+function renderLog(es){var latest=(es||[]).slice(-3).reverse();log.innerHTML=latest.length?latest.map(function(e){return '<li class="'+(e.mine?'mine':'')+'"><button data-k="'+e.key+'" class="'+(playingKey===e.key?'playing':'')+'">'+(playingKey===e.key?'■':'▶')+'</button><span class=cs>'+esc(e.name)+(e.mine?' (you)':'')+(e.loc?'<span class=lg>📍 '+esc(locTxt(e.loc))+'</span>':'')+'</span><span class=tm>'+new Date(e.t0).toLocaleTimeString()+'</span><span class=du>'+fmtD(e.dur)+'</span></li>'}).join(''):'<li class=hint>No recent messages</li>'}
 log.onclick=function(ev){var b=ev.target.closest('button');if(!b)return;var k=+b.dataset.k,e=rec.entries.filter(function(x){return x.key===k})[0];
  if(player){player.pause();URL.revokeObjectURL(player.src);player=null;var was=playingKey;playingKey=null;renderLog(rec.entries);if(was===k)return}
  if(!e)return;player=new Audio(URL.createObjectURL(new Blob([e.wav],{type:'audio/wav'})));playingKey=k;
@@ -401,6 +454,7 @@ function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec
  radio.browser=true;if(keep)radio.join(keep);render()}
 window.ptt2UseRelay=function(spec){start(spec)};
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
+window.ptt2RelayAuthenticated=function(username){if(!username)return;nm.value=username;go.click()};
 go.onclick=async function(){
  if(!radio)return alert('The channel is still starting. Try again in a moment.');
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
