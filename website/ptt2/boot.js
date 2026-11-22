@@ -18,6 +18,14 @@ if (channels) {
 }
 const settings = document.getElementById("ptt2Settings");
 if (settings) mountSettings(settings);
+const settingsToggle = document.getElementById("ptt2SettingsToggle");
+if (settings && settingsToggle) {
+  settingsToggle.addEventListener("click", () => {
+    settings.hidden = !settings.hidden;
+    settingsToggle.setAttribute("aria-expanded", String(!settings.hidden));
+    if (!settings.hidden) settings.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+}
 const power = document.getElementById("go");
 const talk = document.getElementById("ptt");
 if (power && talk && channels) {
