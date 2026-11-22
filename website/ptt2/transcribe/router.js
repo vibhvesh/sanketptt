@@ -1,7 +1,7 @@
 import { loadConfig, isAllowedServer } from "./config.js";
 import { inspectWav } from "./clip.js";
 import { serverHealthy } from "./detect.js";
-import { transcribeLocal } from "./local.js";
+import { transcribeLocal, translateLocal } from "./local.js";
 import { transcribeRemote } from "./remote.js";
 
 const LOCAL_TIMEOUT_MS = 45000;
@@ -42,7 +42,7 @@ async function transcribeOne(wavBuffer, line) {
     if (health.ok) {
       try {
         const remote = await transcribeRemote(config.serverUrl, wavBuffer, config, line);
-        return { ...remote, source: "server" };
+        return { ...remote, source: "server", note: config.translate && config.targetLanguage && config.targetLanguage !== "en" ? "Destination language not applied. Server does not expose a destination-language option; using server default." : "" };
       } catch (e) {
         try {
           const local = await runLocal(wavBuffer, config);
@@ -61,7 +61,7 @@ async function transcribeOne(wavBuffer, line) {
     }
   }
   try {
-    return await runLocal(wavBuffer, config);
+    const local = await runLocal(wavBuffer, config);\n    if (config.translate && config.targetLanguage && config.targetLanguage !== "en") {\n      const translated = await translateLocal(local.text, local.language || config.language, config.targetLanguage);\n      return { ...local, text: translated, translated: true, targetLanguage: config.targetLanguage };\n    }\n    return local;
   } catch (e) {
     return { source: "failed", text: "transcription failed", failed: true, note: e && e.message ? e.message : "" };
   }
