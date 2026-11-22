@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build the public Sanket radio catalogue from Akashvani and Radio Browser."""
-import json, os, re, urllib.request, urllib.error
+import json, os, re, hashlib, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
@@ -18,7 +18,7 @@ def normalise_air(row):
     name = str(row.get("name") or row.get("station_name") or "").strip()
     url = str(row.get("stream_url") or row.get("url") or "").strip()
     if not name or not url.startswith(("https://", "http://")): return None
-    return {"id": "air-" + str(row.get("epg_id") or abs(hash(url))),
+    return {"id": "air-" + str(row.get("epg_id") or hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]),
             "name": name, "country": "India",
             "region": str(row.get("state") or row.get("region") or "India"),
             "language": [x.strip() for x in re.split(r"[,;/]", str(row.get("language") or "Various")) if x.strip()],
