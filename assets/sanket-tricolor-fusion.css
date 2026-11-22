@@ -1,0 +1,92 @@
+/* Sanket Tricolor Fusion — shared visual system
+   Inspired by premium SaaS dashboards, Indian public-service visual language,
+   and Sanket Market Rush's approachable touch controls. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;750;800&display=swap');
+:root{
+ --sk-navy:#12345a;--sk-navy-deep:#0b2440;--sk-blue:#1e5b8f;
+ --sk-saffron:#f47721;--sk-saffron-soft:#fff1e6;--sk-green:#138808;
+ --sk-green-soft:#eaf7ec;--sk-ink:#18324b;--sk-muted:#65788d;
+ --sk-line:#dce5ee;--sk-paper:#f4f7fb;--sk-white:#fff;
+ --sk-shadow:0 12px 34px rgba(18,52,90,.09);--sk-radius:16px;
+ --sk-focus:0 0 0 3px rgba(30,91,143,.18)
+}
+html{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font-family:inherit}
+a{transition:color .18s ease}
+button{transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+:focus-visible{outline:0;box-shadow:var(--sk-focus)!important}
+
+/* Public product website */
+body:has(.nav){background:var(--sk-paper)!important;color:var(--sk-ink)}
+body:has(.nav) header{background:rgba(18,52,90,.97)!important;border-bottom:1px solid #244c70!important;color:#fff}
+body:has(.nav) .brand,body:has(.nav) .navlinks a{color:#fff}
+body:has(.nav) .brand small{color:#c5d6e6}
+body:has(.nav) .navlinks a:hover{color:#ffc28f}
+body:has(.nav) .navlinks .login{border-color:#66809b;color:#fff}
+body:has(.nav) .navlinks .demo-link{background:var(--sk-saffron);border-color:var(--sk-saffron);color:#fff}
+body:has(.nav) .menu{color:#fff;border-color:#66809b}
+body:has(.nav) .wrap{max-width:1200px}
+body:has(.nav) section{scroll-margin-top:90px}
+body:has(.nav) .card,body:has(.nav) .tile,body:has(.nav) .product-card,body:has(.nav) .price-card{
+ border:1px solid var(--sk-line);border-radius:18px;box-shadow:var(--sk-shadow);background:#fff
+}
+body:has(.nav) h1,body:has(.nav) h2,body:has(.nav) h3{letter-spacing:-.035em}
+body:has(.nav) .btn,body:has(.nav) button{border-radius:10px}
+body:has(.nav) .btn-primary,body:has(.nav) .primary,body:has(.nav) .cta{background:var(--sk-saffron);border-color:var(--sk-saffron);color:#fff}
+body:has(.nav) a:hover{color:var(--sk-saffron)}
+body:has(.nav) footer{background:var(--sk-navy-deep);color:#d7e4ef}
+
+/* Radio handset: preserve the physical PTT interaction and its green transmit state */
+body:not(.embed-mode) .rig{background:linear-gradient(180deg,#fff,#f8fafc)!important;border:1px solid #d9e3ec!important;border-radius:24px!important;box-shadow:0 22px 60px rgba(11,36,64,.16)!important}
+body:not(.embed-mode) .rig:before,body:not(.embed-mode) .rig:after{background:radial-gradient(#d7e0e9,#8798a9)}
+body:not(.embed-mode) .brand h1{font-family:Inter,system-ui,sans-serif!important;background:none!important;color:var(--sk-navy)!important;letter-spacing:-.035em!important;font-weight:800}
+body:not(.embed-mode) .brand small{color:var(--sk-muted)!important;letter-spacing:.12em!important}
+body:not(.embed-mode) .led{color:#63788d}
+body:not(.embed-mode) .lcd{background:linear-gradient(145deg,#0d2948,#123b5d)!important;border:2px solid #071c32!important;box-shadow:inset 0 0 18px #0008,0 5px 16px #12345a22!important;color:#a8f0c1!important;text-shadow:0 0 7px #39d98a55}
+body:not(.embed-mode) .freq{font-family:Inter,system-ui,sans-serif!important;letter-spacing:.015em!important}
+body:not(.embed-mode) .panel{background:#fff!important;border:1px solid var(--sk-line)!important;box-shadow:0 5px 18px rgba(18,52,90,.045)}
+body:not(.embed-mode) .panel h3{font-family:Inter,system-ui,sans-serif!important;color:var(--sk-navy)!important;letter-spacing:.015em!important}
+body:not(.embed-mode) #us li{font-family:Inter,system-ui,sans-serif;background:var(--sk-navy)!important;box-shadow:none!important;letter-spacing:0!important}
+body:not(.embed-mode) #us li.me{background:var(--sk-saffron)!important}
+body:not(.embed-mode) #us li.tk{background:#c73535!important}
+body:not(.embed-mode) input:not([type=checkbox]):not([type=radio]):not([type=range]),body:not(.embed-mode) select,body:not(.embed-mode) textarea{background:#fff!important;color:var(--sk-ink)!important;border:1px solid #cbd8e4!important;border-radius:10px!important}
+body:not(.embed-mode) #go{background:linear-gradient(135deg,#f78a32,#e96816)!important;box-shadow:0 3px 0 #b94c0b,0 8px 18px #d9681630!important}
+body:not(.embed-mode) #ptt{border-color:#fff!important;box-shadow:0 0 0 3px #d5e3dd,0 10px 28px #13880833,inset 0 -8px 16px #0003!important}
+body:not(.embed-mode) #ptt.on{box-shadow:0 0 0 3px #f1cccc,0 10px 32px #c7353555!important}
+body:not(.embed-mode) #log li{color:var(--sk-ink);border-bottom:1px solid #edf1f5}
+body:not(.embed-mode) #log li .cs{color:var(--sk-blue)}
+body:not(.embed-mode) #net{color:var(--sk-muted)}
+body:not(.embed-mode) #map{border-color:#c7d8e7!important}
+
+/* Transcribe console: navy instrument face, white information surfaces, saffron actions */
+body:has(.radio) .radio{font-family:Inter,system-ui,sans-serif}
+body:has(.radio) .body{background:linear-gradient(180deg,#fff,#f7f9fc)!important;border:1px solid #d9e3ec!important;box-shadow:0 22px 60px rgba(11,36,64,.15)!important}
+body:has(.radio) .plate{background:var(--sk-navy)!important;color:#fff!important}
+body:has(.radio) .plate .brand,body:has(.radio) .plate small{color:#fff!important}
+body:has(.radio) .lcd{background:linear-gradient(145deg,#0d2948,#123b5d)!important;border:1px solid #071c32!important;color:#d9f7e5!important}
+body:has(.radio) .keys{background:#f3f6fa!important;border:1px solid var(--sk-line)!important;border-radius:14px!important}
+body:has(.radio) .keys label,body:has(.radio) .sel{color:var(--sk-ink)!important}
+body:has(.radio) .keys input,body:has(.radio) .keys select,body:has(.radio) textarea{background:#fff!important;color:var(--sk-ink)!important;border:1px solid #cbd8e4!important;border-radius:9px!important}
+body:has(.radio) #startBtn{background:linear-gradient(135deg,#f78a32,#e96816)!important;color:#fff!important;border:0!important;border-radius:10px!important}
+body:has(.radio) #stopBtn{background:#b83b36!important;color:#fff!important;border:0!important;border-radius:10px!important}
+body:has(.radio) .one{color:var(--sk-muted)!important}
+body:has(.radio) .one a{color:var(--sk-blue)!important}
+
+/* Voice command centre and companion dashboards */
+body:has(.head) main{font-family:Inter,system-ui,sans-serif}
+body:has(.head) .card{background:#fff!important;border:1px solid var(--sk-line)!important;border-radius:18px!important;box-shadow:var(--sk-shadow)!important}
+body:has(.head) .brand{color:var(--sk-navy)}
+body:has(.head) .now{background:linear-gradient(145deg,#0d2948,#123b5d)!important;border:1px solid #254b6b!important;border-radius:14px}
+body:has(.head) .channel{color:#9ce6b8!important}
+body:has(.head) button{border-radius:10px!important}
+body:has(.head) button.primary{background:linear-gradient(135deg,#f78a32,#e96816)!important;color:#fff;border:0}
+body:has(.head) input,body:has(.head) select,body:has(.head) textarea{background:#fff!important;color:var(--sk-ink)!important;border:1px solid #cbd8e4!important;border-radius:9px}
+body:has(.head) .line{background:#f8fafc!important;color:var(--sk-ink)!important;border:1px solid var(--sk-line)!important}
+body:has(.head) .line.active{border-color:var(--sk-green)!important;box-shadow:inset 0 0 0 1px var(--sk-green)!important}
+body:has(.head) .line.emergency{border-color:#c73535!important}
+@media(max-width:700px){
+ body:has(.nav) .wrap{width:min(100% - 28px,1200px)}
+ body:not(.embed-mode) .rig{border-radius:18px!important;padding:12px!important}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
