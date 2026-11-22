@@ -1,6 +1,6 @@
-# Sanket Game — Market Rush
+# Prisha Shopper — Market Rush
 
-Website-side voice shopping game. Audio is captured with one hold-to-talk button, converted to mono 16 kHz WAV and submitted sequentially to the existing Sanket Transcribe endpoint at https://stlu-001.sanketptt.com/api/transcribe. Provider selection stays on the transcription server; no provider keys are exposed in the browser.
+Prisha Shopper is a voice-shopping game in the Sanket website. Audio is captured with one hold-to-talk button, converted to mono 16 kHz WAV and submitted sequentially to the existing Sanket Transcribe endpoint at https://stlu-001.sanketptt.com/api/transcribe. Provider selection stays on the transcription server; no provider keys are exposed in the browser.
 
 ## Database/API still required
 The Sanket website is static and cannot persist game history on its own. Set the optional `?api=https://YOUR-GAME-API` parameter after deploying a backend. Required endpoints: GET `/api/health`, POST `/api/games` to store a completed session and order transcripts, and GET `/api/games?player_name=...` to retrieve history.
