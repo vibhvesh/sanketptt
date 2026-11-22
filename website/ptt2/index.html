@@ -351,6 +351,27 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #ptt2PowerOff{position:fixed!important;z-index:1000!important;left:50%!important;bottom:calc(env(safe-area-inset-bottom,0px) + 14px)!important;transform:translateX(-50%)!important}
 .rig{min-height:100svh!important}
 @media(max-width:560px){#ptt{width:min(66vw,240px)!important;height:min(66vw,240px)!important;margin-top:clamp(16px,5vh,42px)!important}}
+</style><style id="ptt2-fullscreen-message-cards-v1">
+#main{width:100%!important;box-sizing:border-box!important;align-items:stretch!important;padding-bottom:118px!important}
+#main[style*="display: block"]{align-items:stretch!important}
+#main>#ptt,#main>#unlock{align-self:center!important}
+#main>#latestMessagesPanel{display:block!important;visibility:visible!important;width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:16px 0 0!important;padding:13px!important;border:1px solid #d8e5dc!important;border-radius:16px!important;background:rgba(255,255,255,.82)!important;box-shadow:0 4px 18px rgba(20,60,38,.08)!important;color:#173c2b!important;text-align:left!important}
+#latestMessagesPanel h3{color:#245b3d!important;font:800 12px/1.2 system-ui!important;letter-spacing:1.3px!important}
+#latestMessagesPanel #clr{background:#e6f1e9!important;color:#245b3d!important;border:1px solid #c7ddcd!important}
+#latestMessagesPanel #log{display:flex!important;flex-direction:column!important;gap:9px!important;width:100%!important;max-height:none!important;overflow:visible!important;box-sizing:border-box!important;padding:0!important;margin:0!important}
+#latestMessagesPanel #log li{display:grid!important;grid-template-columns:44px minmax(0,1fr) auto!important;grid-template-rows:auto auto!important;align-items:center!important;gap:4px 10px!important;width:100%!important;min-height:68px!important;box-sizing:border-box!important;padding:9px 11px!important;margin:0!important;border:1px solid #d7e6dc!important;border-radius:13px!important;background:#f5faf6!important;color:#173c2b!important;box-shadow:0 2px 7px rgba(18,62,36,.05)!important;font:14px/1.35 system-ui!important}
+#latestMessagesPanel #log li>button{grid-column:1;grid-row:1/3;width:40px!important;height:40px!important;border-radius:50%!important;background:#159653!important;color:#fff!important;box-shadow:none!important;font:700 16px system-ui!important}
+#latestMessagesPanel #log li .cs{grid-column:2;grid-row:1;color:#174a30!important;font:700 14px system-ui!important;white-space:normal!important}
+#latestMessagesPanel #log li .tm{grid-column:3;grid-row:1;color:#708579!important;font:12px system-ui!important;white-space:nowrap}
+#latestMessagesPanel #log li .du{grid-column:2;grid-row:2;color:#6c8274!important;text-align:left!important;font:12px system-ui!important}
+#ptt2PowerOff{bottom:calc(env(safe-area-inset-bottom,0px) + 12px)!important}
+.ptt-live-signal{position:absolute!important;right:9%!important;top:10%!important;z-index:3!important;display:flex!important;align-items:flex-end!important;gap:3px!important;padding:7px 8px!important;border:1px solid rgba(0,80,35,.25)!important;border-radius:12px!important;background:rgba(5,42,22,.82)!important;box-shadow:0 2px 10px #003b1c55!important;pointer-events:none!important}
+.ptt-live-signal i{display:block!important;width:4px!important;height:7px!important;border-radius:3px!important;background:#7b9a86!important}
+.ptt-live-signal i:nth-child(2){height:10px!important}.ptt-live-signal i:nth-child(3){height:14px!important}.ptt-live-signal i:nth-child(4){height:18px!important}
+.ptt-live-signal b{margin-left:3px!important;color:#9eb5a5!important;font:800 8px/1 system-ui!important;letter-spacing:.6px!important}
+.ptt-live-signal.is-live{border-color:#42f477!important;box-shadow:0 0 12px #42f47788!important}.ptt-live-signal.is-live i{background:#42f477!important;box-shadow:0 0 5px #42f477!important}
+.ptt-live-signal.is-tx{background:rgba(70,15,10,.88)!important;border-color:#ff6464!important}.ptt-live-signal.is-tx i{background:#ff7777!important;box-shadow:0 0 5px #ff5555!important}
+#ptt{position:relative!important}
 </style></head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET CONNECT</h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -359,7 +380,7 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div><button id=ptt2Logout type=button onclick="window.ptt2Logout()">LOG OUT</button></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""></button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div><button id=ptt2Logout type=button onclick="window.ptt2Logout()">LOG OUT</button></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""><span id="pttLiveSignal" class="ptt-live-signal"><i></i><i></i><i></i><i></i><b>OFF</b></span></button><div class=hint>Hold to talk · Desktop: hold Space</div>
 <div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -367,7 +388,7 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 <div style="display:flex;gap:6px;margin-top:6px"><select id=sstvMode><option value=r36>Robot36 (~37 s)</option><option value=m1>Martin M1 (~115 s)</option><option value=s1>Scottie S1 (~111 s)</option><option value=pd120>PD120 640×496 (~127 s)</option></select><button id=sstvSend style="flex:1">📡 SEND IMAGE</button><button id=sstvCancel>✕</button></div><div id=sstvSt class=hint></div></div>
 <input type=file id=sstvFile accept="image/*" style="display:none"><button id=sstvBtn style="width:100%;margin-bottom:6px">📷 SSTV · send a picture</button>
 <ul id=sstvList><li class=hint>No images yet</li></ul></div>
-<div class=panel><h3><span>LATEST MESSAGES</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
+<div class="panel" id="latestMessagesPanel"><h3><span>LATEST MESSAGES</span><button id=clr>CLEAR</button></h3><ul id=log><li class=hint>No transmissions yet</li></ul></div>
 <div id=net>connecting…</div></div>
 <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
 <script src="sstv.js"></script>
@@ -467,7 +488,7 @@ var NB=20;bars.innerHTML=new Array(NB+1).join('<b></b>');var barEls=bars.childre
 function lvl(a){var m=0;for(var i=0;i<a.length;i+=4){var x=Math.abs(a[i]);if(x>m)m=x}return Math.min(1,Math.sqrt(m/32768)*1.2)}
 function meterLoop(){var v=granted?txLvl:(Date.now()-rxAt<300?rxLvl:0);txLvl*=.85;rxLvl*=.9;var k=Math.round(v*NB);
  for(var i=0;i<NB;i++)barEls[i].className=i<k?('l'+(i>=NB*.85?' r':i>=NB*.6?' y':'')):'';
- ledtx.classList.toggle('on',granted);ledrx.classList.toggle('on',Date.now()-rxAt<400);requestAnimationFrame(meterLoop)}meterLoop();
+ ledtx.classList.toggle("on",granted);ledrx.classList.toggle("on",Date.now()-rxAt<400);var sig=document.getElementById("pttLiveSignal");if(sig){var online=!!(radio&&radio.c&&radio.c.connected);sig.classList.toggle("is-live",online);sig.classList.toggle("is-tx",!!granted);sig.querySelector("b").textContent=granted?"TX":online?"LIVE":"OFF";}requestAnimationFrame(meterLoop)}meterLoop();
 var rec=new Recorder(RATE,renderLog),player=null,playingKey=null;
 setInterval(function(){rec.tick()},500);
 function fmtD(s){return s<60?s.toFixed(1)+'s':Math.floor(s/60)+'m'+('0'+Math.round(s%60)).slice(-2)+'s'}
@@ -477,7 +498,7 @@ log.onclick=function(ev){var b=ev.target.closest('button');if(!b)return;var k=+b
  if(!e)return;player=new Audio(URL.createObjectURL(new Blob([e.wav],{type:'audio/wav'})));playingKey=k;
  player.onended=function(){URL.revokeObjectURL(player.src);player=null;playingKey=null;renderLog(rec.entries)};player.play().catch(function(){});renderLog(rec.entries)};
 clr.onclick=function(){if(player){player.pause();player=null;playingKey=null}rec.clear()};
-function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.textContent=radio.ch.toUpperCase();
+function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.textContent=radio.ch.toUpperCase();var sig=document.getElementById("pttLiveSignal");if(sig){var online=!!(radio&&radio.c&&radio.c.connected);sig.classList.toggle("is-live",online);sig.classList.toggle("is-tx",!!granted);sig.querySelector("b").textContent=granted?"TX":online?"LIVE":"OFF";}
  us.innerHTML=st0.users.map(function(u){var t=f&&f.id===u.id;return '<li class="'+(t?'tk':u.id===radio.id?'me':'')+'">'+(t?'🎙 ':'')+esc(u.name)+(u.id===radio.id?' ·YOU':'')+pinTxt(u)+'</li>'}).join('')||'<li class=none>No stations</li>';
  var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.setAttribute('aria-label',granted?'On air — transmitting':busy?'Channel busy':holding?'Requesting transmit':'Push to talk');
  st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
