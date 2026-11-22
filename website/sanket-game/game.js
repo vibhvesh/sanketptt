@@ -158,8 +158,8 @@ $("finishBtn").onclick=async()=>{
   }
   billingStage(2);
   const basket=new Map();let sum=0;
-  for(const x of ITEMS)if(selected[x.id]){const q=selected[x.id];basket.set(x.id,{name:x.name,q,total:x.price*q,details:[q+" × "+x.unit]});sum+=x.price*q}
-  for(const r of rows)if(r.order){const x=r.order.item,q=r.order.q,old=basket.get(x.id)||{name:x.name,q:0,total:0,details:[]};old.q+=q;old.total+=r.order.cost;old.details.push(r.order.label);basket.set(x.id,old);sum+=r.order.cost}
+  for(const x of ITEMS)if(selected[x.id]){const q=selected[x.id];basket.set(x.id,{name:x.name,emoji:x.emoji,q,total:x.price*q,details:[q+" × "+x.unit]});sum+=x.price*q}
+  for(const r of rows)if(r.order){const x=r.order.item,q=r.order.q,old=basket.get(x.id)||{name:x.name,emoji:x.emoji,q:0,total:0,details:[]};old.q+=q;old.total+=r.order.cost;old.details.push(r.order.label);basket.set(x.id,old);sum+=r.order.cost}
   await new Promise(resolve=>setTimeout(resolve,550));
   billingStage(3);$("billingTitle").textContent=billingText("done");$("billingSubtitle").textContent=billingText("done");
   $("billingProgressFill").style.width="100%";
@@ -167,7 +167,7 @@ $("finishBtn").onclick=async()=>{
   await new Promise(resolve=>setTimeout(resolve,700));
   hideBilling();hide("round");hide("pttDock");show("result");
   const won=sum<=BUDGET&&basket.size>0;playCelebration(won,sum);
-  $("cart").innerHTML=Array.from(basket.values()).map(x=>'<div class="product-card"><div class="product-info"><div class="product-name">'+x.name+' · '+(x.details||[x.q+' packs']).join(', ')+'</div><div class="product-price">'+money(x.total)+'</div></div></div>').join("")+rows.map(r=>'<div class="product-card"><div class="product-info"><span>'+(r.text||"No speech")+'</span><b>'+(r.order?"Voice accepted":"Not recognised")+'</b></div></div>').join("");
+  $("cart").innerHTML=Array.from(basket.values()).map(x=>'<div class="product-card"><div class="product-photo"><span class="fallback">'+(x.emoji||'🛍️')+'</span></div><div class="product-info"><div class="product-name">'+x.name+' · '+(x.details||[x.q+' packs']).join(', ')+'</div><div class="product-price">'+money(x.total)+'</div></div></div>').join("")+rows.map(r=>'<div class="product-card"><div class="product-info"><span>'+(r.text||"No speech")+'</span><b>'+(r.order?"Voice accepted":"Not recognised")+'</b></div></div>').join("");
   $("total").textContent=money(sum);$("total").parentElement.classList.toggle("near-total",sum>=BUDGET*.9&&sum<=BUDGET);
   $("message").textContent=sum>BUDGET?"Over budget — you lost.":won?"Within your budget — you win!":"No valid items were accepted.";
   const saved=saveHistory({player,total:sum,won,playedAt:new Date().toISOString(),orders:[...Array.from(basket.values()).map(x=>({transcript:x.name,accepted:true,item:x.name,quantity:x.details?.join(", ")||String(x.q)})),...rows.map(r=>({transcript:r.text,accepted:!!r.order,item:r.order?.item.name||"",quantity:r.order?.q||0}))]});
