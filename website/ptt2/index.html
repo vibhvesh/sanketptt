@@ -128,8 +128,12 @@ html.ptt-embed #main>.panel:first-of-type{margin-top:5px!important}
 html.sanket-listen-only #ptt,html.sanket-listen-only #sstvP,html.sanket-listen-only #locp,
 html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx,
 html.sanket-listen-only .hint{ }
-html.sanket-listen-only #ptt,html.sanket-listen-only #sstvP,html.sanket-listen-only #locp,
+html.sanket-listen-only #sstvP,html.sanket-listen-only #locp,
 html.sanket-listen-only #unlock,html.sanket-listen-only #ledtx{display:none!important}
+html.sanket-listen-only #ptt{display:flex!important;opacity:.55!important;filter:grayscale(.35)!important;cursor:not-allowed!important}
+.ptt2-session-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:4px 2px}
+#ptt2Logout{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:6px 12px;border:1px solid #b7d8c2;border-radius:8px;background:#102c1c;color:#dffff0;font:700 11px/1 system-ui;letter-spacing:.7px}
+#ptt2Logout:active{transform:scale(.97)}
 html.sanket-listen-only #main>.hint{display:none!important}
 
 #ptt2ChannelBar{margin:8px 10px 0;padding:10px;border:1px solid #2f6f9a;border-radius:12px;background:#0d253d;color:#e7f3fb;font:13px/1.35 system-ui}
@@ -355,7 +359,7 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""></button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id=main><div class="ptt2-session-bar"><div id=hd class=hint></div><button id=ptt2Logout type=button onclick="window.ptt2Logout()">LOG OUT</button></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""></button><div class=hint>Hold to talk · Desktop: hold Space</div>
 <div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -486,6 +490,13 @@ function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec
  else radio=new Radio(mqtt,{ch:spec.channel||CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:relayEvents});
  radio.browser=true;if(keep)radio.join(keep);render()}
 window.ptt2UseRelay=function(spec){start(spec)};
+window.ptt2Logout=function(){
+ if(typeof window.ptt2StopRadio==="function")window.ptt2StopRadio();
+ document.documentElement.classList.remove("sanket-listen-only");
+ try{localStorage.removeItem("nm")}catch(e){}
+ var n=document.getElementById("nm");if(n)n.value="";
+ var l=document.getElementById("login"),m=document.getElementById("main");if(l)l.style.display="block";if(m)m.style.display="none";
+};
 window.ptt2StopRadio=function(){
  if(radio){radio.leave();radio=null}
  if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}
