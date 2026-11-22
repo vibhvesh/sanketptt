@@ -235,7 +235,33 @@ html.ptt-embed #main .hint{display:none!important}
 @media(max-width:760px){html.ptt-embed .rig{padding:6px!important}html.ptt-embed .brand{margin-bottom:5px!important}html.ptt-embed .lcd{padding:5px!important}}
 </style>
 <link rel="stylesheet" href="../assets/sanket-tricolor-fusion.css">
-</head><body><div class=rig>
+<style id="ptt2-minimal-radio">
+/* Minimal operator face: identity, frequency selector and one illuminated talk key. */
+body{padding:8px!important;background:radial-gradient(ellipse at 50% 0%,#183d2b 0%,#071b16 48%,#040b0a 100%)!important;color:#eaffef!important}
+.rig{width:min(100%,470px)!important;max-width:470px!important;margin:0 auto!important;padding:12px!important;border:1px solid #246b43!important;border-radius:18px!important;background:linear-gradient(160deg,#101f19,#07120e)!important;box-shadow:0 12px 36px #0009,0 0 24px #39ff6830!important}
+.rig:before,.rig:after,.brand,.leds,.lcd,#ptt2Settings,#transcribeLink,#main>.hint,#main>.panel,#locp,#sstvP,#net,#log,#clr{display:none!important}
+#ptt2ChannelBar{margin:0 0 12px!important;padding:0!important;border:0!important;background:transparent!important}
+.ptt2-frequency-row{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #2d7547;border-radius:11px;background:#081b12;box-shadow:inset 0 0 12px #0008,0 0 12px #39ff6820}
+.ptt2-frequency-label{flex:none;color:#8bffa9;font:700 10px/1 system-ui;letter-spacing:1.4px}
+#ptt2Frequency{flex:1;min-width:0;min-height:40px!important;padding:7px 34px 7px 10px!important;border:1px solid #49df72!important;border-radius:8px!important;background-color:#0b2416!important;color:#dffff0!important;font:600 15px/1.2 system-ui!important;box-shadow:0 0 12px #39ff6833!important}
+#ptt2Frequency[hidden]{display:none!important}
+#ptt2Auth{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0 0!important}
+#ptt2Auth input{min-width:0;min-height:40px!important;margin:0!important;padding:8px!important;font:14px system-ui!important}
+#ptt2SignIn{grid-column:1/-1;min-height:40px!important;margin:0!important}
+#ptt2AuthError{grid-column:1/-1;margin:0!important}
+#login{margin:0!important;padding:9px!important;border:1px solid #244b36!important;border-radius:10px!important;background:#0a1a12!important}
+#login h3,#login .hint{display:none!important}
+#login input{min-height:42px!important;margin:0 0 7px!important;font:15px system-ui!important}
+#go{min-height:42px!important;margin:0!important;padding:9px!important;font:700 13px system-ui!important;letter-spacing:.5px!important}
+#main{padding:0!important;text-align:center}
+#hd{display:block!important;margin:5px 0 10px!important;color:#d8ffe3!important;font:700 17px/1.2 system-ui!important;letter-spacing:.2px!important}
+#unlock{max-width:100%;min-height:38px!important;margin:0 auto 8px!important;padding:8px 12px!important;font:12px system-ui!important}
+#ptt{width:min(58vw,210px)!important;height:min(58vw,210px)!important;max-width:210px!important;max-height:210px!important;margin:12px auto 8px!important;border:5px solid #164c2b!important;background:radial-gradient(circle at 34% 27%,#caffd5 0%,#5cff82 25%,#11e34e 56%,#087b32 82%,#03451d 100%)!important;box-shadow:0 0 0 2px #75ff9a,0 0 18px #39ff68,0 0 42px #39ff6888,inset 0 -10px 18px #003b18!important;text-shadow:none!important}
+#ptt .ptt-logo{width:74%!important;height:74%!important;filter:brightness(1.2) saturate(1.5) drop-shadow(0 0 7px #c4ffd0)!important}
+#ptt.on{background:radial-gradient(circle at 35% 30%,#ffb7b7,#ff2424 48%,#760909)!important;box-shadow:0 0 0 2px #ff9b9b,0 0 36px #ff3030,inset 0 -9px 18px #380000!important}
+#ptt.busy{background:radial-gradient(circle at 35% 30%,#fff0a6,#f2b82b 48%,#79500c)!important;box-shadow:0 0 0 2px #ffe29a,0 0 30px #ffbf35,inset 0 -9px 18px #382300!important}
+@media(max-width:560px){body{padding:6px!important}.rig{padding:9px!important}#ptt{width:min(58vw,190px)!important;height:min(58vw,190px)!important}}
+</style></head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT 2</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
@@ -380,7 +406,7 @@ go.onclick=async function(){
  var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
  try{localStorage.nm=me}catch(e){}
  // Join the radio first. Microphone permission is optional for listening.
- login.style.display='none';main.style.display='block';hd.textContent='#'+radio.ch+' — '+me;
+ login.style.display='none';main.style.display='block';hd.textContent=me;
  try{ac=new (window.AudioContext||window.webkitAudioContext)();unlockAudio()}catch(e){ac=null;unlock.style.display='block';}
  radio.join(me);
  if(SANKET_LISTEN_ONLY){
