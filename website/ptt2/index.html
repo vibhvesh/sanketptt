@@ -387,7 +387,15 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 .ptt-live-signal.is-live{border-color:#42f477!important;box-shadow:0 0 12px #42f47788!important}.ptt-live-signal.is-live i{background:#42f477!important;box-shadow:0 0 5px #42f477!important}
 .ptt-live-signal.is-tx{background:rgba(70,15,10,.88)!important;border-color:#ff6464!important}.ptt-live-signal.is-tx i{background:#ff7777!important;box-shadow:0 0 5px #ff5555!important}
 #ptt{position:relative!important}
-</style></style><style id="ptt2-off-button-top-v1">
+</style>
+<style id="ptt2-remove-channel-strip-final">
+/* Final override: remove the empty blue channel strip from the radio header. */
+#ptt2ChannelBar,
+#ptt2ChannelBar .ptt2-frequency-row,
+#ptt2ChannelBar #ptt2Frequency,
+#ptt2ChannelBar #ptt2ChannelChips { display:none !important; }
+</style>
+<style id="ptt2-off-button-top-v1">
 /* Compact OFF control beside LOG OUT; remove the floating bottom switch */
 .ptt2-session-bar{justify-content:flex-end!important;gap:8px!important}
 #hd{margin-right:auto!important}
@@ -842,4 +850,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot.js?v=20261122-7"></script></body></html>
+</script><script type="module" src="boot.js?v=20261122-8"></script></body></html>
