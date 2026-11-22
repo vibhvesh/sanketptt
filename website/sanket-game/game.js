@@ -36,7 +36,7 @@ const CATEGORIES=[
 ["motorbike","Motorbike","1 bike",125000,["motorbike","motorcycle","bike"],"🏍️","photo-1558981403-c5f9899a28bc"],
 ["electricbike","Electric Bike","1 electric bike",145000,["electric bike","ebike"],"⚡","photo-1558981806-ec527fa84c39"],
 ["hatchback","Family Hatchback Car","1 car",650000,["hatchback","car"],"🚗","photo-1492144534655-ae79c964c9d7"],
-["suv","Family SUV","1 SUV",1250000,["SUV","sports utility vehicle"],"🚙","photo-1519641471654-76ce0107ad1b"]
+["suv","Family SUV","1 SUV",1250000,["suv","sports utility vehicle"],"🚙","photo-1519641471654-76ce0107ad1b"]
 ]}];
 const ITEMS=CATEGORIES.flatMap(c=>c.items.map(x=>({id:x[0],name:x[1],unit:x[2],price:x[3],words:x[4],emoji:x[5],img:"https://images.unsplash.com/"+x[6]+"?auto=format&fit=crop&w=500&q=80"})));
 const $=id=>document.getElementById(id),money=n=>"₹"+Math.round(n).toLocaleString("en-IN");let player="",clips=[],rec=null,stream=null,recording=false,busy=false,selected={},page=0;
