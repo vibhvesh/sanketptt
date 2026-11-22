@@ -63,3 +63,31 @@ body.billing-open{overflow:hidden}
 @keyframes stampBill{to{transform:rotate(-24deg) translateY(-5px)}}
 @keyframes receiptPrint{0%,20%{transform:translateY(-16px);opacity:.5}70%,100%{transform:translateY(0);opacity:1}}
 @media(prefers-reduced-motion:reduce){.billing-overlay *{animation:none!important;transition:none!important}}
+
+/* Prisha's playful illustrated game poster and in-game character moments */
+.game-poster{margin:4px auto 22px;max-width:920px;border-radius:26px;overflow:hidden;background:linear-gradient(125deg,#fff1d9 0%,#ffe2c5 48%,#e7f4ff 100%);border:1px solid #f0d7bd;box-shadow:0 16px 36px #173b5d18}
+.poster-art{min-height:250px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 26px 10px;position:relative;isolation:isolate}
+.poster-art:before,.poster-art:after{content:"";position:absolute;border-radius:50%;z-index:-1;pointer-events:none}
+.poster-art:before{width:190px;height:190px;right:17%;top:-95px;background:#ffcf7b88}
+.poster-art:after{width:130px;height:130px;left:-55px;bottom:-75px;background:#9bd9c888}
+.poster-copy{flex:1;min-width:0}
+.poster-kicker{font-size:11px;letter-spacing:1.6px;font-weight:950;color:#bd5b20}
+.poster-copy h2{font-size:clamp(34px,6vw,62px);line-height:.9;letter-spacing:-2px;margin:9px 0;color:#12345a;text-shadow:2px 3px 0 #fff}
+.poster-copy h2 em{font-style:normal;color:#f47721}
+.poster-copy p{font-size:clamp(14px,2vw,18px);font-weight:700;color:#51677d;margin:12px 0}
+.poster-badges{display:flex;gap:7px;flex-wrap:wrap}
+.poster-badges span{font-size:11px;font-weight:850;color:#12345a;background:#fff;border:1px solid #f3d7b9;border-radius:999px;padding:7px 10px;box-shadow:0 3px 7px #12345a0c}
+.poster-speech{display:inline-block;margin-top:13px;padding:9px 13px;border-radius:15px 15px 15px 3px;background:#fff;color:#a84a1d;font-size:13px;font-weight:900;box-shadow:0 5px 12px #a84a1d18}
+.poster-mascot{align-self:flex-end;width:clamp(145px,28vw,235px);height:auto;max-height:270px;object-fit:contain;object-position:bottom;filter:drop-shadow(0 9px 9px #5a351b25);animation:posterHello 2.2s ease-in-out infinite}
+@keyframes posterHello{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+.mascot-welcome img{object-fit:contain!important;background:linear-gradient(180deg,#fff4e6,#edf6ff)!important;padding:5px;border-radius:18px!important}
+.lobby-welcome{display:flex;align-items:center;gap:12px;background:linear-gradient(100deg,#fff5e8,#f0f7ff);border:1px solid #f1dfca;border-radius:18px;padding:8px 12px;margin-bottom:12px}
+.lobby-welcome h2{margin:0!important}.lobby-welcome p{margin:5px 0 0;color:#687b8d;font-size:13px}
+.lobby-buddy{width:74px;height:98px;object-fit:contain;align-self:flex-end;filter:drop-shadow(0 4px 5px #12345a18)}
+.round-title{display:flex;align-items:center;gap:9px}.round-title h2{margin:0}.round-buddy{width:48px;height:64px;object-fit:contain;align-self:flex-end}
+.fun-tag{display:block;color:#e16b20;font-size:11px;font-weight:850;margin-top:3px}
+#result .result-buddy{display:block;width:100px;height:118px;object-fit:contain;margin:0 auto -8px;position:relative;z-index:2;filter:drop-shadow(0 5px 5px #12345a20);animation:posterHello 1.4s ease-in-out infinite}
+#result .celebration.loss .result-buddy{filter:grayscale(.12) drop-shadow(0 5px 5px #12345a20);animation:cryWobble .55s ease-in-out infinite alternate}
+#result .celebration.win-big .result-buddy{animation:bigHappyJump .62s ease-in-out infinite alternate}
+@media(max-width:520px){.poster-art{min-height:205px;padding:15px 12px 4px;gap:0}.poster-mascot{width:40%;max-height:225px;margin-left:-8px}.poster-copy h2{font-size:37px}.poster-copy p{font-size:13px}.poster-badges{gap:4px}.poster-badges span{font-size:9px;padding:6px 7px}.poster-speech{font-size:11px;padding:8px}.game-poster{border-radius:19px;margin-bottom:16px}.lobby-buddy{width:62px;height:86px}.round-buddy{width:40px;height:54px}}
+@media(prefers-reduced-motion:reduce){.poster-mascot,.result-buddy{animation:none!important}}
