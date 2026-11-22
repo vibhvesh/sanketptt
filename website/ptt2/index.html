@@ -372,6 +372,18 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 .ptt-live-signal.is-live{border-color:#42f477!important;box-shadow:0 0 12px #42f47788!important}.ptt-live-signal.is-live i{background:#42f477!important;box-shadow:0 0 5px #42f477!important}
 .ptt-live-signal.is-tx{background:rgba(70,15,10,.88)!important;border-color:#ff6464!important}.ptt-live-signal.is-tx i{background:#ff7777!important;box-shadow:0 0 5px #ff5555!important}
 #ptt{position:relative!important}
+</style></style><style id="ptt2-off-button-top-v1">
+/* Compact OFF control beside LOG OUT; remove the floating bottom switch */
+.ptt2-session-bar{justify-content:flex-end!important;gap:8px!important}
+#hd{margin-right:auto!important}
+#ptt2PowerOff{position:static!important;inset:auto!important;transform:none!important;width:auto!important;height:34px!important;min-width:64px!important;border-radius:9px!important;display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:6px!important;padding:0 11px!important;border:1px solid #8aa99a!important;background:#102c1c!important;color:#e5fff0!important;box-shadow:none!important}
+#ptt2PowerOff[hidden]{display:none!important}
+#ptt2PowerOff .ptt2-power-led{width:8px!important;height:8px!important;flex:none!important}
+#ptt2PowerOff .ptt2-power-symbol{display:none!important}
+#ptt2PowerOff .ptt2-power-label{font:800 11px/1 system-ui!important;letter-spacing:1px!important}
+#ptt2PowerOff.is-on{border-color:#42f477!important;box-shadow:0 0 9px #42f47744!important}
+#ptt2PowerOff.is-off{border-color:#e24a4a!important;color:#ffc9c9!important}
+#main>.panel:has(#log){padding-bottom:12px!important}
 </style></head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET CONNECT</h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
