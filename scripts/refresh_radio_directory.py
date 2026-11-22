@@ -167,6 +167,14 @@ def main():
         item.setdefault("last_checked", None)
         clean[key] = item
     items = sorted(clean.values(), key=lambda x: (x.get("editorial_priority", 2), x["country"].casefold(), x["region"].casefold(), x["name"].casefold()))
+    # Keep the public payload compact for mobile clients. These are duplicate
+    # aliases or crawl-only fields; the UI supports language/type as canonical.
+    for item in items:
+        item.pop("station_id", None)       # same value as id
+        item.pop("languages", None)        # same values as language
+        item.pop("categories", None)       # same values as type
+        item.pop("editorial_priority", None)  # already applied to sort order
+        item["tags"] = list(dict.fromkeys(item.get("tags") or []))[:12]
     countries = sorted({x["country"] for x in items if x["country"] and x["country"] != "Unknown"})
     languages = sorted({lang for x in items for lang in x["language"] if lang and lang != "Unknown"})
     regions = sorted({x["region"] for x in items if x["region"]})
@@ -183,7 +191,7 @@ def main():
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as output:
-        json.dump(payload, output, ensure_ascii=False, indent=2)
+        json.dump(payload, output, ensure_ascii=False, separators=(",", ":"))
         output.write("\n")
     print("Published", len(items), "catalogue entries across", len(countries), "countries")
 
