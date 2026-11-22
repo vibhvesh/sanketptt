@@ -6,7 +6,7 @@ import { readPcm } from "./clip.js";
 
 const MODEL_ID = "onnx-community/whisper-tiny";
 const LANGUAGE_NAMES = { en: "english", hi: "hindi" };
-let pipelinePromise = null;
+let pipelinePromise = null;\nlet translationPipelinePromise = null;\nconst NLLB_CODES = { en: "eng_Latn", hi: "hin_Deva", gu: "guj_Gujr", mr: "mar_Deva", bn: "ben_Beng", pa: "pan_Guru", ta: "tam_Taml", te: "tel_Telu", ur: "urd_Arab", zh: "zho_Hans", ru: "rus_Cyrl" };
 
 function resampleTo16k(wavBuffer) {
   const parsed = readPcm(wavBuffer);
@@ -75,4 +75,32 @@ export async function transcribeLocal(wavBuffer, config) {
     end: chunk.timestamp ? chunk.timestamp[1] : null,
   })) : [];
   return { text, language, segments };
+}
+
+/** Optional multilingual on-device translation. First use downloads a large model and caches it. */
+async function translationPipeline() {
+  if (!translationPipelinePromise) {
+    translationPipelinePromise = (async () => {
+      const mod = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6");
+      mod.env.allowLocalModels = false;
+      mod.env.useBrowserCache = true;
+      const device = await chooseDevice();
+      try {
+        return await mod.pipeline("translation", "Xenova/nllb-200-distilled-600M", { device, dtype: "q8" });
+      } catch (e) {
+        return mod.pipeline("translation", "Xenova/nllb-200-distilled-600M", { device: "wasm" });
+      }
+    })();
+  }
+  return translationPipelinePromise;
+}
+
+export async function translateLocal(text, sourceLanguage, targetLanguage) {
+  const target = NLLB_CODES[targetLanguage];
+  if (!target) throw new Error("Local translation does not support this destination language yet.");
+  const source = NLLB_CODES[sourceLanguage] || "eng_Latn";
+  if (!String(text || "").trim()) return "";
+  const translator = await translationPipeline();
+  const result = await translator(String(text), { src_lang: source, tgt_lang: target, max_new_tokens: 256 });
+  return String(result && result[0] && result[0].translation_text || "").trim();
 }
