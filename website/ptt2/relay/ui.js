@@ -1,205 +1,158 @@
-import {
-  PUBLIC_CHANNELS,
-  RELAY_PUBLIC,
-  RELAY_SANKET,
-  SANKET_UNREACHABLE,
-  formatRelayNet,
-  loadPublicChannel,
-  loadRelay,
-  loadRoom,
-  relaySpec,
-  savePublicChannel,
-  saveRelay,
-  saveRoom,
-} from "./config.js";
-import { assignedRooms, listFreeRooms } from "./sanket-socket.js";
+import { RELAY_SANKET, SANKET_UNREACHABLE, formatRelayNet, relaySpec, saveRoom } from "./config.js";
+import { assignedRooms } from "./sanket-socket.js";
 import { getToken, rememberedLogin, signIn, signOut } from "./auth.js";
-import { isFreeVisit, prepareFreeRelay } from "./free.js";
-import { GUEST_EMAIL, GUEST_PASSWORD, ensureGuest } from "../../sanket-radios/guest.js";
 
-function paint(status, text) {
-  status.textContent = text;
-  status.classList.toggle("down", text === SANKET_UNREACHABLE);
+function paint(status, message) {
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle("down", message === SANKET_UNREACHABLE);
 }
 
 function esc(value) {
-  return String(value).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
-}
-
-function currentValue() {
-  return loadRelay() === RELAY_SANKET ? "sanket:" + loadRoom() : "public:" + loadPublicChannel();
+  return String(value).replace(/[&<>"]/g, (ch) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"
+  }[ch]));
 }
 
 export function mountRelay(root, onChoose) {
-  const freeMode = prepareFreeRelay() || isFreeVisit();
   root.innerHTML = `
-    <h3>AVAILABLE CHANNELS</h3>
-    <div id="ptt2ChannelChips" role="listbox" aria-label="Available channels"></div>
-    ${freeMode ? "" : `<form id="ptt2Auth">
+    <h3>SANKET RELAY CHANNELS</h3>
+    <div id="ptt2ChannelChips" role="listbox" aria-label="Your Sanket channels">
+      <p class="ptt2-hint">Sign in to load your authorized channels.</p>
+    </div>
+    <form id="ptt2Auth">
       <label for="ptt2Email">Email</label>
-      <input id="ptt2Email" type="email" autocomplete="username" inputmode="email">
+      <input id="ptt2Email" type="email" autocomplete="username" inputmode="email" required>
       <label for="ptt2Password">Password</label>
       <div class="ptt2-pass">
-        <input id="ptt2Password" type="password" autocomplete="current-password">
+        <input id="ptt2Password" type="password" autocomplete="current-password" required>
         <button type="button" id="ptt2PassToggle">Show</button>
       </div>
       <label class="ptt2-remember"><input id="ptt2Remember" type="checkbox"> Remember me</label>
-      <button type="submit" id="ptt2SignIn">Sign in</button>
-      <button type="button" id="ptt2Demo">Use demo account</button>
+      <button type="submit" id="ptt2SignIn">Sign in to Sanket</button>
       <p id="ptt2AuthError" hidden></p>
     </form>
-    <button type="button" id="ptt2SignOut" hidden>Sign out</button>`}
-    <p id="ptt2RelayStatus"></p>
+    <button type="button" id="ptt2SignOut" hidden>Sign out</button>
+    <p id="ptt2RelayStatus">Not connected</p>
   `;
+
   const chips = root.querySelector("#ptt2ChannelChips");
   const form = root.querySelector("#ptt2Auth");
   const email = root.querySelector("#ptt2Email");
   const password = root.querySelector("#ptt2Password");
   const remember = root.querySelector("#ptt2Remember");
   const toggle = root.querySelector("#ptt2PassToggle");
-  const demo = root.querySelector("#ptt2Demo");
   const error = root.querySelector("#ptt2AuthError");
   const signOutButton = root.querySelector("#ptt2SignOut");
   const status = root.querySelector("#ptt2RelayStatus");
-  let sanketRooms = [];
-  let showingSanket = false;
+  let rooms = [];
+  let activeRoom = "";
 
   function showError(message) {
-    if (!error) return;
     error.hidden = !message;
     error.textContent = message || "";
   }
 
-  function choose(value) {
-    const mark = value.indexOf(":");
-    const kind = value.slice(0, mark);
-    const id = value.slice(mark + 1);
-    const url = new URL(location.href);
-    url.searchParams.delete("relay");
-    url.searchParams.delete("room");
-    if (freeMode) url.searchParams.set("free", "1");
-    else url.searchParams.delete("free");
-    url.searchParams.set("ch", id);
-    if (!freeMode) url.searchParams.delete("ch");
-    history.replaceState(null, "", url.pathname + url.search + url.hash);
-    if (kind === "sanket") {
-      saveRelay(RELAY_SANKET);
-      saveRoom(id);
-      paint(status, "Joining " + id + ".");
-      const open = () => onChoose(relaySpec(RELAY_SANKET));
-      if (freeMode) ensureGuest().then(open, () => paint(status, SANKET_UNREACHABLE));
-      else open();
-    } else {
-      saveRelay(RELAY_PUBLIC);
-      savePublicChannel(id);
-      paint(status, "Joining " + id + ".");
-      onChoose(relaySpec(RELAY_PUBLIC));
-    }
-    render();
-  }
-
   function render() {
-    const active = currentValue();
-    const rows = freeMode
-      ? PUBLIC_CHANNELS.map((item) => ({ value: "public:" + item.id, name: item.name }))
-        .concat(sanketRooms.map((item) => ({ value: "sanket:" + item.roomId, name: item.roomName || item.roomId })))
-      : showingSanket
-        ? sanketRooms.map((item) => ({ value: "sanket:" + item.roomId, name: item.roomName || item.roomId }))
-        : PUBLIC_CHANNELS.map((item) => ({ value: "public:" + item.id, name: item.name }));
-    chips.innerHTML = rows.map((item) => {
-      const on = item.value === active ? " is-on" : "";
-      return `<button type="button" class="ptt2-chip${on}" data-value="${esc(item.value)}" aria-pressed="${on ? "true" : "false"}">${esc(item.name)}</button>`;
-    }).join("");
-    if (form) form.hidden = showingSanket;
-    if (signOutButton) signOutButton.hidden = !showingSanket;
+    if (!rooms.length) {
+      chips.innerHTML = '<p class="ptt2-hint">No channels have been assigned to this account.</p>';
+    } else {
+      chips.innerHTML = rooms.map((room) => {
+        const id = String(room.roomId || "");
+        const name = String(room.roomName || room.name || id);
+        const selected = id === activeRoom;
+        return '<button type="button" class="ptt2-chip' + (selected ? ' is-on' : '') +
+          '" data-room="' + esc(id) + '" aria-pressed="' + (selected ? 'true' : 'false') +
+          '">' + esc(name) + '</button>';
+      }).join("");
+    }
+    form.hidden = !!getToken();
+    signOutButton.hidden = !getToken();
   }
 
-  function returnToPublic() {
-    sanketRooms = [];
-    showingSanket = false;
-    saveRelay(RELAY_PUBLIC);
-    showError("");
+  function connectRoom(roomId) {
+    const room = rooms.find((item) => item.roomId === roomId);
+    if (!room) return;
+    activeRoom = roomId;
+    saveRoom(roomId);
     render();
-    paint(status, "Joining " + loadPublicChannel() + ".");
-    onChoose(relaySpec(RELAY_PUBLIC));
+    paint(status, "Connecting to " + (room.roomName || room.name || roomId) + "…");
+    onChoose(relaySpec(roomId));
   }
 
   async function enter(address, secret, keep) {
     showError("");
-    paint(status, "Signing in…");
+    paint(status, "Signing in to Sanket Relay…");
     try {
       await signIn(address, secret, keep);
-      sanketRooms = await assignedRooms();
-      showingSanket = true;
+      rooms = await assignedRooms();
       render();
-      paint(status, sanketRooms.length ? "Your channels" : "No channels are assigned to this sign-in.");
+      if (!rooms.length) {
+        showError("Your Sanket account has no assigned channels. Contact your administrator.");
+        paint(status, "Signed in · no assigned channels");
+        return;
+      }
+      const preferred = rooms.find((room) => room.roomId === activeRoom) ||
+        rooms.find((room) => room.roomId === localStorage.getItem("sanket.ptt2.relayRoom")) ||
+        rooms[0];
+      connectRoom(preferred.roomId);
     } catch (e) {
-      showingSanket = false;
+      rooms = [];
       render();
-      if (e && e.status === 401) showError("Sign-in failed. Check the email and password.");
-      else paint(status, SANKET_UNREACHABLE);
+      if (e && e.status === 401) showError("Sign-in failed. Check your email and password.");
+      else showError(e && e.message ? e.message : "Could not reach Sanket Relay.");
+      paint(status, SANKET_UNREACHABLE);
     }
   }
 
   chips.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-value]");
-    if (!button) return;
-    choose(button.getAttribute("data-value"));
+    const button = event.target.closest("[data-room]");
+    if (button) connectRoom(button.getAttribute("data-room"));
   });
 
-  if (form) form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
     enter(email.value, password.value, remember.checked);
   });
 
-  if (toggle && password) toggle.addEventListener("click", () => {
-    const hidden = password.type === "password";
-    password.type = hidden ? "text" : "password";
-    toggle.textContent = hidden ? "Hide" : "Show";
+  toggle.addEventListener("click", () => {
+    const show = password.type === "password";
+    password.type = show ? "text" : "password";
+    toggle.textContent = show ? "Hide" : "Show";
   });
 
-  if (demo) demo.addEventListener("click", () => {
-    email.value = GUEST_EMAIL;
-    password.value = GUEST_PASSWORD;
-    remember.checked = false;
-    enter(email.value, password.value, false);
-  });
-
-  if (signOutButton) signOutButton.addEventListener("click", () => {
+  signOutButton.addEventListener("click", () => {
+    if (typeof window.ptt2StopRelay === "function") window.ptt2StopRelay();
     signOut();
+    rooms = [];
+    activeRoom = "";
+    saveRoom("");
     password.value = "";
-    remember.checked = false;
-    returnToPublic();
+    render();
+    paint(status, "Signed out of Sanket Relay");
   });
 
-  window.ptt2SetRelayRooms = (rooms) => {
-    sanketRooms = rooms || [];
-    showingSanket = true;
+  window.ptt2SetRelayRooms = (available, selectedRoom) => {
+    rooms = (available || []).filter((room) => room && room.roomId);
+    if (selectedRoom) activeRoom = selectedRoom;
     render();
   };
 
   window.ptt2OnRelayNet = function (event, relayId, channel) {
-    const text = formatRelayNet(event, relayId, channel);
-    paint(status, text);
+    const message = formatRelayNet(event, relayId, channel);
+    paint(status, message);
     render();
-    return text;
+    return message;
   };
 
   const saved = rememberedLogin();
-  if (!freeMode && !getToken() && !saved) saveRelay(RELAY_PUBLIC);
-  if (!freeMode && saved && email && password && remember) {
+  render();
+  if (saved && !getToken()) {
     email.value = saved.email;
     password.value = saved.password;
     remember.checked = true;
   }
-  render();
-  paint(status, loadRelay() === RELAY_SANKET ? "Joining " + loadRoom() + "." : "Joining " + loadPublicChannel() + ".");
-  if (freeMode) {
-    ensureGuest().then(async () => {
-      sanketRooms = await listFreeRooms();
-      render();
-    }).catch(() => {
-      paint(status, loadRelay() === RELAY_SANKET ? SANKET_UNREACHABLE : "Joining " + loadPublicChannel() + ".");
-    });
-  } else if (getToken() || saved) enter(email.value, password.value, remember.checked);
+  if (getToken() && saved) {
+    enter(saved.email, saved.password, true);
+  }
 }
