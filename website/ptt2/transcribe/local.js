@@ -61,7 +61,7 @@ async function pipeline() {
 export async function transcribeLocal(wavBuffer, config) {
   const audio = resampleTo16k(wavBuffer);
   const transcriber = await pipeline();
-  const task = config && config.translate ? "translate" : "transcribe";
+  const task = config && config.translate && (!config.targetLanguage || config.targetLanguage === "en") ? "translate" : "transcribe";
   const language = (config && config.language) || "en";
   const result = await transcriber(audio, {
     language: language === "auto" ? undefined : (LANGUAGE_NAMES[language] || language),
