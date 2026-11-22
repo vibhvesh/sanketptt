@@ -211,6 +211,6 @@ def main():
     }
     with open(OUT, "w", encoding="utf-8") as output:
         json.dump(payload, output, ensure_ascii=False, separators=(",", ":"))
-        output.write("\\n")
+        output.write("\n")
     print("Published manifest for", len(items), "stations across", len(countries),
           "countries; search index:", os.path.getsize(search_path), "bytes")
