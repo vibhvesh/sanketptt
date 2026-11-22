@@ -407,8 +407,22 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #latestMessagesPanel #log li .du{font-weight:750!important}
 #latestMessagesPanel #log::-webkit-scrollbar{width:6px}
 #latestMessagesPanel #log::-webkit-scrollbar-thumb{background:#a9c9b5;border-radius:8px}
+</style></style><style id="ptt2-brand-live-wave-v1">
+.sanket-brand-wave{display:flex!important;align-items:center!important;gap:10px!important}
+.sanket-brand-wave>img{flex:0 0 auto!important;width:42px!important;height:42px!important}
+.brand-wave{display:flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;width:66px!important;height:40px!important;flex:0 0 66px!important}
+.brand-wave i{display:block!important;width:3px!important;height:5px!important;min-height:5px!important;border-radius:5px!important;background:#c6d6cc!important;opacity:.9!important;transition:height .09s ease,background .09s ease,box-shadow .09s ease!important}
+.brand-wave i:nth-child(-n+4){background:#e58a32!important}
+.brand-wave i:nth-child(n+5):nth-child(-n+11){background:#89b933!important}
+.brand-wave i:nth-child(n+12){background:#168b42!important}
+.brand-wave i.lit{box-shadow:0 0 7px currentColor!important;opacity:1!important}
+.brand-wordmark{min-width:0!important}
+.brand-wordmark h1{white-space:nowrap!important;letter-spacing:-.5px!important}
+.brand-wordmark h1 em{font-style:normal!important;color:#fff!important;background:#e47d20!important;border-radius:7px!important;padding:1px 5px!important}
+.brand-wordmark small{letter-spacing:1.6px!important}
+@media(max-width:430px){.sanket-brand-wave{gap:6px!important}.sanket-brand-wave>img{width:34px!important;height:34px!important}.brand-wave{width:44px!important;flex-basis:44px!important;gap:2px!important}.brand-wave i{width:2px!important}.brand-wordmark h1{font-size:clamp(13px,4.2vw,18px)!important;letter-spacing:-.4px!important}.brand-wordmark small{font-size:8px!important;letter-spacing:1px!important}}
 </style></head><body><div class=rig>
-<div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET CONNECT</h1><small>POWERED BY SANKET PTT</small></div>
+<div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
 <div class=freq id=chlabel>VIRTUAL</div><div id=st>STANDBY</div>
@@ -522,7 +536,7 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
 var NB=20;bars.innerHTML=new Array(NB+1).join('<b></b>');var barEls=bars.children;
 function lvl(a){var m=0;for(var i=0;i<a.length;i+=4){var x=Math.abs(a[i]);if(x>m)m=x}return Math.min(1,Math.sqrt(m/32768)*1.2)}
 function meterLoop(){var receiving=Date.now()-rxAt<450;var v=granted?txLvl:(receiving?rxLvl:0);txLvl*=.85;rxLvl*=.9;var k=Math.round(v*NB);
- for(var i=0;i<NB;i++)barEls[i].className=i<k?('l'+(i>=NB*.85?' r':i>=NB*.6?' y':'')):'';
+ for(var i=0;i<NB;i++)barEls[i].className=i<k?('l'+(i>=NB*.85?' r':i>=NB*.6?' y':'')):'';var brandWave=document.getElementById("brandWave");if(brandWave){var wave=brandWave.children;for(var j=0;j<wave.length;j++){var active=j<Math.max(1,Math.round(k/NB*wave.length));wave[j].classList.toggle("lit",active);wave[j].style.height=(active?(7+Math.round(v*22*(.45+Math.abs((j-(wave.length-1)/2)/wave.length)))):5)+"px";}}
  var lcd=document.querySelector(".sanket-live-meter"),ms=document.getElementById("meterState");if(lcd){lcd.classList.toggle("is-receiving",receiving);lcd.classList.toggle("is-transmitting",!!granted)}if(ms)ms.textContent=granted?"TRANSMIT":receiving?"LIVE":"IDLE";
  ledtx.classList.toggle("on",granted);ledrx.classList.toggle("on",receiving);var sig=document.getElementById("pttLiveSignal");if(sig){var online=!!(radio&&radio.c&&radio.c.connected);sig.classList.toggle("is-live",online);sig.classList.toggle("is-tx",!!granted);sig.querySelector("b").textContent=granted?"TX":online?"LIVE":"OFF";}requestAnimationFrame(meterLoop)}meterLoop();
 var rec=new Recorder(RATE,renderLog),player=null,playingKey=null;
