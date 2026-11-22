@@ -16,8 +16,8 @@ export async function serverHealthy(serverUrl) {
     return {
       ok: false,
       reason: blocked
-        ? "Browser blocked Sanket Transcribe (" + message + "). Local will be used."
-        : "Sanket Transcribe did not respond (" + message + "). Local will be used.",
+        ? "Browser blocked Sanket Transcribe (" + message + "). No local fallback is configured."
+        : "Sanket Transcribe did not respond (" + message + "). No local fallback is configured.",
     };
   } finally {
     clearTimeout(timer);
