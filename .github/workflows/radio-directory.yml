@@ -4,8 +4,6 @@ on:
     branches: [main]
     paths:
       - "scripts/refresh_radio_directory.py"
-      - "website/data/radio-directory.json"
-      - "website/data/radio-search-index.json"
       - ".github/workflows/radio-directory.yml"
   schedule:
     - cron: "30 2 * * *"
