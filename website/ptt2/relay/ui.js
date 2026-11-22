@@ -14,7 +14,7 @@ function paint(status, value) {
   status.classList.toggle("down", value === SANKET_UNREACHABLE);
 }
 function currentValue() {
-  return loadRelay() === RELAY_SANKET ? "sanket:" + loadRoom() : "public:" + loadPublicChannel();
+  return "sanket:" + loadRoom();
 }
 
 export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
@@ -25,7 +25,7 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
       <select id="ptt2Frequency" aria-label="Connected frequency"></select>
     </div>
     <form id="ptt2Auth" autocomplete="on">
-      <input id="ptt2Email" type="email" aria-label="Email" placeholder="Email" autocomplete="username" required>
+      <input id="ptt2Email" type="text" aria-label="Username" placeholder="Username" autocomplete="username" required>
       <input id="ptt2Password" type="password" aria-label="Password" placeholder="Password" autocomplete="current-password" required>
       <button type="submit" id="ptt2SignIn">Connect</button>
       <p id="ptt2AuthError" hidden></p>
@@ -73,7 +73,7 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
     power.hidden = false;
     power.classList.toggle("is-on", active);
     power.classList.toggle("is-off", !active);
-    power.querySelector(".ptt2-power-label").textContent = active ? "ON" : "OFF";
+    power.querySelector(".ptt2-power-label").textContent = active ? "SWITCH OFF" : "OFF";
     power.setAttribute("aria-label", active ? "Switch off radio" : "Radio is off");
   }
 
