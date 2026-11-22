@@ -461,6 +461,19 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #ptt2PowerOff .ptt2-power-label{font:800 11px/1 system-ui!important;letter-spacing:1px!important}
 #ptt2PowerOff.is-on{border-color:#43e879!important}
 #ptt2PowerOff.is-off{border-color:#d95c5c!important;color:#ffdada!important}
+</style><style id="ptt2-audio-power-inline-v1">
+.ptt2-session-bar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;width:100%!important;margin:2px 0 0!important;padding:2px 4px!important}
+.ptt2-session-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:9px!important;flex:0 0 auto!important}
+#ptt2PowerOff,#unlock{position:static!important;inset:auto!important;transform:none!important;display:inline-flex!important;flex:0 0 44px!important;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;max-width:44px!important;max-height:44px!important;margin:0!important;padding:0!important;border-radius:50%!important;align-items:center!important;justify-content:center!important;gap:0!important;box-shadow:0 2px 9px #1234!important;font:20px/1 system-ui!important;letter-spacing:0!important}
+#ptt2PowerOff{border:2px solid #8ca99a!important;background:radial-gradient(circle at 35% 25%,#244c38,#092417 75%)!important;color:#eaffef!important}
+#ptt2PowerOff .ptt2-power-led,#ptt2PowerOff .ptt2-power-label{display:none!important}
+#ptt2PowerOff .ptt2-power-symbol{font:22px/1 system-ui!important}
+#ptt2PowerOff.is-on{border-color:#42f477!important;box-shadow:0 0 0 2px #42f47755,0 0 13px #42f47766!important}
+#ptt2PowerOff.is-off{border-color:#a3aaa5!important}
+#unlock{background:linear-gradient(145deg,#e9f8ee,#ccebd7)!important;border:2px solid #27965a!important;color:#145b35!important;opacity:1!important}
+#unlock.audio-active{background:linear-gradient(145deg,#d9ffe7,#9cebb9)!important;box-shadow:0 0 0 2px #42f47744,0 0 14px #42f47777!important}
+#main>#ptt{margin-top:clamp(16px,4vh,34px)!important}
+@media(max-width:560px){.ptt2-session-actions{gap:7px!important}#ptt2PowerOff,#unlock{flex-basis:42px!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;max-width:42px!important;max-height:42px!important}}
 </style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -655,7 +668,7 @@ if(SANKET_LISTEN_ONLY){
 }
 
 function unlockAudio(){if(!ac)return Promise.resolve();return ac.resume().then(function(){var b=ac.createBuffer(1,1,22050),s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0)})} // iOS unlock
-function updateAudioButton(){unlock.textContent=!audioEnabled?"🔊 TAP TO ENABLE AUDIO":audioMuted?"🔇 UNMUTE AUDIO":"🔊 MUTE AUDIO";unlock.setAttribute("aria-pressed",String(audioEnabled&&!audioMuted));unlock.classList.toggle("audio-active",audioEnabled&&!audioMuted)}
+function updateAudioButton(){unlock.textContent=!audioEnabled?"🔊":audioMuted?"🔇":"🔊";unlock.setAttribute("aria-label",!audioEnabled?"Tap to enable audio":audioMuted?"Unmute audio":"Mute audio");unlock.title=unlock.getAttribute("aria-label");unlock.setAttribute("aria-pressed",String(audioEnabled&&!audioMuted));unlock.classList.toggle("audio-active",audioEnabled&&!audioMuted)}
 unlock.onclick=function(){if(!audioEnabled){audioEnabled=true;audioMuted=false;unlockAudio().catch(function(){audioEnabled=false;audioMuted=true});}else{audioMuted=!audioMuted;if(!audioMuted)unlockAudio().catch(function(){audioMuted=true})}updateAudioButton()};updateAudioButton();
 function play(a){if(!ac||!audioEnabled||audioMuted)return;var b=ac.createBuffer(1,a.length,RATE),d=b.getChannelData(0);for(var i=0;i<a.length;i++)d[i]=a[i]/32768;
  var s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);var now=ac.currentTime;if(playT<now||playT>now+8)playT=now+0.15;s.start(playT);playT+=b.duration}
