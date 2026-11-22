@@ -147,3 +147,14 @@ body.billing-open{overflow:hidden}
   .lobby-buddy { width:58px !important; }
   .round-buddy { width:38px !important; }
 }
+
+/* Reliable local image rendering */
+.product-photo{height:142px;background:linear-gradient(135deg,#fff8eb,#eef6ff);display:grid;place-items:center;overflow:hidden;padding:5px}
+.product-photo img{display:block;width:100%;height:100%;object-fit:contain!important;object-position:center!important;padding:0!important;background:transparent!important}
+.mascot-welcome img,.poster-mascot,.lobby-buddy,.round-buddy,#result .result-buddy{display:block!important;object-fit:contain!important;object-position:center bottom!important;background:transparent!important;max-width:100%;height:auto!important}
+.mascot-welcome img{width:clamp(104px,29vw,148px)!important;max-height:220px!important;flex:0 0 auto;aspect-ratio:127/170;padding:0!important;border-radius:0!important}
+.poster-mascot{width:clamp(118px,25vw,200px)!important;max-height:250px!important;align-self:flex-end;padding:0!important}
+.lobby-buddy{width:70px!important;max-height:100px!important}
+.round-buddy{width:48px!important;max-height:66px!important}
+#result .result-buddy{width:90px!important;max-height:125px!important;margin:0 auto -8px;padding:0!important}
+@media(max-width:430px){.product-photo{height:128px}.mascot-welcome img{width:104px!important;max-height:170px!important}.poster-mascot{width:37%!important;max-height:205px!important}.lobby-buddy{width:58px!important}.round-buddy{width:40px!important}}
