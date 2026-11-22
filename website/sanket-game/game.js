@@ -39,7 +39,7 @@ const CATEGORIES=[
 ["suv","Family SUV","1 SUV",1250000,["suv","sports utility vehicle"],"🚙","photo-1519641471654-76ce0107ad1b"]
 ]}];
 const ITEMS=CATEGORIES.flatMap(c=>c.items.map(x=>({id:x[0],name:x[1],unit:x[2],price:x[3],words:x[4],emoji:x[5],img:""})));
-const $=id=>document.getElementById(id),money=n=>"₹"+Math.round(n).toLocaleString("en-IN");let player="",clips=[],rec=null,stream=null,recording=false,busy=false,selected={},page=0;
+const $=id=>document.getElementById(id),money=n=>"₹"+Math.round(n).toLocaleString("en-IN");let player="",clips=[],rec=null,stream=null,recording=false,busy=false,selected={},page=0,lastReportData=null;
 const show=id=>$(id).hidden=false,hide=id=>$(id).hidden=true;
 function getHistory(){try{return JSON.parse(sessionStorage.getItem(HISTORY_KEY)||"[]")}catch{return []}}
 function saveHistory(entry){try{const h=getHistory();h.unshift(entry);sessionStorage.setItem(HISTORY_KEY,JSON.stringify(h.slice(0,50)));return true}catch{return false}}
@@ -166,7 +166,7 @@ $("finishBtn").onclick=async()=>{
   [ $("billingStepOne"),$("billingStepTwo"),$("billingStepThree")].forEach(el=>el.classList.add("complete"));
   await new Promise(resolve=>setTimeout(resolve,700));
   hideBilling();hide("round");hide("pttDock");show("result");
-  const won=sum<=BUDGET&&basket.size>0;playCelebration(won,sum);
+  const won=sum<=BUDGET&&basket.size>0;lastReportData={player,total:sum,budget:BUDGET,won,items:Array.from(basket.values()).map(x=>({...x}))};playCelebration(won,sum);
   $("cart").innerHTML=Array.from(basket.values()).map(x=>'<div class="product-card"><div class="product-photo"><span class="fallback">'+(x.emoji||'🛍️')+'</span></div><div class="product-info"><div class="product-name">'+x.name+' · '+(x.details||[x.q+' packs']).join(', ')+'</div><div class="product-price">'+money(x.total)+'</div></div></div>').join("")+rows.map(r=>'<div class="product-card"><div class="product-info"><span>'+(r.text||"No speech")+'</span><b>'+(r.order?"Voice accepted":"Not recognised")+'</b></div></div>').join("");
   $("total").textContent=money(sum);$("total").parentElement.classList.toggle("near-total",sum>=BUDGET*.9&&sum<=BUDGET);
   $("message").textContent=sum>BUDGET?"Over budget — you lost.":won?"Within your budget — you win!":"No valid items were accepted.";
@@ -175,6 +175,59 @@ $("finishBtn").onclick=async()=>{
  }catch(e){hideBilling();$("status").textContent="ERROR";alert("Could not prepare the bill. Please try again.");}
  finally{hideBilling();busy=false;$("finishBtn").disabled=!(Object.keys(selected).length||clips.length)}
 };
+
+function makeReportImage(){
+ if(!lastReportData)throw new Error("No shopping report is ready yet.");
+ const d=lastReportData,canvas=document.createElement("canvas"),ctx=canvas.getContext("2d");
+ const W=1080,rowH=92,top=470,footer=250,H=top+Math.max(1,d.items.length)*rowH+footer;
+ canvas.width=W;canvas.height=Math.max(1300,H);
+ const grad=ctx.createLinearGradient(0,0,W,canvas.height);grad.addColorStop(0,"#fff7e9");grad.addColorStop(1,"#edf5ff");ctx.fillStyle=grad;ctx.fillRect(0,0,W,canvas.height);
+ ctx.fillStyle="#12345a";ctx.fillRect(0,0,W,260);
+ ctx.fillStyle="#ffffff";ctx.font="bold 48px Arial";ctx.fillText("PRISHA SHOPPER",64,86);
+ ctx.fillStyle="#ff9a52";ctx.font="bold 28px Arial";ctx.fillText("SHOPPING REPORT",66,137);
+ ctx.fillStyle="#ffffff";ctx.font="32px Arial";ctx.fillText("Player: "+(d.player||"Shopper"),66,202);
+ ctx.fillStyle="#ffffff";ctx.font="bold 52px Arial";ctx.fillText(d.won?"🎉 YOU WON!":"🙈 OVER BUDGET",64,340);
+ ctx.fillStyle="#12345a";ctx.font="30px Arial";ctx.fillText(new Date().toLocaleString(),66,402);
+ let y=top;
+ ctx.fillStyle="#ffffff";ctx.fillRect(48,y-54,W-96,Math.max(1,d.items.length)*rowH+90);
+ ctx.fillStyle="#12345a";ctx.font="bold 27px Arial";ctx.fillText("YOUR BASKET",82,y-5);
+ y+=48;
+ d.items.forEach((it,i)=>{
+  ctx.fillStyle=i%2?"#f2f6fb":"#fffaf2";ctx.fillRect(68,y-48,W-136,rowH);
+  ctx.font="38px Arial";ctx.fillStyle="#12345a";ctx.fillText(it.emoji||"🛍️",92,y+8);
+  ctx.font="bold 27px Arial";ctx.fillText(String(it.name||"Item").slice(0,32),166,y-4);
+  ctx.font="22px Arial";ctx.fillStyle="#607287";ctx.fillText((it.details||[String(it.q||1)+" item(s)"]).join(", ").slice(0,54),166,y+30);
+  ctx.textAlign="right";ctx.font="bold 28px Arial";ctx.fillStyle="#12345a";ctx.fillText(money(it.total||0),W-92,y+8);ctx.textAlign="left";
+  y+=rowH;
+ });
+ y+=70;
+ ctx.fillStyle="#12345a";ctx.font="bold 34px Arial";ctx.fillText("Shopping budget",78,y);
+ ctx.textAlign="right";ctx.fillText(money(d.budget),W-78,y);ctx.textAlign="left";y+=66;
+ ctx.font="bold 48px Arial";ctx.fillText("TOTAL",78,y);ctx.textAlign="right";ctx.fillText(money(d.total),W-78,y);ctx.textAlign="left";y+=75;
+ ctx.fillStyle=d.won?"#16834a":"#c04437";ctx.font="bold 30px Arial";
+ const diff=Math.abs(d.budget-d.total);
+ ctx.fillText(d.won?"You saved "+money(diff):"Over budget by "+money(diff),78,y);
+ ctx.fillStyle="#607287";ctx.font="23px Arial";ctx.fillText("A fun shopping game with Prisha • Powered by Sanket",78,canvas.height-55);
+ return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("Could not create report image")),"image/png"));
+}
+async function saveReportImage(){
+ const blob=await makeReportImage(),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="prisha-shopper-report.png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+}
+async function shareReportImage(){
+ const blob=await makeReportImage(),file=new File([blob],"prisha-shopper-report.png",{type:"image/png"});
+ const caption="My Prisha Shopper result: "+(lastReportData.won?"I stayed within budget! 🎉":"I went over budget! 🙈")+" Total "+money(lastReportData.total)+". Play at https://sanketptt.com/sanket-game/";
+ if(navigator.canShare&&navigator.canShare({files:[file]})){
+  await navigator.share({files:[file],title:"Prisha Shopper report",text:caption});
+ }else{
+  await saveReportImage();
+  const url="https://wa.me/?text="+encodeURIComponent(caption+" (The report picture has been saved; attach it from your gallery.)");
+  window.open(url,"_blank","noopener");
+ }
+}
+$("saveReport").onclick=()=>saveReportImage().catch(e=>alert("Could not save the report image: "+e.message));
+$("shareReport").onclick=()=>shareReportImage().catch(e=>{if(e.name!=="AbortError")alert("Sharing was not available. Please use Save report picture and share it from your gallery.")});
+
 $("copyResult").onclick=async()=>{const ok=await copyText(Array.from(document.querySelectorAll("#cart .product-card")).map(x=>x.innerText).join("\n")+"\nTotal: "+$("total").textContent);$("copyResult").textContent=ok?"Copied!":"Copy failed"};
 $("againBtn").onclick=()=>{hide("result");show("lobby")};
 $("historyBtn").onclick=()=>{const games=getHistory().filter(g=>g.player.toLowerCase()===player.toLowerCase());show("history");$("historyText").textContent=games.length?games.map((g,i)=>{const d=new Date(g.playedAt);return (i+1)+". "+d.toLocaleString()+" — "+(g.won?"WON":"LOST")+" — "+money(g.total)+"\n"+g.orders.map(o=>"   "+o.transcript+(o.accepted?" → "+o.item+" × "+o.quantity:" → Rejected")).join("\n")}).join("\n\n"):"No games saved in this tab's session yet."};

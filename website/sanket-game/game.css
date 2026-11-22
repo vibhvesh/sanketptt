@@ -172,3 +172,8 @@ main{padding-top:8px}
 #round > p:has(#count){display:none!important}
 #round .list-tools{margin-top:12px}
 #round .round-intro{color:#61758a}
+
+
+.report-actions{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+.report-actions button{flex:1;min-width:190px}
+@media(max-width:520px){.report-actions{flex-direction:column}.report-actions button{width:100%}}
