@@ -329,6 +329,24 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 @keyframes ptt2PowerBlink{50%{opacity:.22;box-shadow:none}}
 #main>.panel:has(#log){padding-bottom:100px!important}
 @media(min-width:600px){#ptt2PowerOff{bottom:24px!important}}
+</style><style id="ptt2-clean-radio-layout-v3">
+/* One compact frequency selector; never render channel chips or sign-out bars */
+#ptt2ChannelBar{order:2!important;display:flex!important;flex-direction:column!important;width:100%!important;margin:8px 0 4px!important;padding:0!important;border:0!important;background:transparent!important}
+#ptt2ChannelBar h3,#ptt2ChannelChips,.ptt2-chip,#ptt2SignOut,.ptt2-signout{display:none!important}
+#ptt2ChannelBar .ptt2-frequency-row{display:flex!important;width:100%!important;min-height:44px!important;margin:0!important;padding:4px 9px!important;align-items:center!important;gap:8px!important}
+#ptt2ChannelBar .ptt2-frequency-label{font-size:9px!important;white-space:nowrap!important}
+#ptt2Frequency{display:block!important;visibility:visible!important;width:100%!important;min-width:0!important;min-height:38px!important;font-size:14px!important}
+#ptt2Auth{margin:0!important}
+#main{order:3!important;display:none;flex:1 1 auto!important;min-height:0!important;padding:0!important;text-align:center!important}
+#main[style*="display: block"]{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important}
+#hd{width:100%!important;margin:5px 0 8px!important;text-align:center!important;font:700 13px system-ui!important}
+#unlock{width:auto!important;min-height:28px!important;margin:0 auto 4px!important;padding:4px 9px!important;font:10px system-ui!important;opacity:.8!important}
+#ptt{display:flex!important;align-items:center!important;justify-content:center!important;flex:none!important;width:min(66vw,260px)!important;height:min(66vw,260px)!important;max-width:260px!important;max-height:260px!important;margin:clamp(18px,6vh,56px) auto 12px!important;touch-action:none!important}
+#ptt .ptt-logo{display:block!important;width:76%!important;height:76%!important;object-fit:contain!important}
+#main>.hint,#main>.panel,#ptt2Settings,#locp,#sstvP,#net,#transcribeLink{display:none!important}
+#ptt2PowerOff{position:fixed!important;z-index:1000!important;left:50%!important;bottom:calc(env(safe-area-inset-bottom,0px) + 14px)!important;transform:translateX(-50%)!important}
+.rig{min-height:100svh!important}
+@media(max-width:560px){#ptt{width:min(66vw,240px)!important;height:min(66vw,240px)!important;margin-top:clamp(16px,5vh,42px)!important}}
 </style></head><body><div class=rig>
 <div class=brand><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div><h1>SANKET</h1><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -604,4 +622,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot.js"></script></body></html>
+</script><script type="module" src="boot.js?v=20261122-3"></script></body></html>
