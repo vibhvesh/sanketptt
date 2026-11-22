@@ -67,6 +67,16 @@ footer{padding:22px 0;color:#81909d;font-size:9px;display:flex;justify-content:s
  .sk-site-header .navlinks>a.demo-link{margin-top:5px;text-align:center}
  .sk-site-header .nav-popover{position:static;box-shadow:none;border:0;border-radius:8px;background:#f6f8fb;margin:2px 6px 7px;min-width:0}
 }
+
+.sk-site-header .navlinks>a.nav-quick{padding:9px 12px;border:1px solid #e0e7ed;border-radius:9px;background:#f7f9fb;color:#183b5b;font-weight:800}
+.sk-site-header .navlinks>a.nav-quick:hover{background:#fff3e9;border-color:#f6c49f;color:#d9681b}
+.sk-site-header .nav-popover.sk-mega{left:50%;transform:translateX(-50%);width:min(760px,calc(100vw - 36px));grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:16px}
+.sk-site-header .sk-menu-group{display:grid;align-content:start;gap:3px}
+.sk-site-header .sk-menu-group>b{font-size:9px;letter-spacing:1.1px;color:#e36f20;padding:7px 10px 9px}
+.sk-site-header .sk-menu-group a{font-size:11px;padding:9px 10px}
+@media(max-width:1000px){.sk-site-header .navlinks{gap:8px}.sk-site-header .navlinks>a.nav-quick{padding:8px 9px}}
+@media(max-width:720px){.sk-site-header .nav-popover.sk-mega{width:auto;transform:none;grid-template-columns:1fr;gap:7px;padding:9px}.sk-site-header .navlinks>a.nav-quick{border:0;background:transparent;padding:12px 11px}.sk-site-header .sk-menu-group{border-bottom:1px solid #e7edf2;padding-bottom:7px}.sk-site-header .sk-menu-group:last-child{border:0}}
+
 </style>
 <style id="sanket-parakeet-nav-contrast">
 body:has(.sk-site-header) header.sk-site-header{background:rgba(255,255,255,.96)!important;border-bottom:1px solid #e6ebf1!important;color:#18324b!important}
@@ -84,9 +94,13 @@ body:has(.sk-site-header) .sk-site-header .menu{color:#183b5b!important;backgrou
 <header class="sk-site-header"><div class="wrap nav">
 <a class="brand" href="#top" aria-label="Sanket home"><img src="sanket-mark.svg" alt=""><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a>
 <nav class="navlinks" id="navlinks" aria-label="Main navigation">
-<details class="nav-menu"><summary>Platform <span>⌄</span></summary><div class="nav-popover"><a href="radio/">PTT Radio <small>Push-to-talk channels</small></a><a href="transcribe/">Live Transcription <small>Speech-to-text and alerts</small></a><a href="aakashvani/">Control Room <small>Monitor and coordinate</small></a><a href="radios/">Radio Hub <small>Internet radio directory</small></a></div></details>
-<a href="#platform">Features</a><a href="#topology">Architecture</a><a href="#deployment">Solutions</a><a href="#pricing">Pricing</a>
-<details class="nav-menu"><summary>Explore <span>⌄</span></summary><div class="nav-popover"><a href="#products">Sanket Products <small>Explore the product family</small></a><a href="sanket-radios/">Free Public Radios <small>Try a public channel</small></a><a href="sanket-game/">Prisha Shopper <small>Voice shopping game</small></a><a href="#contact">Contact & Support <small>Talk to our team</small></a></div></details>
+<a class="nav-quick" href="radio/">PTT</a><a class="nav-quick" href="dmr/">DMR</a><a class="nav-quick" href="transcribe/">Transcribe</a>
+<details class="nav-menu sk-products-menu"><summary>All Products <span>⌄</span></summary><div class="nav-popover sk-mega">
+<div class="sk-menu-group"><b>COMMUNICATION</b><a href="radio/">Sanket PTT Radio <small>Live push-to-talk channels</small></a><a href="sanket-radios/">Free Public PTT <small>Open public radio channels</small></a><a href="dmr/">DMR Monitor <small>BrandMeister receive-only monitor</small></a><a href="dev/">PTT Development Radio <small>Development environment</small></a><a href="boondock/radio/">Boondock Echo <small>LTE-style radio interface</small></a></div>
+<div class="sk-menu-group"><b>TRANSCRIPTION & INTELLIGENCE</b><a href="transcribe/">Sanket Transcribe <small>Live speech-to-text</small></a><a href="aakashvani/">Control Room / आकाशवाणी <small>PA and operator console</small></a><a href="#sdr">Sanket SDR <small>Authorised receive-only monitoring</small></a><a href="#products">Adaptive Speech Intelligence <small>Verified speech improvement</small></a></div>
+<div class="sk-menu-group"><b>RADIO & DISCOVERY</b><a href="radios/">Radio Hub <small>Radio directory</small></a><a href="aakashvani/">आकाशवाणी Radio <small>Broadcast station interface</small></a><a href="demo.html">Live PTT + Transcribe Demo <small>Try both side by side</small></a><a href="sanket-game/">Prisha Shopper <small>Voice shopping game</small></a></div>
+</div></details>
+<a href="#platform">Features</a><a href="#topology">Architecture</a><a href="#pricing">Pricing</a>
 <a class="login" href="radio/" data-link="ptt">Sign in</a>
 <a class="login demo-link" href="#live-demo">Try live demo <span>↗</span></a>
 </nav><button class="menu" id="menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
