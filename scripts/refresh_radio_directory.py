@@ -16,20 +16,22 @@ RB_API = "https://de1.api.radio-browser.info"
 AIR_SOURCE = "https://raw.githubusercontent.com/codito/akashvani/master/stations.json"
 OUT = "website/data/radio-directory.json"
 UA = "SanketRadioDirectory/3.0 (public catalogue)"
-TAGS = [
-    "news", "talk", "folk", "jazz", "classical", "party", "pop", "rock",
-    "indian", "bollywood", "devotional", "world", "sports", "culture",
-    "dance", "electronic", "oldies", "ambient", "country", "reggae",
-    "metal", "hip-hop", "community", "weather"
-]
+NEWS_TAGS = ["news", "talk", "current affairs", "politics", "business", "finance", "weather", "sports"]
+MUSIC_TAGS = ["music", "pop", "rock", "jazz", "classical", "folk", "country", "dance", "electronic", "edm", "hip-hop", "rnb", "soul", "reggae", "metal", "oldies", "ambient", "world", "bollywood", "indian"]
+OTHER_TAGS = ["culture", "community", "devotional", "religious"]
+TAGS = list(dict.fromkeys(NEWS_TAGS + MUSIC_TAGS + OTHER_TAGS))
 GENRES = {
-    "news": ["news", "current affairs"], "talk": ["talk", "talk show", "debate"],
+    "news": ["news", "current affairs", "bulletin"], "talk": ["talk", "talk show", "debate", "interview"],
+    "music": ["music", "musical"],
     "folk": ["folk", "traditional"], "jazz": ["jazz"],
     "classical": ["classical", "opera"], "party": ["party", "dance", "club"],
     "indian": ["indian", "bollywood", "hindi"], "devotional": ["devotional", "religious", "bhajan"],
     "sports": ["sports"], "culture": ["culture", "community"],
     "weather": ["weather"], "rock": ["rock"], "pop": ["pop"],
-    "electronic": ["electronic", "edm"], "world": ["world", "international"]
+    "electronic": ["electronic", "edm"], "world": ["world", "international"],
+    "hip-hop": ["hip-hop", "hip hop", "rap"], "soul": ["soul", "rnb", "r&b"],
+    "reggae": ["reggae"], "country": ["country music"], "ambient": ["ambient"],
+    "metal": ["metal"], "oldies": ["oldies", "classic hits"]
 }
 
 def get_json(url, timeout=35):
@@ -53,7 +55,10 @@ def classify(tags, name=""):
 def normalise_rb(row):
     url = str(row.get("url_resolved") or row.get("url") or "").strip()
     name = str(row.get("name") or "").strip()
-    if not name or not url.startswith(("https://", "http://")):
+    if not name or len(name) > 180 or not url.startswith(("https://", "http://")) or any(ch in name for ch in "\r\n\x00"):
+        return None
+    parsed = urllib.parse.urlparse(url)
+    if not parsed.hostname or parsed.scheme not in ("http", "https"):
         return None
     tags = split_values(row.get("tags"))
     languages = split_values(row.get("language")) or ["Unknown"]
@@ -69,6 +74,7 @@ def normalise_rb(row):
         "countrycode": str(row.get("countrycode") or "").upper(),
         "region": str(row.get("state") or ""), "city": str(row.get("city") or ""),
         "language": languages, "languages": languages, "type": classify(tags, name), "categories": classify(tags, name), "tags": tags,
+        "editorial_priority": 0 if "news" in classify(tags, name) else (1 if any(x in classify(tags, name) for x in ("music", "pop", "rock", "jazz", "classical", "folk", "electronic", "hip-hop")) else 2),
         "url": url, "homepage": str(row.get("homepage") or ""),
         "favicon": str(row.get("favicon") or ""), "codec": str(row.get("codec") or ""),
         "bitrate": int(row.get("bitrate") or 0), "geo_lat": lat, "geo_long": lon,
@@ -112,9 +118,12 @@ def main():
         sources["akashvani_error"] = str(exc)
         print("Akashvani source unavailable:", exc)
 
-    endpoints = [("topclick", RB_API + "/json/stations/topclick/10000")]
-    for tag in TAGS:
-        endpoints.append(("tag:" + tag, RB_API + "/json/stations/bytag/" + urllib.parse.quote(tag) + "?limit=500"))
+    endpoints = []
+    # Focused editorial discovery first: news/talk, then music and its genres.
+    for tag in NEWS_TAGS + MUSIC_TAGS + OTHER_TAGS:
+        endpoints.append(("tag:" + tag, RB_API + "/json/stations/bytag/" + urllib.parse.quote(tag) + "?limit=1000"))
+    # Broad popularity crawl supplements the focused feeds; it is not the primary ranking.
+    endpoints.append(("topclick", RB_API + "/json/stations/topclick/10000"))
     for label, url in endpoints:
         try:
             rows = get_json(url, timeout=45)
@@ -129,7 +138,10 @@ def main():
                     # replacing known Akashvani provenance.
                     for key, value in item.items():
                         if value not in (None, "", [], ["Unknown"]):
-                            previous[key] = value
+                            if key in ("tags", "categories", "type", "languages", "language"):
+                                previous[key] = list(dict.fromkeys((previous.get(key) or []) + (value or [])))
+                            else:
+                                previous[key] = value
                     previous["source"] = "Akashvani + Radio Browser"
                 else:
                     stations[item["url"]] = item
@@ -137,18 +149,35 @@ def main():
             sources[label + "_error"] = str(exc)
             print(label, "unavailable:", exc)
 
-    items = sorted(stations.values(), key=lambda x: (x["country"].casefold(), x["region"].casefold(), x["name"].casefold()))
+    clean = {}
+    rejected = 0
+    for item in stations.values():
+        url = str(item.get("url") or "").strip()
+        name = str(item.get("name") or "").strip()
+        parsed = urllib.parse.urlparse(url)
+        if not name or not parsed.hostname or parsed.scheme not in ("http", "https"):
+            rejected += 1
+            continue
+        key = url.casefold()
+        if key in clean:
+            rejected += 1
+            continue
+        item["name"] = name
+        item["directory_status"] = "listed"
+        item.setdefault("last_checked", None)
+        clean[key] = item
+    items = sorted(clean.values(), key=lambda x: (x.get("editorial_priority", 2), x["country"].casefold(), x["region"].casefold(), x["name"].casefold()))
     countries = sorted({x["country"] for x in items if x["country"] and x["country"] != "Unknown"})
     languages = sorted({lang for x in items for lang in x["language"] if lang and lang != "Unknown"})
     regions = sorted({x["region"] for x in items if x["region"]})
     genres = sorted({genre for x in items for genre in x["type"]})
     payload = {
-        "schema_version": 4, "generated_at": datetime.now(timezone.utc).isoformat(),
+        "schema_version": 4, "crawl_focus": ["news", "music"], "generated_at": datetime.now(timezone.utc).isoformat(),
         "directory_name": "Sanket Global Radio Directory",
         "description": "Canonical public station catalogue for all Sanket radio experiences. Discovery index only; stream availability and rebroadcast rights are not guaranteed.",
         "api": {"json": "/data/radio-directory.json", "format": "application/json"},
         "station_fields": ["station_id", "name", "country", "countrycode", "region", "city", "languages", "categories", "tags", "url", "homepage", "favicon", "codec", "bitrate", "geo_lat", "geo_long", "source", "directory_status", "last_checked"],
-        "sources": sources, "station_count": len(items), "country_count": len(countries),
+        "sources": sources, "rejected_bad_or_duplicate_entries": rejected, "station_count": len(items), "country_count": len(countries),
         "countries": countries, "languages": languages, "regions": regions, "genres": genres,
         "stations": items
     }
