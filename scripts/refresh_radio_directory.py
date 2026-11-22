@@ -179,21 +179,38 @@ def main():
     languages = sorted({lang for x in items for lang in x["language"] if lang and lang != "Unknown"})
     regions = sorted({x["region"] for x in items if x["region"]})
     genres = sorted({genre for x in items for genre in x["type"]})
+    data_dir = os.path.dirname(OUT)
+    os.makedirs(data_dir, exist_ok=True)
+
+    # Full browse/search data is separate from the tiny first-paint manifest.
+    # Mobile clients fetch this only after a search, country filter or Nearby action.
+    search_fields = ("id", "name", "country", "countrycode", "region", "city",
+                     "language", "type", "tags", "url", "codec", "geo_lat",
+                     "geo_long", "clickcount", "votes")
+    search_items = [{key: item.get(key) for key in search_fields} for item in items]
+    search_path = os.path.join(data_dir, "radio-search-index.json")
+    with open(search_path, "w", encoding="utf-8") as output:
+        json.dump({"schema_version": 1, "generated_at": datetime.now(timezone.utc).isoformat(),
+                   "station_count": len(search_items), "stations": search_items},
+                  output, ensure_ascii=False, separators=(",", ":"))
+
+    top_items = sorted(items, key=lambda x: (-(x.get("clickcount") or 0),
+                                               -(x.get("votes") or 0),
+                                               x["name"].casefold()))[:10]
     payload = {
-        "schema_version": 4, "crawl_focus": ["news", "music"], "generated_at": datetime.now(timezone.utc).isoformat(),
+        "schema_version": 5, "crawl_focus": ["news", "music"],
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "directory_name": "Sanket Global Radio Directory",
-        "description": "Canonical public station catalogue for all Sanket radio experiences. Discovery index only; stream availability and rebroadcast rights are not guaranteed.",
-        "api": {"json": "/data/radio-directory.json", "format": "application/json"},
-        "station_fields": ["station_id", "name", "country", "countrycode", "region", "city", "languages", "categories", "tags", "url", "homepage", "favicon", "codec", "bitrate", "geo_lat", "geo_long", "source", "directory_status", "last_checked"],
-        "sources": sources, "rejected_bad_or_duplicate_entries": rejected, "station_count": len(items), "country_count": len(countries),
+        "description": "Canonical public station catalogue. The small manifest loads first; full station search data loads only on demand.",
+        "api": {"json": "/data/radio-directory.json", "search": "/data/radio-search-index.json",
+                "format": "application/json"},
+        "sources": sources, "rejected_bad_or_duplicate_entries": rejected,
+        "station_count": len(items), "country_count": len(countries),
         "countries": countries, "languages": languages, "regions": regions, "genres": genres,
-        "stations": items
+        "top_stations": top_items, "search_index": "radio-search-index.json"
     }
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as output:
         json.dump(payload, output, ensure_ascii=False, separators=(",", ":"))
-        output.write("\n")
-    print("Published", len(items), "catalogue entries across", len(countries), "countries")
-
-if __name__ == "__main__":
-    main()
+        output.write("\\n")
+    print("Published manifest for", len(items), "stations across", len(countries),
+          "countries; search index:", os.path.getsize(search_path), "bytes")
