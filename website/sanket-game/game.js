@@ -159,7 +159,7 @@ $("finishBtn").onclick=async()=>{
   billingStage(2);
   const basket=new Map();let sum=0;
   for(const x of ITEMS)if(selected[x.id]){const q=selected[x.id];basket.set(x.id,{name:x.name,q,total:x.price*q,details:[q+" × "+x.unit]});sum+=x.price*q}
-  for(const r of rows)if(r.order){const x=r.order.item,q=r.order.q,old=basket.get(x.id)||{name:x.name,q:0,total:0};old.q+=q;old.total+=x.price*q;basket.set(x.id,old);sum+=x.price*q}
+  for(const r of rows)if(r.order){const x=r.order.item,q=r.order.q,old=basket.get(x.id)||{name:x.name,q:0,total:0,details:[]};old.q+=q;old.total+=r.order.cost;old.details.push(r.order.label);basket.set(x.id,old);sum+=r.order.cost}
   await new Promise(resolve=>setTimeout(resolve,550));
   billingStage(3);$("billingTitle").textContent=billingText("done");$("billingSubtitle").textContent=billingText("done");
   $("billingProgressFill").style.width="100%";
