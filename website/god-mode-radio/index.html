@@ -20,15 +20,10 @@ audio{width:100%;height:32px;margin-top:7px}
 </style></head><body>
 <header class="top"><div class="brand">SANKET <b>GOD MODE</b></div><small><a href="../radios/">RADIO HUB ↗</a></small></header>
 <main class="shell">
-<div class="hero"><div><h1>Global Radio Command</h1><p>Discover · Listen · Search · Nearby stations</p></div><span class="status" id="health">● CONNECTING</span></div>
+<div class="hero"><div><h1>Global Radio Command</h1><p>Discover · Listen · Connect PTT · Nearby stations</p></div><span class="status" id="health">● CONNECTING</span></div>
 <section class="control" aria-label="Unified radio controls">
  <div class="now"><div class="art">📻</div><div><b id="playingName">Nothing playing</b><small id="playingMeta">Choose any station and tap Quick Tune</small></div><button class="stop" id="stop">STOP</button></div>
  <audio id="player" controls preload="none"></audio>
- <div class="searchrow"><input id="q" type="search" placeholder="Search station, country, language, topic…"><button class="btn primary" id="search">SEARCH</button><button class="btn" id="gps">◎ NEAR ME</button><div class="country-picker" id="countryPicker"><button class="country-trigger" id="countryTrigger" type="button" aria-haspopup="listbox" aria-expanded="false"><span id="countryLabel">🌐 All countries</span><span class="chevron">⌄</span></button><div class="country-menu hidden" id="countryMenu" role="listbox" aria-label="Choose country"></div></div></div>
- <div class="quick" id="types"><button class="chip active" data-type="all">All</button><button class="chip" data-type="news">News</button><button class="chip" data-type="talk">Talk</button><button class="chip" data-type="music">Music</button><button class="chip" data-type="sports">Sports</button><button class="chip" data-type="classical">Classical</button><button class="chip" data-type="culture">Culture</button><button class="chip" data-type="religious">Religious</button><button class="chip" data-type="emergency">Emergency</button><button class="chip" data-type="weather">Weather</button><button class="chip" data-type="aviation">Aviation</button><button class="chip" data-type="marine">Marine</button></div>
-</section>
-<div class="meta"><b id="sectionTitle">Top stations · Global</b><small id="count">Loading directory…</small></div>
-<div class="grid" id="stations"><div class="notice">Loading public directory…</div></div>
 <section class="control" id="radioPttPanel" style="margin-top:12px">
  <div class="meta" style="margin-top:0"><b>📡 SANKET PTT LINE</b><small id="pttPriority">RADIO PRIORITY · STANDBY</small></div>
  <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;align-items:center;margin-bottom:8px">
@@ -40,6 +35,12 @@ audio{width:100%;height:32px;margin-top:7px}
  </div>
  <div class="notice" style="padding-bottom:0">Incoming PTT or your own transmission takes priority over internet radio. Release PTT to resume the station. Radio audio follows your browser’s selected speaker, headset or Bluetooth output.</div>
 </section>
+ <div class="searchrow"><input id="q" type="search" placeholder="Search station, country, language, topic…"><button class="btn primary" id="search">SEARCH</button><button class="btn" id="gps">◎ NEAR ME</button><div class="country-picker" id="countryPicker"><button class="country-trigger" id="countryTrigger" type="button" aria-haspopup="listbox" aria-expanded="false"><span id="countryLabel">🌐 All countries</span><span class="chevron">⌄</span></button><div class="country-menu hidden" id="countryMenu" role="listbox" aria-label="Choose country"></div></div></div>
+ <div class="quick" id="types"><button class="chip active" data-type="all">All</button><button class="chip" data-type="news">News</button><button class="chip" data-type="talk">Talk</button><button class="chip" data-type="music">Music</button><button class="chip" data-type="sports">Sports</button><button class="chip" data-type="classical">Classical</button><button class="chip" data-type="culture">Culture</button><button class="chip" data-type="religious">Religious</button><button class="chip" data-type="emergency">Emergency</button><button class="chip" data-type="weather">Weather</button><button class="chip" data-type="aviation">Aviation</button><button class="chip" data-type="marine">Marine</button></div>
+</section>
+<div class="meta"><b id="sectionTitle">Top stations · Global</b><small id="count">Loading directory…</small></div>
+<div class="grid" id="stations"><div class="notice">Loading public directory…</div></div>
+
 <div class="notice" id="foot">Public station catalogue · Stream playback depends on broadcaster availability, browser codec support and regional access.</div>
 <div class="bottom"><button class="navbtn active" data-view="discover">DISCOVER</button><button class="navbtn" data-view="nearby">NEARBY</button><button class="navbtn" data-view="categories">TOP 10</button><button class="navbtn" data-view="channels">SANKET PTT</button></div>
 </main>
