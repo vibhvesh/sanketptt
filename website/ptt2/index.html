@@ -37,7 +37,7 @@ button{font-family:Orbitron,sans-serif;cursor:pointer;border:0;border-radius:10p
  background:radial-gradient(circle at 35% 30%,#7dffb5,#16c060 45%,#076b33);border:6px solid #222;box-shadow:0 0 0 4px #555,0 0 30px #39ff88aa,inset 0 -8px 16px #0006;text-shadow:0 1px 3px #0008;transition:transform .08s}
 #ptt.on{background:radial-gradient(circle at 35% 30%,#ff9a9a,#ff2020 45%,#8a0000);box-shadow:0 0 0 4px #555,0 0 50px #ff2020,inset 0 -8px 16px #0006;transform:scale(.96)}
 #ptt.busy{background:radial-gradient(circle at 35% 30%,#ffe39a,#ffae00 45%,#8a5a00);box-shadow:0 0 0 4px #555,0 0 40px #ffae00,inset 0 -8px 16px #0006}
-#ptt.wait{filter:brightness(1.2)}
+#ptt.wait{filter:brightness(1.2)}#ptt .ptt-logo{display:block;width:76%;height:76%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 2px 2px #003b1c55)}#ptt.on .ptt-logo{filter:drop-shadow(0 2px 3px #65000066)}#ptt.busy .ptt-logo{filter:drop-shadow(0 2px 3px #5b3a0066)}#ptt:focus-visible{outline:3px solid #f4a340;outline-offset:5px}
 .hint{text-align:center;color:#d5dee6;font-size:11px}
 #unlock{display:none;width:100%;padding:12px;margin-top:8px;background:linear-gradient(135deg,#ffb800,#ff7a18);color:#111}
 #main{display:none}
@@ -243,7 +243,7 @@ html.ptt-embed #main .hint{display:none!important}
 <div class=meter><div class=lab><span>S 1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span><span>+40</span></div><div class=bars id=bars></div></div></div>
 <div id="ptt2ChannelBar"></div>
 <div id=login class=panel><h3>LOG ON</h3><label for=nm class=hint>Name or Call Sign</label><input id=nm placeholder="e.g. VU2ABC or Ravi" aria-label="Name or Call Sign"><button id=go>POWER ON · JOIN</button><a id="transcribeLink" class="tx-jump" href="#ptt2Settings">Transcription settings</a></div>
-<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt>PTT</button><div class=hint>Hold to talk · Desktop: hold Space</div>
+<div id=main><div id=hd class=hint></div><button id=unlock>🔊 TAP TO ENABLE AUDIO</button><button id=ptt type=button aria-label="Push to talk"><img class="ptt-logo" src="sanket-ptt-logo.svg" alt=""></button><div class=hint>Hold to talk · Desktop: hold Space</div>
 <div id="ptt2Settings"></div><div class=panel><h3>ON THE AIR</h3><ul id=us></ul></div>
 <div class=panel id=locp><h3><span>📍 GPS LOCATION</span><label id=lt><input type=checkbox id=shareloc checked> SHARE</label></h3><div id=locnote>Location coordinates only. When SHARE is enabled, your GPS location is sent to everyone on this channel. Untick SHARE to stop.</div><div id=locst class=hint>GPS location: waiting for permission…</div></div>
 <div class=panel id=sstvP><h3><span>📷 SSTV IMAGES</span><label style="font-size:11px"><input type=checkbox id=sstvMute> MUTE SSTV AUDIO</label></h3><label style="font-size:11px;display:block;margin-bottom:6px"><input type=checkbox id=sstvMic> 🎤 Listen for SSTV via mic (auto-detects Robot36 / Martin M1 / Scottie S1 / PD120)</label><div id=sstvMicSt class=hint></div>
@@ -307,7 +307,7 @@ log.onclick=function(ev){var b=ev.target.closest('button');if(!b)return;var k=+b
 clr.onclick=function(){if(player){player.pause();player=null;playingKey=null}rec.clear()};
 function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.textContent=radio.ch.toUpperCase();
  us.innerHTML=st0.users.map(function(u){var t=f&&f.id===u.id;return '<li class="'+(t?'tk':u.id===radio.id?'me':'')+'">'+(t?'🎙 ':'')+esc(u.name)+(u.id===radio.id?' ·YOU':'')+pinTxt(u)+'</li>'}).join('')||'<li class=none>No stations</li>';
- var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.textContent=granted?'ON AIR':busy?'BUSY':holding?'…':'PTT';
+ var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.setAttribute('aria-label',granted?'On air — transmitting':busy?'Channel busy':holding?'Requesting transmit':'Push to talk');
  st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
 function relayEvents(k,v){if(k==='state'){var pf=st0.floor;st0=v;if(granted&&(!v.floor||v.floor.id!==radio.id)){granted=false}
   if(pf&&(!v.floor||v.floor.id!==pf.id)){rec.requestEnd()}render()}
