@@ -461,6 +461,14 @@ body{padding:0!important;background:#07140f!important;color:#eaffef!important;fo
 #ptt2PowerOff .ptt2-power-label{font:800 11px/1 system-ui!important;letter-spacing:1px!important}
 #ptt2PowerOff.is-on{border-color:#43e879!important}
 #ptt2PowerOff.is-off{border-color:#d95c5c!important;color:#ffdada!important}
+</style><style id="sanket-mobile-dropdown-fix-v1">
+/* Keep every native dropdown readable and compact on Android/iOS, including its option list */
+html,body{ -webkit-text-size-adjust:100%!important; text-size-adjust:100%!important }
+select,select:focus{font-size:14px!important;line-height:1.25!important;font-weight:500!important;letter-spacing:normal!important;max-width:100%!important}
+select option,optgroup{font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;font-size:14px!important;line-height:1.25!important;font-weight:400!important;letter-spacing:normal!important;white-space:normal!important}
+#ptt2Frequency{font-size:14px!important;min-height:42px!important;padding:8px 38px 8px 12px!important}
+#sstvMode{font-size:14px!important}
+@media(max-width:700px){select,select option,optgroup{font-size:14px!important}select{min-height:42px!important}}
 </style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
