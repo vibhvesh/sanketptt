@@ -4,6 +4,8 @@ import {
 } from "./config.js";
 import { assignedRooms, listFreeRooms } from "./sanket-socket.js";
 import { getToken, rememberedLogin, signIn, signOut } from "./auth.js";
+import { SANKET_TRANSCRIBE_SERVER } from "../transcribe/config.js";
+import { serverHealthy } from "../transcribe/detect.js";
 
 function esc(value) {
   return String(value).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
@@ -44,6 +46,23 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
   const sessionBar = document.querySelector(".ptt2-session-bar");
   let rooms = [];
   let signedIn = false;
+  const transcriptStatus = document.getElementById("ptt2TranscriptAvailability");
+  const transcriptLabel = transcriptStatus && transcriptStatus.querySelector("span");
+  let healthRequest = 0;
+
+  async function updateTranscriptStatus(channelName) {
+    if (!transcriptStatus || !transcriptLabel) return;
+    const request = ++healthRequest;
+    transcriptStatus.dataset.server = "checking";
+    transcriptLabel.textContent = "LOCAL AUDIO READY · SERVER TRANSCRIPTION CHECKING";
+    const health = await serverHealthy(SANKET_TRANSCRIBE_SERVER);
+    if (request !== healthRequest) return;
+    transcriptStatus.dataset.server = health.ok ? "online" : "offline";
+    transcriptLabel.textContent = health.ok
+      ? "LOCAL AUDIO READY · " + channelName + " TRANSCRIPTION AVAILABLE"
+      : "LOCAL AUDIO READY · " + channelName + " SERVER TRANSCRIPTION UNAVAILABLE";
+    transcriptStatus.title = health.ok ? "Sanket Transcribe is responding." : health.reason;
+  }
 
   function options() {
     const items = rooms.map((r) => ({ value: "sanket:" + r.roomId, name: r.roomName || r.name || r.roomId }));
@@ -52,6 +71,7 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
     const selected = items.some((item) => item.value === remembered) ? remembered : items[0].value;
     const active = items.find((item) => item.value === selected) || items[0];
     toggle.textContent = active.name;
+    updateTranscriptStatus(active.name);
     toggle.disabled = !signedIn || items.length < 2;
     toggle.setAttribute("aria-expanded", String(!menu.hidden));
     menu.innerHTML = items.map((item) =>
