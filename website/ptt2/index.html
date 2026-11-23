@@ -601,6 +601,19 @@ body{overscroll-behavior-y:none!important}
 </style><style id="ptt2-latest-message-first-v1">
 #latestMessagesPanel #log{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;overflow-y:auto!important;scroll-behavior:smooth!important}
 #latestMessagesPanel #log>li{flex:0 0 auto!important}
+</style><style id="ptt2-retry-button-layout-fix-v1">
+#latestMessagesPanel #log li .ptt2-transcript-state.error{
+ display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;
+ align-items:center!important;justify-content:space-between!important;
+ gap:10px!important;min-width:0!important;overflow:visible!important;
+}
+#latestMessagesPanel #log li .ptt2-transcript-state.error .ptt2-retry{
+ display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:center!important;
+ width:auto!important;min-width:68px!important;max-width:none!important;height:36px!important;min-height:36px!important;
+ margin:0 0 0 auto!important;padding:7px 12px!important;border:1px solid #d9aaa5!important;border-radius:9px!important;
+ background:#fff!important;color:#99443e!important;font:700 13px/1 system-ui,-apple-system,sans-serif!important;
+ white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important;letter-spacing:0!important;
+}
 </style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
