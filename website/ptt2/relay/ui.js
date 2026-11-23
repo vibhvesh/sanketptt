@@ -22,7 +22,10 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
   root.innerHTML = `
     <div class="ptt2-frequency-row">
       <span class="ptt2-frequency-label">FREQUENCY</span>
-      <select id="ptt2Frequency" aria-label="Connected frequency"></select>
+      <div class="ptt2-frequency-picker" id="ptt2FrequencyPicker">
+        <button type="button" id="ptt2FrequencyToggle" aria-haspopup="listbox" aria-expanded="false">Select channel</button>
+        <div id="ptt2FrequencyMenu" role="listbox" aria-label="Available channels" hidden></div>
+      </div>
     </div>
     <form id="ptt2Auth" autocomplete="on">
       <input id="ptt2Email" type="text" aria-label="Username" placeholder="Username" autocomplete="username" required>
@@ -31,7 +34,9 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
       <p id="ptt2AuthError" hidden></p>
     </form>
   `;
-  const select = root.querySelector("#ptt2Frequency");
+  const picker = root.querySelector("#ptt2FrequencyPicker");
+  const toggle = root.querySelector("#ptt2FrequencyToggle");
+  const menu = root.querySelector("#ptt2FrequencyMenu");
   const form = root.querySelector("#ptt2Auth");
   const email = root.querySelector("#ptt2Email");
   const password = root.querySelector("#ptt2Password");
@@ -45,12 +50,14 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
     const remembered = currentValue();
     if (!items.length) items.push({ value: remembered, name: loadRoom() || "Default channel" });
     const selected = items.some((item) => item.value === remembered) ? remembered : items[0].value;
-    select.innerHTML = items.map((item) =>
-      '<option value="' + esc(item.value) + '"' + (item.value === selected ? " selected" : "") + ">" + esc(item.name) + "</option>"
+    const active = items.find((item) => item.value === selected) || items[0];
+    toggle.textContent = active.name;
+    toggle.disabled = !signedIn || items.length < 2;
+    toggle.setAttribute("aria-expanded", String(!menu.hidden));
+    menu.innerHTML = items.map((item) =>
+      '<button type="button" role="option" aria-selected="' + (item.value === selected ? "true" : "false") + '" data-value="' + esc(item.value) + '">' + esc(item.name) + '</button>'
     ).join("");
-    select.value = selected;
-    select.hidden = false;
-    select.disabled = !signedIn || items.length < 2;
+    picker.hidden = false;
   }
 
   async function loadRooms() {
@@ -107,7 +114,26 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
     }
   }
 
-  select.addEventListener("change", () => choose(select.value));
+  toggle.addEventListener("click", () => {
+    if (toggle.disabled) return;
+    menu.hidden = !menu.hidden;
+    toggle.setAttribute("aria-expanded", String(!menu.hidden));
+  });
+  menu.addEventListener("click", (event) => {
+    const option = event.target.closest("button[data-value]");
+    if (!option) return;
+    const value = option.dataset.value;
+    menu.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+    choose(value);
+    options();
+  });
+  document.addEventListener("click", (event) => {
+    if (!picker.contains(event.target)) {
+      menu.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     connect(email.value.trim(), password.value);
@@ -138,9 +164,9 @@ export function mountRelay(root, onChoose, onSwitchOff = () => {}) {
   };
   window.ptt2OnRelayNet = (event, relayId, channel) => {
     if (event === "unreachable" || event === "disconnected" || String(event || "").startsWith("unreachable")) {
-      select.dataset.connection = "offline";
+      picker.dataset.connection = "offline";
     } else {
-      select.dataset.connection = "connected";
+      picker.dataset.connection = "connected";
     }
     return "";
   };
