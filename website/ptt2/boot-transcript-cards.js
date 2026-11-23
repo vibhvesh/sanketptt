@@ -30,7 +30,6 @@ const powerOff = document.getElementById("ptt2PowerOff");
 if (powerOff) {
   powerOff.addEventListener("click", () => {
     if (typeof window.ptt2StopRadio === "function") window.ptt2StopRadio();
-    location.reload();
   });
 }
 
