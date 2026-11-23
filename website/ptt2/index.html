@@ -594,6 +594,10 @@ display:flex!important;grid-column:1/-1!important;grid-row:auto!important;align-
   #latestMessagesPanel #log li .tm{font-size:11px!important}
   #latestMessagesPanel #log li .ptt2-transcript-text{font-size:21px!important}
 }
+</style><style id="ptt2-disable-pull-to-refresh-v1">
+html,body{overscroll-behavior-y:none!important;overscroll-behavior:none!important}
+body{overscroll-behavior-y:none!important}
+#main,.rig,#latestMessagesPanel,#latestMessagesPanel #log,#ptt2FrequencyMenu{overscroll-behavior-y:contain!important}
 </style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
