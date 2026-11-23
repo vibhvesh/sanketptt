@@ -469,6 +469,20 @@ select option,optgroup{font-family:system-ui,-apple-system,"Segoe UI",sans-serif
 #ptt2Frequency{font-size:14px!important;min-height:42px!important;padding:8px 38px 8px 12px!important}
 #sstvMode{font-size:14px!important}
 @media(max-width:700px){select,select option,optgroup{font-size:14px!important}select{min-height:42px!important}}
+</style><style id="ptt2-custom-channel-picker-v2">
+.ptt2-frequency-row{position:relative!important;z-index:30!important;gap:8px!important}
+.ptt2-frequency-picker{position:relative!important;flex:1 1 auto!important;min-width:0!important}
+#ptt2FrequencyToggle{display:block!important;width:100%!important;min-width:0!important;min-height:40px!important;margin:0!important;padding:7px 34px 7px 11px!important;border:1px solid #49df72!important;border-radius:9px!important;background:#0b2416!important;color:#e7fff0!important;text-align:left!important;text-overflow:ellipsis!important;white-space:nowrap!important;overflow:hidden!important;font:600 14px/1.2 system-ui,-apple-system,sans-serif!important;box-shadow:0 0 10px #39ff6822!important;position:relative!important}
+#ptt2FrequencyToggle:after{content:"";position:absolute;right:13px;top:14px;width:8px;height:8px;border-right:2px solid #a8eabb;border-bottom:2px solid #a8eabb;transform:rotate(45deg)}
+#ptt2FrequencyToggle:disabled{opacity:.8!important}
+#ptt2FrequencyMenu{position:absolute!important;top:calc(100% + 6px)!important;left:0!important;right:0!important;z-index:9999!important;display:block!important;max-height:min(44vh,340px)!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:5px!important;border:1px solid #4c9668!important;border-radius:12px!important;background:#f5faf7!important;box-shadow:0 12px 30px #0005!important}
+#ptt2FrequencyMenu[hidden]{display:none!important}
+#ptt2FrequencyMenu button{display:block!important;width:100%!important;min-height:38px!important;margin:0!important;padding:8px 11px!important;border:0!important;border-bottom:1px solid #dce8df!important;border-radius:5px!important;background:transparent!important;color:#173b29!important;text-align:left!important;white-space:normal!important;overflow-wrap:anywhere!important;font:500 14px/1.25 system-ui,-apple-system,sans-serif!important;letter-spacing:0!important}
+#ptt2FrequencyMenu button:last-child{border-bottom:0!important}
+#ptt2FrequencyMenu button[aria-selected=true]{background:#dff2e5!important;color:#075b2b!important;font-weight:750!important}
+#ptt2FrequencyMenu button:active{background:#ccebd6!important}
+.ptt2-frequency-picker[data-connection=offline] #ptt2FrequencyToggle{border-color:#d69b54!important}
+@media(max-width:600px){#ptt2FrequencyMenu{max-height:42vh!important}#ptt2FrequencyMenu button{font-size:14px!important;min-height:40px!important}}
 </style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -746,4 +760,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot.js?v=20261122-12"></script></body></html>
+</script><script type="module" src="boot.js?v=20261123-1"></script></body></html>
