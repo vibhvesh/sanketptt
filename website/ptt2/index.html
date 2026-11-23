@@ -483,6 +483,16 @@ select option,optgroup{font-family:system-ui,-apple-system,"Segoe UI",sans-serif
 #ptt2FrequencyMenu button:active{background:#ccebd6!important}
 .ptt2-frequency-picker[data-connection=offline] #ptt2FrequencyToggle{border-color:#d69b54!important}
 @media(max-width:600px){#ptt2FrequencyMenu{max-height:42vh!important}#ptt2FrequencyMenu button{font-size:14px!important;min-height:40px!important}}
+</style><style id="ptt2-transcript-lightbox-v1">
+#latestMessagesPanel #log li .ptt2-line{grid-column:1/-1!important;grid-row:3!important;display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;margin:7px 0 0!important;padding:0!important}
+#latestMessagesPanel #log li .ptt2-transcript-box{display:block!important;width:100%!important;box-sizing:border-box!important;margin:0!important;padding:14px 16px!important;border:1px solid #dce9df!important;border-radius:12px!important;background:#f3faf5!important;color:#17452e!important;box-shadow:inset 0 1px 2px #fff,0 2px 7px #16482a0b!important}
+#latestMessagesPanel #log li .ptt2-transcript-text{font:700 clamp(17px,4.6vw,21px)/1.45 system-ui,-apple-system,sans-serif!important;letter-spacing:.05px!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;text-align:left!important;color:#17452e!important}
+#latestMessagesPanel #log li .ptt2-transcript-state{display:flex!important;align-items:center!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;margin:7px 0 0!important;padding:10px 13px!important;border-radius:10px!important;background:#f0f7f2!important;color:#557565!important;font:600 13px/1.35 system-ui!important}
+#latestMessagesPanel #log li .ptt2-transcript-state i{width:8px;height:8px;border-radius:50%;background:#34ad68;box-shadow:0 0 7px #34ad6888;animation:pttTranscriptPulse 1s infinite alternate}
+#latestMessagesPanel #log li .ptt2-transcript-state.muted{color:#7a8980!important;background:#f4f7f4!important}
+#latestMessagesPanel #log li .ptt2-transcript-state.error{color:#a0443e!important;background:#fff3f1!important}
+#latestMessagesPanel #log li .ptt2-retry{margin-left:auto!important;border:1px solid #d9aaa5!important;border-radius:8px!important;padding:5px 10px!important;background:#fff!important;color:#99443e!important;font-weight:700!important}
+@keyframes pttTranscriptPulse{to{opacity:.35;transform:scale(.75)}}
 </style></head><body><div class=rig>
 <div class="brand sanket-brand-wave"><img src="/sanket-mark.svg" alt="Sanket logo" width="38" height="38" style="object-fit:contain"><div class="brand-wave" id="brandWave" aria-label="Live radio signal"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="brand-wordmark"><h1><span>SANKET</span> <em>CONNECT</em></h1><div class="meter sanket-live-meter sanket-header-meter"><div class="meter-live-label"><i></i><span>INCOMING TRANSMISSION</span><b id="meterState">IDLE</b></div><div class=bars id=bars aria-label="Live audio level"></div></div><small>POWERED BY SANKET PTT</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -760,4 +770,4 @@ sstvSend.onclick=function(){if(SANKET_LISTEN_ONLY||sstvTx)return;var f=radio.flo
    var p=Math.round(pos/pcm.length*100);it.st='📡 sending '+MD.name+'… '+p+'%';sstvItem(it);sstvSt.textContent=it.st;
    if(pos>=pcm.length){fin('✓ sent ('+MD.name+', '+(pcm.length/RATE).toFixed(0)+' s)');return}setTimeout(pump,80)})();
   function fin(msg){sstvTx=false;granted=false;radio.release();rec.end();render();it.st=msg;sstvItem(it);sstvSt.textContent=msg;sstvSend.disabled=false}})};
-</script><script type="module" src="boot-mobile-picker.js"></script></body></html>
+</script><script type="module" src="boot-transcript-cards.js"></script></body></html>
