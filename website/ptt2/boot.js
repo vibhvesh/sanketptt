@@ -1,7 +1,7 @@
 import { mountSettings, watchRecorder } from "./transcribe/ui.js";
 import { RELAY_SANKET, loadRelay, relaySpec } from "./relay/config.js";
 import { freeNeedsGuest, prepareFreeRelay } from "./relay/free.js";
-import { mountRelay } from "./relay/ui.js";
+import { mountRelay } from "./relay/ui.js?v=20261123-2";
 import { openSanketRelay } from "./relay/sanket-socket.js";
 import { ensureGuest } from "../sanket-radios/guest.js";
 
