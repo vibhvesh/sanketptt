@@ -99,7 +99,12 @@ body:has(.sk-site-header) .sk-site-header .nav-popover a{color:#18324b!important
 body:has(.sk-site-header) .sk-site-header .nav-popover a:hover{color:#e66b1b!important}
 body:has(.sk-site-header) .sk-site-header .menu{color:#183b5b!important;background:#f4f7fa!important;border-color:#dfe7ef!important}
 </style>
-</head>
+<style id="sanket-connect-hero-embed-v1">
+#live-demo .sanket-connect-hero{overflow:hidden;background:#f7fbf8}
+#live-demo .sanket-connect-hero iframe{max-width:100%;border-radius:0 0 12px 12px}
+#live-demo .sanket-connect-hero .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media(max-width:700px){#live-demo .sanket-connect-hero iframe{height:780px!important}}
+</style></head>
 <body>
 <header class="sk-site-header"><div class="wrap nav">
 <a class="brand" href="#top" aria-label="Sanket home"><img src="sanket-mark.svg" alt=""><span>SANKET <b>PTT</b><small>BY CANBERRA VISION AI SYSTEMS</small></span></a>
@@ -159,7 +164,7 @@ body:has(.sk-site-header) .sk-site-header .menu{color:#183b5b!important;backgrou
 <div class="demo-shell watermark" id="live-demo">
 <div class="demo-head"><b>◉ SANKET RADIO + PTT WORKSPACE</b><span class="live-pill"><i></i> RADIO · TWO-WAY COMMUNICATION</span></div>
 <div class="demo-grid" style="display:block;padding:0">
-<div class="demo-panel" style="border:0;border-radius:0"><div class="panel-head">LIVE INTERNET RADIO + SANKET PTT <small>LISTEN · MONITOR · PRESS TO TALK</small></div><iframe title="Sanket integrated internet radio and PTT workspace" src="god-mode-radio/?embed=1" allow="microphone; autoplay; geolocation" loading="eager" style="display:block;width:100%;height:850px;border:0;background:#08121a"></iframe><div class="demo-caption">Select a station and connect to a PTT line. Incoming PTT audio and your transmission take priority; radio resumes when the PTT speaker releases the channel.</div></div>
+<div class="demo-panel sanket-connect-hero" style="border:0;border-radius:0"><div class="panel-head">SANKET CONNECT · LIVE PUSH-TO-TALK <small>CONNECTED CHANNELS · LIVE AUDIO · RECENT TRANSMISSIONS</small></div><iframe title="Sanket Connect live push-to-talk radio" src="ptt2/?embed=1" allow="microphone; autoplay; geolocation" loading="eager" style="display:block;width:100%;height:850px;border:0;background:#f7fbf8"></iframe><div class="demo-caption">Choose an available channel, enable audio, and hold the Sanket PTT button to transmit.</div></div>
 </div>
 <div class="demo-foot"><span><b>Production workspace:</b> connect to your permitted PTT channel.</span><span>Public radio streams are subject to broadcaster availability.</span></div>
 </div>
