@@ -5,6 +5,7 @@ import { mountRelay } from "./relay/ui.js";
 import { openSanketRelay } from "./relay/sanket-socket.js";
 import { ensureGuest } from "../sanket-radios/guest.js";
 import { ensureVirtualDemo } from "./relay/demo.js";
+import { armFreeVirtualJoin } from "./relay/auto-join.js";
 
 window.ptt2OpenSanket = openSanketRelay;
 prepareFreeRelay();
@@ -34,4 +35,5 @@ async function openInitialRelay() {
   }
   if (typeof window.ptt2UseRelay === "function") window.ptt2UseRelay(relaySpec(loadRelay()));
 }
+armFreeVirtualJoin();
 openInitialRelay();
