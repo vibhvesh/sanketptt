@@ -1,5 +1,5 @@
 <!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no"><title>Sanket PTT 2 · Push-to-talk with transcription</title>
-<meta name=theme-color content="#1b0b3a"><script>if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("ptt-embed")</script>
+<meta name=theme-color content="#1b0b3a"><script>var __q=new URLSearchParams(location.search);if(__q.get("embed")==="1")document.documentElement.classList.add("ptt-embed");var __ch=(__q.get("ch")||"").toLowerCase();if(__q.get("free")==="1"&&(__ch==="virtual"||__ch==="rm-fg7s"))document.documentElement.classList.add("ptt-free-virtual")</script>
 <link rel=icon href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='8' y='20' width='48' height='38' rx='8' fill='%23ff7a18'/%3E%3Cline x1='44' y1='20' x2='54' y2='2' stroke='%23ffd23f' stroke-width='4' stroke-linecap='round'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%2339ff88'/%3E%3Ccircle cx='22' cy='48' r='5' fill='%23222'/%3E%3Ccircle cx='42' cy='48' r='5' fill='%23222'/%3E%3C/svg%3E">
 <link rel=preconnect href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Share+Tech+Mono&display=swap" rel=stylesheet>
 <style>
@@ -233,6 +233,8 @@ html.ptt-embed #login{position:relative!important;z-index:2!important;overflow:v
 html.ptt-embed .tx-jump{display:flex!important;align-items:center;justify-content:center;margin:8px 0 0!important;padding:8px 12px!important;border-radius:999px!important;background:#1b3148!important;color:#e7f3fb!important;text-decoration:none!important;font-size:12px!important;font-weight:750!important;letter-spacing:.02em!important;position:static!important;clear:both!important;white-space:nowrap!important}
 html.ptt-embed #main .hint{display:none!important}
 @media(max-width:760px){html.ptt-embed .rig{padding:6px!important}html.ptt-embed .brand{margin-bottom:5px!important}html.ptt-embed .lcd{padding:5px!important}}
+html.ptt-free-virtual #login{display:none!important}
+html.ptt-free-virtual #main{display:block!important}
 </style>
 <link rel="stylesheet" href="../assets/instrument.css">
 <script src="../assets/theme-boot.js"></script>
@@ -375,13 +377,14 @@ function start(spec){var keep=radio&&radio.name;if(radio)radio.leave();spec=spec
  else radio=new Radio(mqtt,{ch:spec.channel||CHANNEL,brokers:spec.brokers,username:spec.username,password:spec.password,exclusive:spec.exclusive,relayId:spec.id,on:relayEvents});
  radio.browser=true;if(keep)radio.join(keep);render()}
 window.ptt2UseRelay=function(spec){start(spec)};
+window.ptt2TryPowerOn=function(){if(window.ptt2FreeJoined)return true;if(!radio)return false;go.onclick();return !!window.ptt2FreeJoined};
 (function(){var q=new URLSearchParams(location.search).get('ch');if(q)CHANNEL=q.replace(/[^A-Za-z0-9-]/g,'').slice(0,40)||CHANNEL})();try{localStorage.setItem('sanketptt.activeChannel',CHANNEL);localStorage.setItem('sanketptt.channelUpdatedAt',String(Date.now()));}catch(e){}try{if(window.parent!==window)window.parent.postMessage({type:'sanket-ptt-channel',channel:CHANNEL},'*');}catch(e){}var tx=document.getElementById('transcribeLink');if(tx)tx.setAttribute('data-channel',CHANNEL);
 go.onclick=async function(){
- if(!radio)return alert('The channel is still starting. Try again in a moment.');
- var me=fmtCS(nm.value);nm.value=me;if(!me)return alert('Enter your name or call sign');
+ if(!radio){net.textContent='Connecting…';return}
+ var me=fmtCS(nm.value);nm.value=me;if(!me){net.textContent='Connecting…';return}
  try{localStorage.nm=me}catch(e){}
  // Join the radio first. Microphone permission is optional for listening.
- login.style.display='none';main.style.display='block';hd.textContent='#'+radio.ch+' — '+me;
+ login.style.display='none';main.style.display='block';window.ptt2FreeJoined=true;hd.textContent='#'+radio.ch+' — '+me;
  try{ac=new (window.AudioContext||window.webkitAudioContext)();unlockAudio()}catch(e){ac=null;unlock.style.display='block';}
  radio.join(me);
  if(SANKET_LISTEN_ONLY){
