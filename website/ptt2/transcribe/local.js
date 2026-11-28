@@ -6,7 +6,9 @@ import { readPcm } from "./clip.js";
 
 const MODEL_ID = "onnx-community/whisper-tiny";
 const LANGUAGE_NAMES = { en: "english", hi: "hindi" };
-let pipelinePromise = null;\nlet translationPipelinePromise = null;\nconst NLLB_CODES = { en: "eng_Latn", hi: "hin_Deva", gu: "guj_Gujr", mr: "mar_Deva", bn: "ben_Beng", pa: "pan_Guru", ta: "tam_Taml", te: "tel_Telu", ur: "urd_Arab", zh: "zho_Hans", ru: "rus_Cyrl" };
+let pipelinePromise = null;
+let translationPipelinePromise = null;
+const NLLB_CODES = { en: "eng_Latn", hi: "hin_Deva", gu: "guj_Gujr", mr: "mar_Deva", bn: "ben_Beng", pa: "pan_Guru", ta: "tam_Taml", te: "tel_Telu", ur: "urd_Arab", zh: "zho_Hans", ru: "rus_Cyrl" };
 
 function resampleTo16k(wavBuffer) {
   const parsed = readPcm(wavBuffer);
