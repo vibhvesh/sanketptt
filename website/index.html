@@ -3,18 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0c0e11">
+<meta name="theme-color" content="#0b0d11">
 <script>try{if(!localStorage.getItem("sanket-theme"))localStorage.setItem("sanket-theme","dark")}catch(e){}</script>
 <script src="assets/theme-boot.js"></script>
 <title>Sanket — Press a button. Talk instantly.</title>
-<meta name="description" content="Sanket is push-to-talk for teams. Cloud lines from ₹450, live transcription, free shared radios, and hardware you can keep.">
+<meta name="description" content="Sanket is a browser push-to-talk radio from Vadodara. Cloud lines are ₹450 a month. Dedicated hardware is available when the audio has to stay on site.">
+<meta property="og:title" content="Sanket — Press a button. Talk instantly.">
+<meta property="og:description" content="Cloud push-to-talk from ₹450 per line per month, or hardware you keep. Made in Vadodara.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sanketptt.com/">
+<meta property="og:image" content="https://sanketptt.com/assets/img/hero-main-1280.webp">
 <link rel="icon" type="image/svg+xml" href="sanket-mark.svg">
 <link rel="stylesheet" href="assets/frontline.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Canberra Vision AI Systems","url":"https://sanketptt.com/","email":"akshatsingh@canberravision.com","telephone":"+919998299023","address":{"@type":"PostalAddress","streetAddress":"713 Samanvay Silver, Akota","addressLocality":"Vadodara","addressRegion":"Gujarat","addressCountry":"IN"},"founder":{"@type":"Person","name":"Akshat Singh"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Product","name":"Sanket Cloud line","brand":"Sanket","description":"Unlimited live push-to-talk. The latest 1 hour of recordings is kept.","offers":{"@type":"Offer","price":"450","priceCurrency":"INR","description":"per line per month"}}
+</script>
 </head>
 <body>
 <header class="fl-header"><div class="fl-wrap fl-nav">
-<a class="fl-brand" href="#top"><img src="sanket-mark.svg" alt=""><span>Sanket <b>PTT</b><small>Canberra Vision</small></span></a>
-<nav class="fl-links" id="fl-nav">
+<a class="fl-brand" href="./"><img src="sanket-mark.svg" alt="" width="36" height="36"><span>Sanket <b>PTT</b><small>Canberra Vision</small></span></a>
+<nav class="fl-links" id="fl-nav" aria-label="Primary">
 <a href="demo/">Demo</a>
 <a href="applications/">Applications</a>
 <a href="use-cases/">Use cases</a>
@@ -23,70 +34,83 @@
 </nav>
 <div class="fl-end">
 <button class="theme-toggle" type="button" data-theme-toggle>Theme</button>
-<a class="fl-btn solid" href="#contact">Contact</a>
-<button class="fl-menu" id="fl-menu" type="button" aria-expanded="false" aria-label="Open menu">Menu</button>
+<a class="fl-btn solid" href="#contact">Talk to sales</a>
+<button class="fl-menu" id="fl-menu" type="button" aria-expanded="false">Menu</button>
 </div>
 </div></header>
-<main id="top">
-<section class="fl-hero"><div class="fl-wrap">
+<main>
+<section class="fl-hero-stage">
+<img class="bg" src="assets/img/hero-main-1280.webp" srcset="assets/img/hero-main-640.webp 640w, assets/img/hero-main-1280.webp 1280w" sizes="100vw" alt="Field team using radios at dusk" width="1280" height="720">
+<div class="fl-wrap">
 <p class="fl-kicker">Push-to-talk · Vadodara</p>
 <h1>Press a button. Talk instantly.</h1>
-<p class="fl-lead">Sanket is a channel radio in the browser. Hold to talk, release to listen. Cloud lines, a radio you can share with one link, and live transcription when you need the words.</p>
+<p class="fl-lead">Sanket is a channel radio in the browser. Hold to talk, release to listen. Start on a cloud line, or keep the server where you are.</p>
 <div class="fl-actions">
-<a class="fl-btn solid" href="demo/">Open the live radio</a>
-<a class="fl-btn" href="applications/">Applications</a>
+<a class="fl-btn solid" href="demo/">Try the free radio demo</a>
 <a class="fl-btn" href="pricing/">See pricing</a>
+<a class="fl-btn" href="#contact">Talk to sales</a>
 </div>
-<div class="fl-proof" aria-label="Facts">
-<div><b>~1 sec</b><span>to talk once you are on the channel</span></div>
-<div><b>₹450 / line</b><span>cloud, per month</span></div>
-<div><b>4G / Wi-Fi</b><span>browser radio, no store install</span></div>
-<div><b>Vadodara</b><span>made by Canberra Vision</span></div>
 </div>
-<div class="fl-demo" id="live-demo">
-<div class="fl-demo-bar"><span>LIVE · PTT 2 · VIRTUAL</span><span>FREE CHANNEL</span></div>
-<iframe title="Sanket PTT 2 free demonstration" src="ptt2/?free=1&ch=virtual&embed=1" allow="microphone; autoplay"></iframe>
-<p class="fl-note">Shared demonstration channel on Virtual. It connects on its own. Do not send private or operational information.</p>
-</div>
-</div></section>
-<section class="fl-section" id="platform"><div class="fl-wrap">
-<p class="fl-kicker">On the radio</p>
-<h2>What the channel already does.</h2>
-<div class="fl-bento">
-<article class="wide"><h3>Channels</h3><p>Free public rooms and authenticated organisation channels. Everyone on the same link hears the same floor.</p><a href="sanket-radios/">Open Sanket Radios</a></article>
-<article><h3>GPS</h3><p>PTT 2 can share coordinates with the channel while Share is on. Untick it to stop.</p><a href="ptt2/">Open PTT 2</a></article>
-<article><h3>SOS words</h3><p>Transcribe watches for words already in the client list, including mayday, sos, emergency and चेतावनी. It is a keyword flag, not a separate panic button.</p><a href="transcribe/">Open Transcribe</a></article>
-<article><h3>Transcription</h3><p>Live speech-to-text through Sanket Transcribe, with local Whisper where that client already falls back.</p><a href="transcribe/">Listen in text</a></article>
-<article><h3>Translation</h3><p>Gujarati, Hindi and English in the Transcribe client.</p><a href="transcribe/">Open Transcribe</a></article>
-<article class="wide"><h3>Announcements</h3><p>Sanket आकाशवाणी is the control room for speaker outputs. ₹35,000 one-time.</p><a href="aakashvani/">Open the control room</a></article>
+</section>
+<section class="fl-section"><div class="fl-wrap">
+<div class="fl-steps" data-reveal>
+<article class="fl-step"><b>~1 sec</b><p>to talk once you are on the channel</p></article>
+<article class="fl-step"><b>₹450</b><p>per line, per month, on Cloud</p></article>
+<article class="fl-step"><b>3 languages</b><p>Gujarati, Hindi, and English in Transcribe</p></article>
+<article class="fl-step"><b>3 ways to run it</b><p>Cloud, dedicated hardware, or a local server</p></article>
 </div>
 </div></section>
-<section class="fl-section" id="use-cases"><div class="fl-wrap">
-<p class="fl-kicker">Use cases</p>
-<h2>Same radio. Different jobs.</h2>
-<div class="fl-shots">
-<article class="fl-shot"><img src="assets/img/uc-security.webp" srcset="assets/img/uc-security-800.webp 800w, assets/img/uc-security.webp 1280w" sizes="(max-width: 700px) 100vw, 360px" alt="Security guard at night with a radio handset" width="1280" height="720" loading="lazy"><div><h3>Security</h3><p>Channels, GPS share, and keyword flags.</p><a href="use-cases/">All use cases</a></div></article>
-<article class="fl-shot"><img src="assets/img/uc-logistics.webp" srcset="assets/img/uc-logistics-800.webp 800w, assets/img/uc-logistics.webp 1280w" sizes="(max-width: 700px) 100vw, 360px" alt="Truck driver using push-to-talk on a phone" width="1280" height="720" loading="lazy"><div><h3>Logistics</h3><p>Cloud lines and shareable links on 4G or Wi-Fi.</p><a href="use-cases/">All use cases</a></div></article>
-<article class="fl-shot"><img src="assets/img/app-devices.webp" srcset="assets/img/app-devices-800.webp 800w, assets/img/app-devices.webp 1280w" sizes="(max-width: 700px) 100vw, 360px" alt="Phone, laptop, and handheld radio running Sanket" width="1280" height="720" loading="lazy"><div><h3>Applications</h3><p>PTT 2, radios, transcribe, आकाशवाणी, DMR, and Boondock.</p><a href="applications/">Open the list</a></div></article>
+<section class="fl-section" data-reveal><div class="fl-wrap fl-split">
+<img src="assets/img/feature-transcription-1152.webp" srcset="assets/img/feature-transcription-640.webp 640w, assets/img/feature-transcription-1152.webp 1152w" sizes="(max-width: 800px) 100vw, 540px" alt="A dispatcher reading a live transcript beside a radio" width="1152" height="864" loading="lazy">
+<div>
+<p class="fl-kicker">The product</p>
+<h2>A radio, a record, and the words.</h2>
+<p class="fl-lead">Cloud keeps the latest hour of audio, then older audio rolls off. Transcribe turns speech into text and can flag words already in the client, including mayday, sos, and emergency. GPS share in PTT 2 is optional and stops when you untick it.</p>
+<p><a class="fl-btn" href="applications/">See the applications</a></p>
 </div>
 </div></section>
-<section class="fl-section" id="pricing"><div class="fl-wrap">
-<p class="fl-kicker">Pricing</p>
-<h2>₹450 a line. Hardware when you want it.</h2>
-<p class="fl-lead">Cloud is ₹450 per line per month, with the latest hour of recordings kept. Volume discounts and the hardware plans are on the pricing page.</p>
-<p><a class="fl-btn solid" href="pricing/">Open pricing</a></p>
+<section class="fl-section" data-reveal><div class="fl-wrap">
+<p class="fl-kicker">Why teams choose Sanket</p>
+<h2>The price is on the page.</h2>
+<div class="fl-compare">
+<article class="fl-card"><h3>Cloud</h3><p>₹450 per line per month. Unlimited live push-to-talk. The latest 1 hour of recordings is kept. No server to buy. 10% off 25+ lines, 15% off 100+, two months free on annual billing.</p></article>
+<article class="fl-card"><h3>Dedicated</h3><p>₹5.66 lakh one-time for 100 lines. No recurring licence fee. Priority support and updates are ₹100 per user per month.</p></article>
+<article class="fl-card"><h3>Local</h3><p>Local 20 is ₹35,000 a year for 20 channels. Local 50 is ₹55,000 one-time. Enterprise 200 starts at ₹5,50,000 for a self-hosted GPU transcription server.</p></article>
+</div>
+<p class="fl-fine">From ₹450 a line. Typical global push-to-talk apps are about $6–$15 per user. <a href="pricing/">Full pricing</a></p>
 </div></section>
-<section class="fl-section" id="products"><div class="fl-wrap">
-<p class="fl-kicker">Applications</p>
-<h2>Open a radio, or ask about the rest.</h2>
-<div class="fl-cards">
-<article id="sdr"><h3>Sanket SDR</h3><p>SDR-based surveillance for authorised military and defence use.</p><a href="#contact">Request a meeting</a></article>
-<article id="vaani"><h3>SanketVaani</h3><p>A learning agent that runs beside a leading model, compares outputs, and learns where the local model fell short.</p><a href="#contact">Ask for price</a></article>
-<article><h3>Every app</h3><p>PTT 2, Smart Radio, Sanket Radios, Transcribe, आकाशवाणी, DMR, and Boondock.</p><a href="applications/">Applications</a></article>
+<section class="fl-section" data-reveal><div class="fl-wrap">
+<p class="fl-kicker">How it works</p>
+<h2>Four steps. Then you are on the air.</h2>
+<div class="fl-steps">
+<article class="fl-step"><strong>1</strong><h3>Open a channel</h3><p>A free link, or a sign-in that shows only your organisation’s channels.</p></article>
+<article class="fl-step"><strong>2</strong><h3>Hold to talk</h3><p>Release to listen. The floor is the same for everyone on that link.</p></article>
+<article class="fl-step"><strong>3</strong><h3>Read it back</h3><p>Transcribe writes the words. Local Whisper is the fallback where that client already has it.</p></article>
+<article class="fl-step"><strong>4</strong><h3>Keep what you must</h3><p>Cloud keeps the latest hour. Dedicated and local plans store audio on your hardware.</p></article>
+</div>
+</div></section>
+<section class="fl-section" data-reveal><div class="fl-wrap">
+<p class="fl-kicker">In the field</p>
+<h2>Dispatch, a local server, a crew.</h2>
+<div class="fl-gallery">
+<figure><img src="assets/img/gallery-dispatch-1280.webp" srcset="assets/img/gallery-dispatch-640.webp 640w, assets/img/gallery-dispatch-1280.webp 1280w" sizes="(max-width: 800px) 100vw, 680px" alt="Operators in a dispatch room" width="1280" height="720" loading="lazy"><figcaption>A control room for the people who stay on the channel.</figcaption></figure>
+<div>
+<figure><img src="assets/img/gallery-local-server-1152.webp" srcset="assets/img/gallery-local-server-640.webp 640w, assets/img/gallery-local-server-1152.webp 1152w" sizes="(max-width: 800px) 100vw, 420px" alt="A local server rack for an on-site Sanket deployment" width="1152" height="864" loading="lazy"><figcaption>Local and dedicated plans keep the server with you.</figcaption></figure>
+<figure><img src="assets/img/gallery-field-team-1152.webp" srcset="assets/img/gallery-field-team-640.webp 640w, assets/img/gallery-field-team-1152.webp 1152w" sizes="(max-width: 800px) 100vw, 420px" alt="A field team carrying radios" width="1152" height="864" loading="lazy"><figcaption>The same link works on a phone over 4G or Wi-Fi.</figcaption></figure>
+</div>
+</div>
+</div></section>
+<section class="fl-section" id="live-demo"><div class="fl-wrap">
+<p class="fl-kicker">Live</p>
+<h2>Virtual is already open.</h2>
+<div class="fl-demo">
+<div class="fl-demo-bar"><span>PTT 2 · VIRTUAL</span><span>FREE CHANNEL</span></div>
+<iframe title="Sanket PTT 2 free Virtual channel" src="ptt2/?free=1&ch=virtual&embed=1" allow="microphone; autoplay"></iframe>
+<p class="fl-note">Shared demonstration channel. It connects on its own. Do not send private or operational information. <a href="demo/">Open the demo page</a></p>
 </div>
 </div></section>
 <section class="fl-section" id="contact"><div class="fl-wrap">
-<p class="fl-kicker">Contact</p>
+<p class="fl-kicker">Talk to sales</p>
 <h2>Tell us how many channels you need.</h2>
 <div class="fl-contact">
 <form id="contactForm">
@@ -94,25 +118,28 @@
 <label for="email">Work email</label><input id="email" name="email" type="email" required placeholder="you@organisation.com">
 <label for="org">Organisation</label><input id="org" name="org" placeholder="Organisation">
 <label for="channels">Estimated channel count</label><input id="channels" name="channels" placeholder="e.g. 20, 50, 200 or 500">
-<label for="message">What do you need?</label><textarea id="message" name="message" rows="4" required placeholder="Cloud or local deployment, languages, storage, sites and integrations…"></textarea>
+<label for="message">What do you need?</label><textarea id="message" name="message" rows="4" required placeholder="Cloud or local deployment, languages, sites…"></textarea>
 <button class="fl-btn solid" type="submit">Prepare enquiry</button>
-<p class="note" id="formNote">This form prepares an email draft; it does not submit information to a website server.</p>
+<p class="note" id="formNote">This form prepares an email draft. Nothing is submitted to a website server.</p>
 </form>
 <div class="card">
 <h3>Akshat Singh</h3>
-<p>Canberra Vision AI Systems. Sanket is designed for teams that need dependable communication, clear records and practical speech intelligence.</p>
-<p>713 Samanvay Silver, Akota, Vadodara, Gujarat, India</p>
-<p><b>Email</b><br><a href="mailto:akshatsingh@canberravision.com">akshatsingh@canberravision.com</a><br><a href="mailto:akshat@sanketptt.com">akshat@sanketptt.com</a></p>
-<p><b>Phone</b><br><a href="tel:+919998299023">+91 99982 99023</a></p>
-<p><a class="fl-btn" data-link="ptt" href="https://sanketptt.com/radio/">Sign in to Sanket channels</a></p>
-<p>Production channel access requires authentication. The embedded homepage demo is a shared public demonstration channel only.</p>
+<p>Canberra Vision AI Systems. 713 Samanvay Silver, Akota, Vadodara, Gujarat, India.</p>
+<p><a href="mailto:akshatsingh@canberravision.com">akshatsingh@canberravision.com</a><br><a href="mailto:akshat@sanketptt.com">akshat@sanketptt.com</a></p>
+<p><a href="tel:+919998299023">+91 99982 99023</a></p>
+<p>Production channels require a sign-in. The radio above is a shared public demonstration.</p>
 </div>
 </div>
 </div></section>
 </main>
-<footer class="fl-wrap fl-foot"><span><b>Sanket</b> · Canberra Vision AI Systems</span><span>© <span id="year"></span></span><span>Verify critical transcripts and alerts before operational use.</span></footer>
+<footer class="fl-wrap fl-foot">
+<div><b>Sanket</b><p>Canberra Vision AI Systems<br>713 Samanvay Silver, Akota, Vadodara</p></div>
+<ul><li><a href="demo/">Demo</a></li><li><a href="pricing/">Pricing</a></li><li><a href="applications/">Applications</a></li><li><a href="use-cases/">Use cases</a></li><li><a href="ptt2/?free=1&ch=virtual">Free Virtual radio</a></li></ul>
+<ul><li><a href="mailto:akshatsingh@canberravision.com">akshatsingh@canberravision.com</a></li><li><a href="mailto:akshat@sanketptt.com">akshat@sanketptt.com</a></li><li><a href="tel:+919998299023">+91 99982 99023</a></li><li>© <span id="year"></span></li></ul>
+</footer>
 <script>document.getElementById("year").textContent=new Date().getFullYear();</script>
 <script src="assets/frontline/site.js"></script>
+<script src="assets/frontline/reveal.js"></script>
 <script src="assets/theme.js"></script>
 <script type="module" src="ptt/apply.js"></script>
 </body>

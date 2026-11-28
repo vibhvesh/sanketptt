@@ -6,39 +6,29 @@
 <script>try{if(!localStorage.getItem("sanket-theme"))localStorage.setItem("sanket-theme","dark")}catch(e){}</script>
 <script src="../assets/theme-boot.js"></script>
 <title>Developers — Sanket PTT</title>
-<meta name="description" content="PTT 2 modules, the link book, the transcribe API, and the test desks.">
+<meta name="description" content="PTT 2 is the client to extend. Free Virtual is ?free=1&ch=virtual and joins without a log-on form.">
+<meta property="og:title" content="Developers — Sanket">
+<meta property="og:description" content="PTT 2 is the client to extend. Free Virtual is ?free=1&ch=virtual and joins without a log-on form.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sanketptt.com/industries/developers.html">
+<meta property="og:image" content="https://sanketptt.com/assets/img/hero-main-1280.webp">
 <link rel="icon" href="../sanket-mark.svg">
 <link rel="stylesheet" href="../assets/frontline.css">
 </head>
 <body>
 <header class="fl-header"><div class="fl-wrap fl-nav">
-<a class="fl-brand" href="../"><img src="../sanket-mark.svg" alt=""><span>Sanket <b>PTT</b><small>Developers</small></span></a>
-<nav class="fl-links" id="fl-nav">
-<a href="./security.html">Security</a>
-<a href="./logistics.html">Logistics</a>
-<a href="./events.html">Events</a>
-<a href="./government.html">Government</a>
-<a href="./developers.html" aria-current="page">Developers</a>
-<a href="../ptt2/">PTT 2</a>
-<a href="../try/">Try</a>
-<a href="../radio-hub.html">Radio hub</a>
-</nav>
-<div class="fl-end"><button class="theme-toggle" type="button" data-theme-toggle>Theme</button><a class="fl-btn solid" href="../#contact">Contact</a><button class="fl-menu" id="fl-menu" type="button" aria-expanded="false">Menu</button></div>
+<a class="fl-brand" href="../"><img src="../sanket-mark.svg" alt="" width="36" height="36"><span>Sanket <b>PTT</b><small>Developers</small></span></a>
+<nav class="fl-links" id="fl-nav" aria-label="Primary"><a href="../demo/">Demo</a><a href="../applications/">Applications</a><a href="../use-cases/">Use cases</a><a href="../pricing/">Pricing</a><a href="../#contact">Contact</a></nav>
+<div class="fl-end"><button class="theme-toggle" type="button" data-theme-toggle>Theme</button><a class="fl-btn solid" href="../#contact">Talk to sales</a><button class="fl-menu" id="fl-menu" type="button" aria-expanded="false">Menu</button></div>
 </div></header>
 <main class="fl-wrap fl-page">
 <p class="fl-kicker">Developers</p>
 <h1>The radio is a page. The links are a book.</h1>
-<p class="fl-lead">PTT 2 is the client to extend: channel picker, relay sign-in, free join, transcription settings, and device linking already live in that folder. The marketing site does not reimplement them.</p>
-<div class="fl-cards">
-<article><h3>PTT 2</h3><p>Modules live in <code>website/ptt2/</code>. Free join is <code>?free=1&amp;ch=</code>. Embed mode is <code>embed=1</code> and hides the theme control.</p><a href="../ptt2/?free=1&ch=virtual">Open a free virtual channel</a></article>
-<article><h3>Link book</h3><p><code>website/ptt/links.json</code> is what <code>apply.js</code> writes into <code>data-link</code> nodes. Channel IDs stay letters, numbers and hyphens, 40 characters.</p><a href="../radio-hub.html">Radio hub</a></article>
-<article><h3>Transcribe API</h3><p>Clients post audio/wav to <code>https://stlu-001.sanketptt.com/api/transcribe</code> with language and translate headers. Local Whisper remains the fallback where it already exists.</p><a href="../transcribe/">Transcribe client</a></article>
-<article><h3>Try and demo</h3><p>Try pairs a channel with its transcriber. The demo console is the full-height split and can take <code>?ch=</code>.</p><a href="../try/">Try it</a></article>
-<article><h3>Smart Radio</h3><p>Station search uses the Radio Browser community API. Saved assignments stay in this browser. The page states that a server bridge is required before other PTT users hear the station.</p><a href="../smart-radio/">Smart Radio</a></article>
-<article><h3>IT Intelligence</h3><p>A shared test inventory, a SQL lab, and an AI copilot over that test schema. It is not a production asset register. The leads desk is internal and unlisted.</p><a href="../it-intelligence/">Open the test desk</a></article>
-</div>
+<p class="fl-lead">PTT 2 is the client to extend. Free Virtual is ?free=1&ch=virtual and joins without a log-on form.</p>
+
+<div class="fl-cards" style="margin-top:22px"><article class='fl-card'><h3>PTT 2</h3><p>Modules live in website/ptt2/. Embed mode is embed=1.</p><a href='../ptt2/?free=1&ch=virtual'>Open Virtual</a></article><article class='fl-card'><h3>Link book</h3><p>website/ptt/links.json feeds data-link nodes.</p><a href='../radio-hub.html'>Radio hub</a></article><article class='fl-card'><h3>Transcribe API</h3><p>Clients post audio/wav to stlu-001.sanketptt.com/api/transcribe.</p><a href='../transcribe/'>Client</a></article></div>
 </main>
-<footer class="fl-wrap fl-foot"><span>Canberra Vision AI Systems · Vadodara</span><a href="mailto:akshat@sanketptt.com">akshat@sanketptt.com</a></footer>
+<footer class="fl-wrap fl-foot"><div><b>Sanket</b><p>Akshat Singh · 713 Samanvay Silver, Akota, Vadodara</p></div><ul><li><a href="../pricing/">Pricing</a></li></ul><ul><li><a href="mailto:akshatsingh@canberravision.com">akshatsingh@canberravision.com</a></li><li><a href="tel:+919998299023">+91 99982 99023</a></li></ul></footer>
 <script src="../assets/frontline/site.js"></script>
 <script src="../assets/theme.js"></script>
 </body>
