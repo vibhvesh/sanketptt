@@ -9,11 +9,9 @@ Contact on every public page: Akshat Singh, akshatsingh@canberravision.com, aksh
 | Offering | Route | What it does | Price / CTA | Must keep working |
 | --- | --- | --- | --- | --- |
 | Sanket Cloud line | `/` `#pricing` | Hosted push-to-talk line. Unlimited live PTT. Latest 1 hour of recordings kept; older audio rolls off. | ₹450 per line / month. CTA: Choose Cloud. | Pricing copy. Contact mailto draft. |
-| Extra retention | `/` `#pricing` | Adds recording time beyond the cloud hour. | ₹100 / month per extra 10 hours. | Same. |
-| Retention Pro | `/` `#pricing` | Longer recording window on a line. | ₹150 per line / month for 30 days. | Same. |
-| Transcription + translation | `/` `#pricing`, `/transcribe/` | Gujarati, Hindi and English transcription and translation. | ₹199 per 300 minutes. | `POST https://stlu-001.sanketptt.com/api/transcribe` (raw audio/wav, `X-Sanket-Language`, `X-Sanket-Translate`). Local Whisper fallback where the client already has it. |
-| Dispatcher console seat | `/` `#pricing` | One dispatcher seat. | ₹999 / month. | Contact CTA. |
-| SDR / radio gateway bridge | `/` `#pricing`, `/` `#sdr` | Bridge a radio or SDR gateway. Sanket SDR is for authorised military and defence use. | Ask for price. Product CTA: Request a meeting. | Do not invent a price. |
+| Transcription client | `/transcribe/` | Gujarati, Hindi and English speech-to-text in the app. The per-minute add-on price is no longer published. | Open Transcribe. | `POST https://stlu-001.sanketptt.com/api/transcribe` (raw audio/wav, `X-Sanket-Language`, `X-Sanket-Translate`). Local Whisper fallback where the client already has it. |
+| Sanket SDR | `/pricing/`, `/applications/` | SDR-based surveillance for authorised military and defence use. | Request a meeting. | Do not invent a price. |
+| Removed from the public price list | — | Extra retention, Retention Pro, transcription priced per 300 minutes, the dispatcher seat, and the gateway add-on row. | Not listed. | Do not put those prices back on marketing pages. |
 | Volume | `/` `#pricing` | Discount terms. | 10% off 25+ lines. 15% off 100+ lines. 2 months free on annual billing. | Keep the sentence in the pricing note. |
 | Dedicated Server | `/` `#pricing` | Hardware and software for 100 lines. No recurring licence fee. | ₹5.66 lakh one-time. Priority support and updates ₹100 per user / month. | Same. |
 | Sanket Local 20 | `/` `#pricing` | Customer-side hardware, 20 channels / 20 concurrent users. | ₹35,000 / year. | Same. |
