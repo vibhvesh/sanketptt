@@ -362,7 +362,7 @@ log.onclick=function(ev){var b=ev.target.closest('button');if(!b)return;var k=+b
  if(!e)return;player=new Audio(URL.createObjectURL(new Blob([e.wav],{type:'audio/wav'})));playingKey=k;
  player.onended=function(){URL.revokeObjectURL(player.src);player=null;playingKey=null;renderLog(rec.entries)};player.play().catch(function(){});renderLog(rec.entries)};
 clr.onclick=function(){if(player){player.pause();player=null;playingKey=null}rec.clear()};
-function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.textContent=radio.ch.toUpperCase();
+function render(){var f=st0.floor;count.textContent=st0.users.length;chlabel.textContent=String(radio.roomName||radio.ch||'').toUpperCase();
  us.innerHTML=st0.users.map(function(u){var t=f&&f.id===u.id;return '<li class="'+(t?'tk':u.id===radio.id?'me':'')+'">'+(t?'🎙 ':'')+esc(u.name)+(u.id===radio.id?' ·YOU':'')+pinTxt(u)+'</li>'}).join('')||'<li class=none>No stations</li>';
  var busy=f&&f.id!==radio.id;ptt.className=granted?'on':busy?'busy':holding?'wait':'';ptt.textContent=granted?'ON AIR':busy?'BUSY':holding?'…':'PTT';
  st.textContent=granted?'▲ TX · TRANSMITTING':f&&busy?'▼ RX · '+f.name:holding?'CLAIMING…':'STANDBY'}
