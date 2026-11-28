@@ -211,7 +211,7 @@ body{overflow-x:hidden}
 .radio-lines .rl-note{color:#aebbc5}
 
 </style>
-</head><body><div class=rig>
+<link rel="stylesheet" href="../assets/instrument.css"><script src="../assets/theme-boot.js"></script></head><body><div class=rig>
 <div class="dev-ribbon">SANKET PTT · DEVELOPMENT BUILD · /dev</div>
 <div class=brand><img src="../sanket-mark.svg" alt="Sanket logo" width="42" height="42" style="object-fit:contain"><div><h1>SANKET PTT</h1><small>BY CANBERRA VISION AI SYSTEMS</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
@@ -724,4 +724,4 @@ sstvSend.onclick=function(){if(sstvTx)return;var f=radio.floor;if(f&&f.id!==radi
  select.addEventListener("change",()=>{if(bridging)stopBridge();cleanupStream();refreshTuner();renderStationButtons();say("Selected "+station().name+". Press POWER ON to listen.")});
  window.addEventListener("beforeunload",()=>{stopBridge();cleanupStream();cancelAnimationFrame(meterFrame)});
 })();
-</script><script type="module" src="../ptt/apply.js"></script></body></html>
+</script><script type="module" src="../ptt/apply.js"></script><script src="../assets/theme.js"></script></body></html>

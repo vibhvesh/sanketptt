@@ -128,7 +128,7 @@ body{overflow-x:hidden}
 .rig[data-layout=control] #radioLinesDev,.rig[data-layout=fm] #radioLinesDev{display:block}
 .rig[data-layout=fm] #locp{display:none}
 </style>
-</head><body><div class=rig>
+<link rel="stylesheet" href="../../assets/instrument.css"><script src="../../assets/theme-boot.js"></script></head><body><div class=rig>
 <div class=brand><div><h1>SANKETPTT</h1><small>EMERGENCY PTT RADIO · INDIA</small></div>
 <div class=leds><div class="led pw"><i></i>PWR</div><div class="led rx" id=ledrx><i></i>RX</div><div class="led tx" id=ledtx><i></i>TX</div></div></div>
 <div class=lcd><div class=row><span>CH</span><span><span id=count>…</span> ONLINE</span></div>
@@ -447,4 +447,5 @@ sstvSend.onclick=function(){if(sstvTx)return;if(!window.radioPowered||!radio||!r
 
 <script src="../../ptt/sanket-transcribe.js"></script>
 <script src="simple-client.js?v=b0890e55"></script>
+<script src="../../assets/theme.js"></script>
 </body></html>

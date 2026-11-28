@@ -166,7 +166,6 @@ class SanketRelay {
       this.applyPeople(ack);
       this.applySpeaker(ack.speaker);
       this.cb("net", SANKET_RELAY_ORIGIN);
-      if (window.ptt2RelayAuthenticated) window.ptt2RelayAuthenticated(this.username || this.speakerEmail || "Operator");
     } catch (e) {
       this.fail(e && e.message ? e.message : "room:join");
     }

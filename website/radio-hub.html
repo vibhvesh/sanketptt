@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f5f7f5">
+<meta name="theme-color" content="#111113">
+<script src="assets/theme-boot.js"></script>
 <title>Sanket Radio Hub · Channels & Projects</title>
 <meta name="description" content="Sanket radio project directory, PTT channels, live tools and audit work links.">
 <style>
@@ -22,10 +23,9 @@ section{padding:22px 0 32px}.section-head{display:flex;align-items:end;justify-c
 @media(max-width:520px){.wrap{width:calc(100% - 24px)}.bar{min-height:58px}.brand{font-size:17px}.hero{padding:27px 0 17px}.grid{grid-template-columns:1fr}.channel-grid{grid-template-columns:1fr 1fr}.card{padding:15px}.section-head{align-items:flex-start;flex-direction:column}}
 </style>
 <link rel="stylesheet" href="assets/theme.css">
-<link rel="stylesheet" href="assets/yatra.css">
 </head>
 <body>
-<header><div class="wrap bar"><a class="brand" href="./">SANKET <b>RADIO HUB</b><small>CHANNELS · TOOLS · PROJECT DIRECTORY</small></a><a class="back" href="sanket-radios/">Sanket Radios</a><a class="back" href="./">← SANKET HOME</a></div></header>
+<header><div class="wrap bar"><a class="brand" href="./">SANKET <b>RADIO HUB</b><small>CHANNELS · TOOLS · PROJECT DIRECTORY</small></a><div class="landing-nav-actions"><a class="nav-contact" href="sanket-radios/">Sanket Radios</a><a class="nav-contact" href="./">Home</a><button class="theme-toggle" type="button" data-theme-toggle>Theme</button></div></div></header>
 <main class="wrap">
 <div class="hero"><div class="eyebrow">RADIO NETWORK DIRECTORY</div><h1>One place for Sanket radio projects.</h1><p>Open the radio interfaces, browse the channel shortcuts, and review the consolidated work completed so far. Use the project cards for source repositories and the audit branches for staged fixes.</p><div class="warning"><b>Public-channel reminder:</b> these channel shortcuts are open demo destinations, not private or operational channels. Do not transmit confidential, personal or sensitive information.</div></div>
 
@@ -57,7 +57,7 @@ section{padding:22px 0 32px}.section-head{display:flex;align-items:end;justify-c
 <div class="grid">
 <article class="card"><span class="tag">LTE RADIO · PTT</span><h3>Boondock Echo Live</h3><p>Handheld-style LTE radio, copied onto this site. The repository button is source code only.</p><div class="status">Hosted locally</div><div class="actions"><a class="link primary" data-link="boondock" href="https://sanketptt.com/boondock/radio/" target="_blank" rel="noopener">RADIO PAGE ↗</a><a class="link dark" data-link="sourceBoondock" href="#source">REPOSITORY ↗</a><a class="link dark" data-link="sourceBoondockAudit" href="#source">AUDIT BRANCH ↗</a></div></article>
 <article class="card"><span class="tag">PTT RADIO</span><h3>PTT Radio</h3><p>Standalone browser radio. PTT release safeguard staged on the audit branch.</p><div class="status">Fixes staged · not merged</div><div class="actions"><a class="link primary" data-link="sourcePttRadio" href="#source">REPOSITORY ↗</a><a class="link dark" data-link="sourcePttRadioAudit" href="#source">AUDIT BRANCH ↗</a></div></article>
-
+<article class="card"><span class="tag">PTT PLATFORM</span><h3>SanketPTT</h3><p>Main and development PTT interfaces. Pointer-release fixes and radio directory refresh fix staged.</p><div class="status">Fixes staged · not merged</div><div class="actions"><a class="link primary" data-link="sourceSanketptt" href="#source">REPOSITORY ↗</a><a class="link dark" data-link="sourceSanketpttAudit" href="#source">AUDIT BRANCH ↗</a></div></article>
 <article class="card"><span class="tag">BROADCAST / STORY</span><h3>Sanket Story Radio</h3><p>Separate broadcast/story radio project. Included in the review directory; playback validation remains outstanding.</p><div class="actions"><a class="link primary" data-link="sourceStoryRadio" href="#source">REPOSITORY ↗</a></div></article>
 <article class="card"><span class="tag">COMMUNITY RADIO</span><h3>Chitrakoot Sanket Radio</h3><p>Separate community radio project. Included in the review directory; playback validation remains outstanding.</p><div class="actions"><a class="link primary" data-link="sourceChitrakoot" href="#source">REPOSITORY ↗</a></div></article>
 <article class="card"><span class="tag">POLICE PTT</span><h3>Hyderabad Police PTT</h3><p>Police PTT client. Pointer-cancel and busy/offline hold-state fixes staged on the audit branch.</p><div class="status">Fixes staged · not merged</div><div class="actions"><a class="link primary" data-link="sourceHyderabad" href="#source">REPOSITORY ↗</a><a class="link dark" data-link="sourceHyderabadAudit" href="#source">AUDIT BRANCH ↗</a></div></article>
@@ -79,6 +79,6 @@ open.addEventListener("click", go);
 input.addEventListener("keydown", (e) => { if (e.key === "Enter") go(); });
 </script>
 <script type="module" src="ptt/apply.js"></script>
-<script src="assets/yatra.js" data-root=""></script>
+<script src="assets/theme.js"></script>
 </body>
 </html>

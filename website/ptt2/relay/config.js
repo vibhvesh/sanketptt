@@ -70,18 +70,6 @@ export function saveRoom(id) {
   } catch (e) {
     /* ignore */
   }
-  // A room query parameter is only an initial deep-link hint. Once the user
-  // chooses a room, remove that stale override so it cannot force the old
-  // room back on the next loadRoom() call.
-  try {
-    const url = new URL(location.href);
-    if (url.searchParams.has("room")) {
-      url.searchParams.delete("room");
-      history.replaceState(history.state, "", url.pathname + url.search + url.hash);
-    }
-  } catch (e) {
-    /* URL/history may be unavailable in embedded contexts; stored room remains authoritative. */
-  }
   return room;
 }
 

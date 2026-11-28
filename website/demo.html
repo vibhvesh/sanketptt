@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" class="sanket-site sanket-demo"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2b1e18"><title>Sanket PTT & Transcribe Demo</title>
+<html lang="en" class="sanket-site sanket-demo"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111113">
+<script src="assets/theme-boot.js"></script><title>Sanket PTT & Transcribe Demo</title>
 <style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:#211914;color:#f8eadc;font:14px/1.35 Inter,system-ui,Arial,sans-serif;display:flex;flex-direction:column}
 header{height:48px;flex:0 0 48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:linear-gradient(90deg,#39271d,#182c38);border-bottom:1px solid #76523a}
@@ -54,4 +55,5 @@ document.getElementById("inviteBtn").addEventListener("click", async () => {
   } catch (e) { if (e.name !== "AbortError") prompt("Copy this invite link", url.href); }
 });
 </script>
-<script type="module" src="ptt/apply.js"></script></body></html>
+<script type="module" src="ptt/apply.js"></script>
+<script src="assets/theme.js"></script></body></html>

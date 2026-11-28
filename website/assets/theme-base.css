@@ -2,12 +2,15 @@ html.sanket-site {
   scroll-behavior: smooth;
 }
 
-html.sanket-site body {
+html.sanket-site:not(.ptt-embed) body {
   background: var(--bg) !important;
   color: var(--ink) !important;
   font-family: var(--font) !important;
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
   font-feature-settings: "ss01", "cv11";
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 html.sanket-site a {

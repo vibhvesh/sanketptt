@@ -1,7 +1,7 @@
 import { mountSettings, watchRecorder } from "./transcribe/ui.js";
 import { RELAY_SANKET, loadRelay, relaySpec } from "./relay/config.js";
 import { freeNeedsGuest, prepareFreeRelay } from "./relay/free.js";
-import { mountRelay } from "./relay/ui.js?v=20261123-2";
+import { mountRelay } from "./relay/ui.js";
 import { openSanketRelay } from "./relay/sanket-socket.js";
 import { ensureGuest } from "../sanket-radios/guest.js";
 
@@ -12,28 +12,10 @@ const channels = document.getElementById("ptt2ChannelBar");
 if (channels) {
   mountRelay(channels, (spec) => {
     if (typeof window.ptt2UseRelay === "function") window.ptt2UseRelay(spec);
-  }, () => {
-    if (typeof window.ptt2StopRadio === "function") window.ptt2StopRadio();
   });
 }
 const settings = document.getElementById("ptt2Settings");
 if (settings) mountSettings(settings);
-const settingsToggle = document.getElementById("ptt2SettingsToggle");
-if (settings && settingsToggle) {
-  settingsToggle.addEventListener("click", () => {
-    settings.hidden = !settings.hidden;
-    settingsToggle.setAttribute("aria-expanded", String(!settings.hidden));
-    if (!settings.hidden) settings.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  });
-}
-const powerOff = document.getElementById("ptt2PowerOff");
-if (powerOff) {
-  powerOff.addEventListener("click", () => {
-    if (typeof window.ptt2StopRadio === "function") window.ptt2StopRadio();
-    location.reload();
-  });
-}
-
 const power = document.getElementById("go");
 const talk = document.getElementById("ptt");
 if (power && talk && channels) {

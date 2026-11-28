@@ -1,7 +1,8 @@
-import { SANKET_TRANSCRIBE_SERVER, loadConfig } from "./config.js";
-import { serverHealthy } from "./detect.js";
+import { SANKET_TRANSCRIBE_SERVER, SERVER_CUSTOM, SERVER_SANKET, loadConfig, saveConfig, isAllowedServer } from "./config.js";
+import { localCapability, serverHealthy } from "./detect.js";
 import { transcribeTransmission } from "./router.js";
 import { lineFromRadio } from "./line.js";
+
 const notes = new Map();
 
 function escapeText(value) {
@@ -112,26 +113,87 @@ export function watchRecorder(recorder, renderLog) {
 }
 
 export function mountSettings(root) {
-  root.hidden = true;
+  const config = loadConfig();
   root.innerHTML = `
-    <div class="ptt2-settings-head"><h3>SERVER SETTINGS &amp; REPORT</h3><button type="button" id="ptt2SettingsClose" aria-label="Close settings">×</button></div>
-    <p class="ptt2-hint">All audio transcription is performed by Sanket Transcribe. The server selects the speech model, language handling and translation policy. This client never runs local transcription.</p>
-    <div class="ptt2-report"><b>SANKET TRANSCRIPTION SERVER</b><p id="ptt2Status">Checking server…</p><button type="button" id="ptt2RunCheck">Check server again</button></div>
+    <h3>TRANSCRIPTION</h3>
+    <label for="ptt2Mode">Mode</label>
+    <select id="ptt2Mode">
+      <option value="auto">Auto</option>
+      <option value="local">Local</option>
+      <option value="server">Server</option>
+    </select>
+    <p class="ptt2-hint">Auto uses Sanket Transcribe when it answers. Line default keeps that channel's language and model.</p>
+    <label for="ptt2ServerChoice">Server</label>
+    <select id="ptt2ServerChoice">
+      <option value="sanket">Sanket Transcribe (stlu-001)</option>
+      <option value="custom">Custom URL…</option>
+    </select>
+    <label for="ptt2Server" id="ptt2ServerLabel" hidden>Custom URL</label>
+    <input id="ptt2Server" type="url" placeholder="https://…" autocomplete="off" hidden>
+    <label for="ptt2Language">Language</label>
+    <select id="ptt2Language">
+      <option value="auto">Line default</option>
+      <option value="gu">Gujarati</option>
+      <option value="hi">Hindi</option>
+      <option value="en">English</option>
+    </select>
+    <div class="row"><label><input id="ptt2Translate" type="checkbox"> Translate to English</label></div>
+    <p id="ptt2Status"></p>
   `;
-  const status=root.querySelector("#ptt2Status");
-  root.querySelector("#ptt2SettingsClose").addEventListener("click",()=>{
-    root.hidden=true;
-    const button=document.getElementById("ptt2SettingsToggle");
-    if(button)button.setAttribute("aria-expanded","false");
-  });
-  async function refreshStatus(){
-    status.textContent="Checking "+SANKET_TRANSCRIBE_SERVER+" …";
-    const config=loadConfig();
-    const health=await serverHealthy(config.serverUrl);
-    status.textContent=health.ok
-      ? "ONLINE · Sanket Transcribe is responding. Server-managed model selection is active. All transcription results come from this server."
-      : "OFFLINE / ERROR · "+health.reason+" Transcription will report an error until the server is available. No local fallback will occur.";
+  const mode = root.querySelector("#ptt2Mode");
+  const choice = root.querySelector("#ptt2ServerChoice");
+  const serverLabel = root.querySelector("#ptt2ServerLabel");
+  const server = root.querySelector("#ptt2Server");
+  const language = root.querySelector("#ptt2Language");
+  const translate = root.querySelector("#ptt2Translate");
+  const status = root.querySelector("#ptt2Status");
+  mode.value = config.mode;
+  choice.value = config.serverChoice === SERVER_CUSTOM ? SERVER_CUSTOM : SERVER_SANKET;
+  server.value = config.serverChoice === SERVER_CUSTOM ? config.serverUrl : "";
+  language.value = ["en", "hi", "gu", "auto"].includes(config.language) ? config.language : "auto";
+  translate.checked = config.translate;
+
+  function showCustom() {
+    const custom = choice.value === SERVER_CUSTOM;
+    server.hidden = !custom;
+    serverLabel.hidden = !custom;
   }
-  root.querySelector("#ptt2RunCheck").addEventListener("click",refreshStatus);
+
+  async function refreshStatus() {
+    const current = loadConfig();
+    const device = localCapability();
+    let serverText = "Server not set.";
+    if (current.rejectedServer) serverText = "Custom URL must start with https.";
+    else if (current.serverUrl) {
+      const health = await serverHealthy(current.serverUrl);
+      serverText = health.ok ? "Sanket Transcribe server responded." : health.reason;
+    }
+    status.textContent = serverText + (device.ok ? " Local Whisper can run here" + (device.webgpu ? " (WebGPU)." : " (WASM).") : " This browser cannot run local Whisper.");
+  }
+
+  function persist() {
+    showCustom();
+    const custom = choice.value === SERVER_CUSTOM;
+    const typed = server.value.trim();
+    if (custom && typed && !isAllowedServer(typed)) {
+      status.textContent = "Custom URL must start with https. It was not saved.";
+      return;
+    }
+    saveConfig({
+      mode: mode.value,
+      serverChoice: custom ? SERVER_CUSTOM : SERVER_SANKET,
+      serverUrl: custom ? typed : SANKET_TRANSCRIBE_SERVER,
+      language: language.value,
+      translate: translate.checked,
+    });
+    refreshStatus();
+  }
+
+  showCustom();
+  mode.addEventListener("change", persist);
+  choice.addEventListener("change", persist);
+  server.addEventListener("change", persist);
+  language.addEventListener("change", persist);
+  translate.addEventListener("change", persist);
   refreshStatus();
 }

@@ -71,7 +71,7 @@ mark.kw{background:#ff3b2f;color:#fff;padding:0 3px;border-radius:3px;font-weigh
 .em{font-size:11px;margin-top:3px}.em.ok{color:#7fe07a}.em.err{color:#ff8a80}.em.pend{color:var(--amb)}
 
 
-\n/* Embedded Sanket demo: hide manual radio URL/source controls and standalone radio link */\nbody.ptt-embedded #inRow,body.ptt-embedded .one{display:none!important}\nbody.ptt-embedded .radio{padding-top:28px}\n</style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../ptt/sanket-transcribe.js"></script><script src="radio/sstv.js"></script></head><body>
+\n/* Embedded Sanket demo: hide manual radio URL/source controls and standalone radio link */\nbody.ptt-embedded #inRow,body.ptt-embedded .one{display:none!important}\nbody.ptt-embedded .radio{padding-top:28px}\n</style><script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script><script src="../ptt/sanket-transcribe.js"></script><script src="radio/sstv.js"></script><link rel="stylesheet" href="../assets/instrument.css"><script src="../assets/theme-boot.js"></script></head><body>
 <div class="radio"><div class="ant"></div><div class="knob"></div>
 <div class="body">
 <div class="plate"><div class="brand">SANKET TRANSCRIPTION<small>BY CANBERRA VISION AI SYSTEMS</small></div><div class="tri"></div><span class="demo">DEMO</span><button class="gear" id="gearBtn" title="Settings" aria-label="Settings">⚙</button></div>
@@ -338,4 +338,4 @@ $("kwReset").onclick=()=>{localStorage.removeItem("be_kw");kwLoad();setStatus("D
 $("kwSound").checked=localStorage.getItem("be_kwsound")!=="0";$("kwSound").onchange=()=>localStorage.setItem("be_kwsound",$("kwSound").checked?"1":"0");
 kwLoad();
 
-</script></body></html>
+</script><script src="../assets/theme.js"></script></body></html>

@@ -37,8 +37,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(min-width:900px){form.form-grid,.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.form-grid .full,.form-grid button[type=submit]{grid-column:1/-1}}
 @media(max-width:899px){form,.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}input,select,textarea,button{font-size:16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
-</style><link rel="stylesheet" href="../assets/sanket-tricolor-fusion.css">
-</head><body><div class="shell">
+</style><link rel="stylesheet" href="../assets/apps.css"><script src="../assets/theme-boot.js"></script></head><body><div class="shell">
 <header class="top"><div class="brand"><div class="mark">आ</div><div>SANKET <span style="color:#ff8b3d">आकाशवाणी</span><small>PUBLIC ANNOUNCEMENT SYSTEM</small></div></div><div class="status"><i></i> CONTROL INTERFACE · PREVIEW</div></header>
 <div class="layout"><aside><div class="site">VENUE CONTROL</div><nav class="nav" id="nav">
 <button class="active" data-tab="overview"><span>◫</span>Overview</button><button data-tab="lines"><span>▤</span>Lines</button><button data-tab="routing"><span>⇄</span>Audio Routing</button><button data-tab="broadcast"><span>◖</span>Broadcast & Relay</button><button data-tab="alerts"><span>⚑</span>Alert Automation</button><button data-tab="hardware"><span>▣</span>Hardware</button><button data-tab="recordings"><span>◷</span>Recordings</button><button data-tab="settings"><span>⚙</span>Settings</button>
@@ -74,4 +73,4 @@ function renderRules(){rulesEl.innerHTML=rules.map((r,i)=>'<div class="rule"><di
 const rulesEl=document.getElementById('rules');function addRule(){rules.push({name:'New rule',when:'Select trigger',then:'Select action',to:'Select destinations'});renderRules()}renderRules();
 document.getElementById('hardwareList').innerHTML=outputs.map((o,i)=>'<div class="outRow"><span class="dot" style="background:#8299aa"></span><div><b>USB Audio '+(i+1)+'</b><small>'+o+' · Device detection pending</small></div><span class="pill idle">NOT SCANNED</span></div>').join('');
 function announce(){let t=document.getElementById('message').value.trim();if(!t)return alert('Enter an announcement first.');if(!('speechSynthesis'in window))return alert('Speech preview is not supported in this browser.');let u=new SpeechSynthesisUtterance(t);u.lang=document.getElementById('voice').value.startsWith('Hindi')?'hi-IN':document.getElementById('voice').value.startsWith('Gujarati')?'gu-IN':'en-IN';speechSynthesis.cancel();speechSynthesis.speak(u)}
-</script></body></html>
+</script><script src="../assets/theme.js"></script></body></html>
