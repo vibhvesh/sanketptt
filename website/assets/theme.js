@@ -85,7 +85,7 @@
           item.setAttribute("aria-selected", item === button ? "true" : "false");
         });
       }
-      document.querySelectorAll(".price-card").forEach(function (card) {
+      document.querySelectorAll(".price-card, .fl-price").forEach(function (card) {
         var plan = card.getAttribute("data-plan") || "all";
         card.hidden = filter !== "all" && plan !== filter;
       });
