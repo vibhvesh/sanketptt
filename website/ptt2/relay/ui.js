@@ -14,8 +14,9 @@ import {
 } from "./config.js";
 import { assignedRooms, listFreeRooms } from "./sanket-socket.js";
 import { getToken, rememberedLogin, signIn, signOut } from "./auth.js";
-import { isFreeVisit, prepareFreeRelay } from "./free.js";
+import { freeUsesVirtualDemo, isFreeVisit, prepareFreeRelay } from "./free.js";
 import { GUEST_EMAIL, GUEST_PASSWORD, ensureGuest } from "../../sanket-radios/guest.js";
+import { VIRTUAL_DEMO, ensureVirtualDemo, isVirtualFreeChannel } from "./demo.js";
 
 function paint(status, text) {
   status.textContent = text;
@@ -27,7 +28,16 @@ function esc(value) {
 }
 
 function currentValue() {
+  if (freeUsesVirtualDemo() || (isFreeVisit() && loadRelay() === RELAY_SANKET && loadRoom() === VIRTUAL_DEMO.roomId)) {
+    return "public:" + VIRTUAL_DEMO.publicId;
+  }
   return loadRelay() === RELAY_SANKET ? "sanket:" + loadRoom() : "public:" + loadPublicChannel();
+}
+
+function openFreeAccount() {
+  return freeUsesVirtualDemo() || (loadRelay() === RELAY_SANKET && loadRoom() === VIRTUAL_DEMO.roomId)
+    ? ensureVirtualDemo()
+    : ensureGuest();
 }
 
 export function mountRelay(root, onChoose) {
@@ -82,6 +92,16 @@ export function mountRelay(root, onChoose) {
     url.searchParams.set("ch", id);
     if (!freeMode) url.searchParams.delete("ch");
     history.replaceState(null, "", url.pathname + url.search + url.hash);
+    if (freeMode && isVirtualFreeChannel(id)) {
+      saveRelay(RELAY_SANKET);
+      saveRoom(VIRTUAL_DEMO.roomId);
+      url.searchParams.set("ch", VIRTUAL_DEMO.publicId);
+      history.replaceState(null, "", url.pathname + url.search + url.hash);
+      paint(status, "Joining " + VIRTUAL_DEMO.label + ".");
+      ensureVirtualDemo().then(() => onChoose(relaySpec(RELAY_SANKET)), () => paint(status, SANKET_UNREACHABLE));
+      render();
+      return;
+    }
     if (kind === "sanket") {
       saveRelay(RELAY_SANKET);
       saveRoom(id);
@@ -102,7 +122,7 @@ export function mountRelay(root, onChoose) {
     const active = currentValue();
     const rows = freeMode
       ? PUBLIC_CHANNELS.map((item) => ({ value: "public:" + item.id, name: item.name }))
-        .concat(sanketRooms.map((item) => ({ value: "sanket:" + item.roomId, name: item.roomName || item.roomId })))
+        .concat(sanketRooms.filter((item) => String(item.roomId).toUpperCase() !== VIRTUAL_DEMO.roomId).map((item) => ({ value: "sanket:" + item.roomId, name: item.roomName || item.roomId })))
       : showingSanket
         ? sanketRooms.map((item) => ({ value: "sanket:" + item.roomId, name: item.roomName || item.roomId }))
         : PUBLIC_CHANNELS.map((item) => ({ value: "public:" + item.id, name: item.name }));
@@ -195,7 +215,7 @@ export function mountRelay(root, onChoose) {
   render();
   paint(status, loadRelay() === RELAY_SANKET ? "Joining " + loadRoom() + "." : "Joining " + loadPublicChannel() + ".");
   if (freeMode) {
-    ensureGuest().then(async () => {
+    openFreeAccount().then(async () => {
       sanketRooms = await listFreeRooms();
       render();
     }).catch(() => {

@@ -9,6 +9,7 @@ import {
   SANKET_CHANNEL_PASSWORD,
 } from "./config.js";
 import { getCredentials, getToken } from "./auth.js";
+import { VIRTUAL_DEMO } from "./demo.js";
 
 const SOCKET_MODULE = SANKET_RELAY_ORIGIN + "/vendor/socket.mjs";
 
@@ -73,6 +74,7 @@ class SanketRelay {
   constructor(options) {
     this.cb = options.on || function () {};
     this.ch = String(options.roomId || "RM-LOBY").toUpperCase();
+    this.roomName = this.ch === VIRTUAL_DEMO.roomId ? VIRTUAL_DEMO.label : "";
     this.relayId = RELAY_SANKET;
     this.id = "";
     this.name = "";
@@ -88,7 +90,6 @@ class SanketRelay {
     this.relayHost = "relay.canberravision.com";
     this.speakerEmail = "";
     this.username = "";
-    this.roomName = "";
     this.audio = new PeerAudio((to, kind, data) => this.signal(to, kind, data), (userId, pcm) => this.hear(userId, pcm));
     this.fail = (reason) => this.cb("net", reason ? "unreachable:" + reason : "unreachable");
     this.start();
@@ -106,7 +107,8 @@ class SanketRelay {
       this.id = me.user && me.user.userId || "";
       const listed = await api("/api/rooms", { token: this.token });
       this.rooms = (listed.rooms || []).filter((room) => room.memberRole);
-      if (!this.rooms.some((room) => room.roomId === this.ch) && this.rooms[0]) this.ch = this.rooms[0].roomId;
+      const requested = this.ch;
+      if (requested !== VIRTUAL_DEMO.roomId && !this.rooms.some((room) => room.roomId === this.ch) && this.rooms[0]) this.ch = this.rooms[0].roomId;
       if (window.ptt2SetRelayRooms) window.ptt2SetRelayRooms(this.rooms, this.ch);
       await this.enterRoom(this.ch);
       await this.connectSocket();
